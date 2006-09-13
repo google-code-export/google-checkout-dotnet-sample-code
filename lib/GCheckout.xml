@@ -1,0 +1,1805 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GCheckout</name>
+    </assembly>
+    <members>
+        <member name="T:GCheckout.GCheckoutRequest">
+            <summary>
+            This class contains methods for sending API requests to Google Checkout.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.#ctor(System.String,System.String,GCheckout.EnvironmentType,System.String,System.Int32)">
+            <summary>
+            This method is called by the <see cref="T:GCheckout.Checkout.GCheckoutButton"/> class and
+            initializes a new instance of the 
+            <see cref="T:GCheckout.Checkout.CheckoutShoppingCartRequest"/> class.
+            </summary>
+            <param name="MerchantID">The Google Checkout merchant ID assigned
+            to a particular merchant.</param>
+            <param name="MerchantKey">The Google Checkout merchant key assigned
+            to a particular merchant.</param>
+            <param name="Env">The environment where a request is being executed. 
+            Valid values for this parameter are "Sandbox" and "Production".</param>
+            <param name="Currency">The currency associated with prices in a 
+            Checkout API request. At this time, the only supported currency value 
+            is "USD", which corresponds to U.S. dollars.</param>
+            <param name="CartExpirationMinutes">
+            The length of time, in minutes, after which the shopping cart will 
+            expire if it has not been submitted. A value of <b>0</b> indicates 
+            the cart does not expire.
+            </param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(System.String,System.String,System.Decimal,System.Int32)">
+            <summary>
+            This method adds an item to an order. This method handles items that 
+            do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+            with them.
+            </summary>
+            <param name="Name">The name of the item. This value corresponds to the 
+            value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+            <param name="Description">The description of the item. This value 
+            corresponds to the value of the &lt;item-description&gt; tag in the 
+            Checkout API request.</param>
+            <param name="Price">The price of the item. This value corresponds to 
+            the value of the &lt;unit-price&gt; tag in the Checkout API 
+            request.</param>
+            <param name="Quantity">The number of this item that is included in the 
+            order. This value corresponds to the value of the &lt;quantity&gt; tag 
+            in the Checkout API request.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(System.String,System.String,System.Decimal,System.Int32,System.String)">
+            <summary>
+            This method adds an item to an order. This method handles items that 
+            have &lt;merchant-private-item-data&gt; XML blocks associated with them.
+            </summary>
+            <param name="Name">The name of the item. This value corresponds to the 
+            value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+            <param name="Description">The description of the item. This value 
+            corresponds to the value of the &lt;item-description&gt; tag in the 
+            Checkout API request.</param>
+            <param name="Price">The price of the item. This value corresponds to 
+            the value of the &lt;unit-price&gt; tag in the Checkout API 
+            request.</param>
+            <param name="Quantity">The number of this item that is included in the 
+            order. This value corresponds to the value of the &lt;quantity&gt; tag 
+            in the Checkout API request.</param>
+            <param name="MerchantPrivateItemData">An XML block that should be 
+            associated with the item in the Checkout API request. This value 
+            corresponds to the value of the value of the 
+            &lt;merchant-private-item-data&gt; tag in the Checkout API 
+            request.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddFlatRateShippingMethod(System.String,System.Decimal)">
+            <summary>
+            This method adds a flat-rate shipping method to an order. This method 
+            handles flat-rate shipping methods that do not have shipping 
+            restrictions.
+            </summary>
+            <param name="Name">The name of the shipping method. This value will be 
+            displayed on the Google Checkout order review page.</param>
+            <param name="Cost">The cost associated with the shipping method.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddFlatRateShippingMethod(System.String,System.Decimal,GCheckout.Checkout.ShippingRestrictions)">
+            <summary>
+            This method adds a flat-rate shipping method to an order. This method 
+            handles flat-rate shipping methods that have shipping restrictions.
+            </summary>
+            <param name="Name">The name of the shipping method. This value will be 
+            displayed on the Google Checkout order review page.</param>
+            <param name="Cost">The cost associated with the shipping method.</param>
+            <param name="Restrictions">A list of country, state or zip code areas 
+            where the shipping method is either available or unavailable.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddMerchantCalculatedShippingMethod(System.String,System.Decimal)">
+            <summary>
+            This method adds a merchant-calculated shipping method to an order. 
+            This method handles merchant-calculated shipping methods that do not 
+            have shipping restrictions.
+            </summary>
+            <param name="Name">The name of the shipping method. This value will be 
+            displayed on the Google Checkout order review page.</param>
+            <param name="DefaultCost">The default cost associated with the shipping 
+            method. This value is the amount that Gogle Checkout will charge for 
+            shipping if the merchant calculation callback request fails.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddMerchantCalculatedShippingMethod(System.String,System.Decimal,GCheckout.Checkout.ShippingRestrictions)">
+            <summary>
+            This method adds a merchant-calculated shipping method to an order. 
+            This method handles merchant-calculated shipping methods that have 
+            shipping restrictions.
+            </summary>
+            <param name="Name">The name of the shipping method. This value will be 
+            displayed on the Google Checkout order review page.</param>
+            <param name="DefaultCost">The default cost associated with the shipping 
+            method. This value is the amount that Gogle Checkout will charge for 
+            shipping if the merchant calculation callback request fails.</param>
+            <param name="Restrictions">A list of country, state or zip code areas 
+            where the shipping method is either available or unavailable.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddPickupShippingMethod(System.String,System.Decimal)">
+            <summary>
+            This method adds an instore-pickup shipping option to an order.
+            </summary>
+            <param name="Name">The name of the shipping method. This value will be 
+            displayed on the Google Checkout order review page.</param>
+            <param name="Cost">The cost associated with the shipping method.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddNewShippingMethod(System.Object)">
+            <summary>
+            Adds the new shipping method.
+            </summary>
+            <param name="NewShippingMethod">The new shipping method.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddZipTaxRule(System.String,System.Double,System.Boolean)">
+            <summary>
+            This method adds a tax rule associated with a zip code pattern.
+            </summary>
+            <param name="ZipPattern">The zip pattern.</param>
+            <param name="TaxRate">The tax rate associated with a tax rule. Tax rates 
+            are expressed as decimal values. For example, a value of 0.0825 
+            specifies a tax rate of 8.25%.</param>
+            <param name="ShippingTaxed">
+            If this parameter has a value of <b>true</b>, then shipping costs will
+            be taxed for items that use the associated tax rule.
+            </param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.IsValidZipPattern(System.String)">
+            <summary>
+            This method verifies that a given zip code pattern is valid. Zip code 
+            patterns may be five-digit numbers or they may be one- to four-digit 
+            numbers followed by an asterisk.
+            </summary>
+            <param name="ZipPattern">This parameter contains the zip code pattern 
+            that is being evaluated.</param>
+            <returns>
+              This method returns <b>true</b> if the provided zip code pattern
+              is valid, meaning it is either a series of five digits or it is 
+              a series of zero to four digits followed by an asterisk. If the 
+              zip code pattern is not valid, this method returns <b>false</b>.
+            </returns>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddStateTaxRule(System.String,System.Double,System.Boolean)">
+            <summary>
+            This method adds a tax rule associated with a particular state.
+            </summary>
+            <param name="StateCode">This parameter contains a two-letter U.S. state 
+            code associated with a tax rule.</param>
+            <param name="TaxRate">The tax rate associated with a tax rule. Tax 
+            rates are expressed as decimal values. For example, a value of 0.0825 
+            specifies a tax rate of 8.25%.</param>
+            <param name="ShippingTaxed">
+            If this parameter has a value of <b>true</b>, then shipping costs will
+            be taxed for items that use the associated tax rule.
+            </param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddCountryTaxRule(GCheckout.AutoGen.USAreas,System.Double,System.Boolean)">
+            <summary>
+            Adds the country tax rule.
+            This method adds a tax rule associated with a particular state.
+            </summary>
+            <param name="Area">The area.</param>
+            <param name="TaxRate">The tax rate associated with a tax rule. Tax 
+            rates are expressed as decimal values. For example, a value of 0.0825 
+            specifies a tax rate of 8.25%.</param>
+            <param name="ShippingTaxed">
+            If this parameter has a value of <b>true</b>, then shipping costs will
+            be taxed for items that use the associated tax rule.
+            </param>
+            <example>
+            <code>
+              // We assume Req is a CheckoutShoppingCartRequest object.
+              // Charge the 50 states 8% tax and do not tax shipping.
+              Req.AddCountryTaxRule(AutoGen.USAreas.FULL_50_STATES, 0.08, false);
+              // Charge the 48 continental states 5% tax and do tax shipping.
+              Req.AddCountryTaxRule(AutoGen.USAreas.CONTINENTAL_48, 0.05, true);
+              // Charge all states (incl territories) 9% tax, don't tax shipping.
+              Req.AddCountryTaxRule(AutoGen.USAreas.ALL, 0.09, false);
+            </code>
+            </example>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.AddNewTaxRule(GCheckout.AutoGen.DefaultTaxRule)">
+            <summary>
+            This method adds a new tax rule to the &lt;default-tax-table&gt;.
+            This method is called by the methods that create the XML blocks
+            for flat-rate shipping, merchant-calculated shipping and instore-pickup
+            shipping methods.
+            </summary>
+            <param name="NewRule">This parameter contains an object representing
+            a default tax rule.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml">
+            <summary>
+            This method generates the XML for a Checkout API request. This method
+            also calls the <b>CheckPreConditions</b> method, which verifies that
+            if the API request indicates that the merchant will calculate tax and
+            shipping costs, that the input data for those calculations is included
+            in the request.
+            </summary>
+            <returns>This method returns the XML for a Checkout API request.
+            </returns>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.CheckPreConditions">
+            <summary>
+            This method is used to perform several checks that verify the integrity
+            of the information in a Checkout API XML request. This method will 
+            throw an exception if the request does not pass any of these tests.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.MakeXmlElement(System.String)">
+            <summary>
+            This method is used to construct the &lt;merchant-private-data&gt; and 
+            &lt;merchant-private-item-data&gt; XML elements. Both of these elements
+            contain freeform XML blocks that are specified by the merchant.
+            </summary>
+            <param name="Xml">The XML.</param>
+            <returns>This method returns the element value for either the 
+            &lt;merchant-private-data&gt; or the &lt;merchant-private-item-data&gt; 
+            XML element.</returns>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.SetExpirationMinutesFromNow(System.Int32)">
+            <summary>
+            This method sets the value of the &lt;good-until-date&gt; using the
+            value of the <b>CartExpirationMinutes</b> parameter. This method 
+            converts that value into Coordinated Universal Time (UTC).
+            </summary>
+            <param name="ExpirationMinutesFromNow">
+            The length of time, in minutes, after which the shopping cart should
+            expire. This property contains the value of the 
+            <b>CartExpirationMinutes</b> property.
+            </param>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.MerchantCalculatedTax">
+            <summary>
+            This property sets or retrieves a value that indicates whether the 
+            merchant is responsible for calculating taxes for the default
+            tax table.
+            </summary>
+            <value>
+              The value of this property should be <b>true</b> if the merchant
+              will calculate taxes for the order. Otherwise, this value should be
+              <b>false</b>. The value should only be <b>true</b> if the merchant
+              has implemented the Merchant Calculations API.
+            </value>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.AcceptMerchantCoupons">
+            <summary>
+            This property sets or retrieves a value that indicates whether the 
+            merchant accepts coupons. If this value is set to <b>true</b>, the
+            Google Checkout order confirmation page will display a text field 
+            where the customer can enter a coupon code.
+            </summary>
+            <value>
+              This value of this property is a Boolean value that indicates
+              whether the merchant accepts coupons. This value should only be 
+              set to <b>true</b> if the merchant has implemented the Merchant 
+              Calculations API.
+            </value>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.AcceptMerchantGiftCertificates">
+            <summary>
+            This property sets or retrieves a value that indicates whether the 
+            merchant accepts gift certificates. If this value is set to 
+            <b>true</b>, the Google Checkout order confirmation page will 
+            display a text field where the customer can enter a gift certificate 
+            code.
+            </summary>
+            <value>
+              This value of this property is a Boolean value that indicates
+              whether the merchant accepts gift certificates. This value should 
+              only be set to <b>true</b> if the merchant has implemented the 
+              Merchant Calculations API.
+            </value>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.MerchantCalculationsUrl">
+            <summary>
+            This property sets or retrieves the value of the 
+            &lt;merchant-calculations-url&gt; element. This value is the URL to 
+            which Google Checkout will send &lt;merchant-calculation-callback&gt;
+            requests. This property is only relevant for merchants who are
+            implementing the Merchant Calculations API.
+            </summary>
+            <value>The &lt;merchant-calculations-url&gt; element value.</value>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.MerchantPrivateData">
+            <summary>
+            This property sets or retrieves the value of the 
+            &lt;merchant-private-data&gt; element.
+            </summary>
+            <value>The &lt;merchant-private-data&gt; element value.</value>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.ContinueShoppingUrl">
+            <summary>
+            This property sets or retrieves the value of the 
+            &lt;continue-shopping-url&gt; element. Google Checkout will display 
+            a link to this URL on the page that the customer sees after completing 
+            her purchase.
+            </summary>
+            <value>The &lt;continue-shopping-url&gt; element value.</value>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.EditCartUrl">
+            <summary>
+            This property sets or retrieves the value of the 
+            &lt;edit-cart-url&gt; element. Google Checkout will display 
+            a link to this URL on the Google Checkout order confirmation page.
+            The customer can click this link to edit the shopping cart contents
+            before completing a purchase.
+            </summary>
+            <value>The &lt;edit-cart-url&gt; element value.</value>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.RequestBuyerPhoneNumber">
+            <summary>
+            This property sets or retrieves the value of the 
+            &lt;request-buyer-phone-number&gt; element. If this value is true,
+            the buyer must enter a phone number to complete a purchase.
+            </summary>
+            <value>
+              <c>true</c> if the Google should send the buyer's phone number
+              to the merchant, otherwise <c>false</c>.
+            </value>
+        </member>
+        <member name="P:GCheckout.Checkout.CheckoutShoppingCartRequest.CartExpiration">
+            <summary>
+            This property sets or retrieves the value of the 
+            &lt;good-until-date&gt; element.
+            </summary>
+            <value>The cart expiration.</value>
+        </member>
+        <member name="M:GCheckout.Checkout.CheckoutShoppingCartRequest.ShoppingCartItem.#ctor(System.String,System.String,System.Decimal,System.Int32)">
+            <summary>
+            This method initializes a new instance of the 
+            <see cref="T:GCheckout.Checkout.CheckoutShoppingCartRequest.ShoppingCartItem"/> class, which creates an object
+            corresponding to an individual item in an order. This method 
+            is used for items that do not have an associated
+            &lt;merchant-private-item-data&gt; XML block.
+            </summary>
+            <param name="InName">The name of the item.</param>
+            <param name="InDescription">A description of the item.</param>
+            <param name="InPrice">The price of the item.</param>
+            <param name="InQuantity">The number of the item that 
+            is included in the order.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:GCheckout.Checkout.CheckoutShoppingCartRequest.ShoppingCartItem.#ctor(System.String,System.String,System.Decimal,System.Int32,System.String)" -->
+        <member name="M:GCheckout.Checkout.GCheckoutButton.OnInit(System.EventArgs)">
+            <summary>
+            On initialization, this class calls the SetImageUrl method.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Checkout.GCheckoutButton.SetImageUrl">
+            <summary>
+            This method creates the URL for the Google Checkout button image. 
+            This method uses the value of the "Size" property to set the width 
+            and height of the image. It also uses the value of the "Background"
+            property to set a style that dictates the background color for the 
+            image. Finally, the method uses the value of the "Environment
+            </summary>
+        </member>
+        <member name="M:GCheckout.Checkout.GCheckoutButton.CreateRequest">
+            <summary>
+            This method calls the <see cref="T:GCheckout.Checkout.CheckoutShoppingCartRequest"/> class
+            to initialize a new instance of that class. Before doing so, this method
+            verifies that the MerchantID, MerchantKey and Environment properties
+            have all been set.
+            </summary>
+        </member>
+        <member name="P:GCheckout.Checkout.GCheckoutButton.Size">
+            <summary>
+            The <b>Size</b> property value determines the size of the 
+            Google Checkout button that will display on your web page.
+            Valid values for this property are "Small", "Medium" and 
+            "Large". A small button is 160 pixels wide and 43 pixels high.
+            A medium button is 168 pixels wide and 44 pixels high. A large
+            button is 180 pixels wide and 46 pixels high.
+            </summary>
+        </member>
+        <member name="P:GCheckout.Checkout.GCheckoutButton.MerchantID">
+            <summary>
+            The <b>GoogleMerchantID</b> property value identifies your Google 
+            Checkout Merchant ID. This value should be set in your web.config file.
+            </summary>
+        </member>
+        <member name="P:GCheckout.Checkout.GCheckoutButton.MerchantKey">
+            <summary>
+            The <b>GoogleMerchantKey</b> property value identifies your Google 
+            Checkout Merchant key. This value should be set in your web.config file.
+            </summary>
+        </member>
+        <member name="P:GCheckout.Checkout.GCheckoutButton.Environment">
+            <summary>
+            The <b>GoogleEnvironment</b> property value identifies the environment 
+            in which your application is running. In your test environment, the 
+            value of the <b>GoogleEnvironment</b> property should be 
+            <b>Sandbox</b>. In your production environment, the value of the 
+            property should be <b>Production</b>.
+            </summary>
+        </member>
+        <member name="P:GCheckout.Checkout.GCheckoutButton.Background">
+            <summary>
+            The <b>Background</b> property value indicates whether the Google
+            Checkout button should be displayed on a white background or a 
+            transparent background. Valid values for this property are "White"
+            and "Transparent".
+            </summary>
+        </member>
+        <member name="P:GCheckout.Checkout.GCheckoutButton.Currency">
+            <summary>
+            The <b>Currency</b> property value identifies the currency that should
+            be associated with prices in your Checkout API requests. The value of 
+            this property should be a three-letter ISO 4217 currency code. At this
+            time, the only supported currency is U.S. dollars ("USD").
+            </summary>
+        </member>
+        <member name="P:GCheckout.Checkout.GCheckoutButton.CartExpirationMinutes">
+            <summary>
+            The <b>CartExpirationMinutes</b> property value identifies the length
+            of time, in minutes, after which an unsubmitted shopping cart will 
+            become invalid. A value of <b>0</b> indicates that the shopping cart
+            does not expire.
+            </summary>
+        </member>
+        <member name="T:GCheckout.Checkout.ButtonSize">
+            <summary>
+            This enumeration defines valid sizes for the Google Checkout button.
+            Valid values for the "Size" property are "Small", "Medium" and "Large".
+            </summary>
+        </member>
+        <member name="T:GCheckout.Checkout.BackgroundType">
+            <summary>
+            This enumeration defines valid background colors for the Google Checkout
+            button. Valid values for the "Background" property are "White" and 
+            "Transparent".
+            </summary>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:GCheckout.Checkout.ShippingRestrictions"/> 
+            class.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.AddAllowedZipPattern(System.String)">
+            <summary>
+            This method adds an allowed zip code pattern to a 
+            &lt;us-zip-area&gt; element. The &lt;us-zip-area&gt; element, 
+            in turn, appears as a subelement of &lt;allowed-areas&gt;.
+            </summary>
+            <param name="ZipPattern">The zip pattern.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.AddAllowedStateCode(System.String)">
+            <summary>
+            This method adds an allowed U.S. state code to a 
+            &lt;us-state-area&gt; element. The &lt;us-state-area&gt; element, 
+            in turn, appears as a subelement of &lt;allowed-areas&gt;.
+            </summary>
+            <param name="StateCode">The state code.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.AddAllowedCountryArea(GCheckout.AutoGen.USAreas)">
+            <summary>
+            This method adds an allowed U.S. country area to a 
+            &lt;us-country-area&gt; element. The &lt;us-country-area&gt; element, 
+            in turn, appears as a subelement of &lt;allowed-areas&gt;.
+            </summary>
+            <param name="CountryArea">The country area.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.AddNewAllowedArea(System.Object)">
+            <summary>
+            This method adds an allowed zip code area, state area or country area 
+            to a Checkout API request.
+            </summary>
+            <param name="NewArea">The new area.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.AddExcludedZipPattern(System.String)">
+            <summary>
+            This method adds an excluded zip code pattern to a 
+            &lt;us-zip-area&gt; element. The &lt;us-zip-area&gt; element, 
+            in turn, appears as a subelement of &lt;excluded-areas&gt;.
+            </summary>
+            <param name="ZipPattern">The zip pattern.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.AddExcludedStateCode(System.String)">
+            <summary>
+            This method adds an excluded U.S. state code to a 
+            &lt;us-state-area&gt; element. The &lt;us-state-area&gt; element, 
+            in turn, appears as a subelement of &lt;excluded-areas&gt;.
+            </summary>
+            <param name="StateCode">The state code.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.AddExcludedCountryArea(GCheckout.AutoGen.USAreas)">
+            <summary>
+            This method adds an excluded U.S. country area to a 
+            &lt;us-country-area&gt; element. The &lt;us-country-area&gt; element, 
+            in turn, appears as a subelement of &lt;excluded-areas&gt;.
+            </summary>
+            <param name="CountryArea">The country area.</param>
+        </member>
+        <member name="M:GCheckout.Checkout.ShippingRestrictions.AddNewExcludedArea(System.Object)">
+            <summary>
+            This method adds an excluded zip code area, state area or country area 
+            to a Checkout API request.
+            </summary>
+            <param name="NewArea">The new area.</param>
+        </member>
+        <member name="P:GCheckout.Checkout.ShippingRestrictions.XmlRestrictions">
+            <summary>
+            This method returns the complete set of shipping restrictions for 
+            a Checkout API request.
+            </summary>
+            <value>The XML restrictions.</value>
+        </member>
+        <member name="T:GCheckout.MerchantCalculation.AnonymousAddress">
+            <summary>
+            This class creates an object that identifies the customer's shipping 
+            address. Your class that inherits from CallbackRules.cs will receive an 
+            object of this type that identifies the customer's shipping address.
+            </summary>
+        </member>
+        <member name="T:GCheckout.MerchantCalculation.CallbackProcessor">
+            <summary>
+            This class contains methods that parse a 
+            &lt;merchant-calculation-callback&gt; request, allowing you to access 
+            items in the request, shipping methods, shipping addresses, tax 
+            information, and coupon and gift certificate codes entered by the 
+            customer.
+            </summary>
+        </member>
+        <member name="T:GCheckout.MerchantCalculation.CallbackRules">
+            <summary>
+            This abstract class defines methods for constructing a 
+            &lt;merchant-calculation-results&gt; XML response.
+            </summary>
+        </member>
+        <member name="T:GCheckout.MerchantCalculation.ExampleRules">
+            <summary>
+            This class contains a sample class that inherits from CallbackRules.cs. 
+            This class demonstrates how you could subclass CallbackRules.cs to 
+            define your own merchant-calculated shipping, tax and coupon options.
+            </summary>
+        </member>
+        <member name="T:GCheckout.MerchantCalculation.MerchantCodeResult">
+            <summary>
+            This class creates an object to indicate whether the coupon and gift 
+            certificate codes that were supplied by the customer are valid. The 
+            object also indicates whether the code is for a coupon, gift certificate 
+            or other discount as well as the amount of the credit associated with 
+            the code. Your class that inherits from CallbackRules.cs will access 
+            these objects to calculate discounts associated with coupons and gift 
+            certificates.
+            </summary>
+        </member>
+        <member name="T:GCheckout.MerchantCalculation.Order">
+            <summary>
+            This class contains methods that parse a 
+            &lt;merchant-calculation-callback&gt; request and creates an object 
+            identifying the items in the customer's shopping cart. Your class that 
+            inherits from CallbackRules.cs will receive an object of this type to 
+            identify the items in the customer's order.
+            </summary>
+        </member>
+        <member name="T:GCheckout.MerchantCalculation.OrderLine">
+            <summary>
+            This class creates an object for an individual item identified in a 
+            &lt;merchant-calculation-callback&gt; request. Your class that inherits 
+            from CallbackRules.cs can access these objects to locate information 
+            about each item in an order. See the GetTaxResult method in the 
+            ExampleRules.cs file for an example of how your application might access 
+            these objects.
+            </summary>
+        </member>
+        <member name="T:GCheckout.MerchantCalculation.ShippingResult">
+            <summary>
+            This class creates an object to indicate the cost of a particular 
+            shipping method and the availability of that shipping method for the 
+            designated shipping address.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.AddMerchantOrderNumberRequest">
+            <summary>
+            This class contains methods that construct 
+            &lt;add-merchant-order-number&gt; API requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.AddTrackingDataRequest">
+            <summary>
+            This class contains methods that construct &lt;add-tracking-data&gt; 
+            API requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.ArchiveOrderRequest">
+            <summary>
+            This class contains methods that construct 
+            &lt;archive-order&gt; API requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.CancelOrderRequest">
+            <summary>
+            This class contains methods that construct &lt;cancel-order&gt; API 
+            requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.ChargeOrderRequest">
+            <summary>
+            This class contains methods that construct &lt;charge-order&gt; API 
+            requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.DeliverOrderRequest">
+            <summary>
+            This class contains methods that construct &lt;deliver-order&gt; API 
+            requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.ProcessOrderRequest">
+            <summary>
+            This class contains methods that construct &lt;process-order&gt; API 
+            requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.RefundOrderRequest">
+            <summary>
+            This class contains methods that construct &lt;refund-order&gt; API 
+            requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.SendBuyerMessageRequest">
+            <summary>
+            This class contains methods that construct &lt;send-buyer-message&gt; 
+            API requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.OrderProcessing.UnarchiveOrderRequest">
+            <summary>
+            This class contains methods that construct &lt;unarchive-order&gt; API 
+            requests.
+            </summary>
+        </member>
+        <member name="T:GCheckout.Util.BasicAuthenticationModule">
+            <summary>
+            If you are processing notifications or merchant calculation callback 
+            requests, but you do not want to turn on basic HTTP authentication in 
+            IIS, you can use this class to validate the incoming API requests from 
+            Google Checkout.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Util.BasicAuthenticationModule.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:GCheckout.Util.BasicAuthenticationModule"/> 
+            class. This is done by IIS.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Util.BasicAuthenticationModule.Dispose">
+            <summary>
+            Disposes of the resources (other than memory) used by the
+            module that implements <see langword="IHttpModule."/>
+            </summary>
+        </member>
+        <member name="M:GCheckout.Util.BasicAuthenticationModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Inits the specified application. This will be called by the system.
+            </summary>
+            <param name="Application">The HTTP application.</param>
+        </member>
+        <member name="M:GCheckout.Util.BasicAuthenticationModule.OnAuthenticateRequest(System.Object,System.EventArgs)">
+            <summary>
+            Called when IIS asks to authenticate an HTTP request.
+            </summary>
+            <param name="source">The calling HttpApplication.</param>
+            <param name="eventArgs">
+            The <see cref="T:System.EventArgs"/> instance 
+            containing the event data.
+            </param>
+        </member>
+        <member name="M:GCheckout.Util.BasicAuthenticationModule.OnEndRequest(System.Object,System.EventArgs)">
+            <summary>
+            Called by the system when the HTTP request ends.
+            </summary>
+            <param name="source">The calling HttpApplication.</param>
+            <param name="eventArgs">
+            The <see cref="T:System.EventArgs"/> instance 
+            containing the event data.
+            </param>
+        </member>
+        <member name="M:GCheckout.Util.BasicAuthenticationModule.GetUserName(System.String)">
+            <summary>
+            Gets the name of the user from the "Authorization" HTTP header. That header has
+            user name and password (as typed by the user) in a Base64-encoded form.
+            </summary>
+            <param name="AuthHeader">
+            The value of the "Authorization" HTTP header.
+            </param>
+            <returns>The name of the user as typed by the user in the browser.</returns>
+        </member>
+        <member name="M:GCheckout.Util.BasicAuthenticationModule.GetPassword(System.String)">
+            <summary>
+            Gets the password from the "Authorization" HTTP header. That header has
+            user name and password (as typed by the user) in a Base64-encoded form.
+            </summary>
+            <param name="AuthHeader">
+            The value of the "Authorization" HTTP header.
+            </param>
+            <returns>The password as typed by the user in the browser.</returns>
+        </member>
+        <member name="T:GCheckout.Util.EncodeHelper">
+            <summary>
+            Collection of various encode-related static methods.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Util.EncodeHelper.StringToUtf8Bytes(System.String)">
+            <summary>
+            Converts a string to bytes in UTF-8 encoding.
+            </summary>
+            <param name="InString">The string to convert.</param>
+            <returns>The UTF-8 bytes.</returns>
+        </member>
+        <member name="M:GCheckout.Util.EncodeHelper.Utf8BytesToString(System.Byte[])">
+            <summary>
+            Converts bytes in UTF-8 encoding to a regular string.
+            </summary>
+            <param name="InBytes">The UTF-8 bytes.</param>
+            <returns>The input bytes as a string.</returns>
+        </member>
+        <member name="M:GCheckout.Util.EncodeHelper.GetTopElement(System.String)">
+            <summary>
+            Gets the top element of an XML string.
+            </summary>
+            <param name="Xml">
+            The XML string to extract the top element from.
+            </param>
+            <returns>
+            The name of the first regular XML element.
+            </returns>
+            <example>
+            Calling GetTopElement(Xml) where Xml is:
+            <code>
+            &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+            &lt;new-order-notification xmlns="http://checkout.google.com/schema/2"
+            serial-number="85f54628-538a-44fc-8605-ae62364f6c71"&gt;
+            &lt;google-order-number>841171949013218&lt;/google-order-number&gt;
+            ...
+            &lt;new-order-notification&gt;
+            </code>
+            will return the string <b>new-order-notification</b>.
+            </example>
+        </member>
+        <member name="M:GCheckout.Util.EncodeHelper.Deserialize(System.String,System.Type)">
+            <summary>
+            Makes an object out of the specified XML.
+            </summary>
+            <param name="Xml">The XML that should be made into an object.</param>
+            <param name="ThisType">
+            Type of object that produced the XML. 
+            </param>
+            <returns>The reconstituted object.</returns>
+            <example>
+            <code>
+            Car MyCar1 = new Car();
+            byte[] CarBytes = EncodeHelper.Serialize(MyCar1);
+            string CarXml = EncodeHelper.Utf8BytesToString(CarBytes);
+            Car MyCar2 = (Car) Deserialize(CarXml, typeof(Car));
+            // MyCar2 is now a copy of MyCar1.
+            </code>
+            </example>
+        </member>
+        <member name="M:GCheckout.Util.EncodeHelper.Serialize(System.Object)">
+            <summary>
+            Makes XML out of an object.
+            </summary>
+            <param name="ObjectToSerialize">The object to serialize.</param>
+            <returns>An XML string representing the object.</returns>
+            <example>
+            <code>
+            Car MyCar1 = new Car();
+            byte[] CarBytes = EncodeHelper.Serialize(MyCar1);
+            string CarXml = EncodeHelper.Utf8BytesToString(CarBytes);
+            Car MyCar2 = (Car) Deserialize(CarXml, typeof(Car));
+            // MyCar2 is now a copy of MyCar1.
+            </code>
+            </example>
+        </member>
+        <member name="T:GCheckout.Util.GCheckoutResponse">
+            <summary>
+            This request contains methods that handle a &lt;checkout-redirect&gt; 
+            response from Google Checkout and capture the URL to which a customer 
+            should be redirected to complete the checkout process.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Util.GCheckoutResponse.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:GCheckout.Util.GCheckoutResponse"/> class.
+            </summary>
+            <param name="ResponseXml">The XML returned from Google.</param>
+        </member>
+        <member name="M:GCheckout.Util.GCheckoutResponse.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current 
+            GCheckoutResponse. Intended for debugging only.
+            </summary>
+            <returns>
+            A human-readable <see cref="T:System.String"/> that represents the 
+            current GCheckoutResponse. Note that the format of the string may 
+            change in future releases.
+            </returns>
+        </member>
+        <member name="P:GCheckout.Util.GCheckoutResponse.IsGood">
+            <summary>
+            Gets a value indicating whether Google returned an error code or not.
+            </summary>
+            <value>
+            <c>true</c> if the response did not indicate an error; 
+            otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:GCheckout.Util.GCheckoutResponse.SerialNumber">
+            <summary>
+            Gets the serial number. Google attaches a unique serial number to
+            every response.
+            </summary>
+            <value>
+            The serial number, for example 58ea39d3-025b-4d52-a697-418f0be74bf9.
+            </value>
+        </member>
+        <member name="P:GCheckout.Util.GCheckoutResponse.ErrorMessage">
+            <summary>
+            If Google responded with an error (IsGood = false) then this 
+            property will contain the human-readable error message.
+            </summary>
+            <value>
+            The error message returned by Google, or an empty string if
+            there was no error.
+            </value>
+        </member>
+        <member name="P:GCheckout.Util.GCheckoutResponse.RedirectUrl">
+            <summary>
+            If Google indicated a redirect URL in the response, this property
+            will contain the URL string.
+            </summary>
+            <value>
+            The redirect URL, or the empty string if Google didn't send a redirect
+            URL.
+            </value>
+        </member>
+        <member name="P:GCheckout.Util.GCheckoutResponse.ResponseXml">
+            <summary>
+            Gets the response XML sent by Google.
+            </summary>
+            <value>The response XML sent by Google.</value>
+        </member>
+        <member name="T:GCheckout.Util.Log">
+            <summary>
+            This class contains methods that write messages, including debugging 
+            and error information, to log files.
+            </summary>
+        </member>
+        <member name="M:GCheckout.Util.Log.WriteToFile(System.String,System.String)">
+            <summary>
+            Writes a string to a file.
+            </summary>
+            <param name="strFileName">Path and name of the file.</param>
+            <param name="strLine">The line to write.</param>
+        </member>
+        <member name="M:GCheckout.Util.Log.Debug(System.String)">
+            <summary>
+            Writes a debug message to the file X\debug.txt where X is read from
+            the config file key "LogDirectory".
+            </summary>
+            <param name="strLine">The debug message to write.</param>
+        </member>
+        <member name="M:GCheckout.Util.Log.Err(System.String)">
+            <summary>
+            Writes an error message to the file X\error.txt where X is read from
+            the config file key "LogDirectory".
+            </summary>
+            <param name="strLine">The error message to write.</param>
+        </member>
+        <member name="M:GCheckout.Util.Log.LoggingOn">
+            <summary>
+            Returns true if logging is on, that is if the config file contains
+            values for a key for "LogDirectory" and if the value for the key
+            "Logging" is "true".
+            </summary>
+            <returns>True if the config keys are correct.</returns>
+        </member>
+        <member name="M:GCheckout.Util.Log.GetLogPath">
+            <summary>
+            Gets the log path, that is the value of the "LogDirectory" key in the
+            config file.
+            </summary>
+            <returns>Log path.</returns>
+        </member>
+        <member name="T:GCheckout.AutoGen.Hello">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.Bye">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Bye.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.DemoFailure">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DemoFailure.message">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.CheckoutShoppingCart">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CheckoutShoppingCart.checkoutflowsupport">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CheckoutShoppingCart.shoppingcart">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.CheckoutShoppingCartCheckoutflowsupport">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CheckoutShoppingCartCheckoutflowsupport.Item">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.MerchantCheckoutFlowSupport">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCheckoutFlowSupport.continueshoppingurl">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCheckoutFlowSupport.editcarturl">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCheckoutFlowSupport.merchantcalculations">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCheckoutFlowSupport.requestbuyerphonenumber">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCheckoutFlowSupport.requestbuyerphonenumberSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCheckoutFlowSupport.shippingmethods">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCheckoutFlowSupport.taxtables">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.MerchantCalculations">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculations.acceptgiftcertificates">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculations.acceptgiftcertificatesSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculations.acceptmerchantcoupons">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculations.acceptmerchantcouponsSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculations.merchantcalculationsurl">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.MerchantCheckoutFlowSupportShippingmethods">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCheckoutFlowSupportShippingmethods.Items">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.FlatRateShipping">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FlatRateShipping.price">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FlatRateShipping.shippingrestrictions">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FlatRateShipping.name">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.Money">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Money.currency">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Money.Value">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ShippingRestrictions">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ShippingRestrictions.allowedareas">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ShippingRestrictions.excludedareas">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ShippingRestrictionsAllowedareas">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ShippingRestrictionsAllowedareas.Items">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.USStateArea">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.USStateArea.state">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.USZipArea">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.USZipArea.zippattern">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.USCountryArea">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.USCountryArea.countryarea">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.USAreas">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.USAreas.CONTINENTAL_48">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.USAreas.FULL_50_STATES">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.USAreas.ALL">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ShippingRestrictionsExcludedareas">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ShippingRestrictionsExcludedareas.Items">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.Pickup">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Pickup.price">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Pickup.name">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.MerchantCalculatedShipping">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculatedShipping.price">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculatedShipping.shippingrestrictions">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculatedShipping.name">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.TaxTables">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.TaxTables.alternatetaxtables">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.TaxTables.defaulttaxtable">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.TaxTables.merchantcalculated">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.TaxTables.merchantcalculatedSpecified">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.AlternateTaxTable">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AlternateTaxTable.alternatetaxrules">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AlternateTaxTable.name">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AlternateTaxTable.standalone">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AlternateTaxTable.standaloneSpecified">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.AlternateTaxRule">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AlternateTaxRule.rate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AlternateTaxRule.taxarea">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.AlternateTaxRuleTaxarea">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AlternateTaxRuleTaxarea.Item">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.DefaultTaxTable">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DefaultTaxTable.taxrules">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.DefaultTaxRule">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DefaultTaxRule.rate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DefaultTaxRule.shippingtaxed">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DefaultTaxRule.shippingtaxedSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DefaultTaxRule.taxarea">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.DefaultTaxRuleTaxarea">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DefaultTaxRuleTaxarea.Item">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ShoppingCart">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ShoppingCart.cartexpiration">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ShoppingCart.items">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ShoppingCart.merchantprivatedata">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.CartExpiration">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CartExpiration.gooduntildate">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.Item">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Item.itemdescription">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Item.itemname">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Item.merchantprivateitemdata">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Item.quantity">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Item.taxtableselector">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Item.unitprice">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.CheckoutRedirect">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CheckoutRedirect.redirecturl">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CheckoutRedirect.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ChargeOrderRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargeOrderRequest.amount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargeOrderRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.RefundOrderRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundOrderRequest.amount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundOrderRequest.comment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundOrderRequest.reason">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundOrderRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.CancelOrderRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CancelOrderRequest.comment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CancelOrderRequest.reason">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CancelOrderRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ProcessOrderRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ProcessOrderRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.DeliverOrderRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DeliverOrderRequest.sendemail">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DeliverOrderRequest.sendemailSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DeliverOrderRequest.trackingdata">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DeliverOrderRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.TrackingData">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.TrackingData.carrier">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.TrackingData.trackingnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.AddTrackingDataRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AddTrackingDataRequest.trackingdata">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AddTrackingDataRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.SendBuyerMessageRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.SendBuyerMessageRequest.message">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.SendBuyerMessageRequest.sendemail">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.SendBuyerMessageRequest.sendemailSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.SendBuyerMessageRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ArchiveOrderRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ArchiveOrderRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.UnarchiveOrderRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.UnarchiveOrderRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.AddMerchantOrderNumberRequest">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AddMerchantOrderNumberRequest.merchantordernumber">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AddMerchantOrderNumberRequest.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.RequestReceivedResponse">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RequestReceivedResponse.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.NewOrderNotification">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.buyerbillingaddress">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.buyerid">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.buyermarketingpreferences">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.buyershippingaddress">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.financialorderstate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.fulfillmentorderstate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.orderadjustment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.ordertotal">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.shoppingcart">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.timestamp">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.NewOrderNotification.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.Address">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.address1">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.address2">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.city">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.companyname">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.contactname">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.countrycode">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.email">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.fax">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.phone">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.postalcode">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Address.region">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.BuyerMarketingPreferences">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.BuyerMarketingPreferences.emailallowed">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.FinancialOrderState">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FinancialOrderState.REVIEWING">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FinancialOrderState.CHARGEABLE">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FinancialOrderState.CHARGING">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FinancialOrderState.CHARGED">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FinancialOrderState.PAYMENT_DECLINED">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FinancialOrderState.CANCELLED_BY_GOOGLE">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FinancialOrderState.CANCELLED">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.FulfillmentOrderState">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FulfillmentOrderState.NEW">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FulfillmentOrderState.PROCESSING">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FulfillmentOrderState.DELIVERED">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FulfillmentOrderState.WILL_NOT_DELIVER">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.OrderAdjustment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderAdjustment.adjustmenttotal">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderAdjustment.merchantcalculationsuccessful">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderAdjustment.merchantcalculationsuccessfulSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderAdjustment.merchantcodes">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderAdjustment.shipping">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderAdjustment.totaltax">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.OrderAdjustmentMerchantcodes">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderAdjustmentMerchantcodes.Items">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.CouponAdjustment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CouponAdjustment.appliedamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CouponAdjustment.calculatedamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CouponAdjustment.code">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CouponAdjustment.message">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.GiftCertificateAdjustment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.GiftCertificateAdjustment.appliedamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.GiftCertificateAdjustment.calculatedamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.GiftCertificateAdjustment.code">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.GiftCertificateAdjustment.message">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.OrderAdjustmentShipping">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderAdjustmentShipping.Item">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.MerchantCalculatedShippingAdjustment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculatedShippingAdjustment.shippingcost">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculatedShippingAdjustment.shippingname">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.FlatRateShippingAdjustment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FlatRateShippingAdjustment.shippingcost">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.FlatRateShippingAdjustment.shippingname">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.PickupShippingAdjustment">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.PickupShippingAdjustment.shippingcost">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.PickupShippingAdjustment.shippingname">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.OrderStateChangeNotification">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderStateChangeNotification.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderStateChangeNotification.newfinancialorderstate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderStateChangeNotification.newfulfillmentorderstate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderStateChangeNotification.previousfinancialorderstate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderStateChangeNotification.previousfulfillmentorderstate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderStateChangeNotification.reason">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderStateChangeNotification.timestamp">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.OrderStateChangeNotification.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ChargeAmountNotification">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargeAmountNotification.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargeAmountNotification.latestchargeamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargeAmountNotification.timestamp">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargeAmountNotification.totalchargeamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargeAmountNotification.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ChargebackAmountNotification">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargebackAmountNotification.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargebackAmountNotification.latestchargebackamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargebackAmountNotification.timestamp">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargebackAmountNotification.totalchargebackamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ChargebackAmountNotification.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.RefundAmountNotification">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundAmountNotification.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundAmountNotification.latestrefundamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundAmountNotification.timestamp">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundAmountNotification.totalrefundamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RefundAmountNotification.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.RiskInformationNotification">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformationNotification.googleordernumber">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformationNotification.riskinformation">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformationNotification.timestamp">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformationNotification.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.RiskInformation">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformation.avsresponse">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformation.billingaddress">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformation.buyeraccountage">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformation.cvnresponse">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformation.eligibleforprotection">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformation.ipaddress">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.RiskInformation.partialccnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.NotificationAcknowledgment">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.MerchantCalculationCallback">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculationCallback.buyerid">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculationCallback.buyeridSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculationCallback.buyerlanguage">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculationCallback.calculate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculationCallback.shoppingcart">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculationCallback.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.Calculate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Calculate.addresses">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Calculate.merchantcodestrings">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Calculate.shipping">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Calculate.tax">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.AnonymousAddress">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AnonymousAddress.city">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AnonymousAddress.countrycode">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AnonymousAddress.postalcode">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AnonymousAddress.region">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.AnonymousAddress.id">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.MerchantCodeString">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCodeString.code">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.Method">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Method.name">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.MerchantCalculationResults">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.MerchantCalculationResults.results">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.Result">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Result.merchantcoderesults">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Result.shippable">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Result.shippableSpecified">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Result.shippingrate">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Result.totaltax">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Result.addressid">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.Result.shippingname">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ResultMerchantcoderesults">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ResultMerchantcoderesults.Items">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.GiftCertificateResult">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.GiftCertificateResult.calculatedamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.GiftCertificateResult.code">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.GiftCertificateResult.message">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.GiftCertificateResult.valid">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.CouponResult">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CouponResult.calculatedamount">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CouponResult.code">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CouponResult.message">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.CouponResult.valid">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.ErrorResponse">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ErrorResponse.errormessage">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ErrorResponse.warningmessages">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.ErrorResponse.serialnumber">
+            <remarks/>
+        </member>
+        <member name="T:GCheckout.AutoGen.DiagnoseResponse">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DiagnoseResponse.inputxml">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DiagnoseResponse.warnings">
+            <remarks/>
+        </member>
+        <member name="F:GCheckout.AutoGen.DiagnoseResponse.serialnumber">
+            <remarks/>
+        </member>
+    </members>
+</doc>
