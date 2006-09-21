@@ -31,19 +31,18 @@ namespace GCheckout.MerchantCalculation {
     private int _Quantity;
     private decimal _UnitPrice;
     private string _TaxTableSelector;
-
-    public OrderLine(string ItemName, string ItemDesccription, int Quantity, 
-      decimal UnitPrice) :
-      this(ItemName, ItemDesccription, Quantity, UnitPrice, "")
-    {}
+    private string _MerchantPrivateItemData;
 
     public OrderLine(string ItemName, string ItemDescription, int Quantity, 
-      decimal UnitPrice, string TaxTableSelector) {
+      decimal UnitPrice, string TaxTableSelector, 
+      string MerchantPrivateItemData)
+    {
       _ItemName = ItemName;
       _ItemDescription = ItemDescription;
       _Quantity = Quantity;
       _UnitPrice = UnitPrice;
       _TaxTableSelector = TaxTableSelector;
+      _MerchantPrivateItemData = MerchantPrivateItemData;
     }
 
     public string ItemName {
@@ -73,6 +72,12 @@ namespace GCheckout.MerchantCalculation {
     public string TaxTableSelector {
       get {
         return _TaxTableSelector;
+      }
+    }
+
+    public string MerchantPrivateItemData {
+      get {
+        return _MerchantPrivateItemData;
       }
     }
 

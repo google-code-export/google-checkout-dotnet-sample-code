@@ -27,20 +27,37 @@ namespace GCheckout.MerchantCalculation {
   /// </summary>
   public class Order {
     private ArrayList _OrderLines;
+    private string _MerchantPrivateData = "";
 
     public Order(AutoGen.MerchantCalculationCallback Callback) {
       _OrderLines = new ArrayList();
       for (int i = 0; i < Callback.shoppingcart.items.Length; i++) {
         AutoGen.Item ThisItem = Callback.shoppingcart.items[i];
+        string MerchantPrivateItemData = "";
+        if (ThisItem.merchantprivateitemdata != null) {
+          MerchantPrivateItemData = ThisItem.merchantprivateitemdata.OuterXml;
+        }
         _OrderLines.Add(
           new OrderLine(ThisItem.itemname, ThisItem.itemdescription,
           ThisItem.quantity, ThisItem.unitprice.Value, 
-          ThisItem.taxtableselector));
+          ThisItem.taxtableselector,
+          MerchantPrivateItemData));
+      }
+      if (Callback.shoppingcart.merchantprivatedata != null)
+      {
+        _MerchantPrivateData = 
+          Callback.shoppingcart.merchantprivatedata.OuterXml;
       }
     }
 
     public IEnumerator GetEnumerator() {
       return _OrderLines.GetEnumerator();
+    }
+
+    public string MerchantPrivateData {
+      get {
+        return _MerchantPrivateData;
+      }
     }
 
   }
