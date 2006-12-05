@@ -56,11 +56,23 @@ namespace GCheckout {
       newStream.Write(Data, 0, Data.Length);
       newStream.Close();
       // Read the response.
-      HttpWebResponse myResponse = (HttpWebResponse)myRequest.GetResponse();
-      Stream ResponseStream = myResponse.GetResponseStream();
-      StreamReader ResponseStreamReader = new StreamReader(ResponseStream);
-      string ResponseXml = ResponseStreamReader.ReadToEnd();
-      ResponseStreamReader.Close();
+      string ResponseXml = "";
+      try {
+        HttpWebResponse myResponse = (HttpWebResponse)myRequest.GetResponse();
+        Stream ResponseStream = myResponse.GetResponseStream();
+        StreamReader ResponseStreamReader = new StreamReader(ResponseStream);
+        ResponseXml = ResponseStreamReader.ReadToEnd();
+        ResponseStreamReader.Close();
+      }
+      catch (WebException WebExcp) {
+        if(WebExcp.Response != null) {
+          HttpWebResponse HttpWResponse = (HttpWebResponse)WebExcp.Response;
+          StreamReader sr = new
+            StreamReader(HttpWResponse.GetResponseStream());
+          ResponseXml = sr.ReadToEnd();
+          sr.Close();
+        }
+      }
       return new GCheckoutResponse(ResponseXml);
     }
 
