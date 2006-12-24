@@ -25,6 +25,7 @@ namespace GCheckout.Checkout {
     private BackgroundType _Background = BackgroundType.White;
     private string _Currency = "USD";
     private int _CartExpirationMinutes = 0;
+    private bool _UseHttps = false;
 
     /// <summary>
     /// The <b>Size</b> property value determines the size of the 
@@ -161,6 +162,25 @@ namespace GCheckout.Checkout {
     }
 
     /// <summary>
+    /// The <b>UseHttps</b> property sets whether the button graphic should
+    /// be requested from Google with an HTTPS call. The default (false) is to
+    /// use HTTP. If the page is fetched through HTTPS, some users (depending 
+    /// on browser settings) will get security warnings if the button graphic
+    /// is fetched with HTTP.
+    /// </summary>
+    [Category("Google")]
+    [Description("If true, the button graphic will be fetched with a HTTPS " +
+       "request.")]
+    public bool UseHttps {
+      get {
+        return _UseHttps;
+      }
+      set {
+        _UseHttps = value;
+      }
+    }
+
+    /// <summary>
     /// On initialization, this class calls the SetImageUrl method.
     /// </summary>
     protected override void OnInit(EventArgs e) {
@@ -197,17 +217,19 @@ namespace GCheckout.Checkout {
       if (Background == BackgroundType.Transparent) StyleInUrl = "trans";
       string VariantInUrl = "text";
       if (!Enabled) VariantInUrl = "disabled";
+      string Protocol = "http";
+      if (UseHttps) Protocol = "https";
       if (Environment == EnvironmentType.Sandbox) {
         ImageUrl = string.Format(
-          "http://sandbox.google.com/buttons/checkout.gif?" +
-          "merchant_id={0}&w={1}&h={2}&style={3}&variant={4}", 
-          MerchantID, Width, Height, StyleInUrl, VariantInUrl);
+          "{0}://sandbox.google.com/buttons/checkout.gif?" +
+          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}", 
+          Protocol, MerchantID, Width, Height, StyleInUrl, VariantInUrl);
       }
       else {
         ImageUrl = string.Format(
-          "http://checkout.google.com/buttons/checkout.gif?" +
-          "merchant_id={0}&w={1}&h={2}&style={3}&variant={4}", 
-          MerchantID, Width, Height, StyleInUrl, VariantInUrl);
+          "{0}://checkout.google.com/buttons/checkout.gif?" +
+          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}", 
+          Protocol, MerchantID, Width, Height, StyleInUrl, VariantInUrl);
       }
     }
 

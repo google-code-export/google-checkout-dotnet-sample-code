@@ -437,6 +437,15 @@
             does not expire.
             </summary>
         </member>
+        <member name="P:GCheckout.Checkout.GCheckoutButton.UseHttps">
+            <summary>
+            The <b>UseHttps</b> property sets whether the button graphic should
+            be requested from Google with an HTTPS call. The default (false) is to
+            use HTTP. If the page is fetched through HTTPS, some users (depending 
+            on browser settings) will get security warnings if the button graphic
+            is fetched with HTTP.
+            </summary>
+        </member>
         <member name="T:GCheckout.Checkout.ButtonSize">
             <summary>
             This enumeration defines valid sizes for the Google Checkout button.
