@@ -54,7 +54,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.RefundOrderRequest Req = new AutoGen.RefundOrderRequest();
       Req.googleordernumber = _OrderNo;
-      Req.reason = _Reason;
+      Req.reason = EncodeHelper.EscapeXmlChars(_Reason);
       if (_Amount != -1 && _Currency != null) {
         Req.amount = new AutoGen.Money();
         Req.amount.currency = _Currency;

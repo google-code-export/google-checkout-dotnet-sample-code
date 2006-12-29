@@ -49,7 +49,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.CancelOrderRequest Req = new AutoGen.CancelOrderRequest();
       Req.googleordernumber = _OrderNo;
-      Req.reason = _Reason;
+      Req.reason = EncodeHelper.EscapeXmlChars(_Reason);
       if (_Comment != null) {
         Req.comment = _Comment;
       }

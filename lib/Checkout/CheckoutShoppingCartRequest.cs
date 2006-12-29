@@ -382,8 +382,10 @@ namespace GCheckout.Checkout {
       for (int i = 0; i < _Items.Count; i++) {
         ShoppingCartItem MyItem = (ShoppingCartItem) _Items[i];
         MyCart.shoppingcart.items[i] = new AutoGen.Item();
-        MyCart.shoppingcart.items[i].itemname = MyItem.Name;
-        MyCart.shoppingcart.items[i].itemdescription = MyItem.Description;
+        MyCart.shoppingcart.items[i].itemname = 
+          EncodeHelper.EscapeXmlChars(MyItem.Name);
+        MyCart.shoppingcart.items[i].itemdescription = 
+          EncodeHelper.EscapeXmlChars(MyItem.Description);
         MyCart.shoppingcart.items[i].quantity = MyItem.Quantity;
         MyCart.shoppingcart.items[i].unitprice = new AutoGen.Money();
         MyCart.shoppingcart.items[i].unitprice.currency = _Currency;
@@ -716,8 +718,8 @@ namespace GCheckout.Checkout {
       /// </summary>
       /// <param name="InName">The name of the item.</param>
       /// <param name="InDescription">A description of the item.</param>
-      /// <param name="InPrice">The price of the item.</param>
-      /// <param name="InQuantity">The number of the item that 
+      /// <param name="InPrice">The price of the item, per item.</param>
+      /// <param name="InQuantity">The quantity ordered.</param>
       /// <param name="InMerchantPrivateItemData">The merchant private 
       /// item data associated with the item.</param>
       public ShoppingCartItem(string InName, string InDescription, 

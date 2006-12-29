@@ -89,6 +89,11 @@
                     AssemblyName = "System.Design"
                     HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
                 />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "nunit.framework.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -230,6 +235,11 @@
                 />
                 <File
                     RelPath = "Util\Log.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Util\Test\EncodeHelperTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

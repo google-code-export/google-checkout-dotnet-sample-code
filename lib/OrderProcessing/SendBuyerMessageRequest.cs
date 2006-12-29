@@ -50,7 +50,7 @@ namespace GCheckout.OrderProcessing {
       AutoGen.SendBuyerMessageRequest Req = 
         new AutoGen.SendBuyerMessageRequest();
       Req.googleordernumber = _OrderNo;
-      Req.message = _Message;
+      Req.message = EncodeHelper.EscapeXmlChars(_Message);
       Req.sendemail = _SendEmail;
       Req.sendemailSpecified = true;
       return EncodeHelper.Serialize(Req);
