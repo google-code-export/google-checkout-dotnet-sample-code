@@ -50,7 +50,21 @@ namespace GCheckout.Util {
       return utf8encoder.GetString(InBytes);
     }
 
-	  /// <summary>
+    /// <summary>
+    /// Converts UTF8-encoded bytes from a stream to a string.
+    /// </summary>
+    /// <param name="Utf8Stream">The UTF8 stream.</param>
+    /// <returns>
+    /// The full stream contents as a string. Also closes the stream.
+    /// </returns>
+    public static string Utf8StreamToString(Stream Utf8Stream) {
+      StreamReader SReader = new StreamReader(Utf8Stream, Encoding.UTF8);
+      string RetVal = SReader.ReadToEnd();
+      SReader.Close();
+      return RetVal;
+    }
+
+    /// <summary>
 	  /// Gets the top element of an XML string.
 	  /// </summary>
 	  /// <param name="Xml">
@@ -84,37 +98,6 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
-    /// Gets the top element of an XML string.
-    /// </summary>
-    /// <param name="Xml">
-    /// The XML string to extract the top element from.
-    /// </param>
-    /// <returns>
-    /// The name of the first regular XML element.
-    /// </returns>
-    /// <example>
-    /// Calling GetTopElement(Xml) where Xml is:
-    /// <code>
-    /// &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-    /// &lt;new-order-notification xmlns="http://checkout.google.com/schema/2"
-    /// serial-number="85f54628-538a-44fc-8605-ae62364f6c71"&gt;
-    /// &lt;google-order-number&gt;841171949013218&lt;/google-order-number&gt;
-    /// ...
-    /// &lt;/new-order-notification&gt;
-    /// </code>
-    /// will return the string <b>new-order-notification</b>.
-    /// </example>
-    public static string GetTopElement(byte[] Xml) {
-      XmlTextReader XReader = new XmlTextReader(new MemoryStream(Xml));
-      XReader.WhitespaceHandling = WhitespaceHandling.None;
-      XReader.Read();
-      XReader.Read();
-      string RetVal = XReader.Name;
-      XReader.Close();
-      return RetVal;
-    }
-
-    /// <summary>
     /// Gets the value of the first google-order-number element in a piece of 
     /// XML.
     /// </summary>
@@ -137,9 +120,10 @@ namespace GCheckout.Util {
     /// </code>
     /// will return the string <b>841171949013218</b>.
     /// </example>
-    public static string GetGoogleOrderNumber(byte[] Xml) {
+    public static string GetGoogleOrderNumber(string Xml) {
       string RetVal = "";
-      XmlTextReader XReader = new XmlTextReader(new MemoryStream(Xml));
+      StringReader SReader = new StringReader(Xml);
+      XmlTextReader XReader = new XmlTextReader(SReader);
       XReader.WhitespaceHandling = WhitespaceHandling.None;
       XReader.Read();
       while (XReader.Name != "google-order-number" && !XReader.EOF ) {
@@ -175,29 +159,6 @@ namespace GCheckout.Util {
       StringReader myReader = new StringReader(Xml);
       object RetVal = myDeserializer.Deserialize(myReader);
       myReader.Close();
-      return RetVal;
-    }
-
-    /// <summary>
-    /// Makes an object out of an XML string.
-    /// </summary>
-    /// <param name="Xml">The XML that should be made into an object.</param>
-    /// <param name="ThisType">
-    /// Type of object that produced the XML. 
-    /// </param>
-    /// <returns>The reconstituted object.</returns>
-    /// <example>
-    /// <code>
-    /// Car MyCar1 = new Car();
-    /// byte[] CarXml = EncodeHelper.Serialize(MyCar1);
-    /// Car MyCar2 = (Car) Deserialize(CarXml, typeof(Car));
-    /// // MyCar2 is now a copy of MyCar1.
-    /// </code>
-    /// </example>
-    public static object Deserialize(byte[] Xml, Type ThisType) {
-      XmlSerializer myDeserializer = new XmlSerializer(ThisType);
-      MemoryStream MS = new MemoryStream(Xml);
-      object RetVal = myDeserializer.Deserialize(MS);
       return RetVal;
     }
 
