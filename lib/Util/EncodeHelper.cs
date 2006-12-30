@@ -98,18 +98,20 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
-    /// Gets the value of the first google-order-number element in a piece of 
-    /// XML.
+    /// Gets the value of the first element or attribute in a piece of XML.
     /// </summary>
     /// <param name="Xml">
-    /// The XML to extract the google-order-number element from.
+    /// The XML to extract the element or attribute value from.
+    /// </param>
+    /// <param name="Element">
+    /// Name of the element or attribute to search for.
     /// </param>
     /// <returns>
-    /// The value of the first google-order-number element. If there is no such
-    /// element in the XML, an empty string is returned.
+    /// The value of the first element or attribute. If there is no such
+    /// element or attribute in the XML, an empty string is returned.
     /// </returns>
     /// <example>
-    /// Calling GetGoogleOrderNumber(Xml) where Xml is:
+    /// Assume the string variable Xml has this value:
     /// <code>
     /// &lt;?xml version="1.0" encoding="UTF-8"?&gt;
     /// &lt;new-order-notification xmlns="http://checkout.google.com/schema/2"
@@ -118,20 +120,28 @@ namespace GCheckout.Util {
     /// ...
     /// &lt;/new-order-notification&gt;
     /// </code>
-    /// will return the string <b>841171949013218</b>.
+    /// Calling <b>GetElementValue(Xml, "google-order-number")</b> will return 
+    /// <b>841171949013218</b>. Calling 
+    /// <b>GetElementValue(Xml, "serial-number")</b> will return 
+    /// <b>85f54628-538a-44fc-8605-ae62364f6c71</b>.
     /// </example>
-    public static string GetGoogleOrderNumber(string Xml) {
+    public static string GetElementValue(string Xml, string Element) {
       string RetVal = "";
       StringReader SReader = new StringReader(Xml);
       XmlTextReader XReader = new XmlTextReader(SReader);
       XReader.WhitespaceHandling = WhitespaceHandling.None;
       XReader.Read();
-      while (XReader.Name != "google-order-number" && !XReader.EOF ) {
+      while (!XReader.EOF ) {
+        if (XReader.Name == Element) {
+          XReader.Read();
+          RetVal = XReader.Value;
+          break;
+        }
+        if (XReader.MoveToAttribute(Element)) {
+          RetVal = XReader.Value;
+          break;
+        }
         XReader.Read();
-      }
-      if (!XReader.EOF) {
-        XReader.Read();
-        RetVal = XReader.Value;
       }
       XReader.Close();
       return RetVal;
