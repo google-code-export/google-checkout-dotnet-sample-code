@@ -136,8 +136,13 @@ namespace GCheckout.Util {
     }
 
     private bool UserHasAccess(string UserName, string Password) {
-      return (UserName == ConfigurationSettings.AppSettings["GoogleMerchantID"] 
-        && Password == ConfigurationSettings.AppSettings["GoogleMerchantKey"]);
+      string ID = ConfigurationSettings.AppSettings["GoogleMerchantID"];
+      if (ID == null) throw new ApplicationException(
+        "Set the 'GoogleMerchantID' key in the config file.");
+      string Key = ConfigurationSettings.AppSettings["GoogleMerchantKey"];
+      if (Key == null) throw new ApplicationException(
+        "Set the 'GoogleMerchantKey' key in the config file.");
+      return (UserName == ID && Password == Key);
     }
   }
 }
