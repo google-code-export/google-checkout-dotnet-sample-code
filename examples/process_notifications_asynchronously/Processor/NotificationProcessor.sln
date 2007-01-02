@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationProcessor", "NotificationProcessor.csproj", "{ADAA9DD0-7218-4C9D-85FB-34943A04C1C7}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationQueue", "..\NotificationQueue\NotificationQueue.csproj", "{B7BE3211-25E3-4C85-925A-03D0BA9865F5}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{ADAA9DD0-7218-4C9D-85FB-34943A04C1C7}.Debug.ActiveCfg = Debug|.NET
+		{ADAA9DD0-7218-4C9D-85FB-34943A04C1C7}.Debug.Build.0 = Debug|.NET
+		{ADAA9DD0-7218-4C9D-85FB-34943A04C1C7}.Release.ActiveCfg = Release|.NET
+		{ADAA9DD0-7218-4C9D-85FB-34943A04C1C7}.Release.Build.0 = Release|.NET
+		{B7BE3211-25E3-4C85-925A-03D0BA9865F5}.Debug.ActiveCfg = Debug|.NET
+		{B7BE3211-25E3-4C85-925A-03D0BA9865F5}.Debug.Build.0 = Debug|.NET
+		{B7BE3211-25E3-4C85-925A-03D0BA9865F5}.Release.ActiveCfg = Release|.NET
+		{B7BE3211-25E3-4C85-925A-03D0BA9865F5}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
