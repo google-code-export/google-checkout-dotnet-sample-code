@@ -221,7 +221,7 @@ namespace GCheckout.Checkout {
       if (UseHttps) Protocol = "https";
       if (Environment == EnvironmentType.Sandbox) {
         ImageUrl = string.Format(
-          "{0}://sandbox.google.com/buttons/checkout.gif?" +
+          "{0}://sandbox.google.com/checkout/buttons/checkout.gif?" +
           "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}", 
           Protocol, MerchantID, Width, Height, StyleInUrl, VariantInUrl);
       }
