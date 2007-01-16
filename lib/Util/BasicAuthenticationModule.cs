@@ -32,22 +32,22 @@ namespace GCheckout.Util {
     /// Creates a new instance of the <see cref="BasicAuthenticationModule"/> 
     /// class. This is done by IIS.
     /// </summary>
-    public BasicAuthenticationModule()
-    {}
+    public BasicAuthenticationModule() {
+    }
 
     /// <summary>
     /// Disposes of the resources (other than memory) used by the
     /// module that implements <see langword="IHttpModule."/>
     /// </summary>
-    public void Dispose()
-    {}
+    public void Dispose() {
+    }
 
     /// <summary>
     /// Inits the specified application. This will be called by the system.
     /// </summary>
     /// <param name="Application">The HTTP application.</param>
     public void Init(HttpApplication Application) {
-      Application.AuthenticateRequest += 
+      Application.AuthenticateRequest +=
         new EventHandler(this.OnAuthenticateRequest);
       Application.EndRequest += new EventHandler(this.OnEndRequest);
     }
@@ -61,14 +61,14 @@ namespace GCheckout.Util {
     /// containing the event data.
     /// </param>
     public void OnAuthenticateRequest(object source, EventArgs eventArgs) {
-      HttpApplication App = (HttpApplication) source;
+      HttpApplication App = (HttpApplication)source;
       string AuthHeader = App.Request.Headers["Authorization"];
       string UserName = GetUserName(AuthHeader);
       string Password = GetPassword(AuthHeader);
       if (UserHasAccess(UserName, Password)) {
         App.Context.User = new GenericPrincipal(
-          new GenericIdentity(UserName, "Google.Checkout.Basic"), 
-          new string[1] {"User"});
+          new GenericIdentity(UserName, "Google.Checkout.Basic"),
+          new string[1] { "User" });
       }
       else {
         App.Response.StatusCode = 401;
@@ -87,7 +87,7 @@ namespace GCheckout.Util {
     /// containing the event data.
     /// </param>
     public void OnEndRequest(object source, EventArgs eventArgs) {
-      HttpApplication app = (HttpApplication) source;
+      HttpApplication app = (HttpApplication)source;
       if (app.Response.StatusCode == 401) {
         app.Response.AppendHeader(
           "WWW-Authenticate", "Basic Realm=\"CheckoutCallbackRealm\"");
@@ -114,34 +114,35 @@ namespace GCheckout.Util {
     /// The value of the "Authorization" HTTP header.
     /// </param>
     /// <returns>The password as typed by the user in the browser.</returns>
-    public static string GetPassword(string AuthHeader) 
-    {
+    public static string GetPassword(string AuthHeader) {
       return GetDecodedAndSplitAuthorizatonHeader(AuthHeader)[1];
     }
 
     private static string[] GetDecodedAndSplitAuthorizatonHeader(
       string AuthHeader) {
-      string[] RetVal = new string[2] {"", ""};
+      string[] RetVal = new string[2] { "", "" };
       if (AuthHeader != null && AuthHeader.StartsWith("Basic ")) {
         try {
           string EncodedString = AuthHeader.Substring(6);
           byte[] DecodedBytes = Convert.FromBase64String(EncodedString);
           string DecodedString = new ASCIIEncoding().GetString(DecodedBytes);
-          RetVal = DecodedString.Split(new char[] {':'});
+          RetVal = DecodedString.Split(new char[] { ':' });
         }
-        catch
-        {}
+        catch {
+        }
       }
       return RetVal;
     }
 
     private bool UserHasAccess(string UserName, string Password) {
       string ID = ConfigurationSettings.AppSettings["GoogleMerchantID"];
-      if (ID == null) throw new ApplicationException(
-        "Set the 'GoogleMerchantID' key in the config file.");
+      if (ID == null)
+        throw new ApplicationException(
+"Set the 'GoogleMerchantID' key in the config file.");
       string Key = ConfigurationSettings.AppSettings["GoogleMerchantKey"];
-      if (Key == null) throw new ApplicationException(
-        "Set the 'GoogleMerchantKey' key in the config file.");
+      if (Key == null)
+        throw new ApplicationException(
+"Set the 'GoogleMerchantKey' key in the config file.");
       return (UserName == ID && Password == Key);
     }
   }

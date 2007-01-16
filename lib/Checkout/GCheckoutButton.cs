@@ -20,6 +20,9 @@ using System.ComponentModel;
 using System.Configuration;
 
 namespace GCheckout.Checkout {
+  /// <summary>
+  /// Google Checkout button that will display on your web page.
+  /// </summary>
   public class GCheckoutButton : System.Web.UI.WebControls.ImageButton {
     private ButtonSize _Size = ButtonSize.Medium;
     private BackgroundType _Background = BackgroundType.White;
@@ -58,12 +61,13 @@ namespace GCheckout.Checkout {
     private string MerchantID {
       get {
         string RetVal = ConfigurationSettings.AppSettings["GoogleMerchantID"];
-        if (RetVal == null) RetVal = "";
+        if (RetVal == null)
+          RetVal = string.Empty;
         return RetVal;
       }
     }
 
-    
+
     /// <summary>
     /// The <b>GoogleMerchantKey</b> property value identifies your Google 
     /// Checkout Merchant key. This value should be set in your web.config file.
@@ -74,7 +78,8 @@ namespace GCheckout.Checkout {
     private string MerchantKey {
       get {
         string RetVal = ConfigurationSettings.AppSettings["GoogleMerchantKey"];
-        if (RetVal == null) RetVal = "";
+        if (RetVal == null)
+          RetVal = string.Empty;
         return RetVal;
       }
     }
@@ -93,9 +98,9 @@ namespace GCheckout.Checkout {
     private EnvironmentType Environment {
       get {
         EnvironmentType RetVal = EnvironmentType.Unknown;
-        string FromFile = 
+        string FromFile =
           ConfigurationSettings.AppSettings["GoogleEnvironment"];
-        if (FromFile != "" && FromFile != null) {
+        if (FromFile != null && FromFile != string.Empty) {
           RetVal = (EnvironmentType)
             Enum.Parse(typeof(EnvironmentType), FromFile, true);
         }
@@ -198,15 +203,15 @@ namespace GCheckout.Checkout {
       int Width = 0;
       int Height = 0;
       switch (Size) {
-        case ButtonSize.Small :
+        case ButtonSize.Small:
           Width = 160;
           Height = 43;
           break;
-        case ButtonSize.Medium :
+        case ButtonSize.Medium:
           Width = 168;
           Height = 44;
           break;
-        case ButtonSize.Large :
+        case ButtonSize.Large:
           Width = 180;
           Height = 46;
           break;
@@ -214,21 +219,24 @@ namespace GCheckout.Checkout {
       this.Width = Width;
       this.Height = Height;
       string StyleInUrl = "white";
-      if (Background == BackgroundType.Transparent) StyleInUrl = "trans";
+      if (Background == BackgroundType.Transparent)
+        StyleInUrl = "trans";
       string VariantInUrl = "text";
-      if (!Enabled) VariantInUrl = "disabled";
+      if (!Enabled)
+        VariantInUrl = "disabled";
       string Protocol = "http";
-      if (UseHttps) Protocol = "https";
+      if (UseHttps)
+        Protocol = "https";
       if (Environment == EnvironmentType.Sandbox) {
         ImageUrl = string.Format(
           "{0}://sandbox.google.com/checkout/buttons/checkout.gif?" +
-          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}", 
+          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}",
           Protocol, MerchantID, Width, Height, StyleInUrl, VariantInUrl);
       }
       else {
         ImageUrl = string.Format(
           "{0}://checkout.google.com/buttons/checkout.gif?" +
-          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}", 
+          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}",
           Protocol, MerchantID, Width, Height, StyleInUrl, VariantInUrl);
       }
     }
@@ -240,11 +248,11 @@ namespace GCheckout.Checkout {
     /// have all been set.
     /// </summary>
     public CheckoutShoppingCartRequest CreateRequest() {
-      if (MerchantID == "") {
+      if (MerchantID == string.Empty) {
         throw new ApplicationException("Set GoogleMerchantID in the " +
           "web.config file.");
       }
-      if (MerchantKey == "") {
+      if (MerchantKey == string.Empty) {
         throw new ApplicationException("Set GoogleMerchantKey in the " +
           "web.config file.");
       }
@@ -252,7 +260,7 @@ namespace GCheckout.Checkout {
         throw new ApplicationException("Set GoogleEnvironment in the " +
           "web.config file.");
       }
-      return new CheckoutShoppingCartRequest(MerchantID, MerchantKey, 
+      return new CheckoutShoppingCartRequest(MerchantID, MerchantKey,
         Environment, _Currency, _CartExpirationMinutes);
     }
 
@@ -263,8 +271,11 @@ namespace GCheckout.Checkout {
   /// Valid values for the "Size" property are "Small", "Medium" and "Large".
   /// </summary>
   public enum ButtonSize {
+    /// <summary>160 x 43 pixels</summary>
     Small = 0,
+    /// <summary>168 by 44 pixels</summary>
     Medium = 1,
+    /// <summary>180 x 46 pixels</summary>
     Large = 2
   }
 
@@ -274,7 +285,9 @@ namespace GCheckout.Checkout {
   /// "Transparent".
   /// </summary>
   public enum BackgroundType {
+    /// <summary>You are placing the button on a white background</summary>
     White = 0,
+    /// <summary>You are placing the button on a colored background</summary>
     Transparent = 1
   }
 

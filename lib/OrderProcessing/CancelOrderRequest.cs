@@ -27,7 +27,7 @@ namespace GCheckout.OrderProcessing {
     private string _Reason = null;
     private string _Comment = null;
 
-    public CancelOrderRequest(string MerchantID, string MerchantKey, 
+    public CancelOrderRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Reason) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
@@ -36,7 +36,7 @@ namespace GCheckout.OrderProcessing {
       _Reason = Reason;
     }
 
-    public CancelOrderRequest(string MerchantID, string MerchantKey, 
+    public CancelOrderRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Reason, string Comment) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;

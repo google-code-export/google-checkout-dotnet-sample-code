@@ -24,7 +24,7 @@ namespace GCheckout.Checkout {
   public class CheckoutShoppingCartRequest : GCheckoutRequest {
     private ArrayList _Items;
     private AutoGen.TaxTables _TaxTables;
-    private AutoGen.MerchantCheckoutFlowSupportShippingmethods 
+    private AutoGen.MerchantCheckoutFlowSupportShippingmethods
       _ShippingMethods;
     private string _MerchantPrivateData = null;
     private bool _AcceptMerchantCoupons = false;
@@ -55,7 +55,7 @@ namespace GCheckout.Checkout {
     /// expire if it has not been submitted. A value of <b>0</b> indicates 
     /// the cart does not expire.
     /// </param>
-    public CheckoutShoppingCartRequest(string MerchantID, string MerchantKey, 
+    public CheckoutShoppingCartRequest(string MerchantID, string MerchantKey,
       EnvironmentType Env, string Currency, int CartExpirationMinutes) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
@@ -64,7 +64,7 @@ namespace GCheckout.Checkout {
       _TaxTables = new AutoGen.TaxTables();
       _TaxTables.defaulttaxtable = new AutoGen.DefaultTaxTable();
       _TaxTables.defaulttaxtable.taxrules = new AutoGen.DefaultTaxRule[0];
-      _ShippingMethods = 
+      _ShippingMethods =
         new AutoGen.MerchantCheckoutFlowSupportShippingmethods();
       _ShippingMethods.Items = new Object[0];
       _Currency = Currency;
@@ -89,7 +89,7 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    public void AddItem(string Name, string Description, decimal Price, 
+    public void AddItem(string Name, string Description, decimal Price,
       int Quantity) {
       _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity));
     }
@@ -114,9 +114,9 @@ namespace GCheckout.Checkout {
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
-    public void AddItem(string Name, string Description, decimal Price, 
+    public void AddItem(string Name, string Description, decimal Price,
       int Quantity, string MerchantPrivateItemData) {
-      _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity, 
+      _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity,
         MerchantPrivateItemData));
     }
 
@@ -131,7 +131,7 @@ namespace GCheckout.Checkout {
     public void AddFlatRateShippingMethod(string Name, decimal Cost) {
       AddFlatRateShippingMethod(Name, Cost, null);
     }
-      
+
     /// <summary>
     /// This method adds a flat-rate shipping method to an order. This method 
     /// handles flat-rate shipping methods that have shipping restrictions.
@@ -141,7 +141,7 @@ namespace GCheckout.Checkout {
     /// <param name="Cost">The cost associated with the shipping method.</param>
     /// <param name="Restrictions">A list of country, state or zip code areas 
     /// where the shipping method is either available or unavailable.</param>
-    public void AddFlatRateShippingMethod(string Name, decimal Cost, 
+    public void AddFlatRateShippingMethod(string Name, decimal Cost,
       ShippingRestrictions Restrictions) {
       AutoGen.FlatRateShipping Method = new AutoGen.FlatRateShipping();
       Method.name = Name;
@@ -164,7 +164,7 @@ namespace GCheckout.Checkout {
     /// <param name="DefaultCost">The default cost associated with the shipping 
     /// method. This value is the amount that Gogle Checkout will charge for 
     /// shipping if the merchant calculation callback request fails.</param>
-    public void AddMerchantCalculatedShippingMethod(string Name, 
+    public void AddMerchantCalculatedShippingMethod(string Name,
       decimal DefaultCost) {
       AddMerchantCalculatedShippingMethod(Name, DefaultCost, null);
     }
@@ -181,9 +181,9 @@ namespace GCheckout.Checkout {
     /// shipping if the merchant calculation callback request fails.</param>
     /// <param name="Restrictions">A list of country, state or zip code areas 
     /// where the shipping method is either available or unavailable.</param>
-    public void AddMerchantCalculatedShippingMethod(string Name, 
+    public void AddMerchantCalculatedShippingMethod(string Name,
       decimal DefaultCost, ShippingRestrictions Restrictions) {
-      AutoGen.MerchantCalculatedShipping Method = 
+      AutoGen.MerchantCalculatedShipping Method =
         new AutoGen.MerchantCalculatedShipping();
       Method.name = Name;
       Method.price = new AutoGen.Money();
@@ -234,7 +234,7 @@ namespace GCheckout.Checkout {
     /// If this parameter has a value of <b>true</b>, then shipping costs will
     /// be taxed for items that use the associated tax rule.
     /// </param>
-    public void AddZipTaxRule(string ZipPattern, double TaxRate, 
+    public void AddZipTaxRule(string ZipPattern, double TaxRate,
       bool ShippingTaxed) {
       if (!IsValidZipPattern(ZipPattern)) {
         throw new ApplicationException("Zip code patterns must be five " +
@@ -283,7 +283,7 @@ namespace GCheckout.Checkout {
     /// If this parameter has a value of <b>true</b>, then shipping costs will
     /// be taxed for items that use the associated tax rule.
     /// </param>
-    public void AddStateTaxRule(string StateCode, double TaxRate, 
+    public void AddStateTaxRule(string StateCode, double TaxRate,
       bool ShippingTaxed) {
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
       Rule.rate = TaxRate;
@@ -319,7 +319,7 @@ namespace GCheckout.Checkout {
     ///   Req.AddCountryTaxRule(AutoGen.USAreas.ALL, 0.09, false);
     /// </code>
     /// </example>
-    public void AddCountryTaxRule(AutoGen.USAreas Area, double TaxRate, 
+    public void AddCountryTaxRule(AutoGen.USAreas Area, double TaxRate,
       bool ShippingTaxed) {
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
       Rule.rate = TaxRate;
@@ -342,7 +342,7 @@ namespace GCheckout.Checkout {
     /// a default tax rule.</param>
     private void AddNewTaxRule(AutoGen.DefaultTaxRule NewRule) {
       AutoGen.DefaultTaxTable NewTable = new AutoGen.DefaultTaxTable();
-      NewTable.taxrules = 
+      NewTable.taxrules =
         new AutoGen.DefaultTaxRule
         [_TaxTables.defaulttaxtable.taxrules.Length + 1];
       for (int i = 0; i < NewTable.taxrules.Length - 1; i++) {
@@ -380,35 +380,35 @@ namespace GCheckout.Checkout {
       // Add the items in the shopping cart to the API request.
       MyCart.shoppingcart.items = new AutoGen.Item[_Items.Count];
       for (int i = 0; i < _Items.Count; i++) {
-        ShoppingCartItem MyItem = (ShoppingCartItem) _Items[i];
+        ShoppingCartItem MyItem = (ShoppingCartItem)_Items[i];
         MyCart.shoppingcart.items[i] = new AutoGen.Item();
-        MyCart.shoppingcart.items[i].itemname = 
+        MyCart.shoppingcart.items[i].itemname =
           EncodeHelper.EscapeXmlChars(MyItem.Name);
-        MyCart.shoppingcart.items[i].itemdescription = 
+        MyCart.shoppingcart.items[i].itemdescription =
           EncodeHelper.EscapeXmlChars(MyItem.Description);
         MyCart.shoppingcart.items[i].quantity = MyItem.Quantity;
         MyCart.shoppingcart.items[i].unitprice = new AutoGen.Money();
         MyCart.shoppingcart.items[i].unitprice.currency = _Currency;
         MyCart.shoppingcart.items[i].unitprice.Value = MyItem.Price;
         if (MyItem.MerchantPrivateItemData != null) {
-          MyCart.shoppingcart.items[i].merchantprivateitemdata = 
+          MyCart.shoppingcart.items[i].merchantprivateitemdata =
             MakeXmlElement(MyItem.MerchantPrivateItemData);
         }
       }
 
       // Add the &lt;merchant-private-data&gt; element to the API request.
       if (_MerchantPrivateData != null) {
-        MyCart.shoppingcart.merchantprivatedata = 
+        MyCart.shoppingcart.merchantprivatedata =
           MakeXmlElement(_MerchantPrivateData);
       }
 
       // Add the &lt;continue-shopping-url&gt; element to the API request.
-      MyCart.checkoutflowsupport = 
+      MyCart.checkoutflowsupport =
         new AutoGen.CheckoutShoppingCartCheckoutflowsupport();
-      MyCart.checkoutflowsupport.Item = 
+      MyCart.checkoutflowsupport.Item =
         new AutoGen.MerchantCheckoutFlowSupport();
       if (_ContinueShoppingUrl != null) {
-        MyCart.checkoutflowsupport.Item.continueshoppingurl = 
+        MyCart.checkoutflowsupport.Item.continueshoppingurl =
           _ContinueShoppingUrl;
       }
 
@@ -420,7 +420,7 @@ namespace GCheckout.Checkout {
       // Add the &lt;request-buyer-phone-number&gt; element to the API request.
       if (_RequestBuyerPhoneNumber) {
         MyCart.checkoutflowsupport.Item.requestbuyerphonenumber = true;
-        MyCart.checkoutflowsupport.Item.requestbuyerphonenumberSpecified = 
+        MyCart.checkoutflowsupport.Item.requestbuyerphonenumberSpecified =
           true;
       }
 
@@ -434,7 +434,7 @@ namespace GCheckout.Checkout {
 
       // Add the merchant calculations URL to the API request.
       if (MerchantCalculationsUrl != null) {
-        MyCart.checkoutflowsupport.Item.merchantcalculations = 
+        MyCart.checkoutflowsupport.Item.merchantcalculations =
           new AutoGen.MerchantCalculations();
         MyCart.checkoutflowsupport.Item.merchantcalculations.
           merchantcalculationsurl = MerchantCalculationsUrl;
@@ -467,7 +467,7 @@ namespace GCheckout.Checkout {
     private void CheckPreConditions() {
       // 1. If the request indicates that tax will be calculated by the 
       // merchant, the request must contain at least one default tax rule.
-      if (_TaxTables.merchantcalculated && 
+      if (_TaxTables.merchantcalculated &&
         _TaxTables.defaulttaxtable.taxrules.Length == 0) {
         throw new ApplicationException("If you set " +
           "MerchantCalculatedTax=true, you must add at least one tax rule.");
@@ -507,7 +507,7 @@ namespace GCheckout.Checkout {
       XmlDocument Doc = new XmlDocument();
       XmlElement El = Doc.CreateElement("q");
       El.InnerXml = Xml;
-      return (XmlElement) El.FirstChild;
+      return (XmlElement)El.FirstChild;
     }
 
     /// <summary>
@@ -588,7 +588,7 @@ namespace GCheckout.Checkout {
       }
     }
 
-    
+
     /// <summary>
     /// This property sets or retrieves the value of the 
     /// &lt;merchant-calculations-url&gt; element. This value is the URL to 
@@ -701,13 +701,12 @@ namespace GCheckout.Checkout {
       /// </summary>
       /// <param name="InName">The name of the item.</param>
       /// <param name="InDescription">A description of the item.</param>
-      /// <param name="InPrice">The price of the item.</param>
-      /// <param name="InQuantity">The number of the item that 
-      /// is included in the order.</param>
-      public ShoppingCartItem(string InName, string InDescription, 
+      /// <param name="InPrice">The price of the item, per item.</param>
+      /// <param name="InQuantity">The number of the item that is included in the order.</param>
+      public ShoppingCartItem(string InName, string InDescription,
         decimal InPrice, int InQuantity)
-        : this(InName, InDescription, InPrice, InQuantity, null)
-      {}
+        : this(InName, InDescription, InPrice, InQuantity, null) {
+      }
 
       /// <summary>
       /// This method initializes a new instance of the 
@@ -719,10 +718,10 @@ namespace GCheckout.Checkout {
       /// <param name="InName">The name of the item.</param>
       /// <param name="InDescription">A description of the item.</param>
       /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The quantity ordered.</param>
-      /// <param name="InMerchantPrivateItemData">The merchant private 
+      /// <param name="InQuantity">The number of the item that is included in the order.</param>
+      /// <param name="InMerchantPrivateItemData">The merchant private
       /// item data associated with the item.</param>
-      public ShoppingCartItem(string InName, string InDescription, 
+      public ShoppingCartItem(string InName, string InDescription,
         decimal InPrice, int InQuantity, string InMerchantPrivateItemData) {
         Name = InName;
         Description = InDescription;
@@ -731,6 +730,5 @@ namespace GCheckout.Checkout {
         MerchantPrivateItemData = InMerchantPrivateItemData;
       }
     }
-
   }
 }

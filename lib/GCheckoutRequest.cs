@@ -42,50 +42,56 @@ namespace GCheckout {
     public GCheckoutResponse Send() {
       byte[] Data = GetXml();
       // Prepare web request.
-      HttpWebRequest myRequest = 
+      HttpWebRequest myRequest =
         (HttpWebRequest)WebRequest.Create(GetPostUrl());
       myRequest.Method = "POST";
       myRequest.ContentLength = Data.Length;
-      myRequest.Headers.Add("Authorization", 
-        string.Format("Basic {0}", 
+      myRequest.Headers.Add("Authorization",
+        string.Format("Basic {0}",
         GetAuthorization(_MerchantID, _MerchantKey)));
       myRequest.ContentType = "application/xml";
       myRequest.Accept = "application/xml";
       myRequest.KeepAlive = false;
       // Send the data.
-      Stream newStream = myRequest.GetRequestStream();
-      newStream.Write(Data, 0, Data.Length);
-      newStream.Close();
-      // Read the response.
-      string ResponseXml = "";
-      try {
-        HttpWebResponse myResponse = (HttpWebResponse)myRequest.GetResponse();
-        Stream ResponseStream = myResponse.GetResponseStream();
-        StreamReader ResponseStreamReader = new StreamReader(ResponseStream);
-        ResponseXml = ResponseStreamReader.ReadToEnd();
-        ResponseStreamReader.Close();
+      using (Stream requestStream = myRequest.GetRequestStream()) {
+        requestStream.Write(Data, 0, Data.Length);
       }
-      catch (WebException WebExcp) {
-        if(WebExcp.Response != null) {
-          HttpWebResponse HttpWResponse = (HttpWebResponse)WebExcp.Response;
-          StreamReader sr = new
-            StreamReader(HttpWResponse.GetResponseStream());
-          ResponseXml = sr.ReadToEnd();
-          sr.Close();
+      // Read the response.
+      string responseXml = string.Empty;
+      try {
+        using (HttpWebResponse myResponse = 
+          (HttpWebResponse)myRequest.GetResponse()) {
+          using (Stream ResponseStream = myResponse.GetResponseStream()) {
+            using (StreamReader ResponseStreamReader = 
+              new StreamReader(ResponseStream)) {
+              responseXml = ResponseStreamReader.ReadToEnd();
+            }
+          }
         }
       }
-      return new GCheckoutResponse(ResponseXml);
+      catch (WebException WebExcp) {
+        if (WebExcp.Response != null) {
+          using (HttpWebResponse HttpWResponse = 
+            (HttpWebResponse)WebExcp.Response) {
+            using (StreamReader sr = 
+              new StreamReader(HttpWResponse.GetResponseStream())) {
+              responseXml = sr.ReadToEnd();
+            }
+          }
+        }
+      }
+      return new GCheckoutResponse(responseXml);
     }
 
     public string GetPostUrl() {
       if (_Environment == EnvironmentType.Sandbox) {
         return string.Format(
-          "https://sandbox.google.com/checkout/cws/v2/Merchant/{0}/request", 
+          "https://sandbox.google.com/checkout/cws/v2/Merchant/{0}/request",
           _MerchantID);
       }
       else {
         return string.Format(
-          "https://checkout.google.com/cws/v2/Merchant/{0}/request", 
+          "https://checkout.google.com/cws/v2/Merchant/{0}/request",
           _MerchantID);
       }
     }
@@ -116,7 +122,7 @@ namespace GCheckout {
         _Environment = value;
       }
     }
-  
+
   }
 
   public enum EnvironmentType {

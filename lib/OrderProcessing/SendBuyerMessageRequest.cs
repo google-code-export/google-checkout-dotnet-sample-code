@@ -27,7 +27,7 @@ namespace GCheckout.OrderProcessing {
     private string _Message = null;
     private bool _SendEmail = true;
 
-    public SendBuyerMessageRequest(string MerchantID, string MerchantKey, 
+    public SendBuyerMessageRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Message) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
@@ -36,7 +36,7 @@ namespace GCheckout.OrderProcessing {
       _Message = Message;
     }
 
-    public SendBuyerMessageRequest(string MerchantID, string MerchantKey, 
+    public SendBuyerMessageRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Message, bool SendEmail) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
@@ -47,7 +47,7 @@ namespace GCheckout.OrderProcessing {
     }
 
     public override byte[] GetXml() {
-      AutoGen.SendBuyerMessageRequest Req = 
+      AutoGen.SendBuyerMessageRequest Req =
         new AutoGen.SendBuyerMessageRequest();
       Req.googleordernumber = _OrderNo;
       Req.message = EncodeHelper.EscapeXmlChars(_Message);

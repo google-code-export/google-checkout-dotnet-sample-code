@@ -29,7 +29,7 @@ namespace GCheckout.OrderProcessing {
     private decimal _Amount = -1;
     private string _Comment = null;
 
-    public RefundOrderRequest(string MerchantID, string MerchantKey, 
+    public RefundOrderRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Reason) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
@@ -38,8 +38,8 @@ namespace GCheckout.OrderProcessing {
       _Reason = Reason;
     }
 
-    public RefundOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string OrderNo, string Reason, string Currency, 
+    public RefundOrderRequest(string MerchantID, string MerchantKey,
+      string Env, string OrderNo, string Reason, string Currency,
       decimal Amount, string Comment) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;

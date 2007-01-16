@@ -25,26 +25,25 @@ namespace GCheckout.Util {
   /// <summary>
   /// Collection of various encode-related static methods.
   /// </summary>
-  public class EncodeHelper
-  {
-    private EncodeHelper()
-    {}
+  public class EncodeHelper {
+    private EncodeHelper() {
+    }
 
-	  /// <summary>
-	  /// Converts a string to bytes in UTF-8 encoding.
-	  /// </summary>
-	  /// <param name="InString">The string to convert.</param>
-	  /// <returns>The UTF-8 bytes.</returns>
+    /// <summary>
+    /// Converts a string to bytes in UTF-8 encoding.
+    /// </summary>
+    /// <param name="InString">The string to convert.</param>
+    /// <returns>The UTF-8 bytes.</returns>
     public static byte[] StringToUtf8Bytes(string InString) {
       UTF8Encoding utf8encoder = new UTF8Encoding(false, true);
       return utf8encoder.GetBytes(InString);
     }
 
-	  /// <summary>
-	  /// Converts bytes in UTF-8 encoding to a regular string.
-	  /// </summary>
-	  /// <param name="InBytes">The UTF-8 bytes.</param>
-	  /// <returns>The input bytes as a string.</returns>
+    /// <summary>
+    /// Converts bytes in UTF-8 encoding to a regular string.
+    /// </summary>
+    /// <param name="InBytes">The UTF-8 bytes.</param>
+    /// <returns>The input bytes as a string.</returns>
     public static string Utf8BytesToString(byte[] InBytes) {
       UTF8Encoding utf8encoder = new UTF8Encoding(false, true);
       return utf8encoder.GetString(InBytes);
@@ -58,43 +57,43 @@ namespace GCheckout.Util {
     /// The full stream contents as a string. Also closes the stream.
     /// </returns>
     public static string Utf8StreamToString(Stream Utf8Stream) {
-      StreamReader SReader = new StreamReader(Utf8Stream, Encoding.UTF8);
-      string RetVal = SReader.ReadToEnd();
-      SReader.Close();
-      return RetVal;
+      using (StreamReader SReader = 
+        new StreamReader(Utf8Stream, Encoding.UTF8)) {
+        return SReader.ReadToEnd();
+      }
     }
 
     /// <summary>
-	  /// Gets the top element of an XML string.
-	  /// </summary>
-	  /// <param name="Xml">
-	  /// The XML string to extract the top element from.
-	  /// </param>
-	  /// <returns>
-	  /// The name of the first regular XML element.
-	  /// </returns>
-	  /// <example>
-	  /// Calling GetTopElement(Xml) where Xml is:
-	  /// <code>
-	  /// &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-	  /// &lt;new-order-notification xmlns="http://checkout.google.com/schema/2"
-	  /// serial-number="85f54628-538a-44fc-8605-ae62364f6c71"&gt;
-	  /// &lt;google-order-number&gt;841171949013218&lt;/google-order-number&gt;
-	  /// ...
-	  /// &lt;/new-order-notification&gt;
-	  /// </code>
-	  /// will return the string <b>new-order-notification</b>.
-	  /// </example>
-	  public static string GetTopElement(string Xml) {
-      StringReader SReader = new StringReader(Xml);
-      XmlTextReader XReader = new XmlTextReader(SReader);
-      XReader.WhitespaceHandling = WhitespaceHandling.None;
-      XReader.Read();
-      XReader.Read();
-      string RetVal = XReader.Name;
-      XReader.Close();
-      SReader.Close();
-      return RetVal;
+    /// Gets the top element of an XML string.
+    /// </summary>
+    /// <param name="Xml">
+    /// The XML string to extract the top element from.
+    /// </param>
+    /// <returns>
+    /// The name of the first regular XML element.
+    /// </returns>
+    /// <example>
+    /// Calling GetTopElement(Xml) where Xml is:
+    /// <code>
+    /// &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    /// &lt;new-order-notification xmlns="http://checkout.google.com/schema/2"
+    /// serial-number="85f54628-538a-44fc-8605-ae62364f6c71"&gt;
+    /// &lt;google-order-number&gt;841171949013218&lt;/google-order-number&gt;
+    /// ...
+    /// &lt;new-order-notification&gt;
+    /// </code>
+    /// will return the string <b>new-order-notification</b>.
+    /// </example>
+    public static string GetTopElement(string Xml) {
+      using (StringReader SReader = new StringReader(Xml)) {
+        XmlTextReader XReader = new XmlTextReader(SReader);
+        XReader.WhitespaceHandling = WhitespaceHandling.None;
+        XReader.Read();
+        XReader.Read();
+        string RetVal = XReader.Name;
+        XReader.Close();
+        return RetVal;
+      }
     }
 
     /// <summary>
@@ -126,29 +125,29 @@ namespace GCheckout.Util {
     /// <b>85f54628-538a-44fc-8605-ae62364f6c71</b>.
     /// </example>
     public static string GetElementValue(string Xml, string Element) {
-      string RetVal = "";
-      StringReader SReader = new StringReader(Xml);
-      XmlTextReader XReader = new XmlTextReader(SReader);
-      XReader.WhitespaceHandling = WhitespaceHandling.None;
-      XReader.Read();
-      while (!XReader.EOF ) {
-        if (XReader.Name == Element) {
-          XReader.Read();
-          RetVal = XReader.Value;
-          break;
-        }
-        if (XReader.MoveToAttribute(Element)) {
-          RetVal = XReader.Value;
-          break;
-        }
+      string RetVal = string.Empty;
+      using (StringReader SReader = new StringReader(Xml)) {
+        XmlTextReader XReader = new XmlTextReader(SReader);
+        XReader.WhitespaceHandling = WhitespaceHandling.None;
         XReader.Read();
+        while (!XReader.EOF) {
+          if (XReader.Name == Element) {
+            XReader.Read();
+            RetVal = XReader.Value;
+            break;
+          }
+          if (XReader.MoveToAttribute(Element)) {
+            RetVal = XReader.Value;
+            break;
+          }
+          XReader.Read();
+        }
       }
-      XReader.Close();
       return RetVal;
     }
 
     /// <summary>
-    /// Makes an object out of an XML string.
+    /// Makes an object out of the specified XML.
     /// </summary>
     /// <param name="Xml">The XML that should be made into an object.</param>
     /// <param name="ThisType">
@@ -166,10 +165,9 @@ namespace GCheckout.Util {
     /// </example>
     public static object Deserialize(string Xml, Type ThisType) {
       XmlSerializer myDeserializer = new XmlSerializer(ThisType);
-      StringReader myReader = new StringReader(Xml);
-      object RetVal = myDeserializer.Deserialize(myReader);
-      myReader.Close();
-      return RetVal;
+      using (StringReader myReader = new StringReader(Xml)) {
+        return myDeserializer.Deserialize(myReader);
+      }
     }
 
     /// <summary>
@@ -186,15 +184,16 @@ namespace GCheckout.Util {
     /// // MyCar2 is now a copy of MyCar1.
     /// </code>
     /// </example>
-    public static byte[] Serialize(object ObjectToSerialize) 
-    {
+    public static byte[] Serialize(object ObjectToSerialize) {
       XmlSerializer Ser = new XmlSerializer(ObjectToSerialize.GetType());
-      MemoryStream MS = new MemoryStream();
-      XmlTextWriter W = new XmlTextWriter(MS, new UTF8Encoding(false));
-      W.Formatting = Formatting.Indented;
-      Ser.Serialize(W, ObjectToSerialize);
-      W.Flush();
-      return MS.ToArray();
+      using (MemoryStream MS = new MemoryStream()) {
+        XmlTextWriter W = new XmlTextWriter(MS, new UTF8Encoding(false));
+        W.Formatting = Formatting.Indented;
+        Ser.Serialize(W, ObjectToSerialize);
+        W.Flush();
+        W.Close();
+        return MS.ToArray();
+      }
     }
 
     /// <summary>
@@ -219,6 +218,51 @@ namespace GCheckout.Util {
       RetVal = RetVal.Replace("<", "&#x3c;");
       RetVal = RetVal.Replace(">", "&#x3e;");
       return RetVal;
+    }
+
+    /// <summary>
+    /// Get the Cart Signature used in the &quot;signature&quot; form field that is posted 
+    /// to Google Checkout.
+    /// </summary>
+    /// <param name="cartXML">A string version of the Cart Xml returned from the
+    /// <see cref="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml"/> method.</param>
+    /// <param name="merchantKey">Your Google Merchant Key</param>
+    /// <returns>A Base64 encoded string of the cart signature</returns>
+    public static string GetCartSignature(string cartXML, string merchantKey) {
+      System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+      byte[] cart = encoding.GetBytes(cartXML);
+      return GetCartSignature(cart, merchantKey);
+    }
+
+    /// <summary>
+    /// Get the Cart Signature used in the &quot;signature&quot; form field that is posted 
+    /// to Google Checkout.
+    /// </summary>
+    /// <param name="cart">The Cart Xml returned from the 
+    /// <see cref="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml"/> method.</param>
+    /// <param name="merchantKey">Your Google Merchant Key</param>
+    /// <returns>A Base64 encoded string of the cart signature</returns>
+    public static string GetCartSignature(byte[] cart, string merchantKey) {
+
+      System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
+      byte[] key = encoding.GetBytes(merchantKey);
+
+      // Set cryptobj = Server.CreateObject("GCrypt.g_crypt.2");
+      using (System.Security.Cryptography.HMACSHA1 cryptobj = new
+              System.Security.Cryptography.HMACSHA1(key)) {
+
+        // BASE64-ENCODE (input data as String)
+        // - outputs base64 encoded binary string
+        //b64str.Text = System.Convert.ToBase64String(str);
+
+        // HMACSHA1(input data as String, secret key as String)
+        // - outputs base64 encoded binary string
+        string retVal = 
+          System.Convert.ToBase64String(cryptobj.ComputeHash(cart));
+
+        cryptobj.Clear();
+        return retVal;
+      }
     }
 
   }

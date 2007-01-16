@@ -39,21 +39,56 @@ namespace GCheckout.Util {
     /// <param name="ResponseXml">The XML returned from Google.</param>
     public GCheckoutResponse(string ResponseXml) {
       _Xml = ResponseXml;
+
+      //to cut down on the number or exceptions, we are going to try to
+      //predetermine the type of message being returned this will allow for
+      //a greater experience on the dev side. If you are not using debug
+      //symbols, it is very difficult to determine if the error is real
+      //or not if you are breaking on all thrown exceptions.
+      bool parsed = false;
+
       try {
-        _GoodResponse = (AutoGen.RequestReceivedResponse) 
-          EncodeHelper.Deserialize(ResponseXml, 
-          typeof(AutoGen.RequestReceivedResponse));
+        if (ResponseXml.IndexOf("<checkout-redirect") > -1) {
+          _CheckoutRedirectResponse = (AutoGen.CheckoutRedirect)
+            EncodeHelper.Deserialize(ResponseXml,
+            typeof(AutoGen.CheckoutRedirect));
+          parsed = true;
+        }
+        else if (ResponseXml.IndexOf("<request-received") > -1) {
+          _GoodResponse = (AutoGen.RequestReceivedResponse)
+            EncodeHelper.Deserialize(ResponseXml,
+            typeof(AutoGen.RequestReceivedResponse));
+          parsed = true;
+        }
+        else if (ResponseXml.IndexOf("<error") > -1) {
+          _ErrorResponse = (AutoGen.ErrorResponse)
+            EncodeHelper.Deserialize(ResponseXml,
+            typeof(AutoGen.ErrorResponse));
+          parsed = true;
+        }
       }
       catch {
+        //let it continue
+      }
+
+
+      if (!parsed) {
         try {
-          _ErrorResponse = (AutoGen.ErrorResponse) 
-            EncodeHelper.Deserialize(ResponseXml, 
-            typeof(AutoGen.ErrorResponse));
+          _GoodResponse = (AutoGen.RequestReceivedResponse)
+            EncodeHelper.Deserialize(ResponseXml,
+            typeof(AutoGen.RequestReceivedResponse));
         }
         catch {
-          _CheckoutRedirectResponse = (AutoGen.CheckoutRedirect) 
-            EncodeHelper.Deserialize(ResponseXml, 
-            typeof(AutoGen.CheckoutRedirect));
+          try {
+            _ErrorResponse = (AutoGen.ErrorResponse)
+              EncodeHelper.Deserialize(ResponseXml,
+              typeof(AutoGen.ErrorResponse));
+          }
+          catch {
+            _CheckoutRedirectResponse = (AutoGen.CheckoutRedirect)
+              EncodeHelper.Deserialize(ResponseXml,
+              typeof(AutoGen.CheckoutRedirect));
+          }
         }
       }
     }
