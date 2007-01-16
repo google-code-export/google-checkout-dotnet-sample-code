@@ -199,7 +199,7 @@ namespace GCheckout.Checkout {
       if (!Enabled) VariantInUrl = "disabled";
       if (Environment == EnvironmentType.Sandbox) {
         ImageUrl = string.Format(
-          "http://sandbox.google.com/buttons/checkout.gif?" +
+          "http://sandbox.google.com/checkout/buttons/checkout.gif?" +
           "merchant_id={0}&w={1}&h={2}&style={3}&variant={4}", 
           MerchantID, Width, Height, StyleInUrl, VariantInUrl);
       }
