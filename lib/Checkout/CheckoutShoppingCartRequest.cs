@@ -466,21 +466,26 @@ namespace GCheckout.Checkout {
         }
       }
 
+      //because we are merging the nodes, create a new ArrayList
+      ArrayList copiedMerchantPrivateData = new ArrayList();
+
       // Add the &lt;merchant-private-data&gt; element to the API request.
       if (_MerchantPrivateData != null) {
-        XmlNode node = MakeXmlElement(_MerchantPrivateData);
-        if (_MerchantPrivateDataNodes.Count > 0)
-          _MerchantPrivateDataNodes.Insert(0, node);
-        else
-          _MerchantPrivateDataNodes[0] = node;
+        copiedMerchantPrivateData.Add(MakeXmlElement(_MerchantPrivateData));
       }
 
       if (_MerchantPrivateDataNodes != null && _MerchantPrivateDataNodes.Count > 0) {
+        for (int i = 0; i < _MerchantPrivateDataNodes.Count; i++)
+          copiedMerchantPrivateData.Add(_MerchantPrivateDataNodes[i]);
+      }
+
+      if (copiedMerchantPrivateData.Count > 0)
+      {
         AutoGen.anyMultiple any = new AutoGen.anyMultiple();
 
         System.Xml.XmlNode[] nodes = 
-          new System.Xml.XmlNode[_MerchantPrivateDataNodes.Count];
-        _MerchantPrivateDataNodes.CopyTo(nodes);
+          new System.Xml.XmlNode[copiedMerchantPrivateData.Count];
+        copiedMerchantPrivateData.CopyTo(nodes);
         any.Any = nodes;
 
         MyCart.shoppingcart.merchantprivatedata = any;
