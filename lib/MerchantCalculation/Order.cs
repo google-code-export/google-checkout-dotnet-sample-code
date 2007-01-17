@@ -27,26 +27,31 @@ namespace GCheckout.MerchantCalculation {
   /// </summary>
   public class Order {
     private ArrayList _OrderLines;
-    private string _MerchantPrivateData = "";
+    private AutoGen.anyMultiple _MerchantPrivateDataNodes = new GCheckout.AutoGen.anyMultiple();
 
     public Order(AutoGen.MerchantCalculationCallback Callback) {
       _OrderLines = new ArrayList();
       for (int i = 0; i < Callback.shoppingcart.items.Length; i++) {
         AutoGen.Item ThisItem = Callback.shoppingcart.items[i];
-        string MerchantPrivateItemData = "";
-        if (ThisItem.merchantprivateitemdata != null) {
-          MerchantPrivateItemData = ThisItem.merchantprivateitemdata.OuterXml;
+        //string MerchantPrivateItemData = "";
+        if (ThisItem.merchantprivateitemdata != null 
+          && ThisItem.merchantprivateitemdata.Any != null
+          && ThisItem.merchantprivateitemdata.Any.Length > 0) {
+
+          _MerchantPrivateDataNodes = ThisItem.merchantprivateitemdata;
         }
         _OrderLines.Add(
           new OrderLine(ThisItem.itemname, ThisItem.itemdescription,
-          ThisItem.quantity, ThisItem.unitprice.Value, 
+          ThisItem.quantity, ThisItem.unitprice.Value,
           ThisItem.taxtableselector,
-          MerchantPrivateItemData));
+          _MerchantPrivateDataNodes));
       }
-      if (Callback.shoppingcart.merchantprivatedata != null)
-      {
-        _MerchantPrivateData = 
-          Callback.shoppingcart.merchantprivatedata.OuterXml;
+
+      if (Callback.shoppingcart.merchantprivatedata != null
+        && Callback.shoppingcart.merchantprivatedata.Any != null
+        && Callback.shoppingcart.merchantprivatedata.Any.Length > 0) {
+        
+        _MerchantPrivateDataNodes = Callback.shoppingcart.merchantprivatedata;
       }
     }
 
@@ -54,9 +59,19 @@ namespace GCheckout.MerchantCalculation {
       return _OrderLines.GetEnumerator();
     }
 
+    [Obsolete("This property must be converted to a XmlNode Array.")]
     public string MerchantPrivateData {
       get {
-        return _MerchantPrivateData;
+        if (_MerchantPrivateDataNodes.Any.Length > 0)
+          return _MerchantPrivateDataNodes.Any[0].OuterXml;
+        
+        return string.Empty;
+      }
+    }
+
+    public System.Xml.XmlNode[] MerchantPrivateDataNodes {
+      get {
+        return _MerchantPrivateDataNodes.Any;
       }
     }
 

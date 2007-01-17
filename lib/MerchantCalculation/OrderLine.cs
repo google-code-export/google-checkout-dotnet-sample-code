@@ -31,10 +31,11 @@ namespace GCheckout.MerchantCalculation {
     private int _Quantity;
     private decimal _UnitPrice;
     private string _TaxTableSelector;
-    private string _MerchantPrivateItemData;
+    private AutoGen.anyMultiple _MerchantPrivateItemDataNodes = new GCheckout.AutoGen.anyMultiple();
 
-    public OrderLine(string ItemName, string ItemDescription, int Quantity, 
-      decimal UnitPrice, string TaxTableSelector, 
+    [Obsolete("MerchantPrivateItemData Is no longer a string, please use MerchantPrivateItemDataNodes")]
+    public OrderLine(string ItemName, string ItemDescription, int Quantity,
+      decimal UnitPrice, string TaxTableSelector,
       string MerchantPrivateItemData)
     {
       _ItemName = ItemName;
@@ -42,7 +43,20 @@ namespace GCheckout.MerchantCalculation {
       _Quantity = Quantity;
       _UnitPrice = UnitPrice;
       _TaxTableSelector = TaxTableSelector;
-      _MerchantPrivateItemData = MerchantPrivateItemData;
+      if (MerchantPrivateItemData != null)
+        _MerchantPrivateItemDataNodes.Any = new System.Xml.XmlNode[] 
+          { Checkout.CheckoutShoppingCartRequest.MakeXmlElement(MerchantPrivateItemData)};
+    }
+
+    public OrderLine(string ItemName, string ItemDescription, int Quantity,
+      decimal UnitPrice, string TaxTableSelector,
+      AutoGen.anyMultiple MerchantPrivateItemDataNodes) {
+      _ItemName = ItemName;
+      _ItemDescription = ItemDescription;
+      _Quantity = Quantity;
+      _UnitPrice = UnitPrice;
+      _TaxTableSelector = TaxTableSelector;
+      _MerchantPrivateItemDataNodes = MerchantPrivateItemDataNodes;
     }
 
     public string ItemName {
@@ -75,9 +89,19 @@ namespace GCheckout.MerchantCalculation {
       }
     }
 
+    [Obsolete("This property must be converted to a XmlNode Array.")]
     public string MerchantPrivateItemData {
       get {
-        return _MerchantPrivateItemData;
+        if (_MerchantPrivateItemDataNodes.Any.Length > 0)
+          return _MerchantPrivateItemDataNodes.Any[0].OuterXml;
+        
+        return string.Empty;
+      }
+    }
+
+    public System.Xml.XmlNode[] MerchantPrivateDataNodes {
+      get {
+        return _MerchantPrivateItemDataNodes.Any;
       }
     }
 

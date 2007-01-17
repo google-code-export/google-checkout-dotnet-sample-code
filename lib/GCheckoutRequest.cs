@@ -59,10 +59,10 @@ namespace GCheckout {
       // Read the response.
       string responseXml = string.Empty;
       try {
-        using (HttpWebResponse myResponse = 
+        using (HttpWebResponse myResponse =
           (HttpWebResponse)myRequest.GetResponse()) {
           using (Stream ResponseStream = myResponse.GetResponseStream()) {
-            using (StreamReader ResponseStreamReader = 
+            using (StreamReader ResponseStreamReader =
               new StreamReader(ResponseStream)) {
               responseXml = ResponseStreamReader.ReadToEnd();
             }
@@ -71,9 +71,9 @@ namespace GCheckout {
       }
       catch (WebException WebExcp) {
         if (WebExcp.Response != null) {
-          using (HttpWebResponse HttpWResponse = 
+          using (HttpWebResponse HttpWResponse =
             (HttpWebResponse)WebExcp.Response) {
-            using (StreamReader sr = 
+            using (StreamReader sr =
               new StreamReader(HttpWResponse.GetResponseStream())) {
               responseXml = sr.ReadToEnd();
             }

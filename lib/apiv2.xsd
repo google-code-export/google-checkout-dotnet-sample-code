@@ -5,8 +5,7 @@
   Google Confidential
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://checkout.google.com/schema/2" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd" targetNamespace="http://checkout.google.com/schema/2" elementFormDefault="qualified" attributeFormDefault="unqualified">
-  <xs:complexType name="Hello">
-  </xs:complexType>
+  <xs:complexType name="Hello" />
   
   <xs:complexType name="Bye">
     <xs:attribute name="serial-number" type="xs:string" use="required" />
@@ -38,6 +37,7 @@
   
   <xs:complexType name="MerchantCheckoutFlowSupport">
     <xs:all>
+      <xs:element name="analytics-data" type="xs:string" minOccurs="0" />
       <xs:element name="continue-shopping-url" type="xs:anyURI" minOccurs="0" />
       <xs:element name="edit-cart-url" type="xs:anyURI" minOccurs="0" />
       <xs:element name="merchant-calculations" type="tns:MerchantCalculations" minOccurs="0" />
@@ -65,6 +65,11 @@
     </xs:all>
   </xs:complexType>
   
+  <xs:complexType name="UrlParameter">
+    <xs:attribute name="name" type="xs:string" use="required" />
+    <xs:attribute name="type" type="xs:string" use="required" />
+  </xs:complexType>
+  
   <xs:complexType name="ShoppingCart">
     <xs:all>
       <xs:element name="cart-expiration" type="tns:CartExpiration" minOccurs="0" />
@@ -75,7 +80,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="merchant-private-data" type="tns:anyType" minOccurs="0" />
+      <xs:element name="merchant-private-data" type="tns:anyMultiple" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -83,7 +88,7 @@
     <xs:all>
       <xs:element name="item-description" type="xs:string" />
       <xs:element name="item-name" type="xs:string" />
-      <xs:element name="merchant-private-item-data" type="tns:anyType" minOccurs="0" />
+      <xs:element name="merchant-private-item-data" type="tns:anyMultiple" minOccurs="0" />
       <xs:element name="quantity" type="xs:int" />
       <xs:element name="tax-table-selector" type="xs:string" minOccurs="0" />
       <xs:element name="unit-price" type="tns:Money" />
@@ -157,7 +162,15 @@
   
   <xs:complexType name="FlatRateShipping">
     <xs:all>
-      <xs:element name="price" type="tns:Money" />
+      <xs:element name="price">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="shipping-restrictions" type="tns:ShippingRestrictions" minOccurs="0" />
     </xs:all>
     <xs:attribute name="name" type="xs:string" use="required" />
@@ -165,7 +178,15 @@
   
   <xs:complexType name="MerchantCalculatedShipping">
     <xs:all>
-      <xs:element name="price" type="tns:Money" />
+      <xs:element name="price">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="shipping-restrictions" type="tns:ShippingRestrictions" minOccurs="0" />
     </xs:all>
     <xs:attribute name="name" type="xs:string" use="required" />
@@ -173,7 +194,15 @@
   
   <xs:complexType name="Pickup">
     <xs:all>
-      <xs:element name="price" type="tns:Money" />
+      <xs:element name="price">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
     </xs:all>
     <xs:attribute name="name" type="xs:string" use="required" />
   </xs:complexType>
@@ -264,7 +293,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="default-tax-table" type="tns:DefaultTaxTable" />
+      <xs:element name="default-tax-table" type="tns:DefaultTaxTable" minOccurs="0" />
     </xs:all>
     <xs:attribute name="merchant-calculated" type="xs:boolean" use="optional" />
   </xs:complexType>
@@ -297,7 +326,13 @@
   
   <xs:complexType name="DefaultTaxRule">
     <xs:all>
-      <xs:element name="rate" type="xs:double" />
+      <xs:element name="rate">
+        <xs:simpleType>
+          <xs:restriction base="xs:double">
+            <xs:minInclusive value="0.0" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
       <xs:element name="shipping-taxed" type="xs:boolean" minOccurs="0" />
       <xs:element name="tax-area">
         <xs:complexType>
@@ -313,7 +348,13 @@
   
   <xs:complexType name="AlternateTaxRule">
     <xs:all>
-      <xs:element name="rate" type="xs:double" />
+      <xs:element name="rate">
+        <xs:simpleType>
+          <xs:restriction base="xs:double">
+            <xs:minInclusive value="0.0" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
       <xs:element name="tax-area">
         <xs:complexType>
           <xs:choice>
@@ -349,27 +390,59 @@
           </xs:choice>
         </xs:complexType>
       </xs:element>
-      <xs:element name="total-tax" type="tns:Money" minOccurs="0" />
+      <xs:element name="total-tax" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
     </xs:all>
   </xs:complexType>
   
   <xs:complexType name="MerchantCalculatedShippingAdjustment">
     <xs:all>
-      <xs:element name="shipping-cost" type="tns:Money" />
+      <xs:element name="shipping-cost">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="shipping-name" type="xs:string" />
     </xs:all>
   </xs:complexType>
   
   <xs:complexType name="FlatRateShippingAdjustment">
     <xs:all>
-      <xs:element name="shipping-cost" type="tns:Money" />
+      <xs:element name="shipping-cost">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="shipping-name" type="xs:string" />
     </xs:all>
   </xs:complexType>
   
   <xs:complexType name="PickupShippingAdjustment">
     <xs:all>
-      <xs:element name="shipping-cost" type="tns:Money" />
+      <xs:element name="shipping-cost">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="shipping-name" type="xs:string" />
     </xs:all>
   </xs:complexType>
@@ -443,8 +516,7 @@
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
-  <xs:complexType name="NotificationAcknowledgment">
-  </xs:complexType>
+  <xs:complexType name="NotificationAcknowledgment" />
   
   <xs:complexType name="RiskInformation">
     <xs:all>
@@ -466,8 +538,24 @@
   
   <xs:complexType name="GiftCertificateAdjustment">
     <xs:all>
-      <xs:element name="applied-amount" type="tns:Money" />
-      <xs:element name="calculated-amount" type="tns:Money" minOccurs="0" />
+      <xs:element name="applied-amount">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="calculated-amount" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="code" type="xs:string" />
       <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
@@ -475,8 +563,24 @@
   
   <xs:complexType name="CouponAdjustment">
     <xs:all>
-      <xs:element name="applied-amount" type="tns:Money" />
-      <xs:element name="calculated-amount" type="tns:Money" minOccurs="0" />
+      <xs:element name="applied-amount">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="calculated-amount" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="code" type="xs:string" />
       <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
@@ -488,7 +592,15 @@
   
   <xs:complexType name="CouponResult">
     <xs:all>
-      <xs:element name="calculated-amount" type="tns:Money" minOccurs="0" />
+      <xs:element name="calculated-amount" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="code" type="xs:string" />
       <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="valid" type="xs:boolean" />
@@ -497,7 +609,15 @@
   
   <xs:complexType name="GiftCertificateResult">
     <xs:all>
-      <xs:element name="calculated-amount" type="tns:Money" minOccurs="0" />
+      <xs:element name="calculated-amount" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="code" type="xs:string" />
       <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="valid" type="xs:boolean" />
@@ -568,8 +688,24 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="shippable" type="xs:boolean" minOccurs="0" />
-      <xs:element name="shipping-rate" type="tns:Money" minOccurs="0" />
-      <xs:element name="total-tax" type="tns:Money" minOccurs="0" />
+      <xs:element name="shipping-rate" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="total-tax" minOccurs="0">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
     </xs:all>
     <xs:attribute name="address-id" type="xs:string" use="required" />
     <xs:attribute name="shipping-name" type="xs:string" use="optional" />
@@ -615,9 +751,17 @@
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
-  <xs:complexType name="anyType">
+  <xs:complexType name="ModifiablePrice">
+    <xs:all>
+      <xs:element name="is-modifiable" type="xs:string" />
+      <xs:element name="max-price" type="tns:Money" />
+      <xs:element name="min-price" type="tns:Money" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="anyMultiple" mixed="true">
     <xs:sequence>
-      <xs:any namespace="##any" processContents="skip" />
+      <xs:any namespace="##any" processContents="skip" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
   </xs:complexType>
   
@@ -657,6 +801,12 @@
       <xs:enumeration value="WILL_NOT_DELIVER" />
     </xs:restriction>
   </xs:simpleType>
+  
+  <xs:complexType name="anyType">
+    <xs:sequence>
+      <xs:any namespace="##any" processContents="skip" />
+    </xs:sequence>
+  </xs:complexType>
   
   <xs:element name="hello" type="tns:Hello" />
   

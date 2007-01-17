@@ -247,16 +247,8 @@ namespace GCheckout.Util {
       System.Text.UTF8Encoding encoding = new System.Text.UTF8Encoding();
       byte[] key = encoding.GetBytes(merchantKey);
 
-      // Set cryptobj = Server.CreateObject("GCrypt.g_crypt.2");
       using (System.Security.Cryptography.HMACSHA1 cryptobj = new
               System.Security.Cryptography.HMACSHA1(key)) {
-
-        // BASE64-ENCODE (input data as String)
-        // - outputs base64 encoded binary string
-        //b64str.Text = System.Convert.ToBase64String(str);
-
-        // HMACSHA1(input data as String, secret key as String)
-        // - outputs base64 encoded binary string
         string retVal = 
           System.Convert.ToBase64String(cryptobj.ComputeHash(cart));
 

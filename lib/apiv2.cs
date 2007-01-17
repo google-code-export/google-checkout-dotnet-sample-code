@@ -69,6 +69,10 @@ namespace GCheckout.AutoGen {
     public class MerchantCheckoutFlowSupport {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("analytics-data")]
+        public string analyticsdata;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("continue-shopping-url", DataType="anyURI")]
         public string continueshoppingurl;
         
@@ -138,7 +142,7 @@ namespace GCheckout.AutoGen {
     public class FlatRateShipping {
         
         /// <remarks/>
-        public Money price;
+        public FlatRateShippingPrice price;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-restrictions")]
@@ -151,6 +155,14 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class FlatRateShippingPrice : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(PickupPrice))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(MerchantCalculatedShippingPrice))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(FlatRateShippingPrice))]
     public class Money {
         
         /// <remarks/>
@@ -160,6 +172,16 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlTextAttribute()]
         public System.Decimal Value;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class PickupPrice : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class MerchantCalculatedShippingPrice : Money {
     }
     
     /// <remarks/>
@@ -242,7 +264,7 @@ namespace GCheckout.AutoGen {
     public class Pickup {
         
         /// <remarks/>
-        public Money price;
+        public PickupPrice price;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
@@ -254,7 +276,7 @@ namespace GCheckout.AutoGen {
     public class MerchantCalculatedShipping {
         
         /// <remarks/>
-        public Money price;
+        public MerchantCalculatedShippingPrice price;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-restrictions")]
@@ -387,7 +409,7 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("merchant-private-data")]
-        public System.Xml.XmlElement merchantprivatedata;
+        public anyMultiple merchantprivatedata;
     }
     
     /// <remarks/>
@@ -413,7 +435,7 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("merchant-private-item-data")]
-        public System.Xml.XmlElement merchantprivateitemdata;
+        public anyMultiple merchantprivateitemdata;
         
         /// <remarks/>
         public int quantity;
@@ -425,6 +447,16 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("unit-price")]
         public Money unitprice;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class anyMultiple {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        [System.Xml.Serialization.XmlAnyElementAttribute()]
+        public System.Xml.XmlNode[] Any;
     }
     
     /// <remarks/>
@@ -785,7 +817,7 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("total-tax")]
-        public Money totaltax;
+        public OrderAdjustmentTotaltax totaltax;
     }
     
     /// <remarks/>
@@ -804,11 +836,11 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("applied-amount")]
-        public Money appliedamount;
+        public CouponAdjustmentAppliedamount appliedamount;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
-        public Money calculatedamount;
+        public CouponAdjustmentCalculatedamount calculatedamount;
         
         /// <remarks/>
         public string code;
@@ -819,21 +851,41 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class CouponAdjustmentAppliedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class CouponAdjustmentCalculatedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public class GiftCertificateAdjustment {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("applied-amount")]
-        public Money appliedamount;
+        public GiftCertificateAdjustmentAppliedamount appliedamount;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
-        public Money calculatedamount;
+        public GiftCertificateAdjustmentCalculatedamount calculatedamount;
         
         /// <remarks/>
         public string code;
         
         /// <remarks/>
         public string message;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class GiftCertificateAdjustmentAppliedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class GiftCertificateAdjustmentCalculatedamount : Money {
     }
     
     /// <remarks/>
@@ -853,11 +905,16 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
-        public Money shippingcost;
+        public MerchantCalculatedShippingAdjustmentShippingcost shippingcost;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
         public string shippingname;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class MerchantCalculatedShippingAdjustmentShippingcost : Money {
     }
     
     /// <remarks/>
@@ -866,7 +923,7 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
-        public Money shippingcost;
+        public FlatRateShippingAdjustmentShippingcost shippingcost;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
@@ -875,15 +932,30 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class FlatRateShippingAdjustmentShippingcost : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public class PickupShippingAdjustment {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
-        public Money shippingcost;
+        public PickupShippingAdjustmentShippingcost shippingcost;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
         public string shippingname;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class PickupShippingAdjustmentShippingcost : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class OrderAdjustmentTotaltax : Money {
     }
     
     /// <remarks/>
@@ -1175,11 +1247,11 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-rate")]
-        public Money shippingrate;
+        public ResultShippingrate shippingrate;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("total-tax")]
-        public Money totaltax;
+        public ResultTotaltax totaltax;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("address-id")]
@@ -1206,7 +1278,7 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
-        public Money calculatedamount;
+        public GiftCertificateResultCalculatedamount calculatedamount;
         
         /// <remarks/>
         public string code;
@@ -1220,11 +1292,16 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class GiftCertificateResultCalculatedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public class CouponResult {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
-        public Money calculatedamount;
+        public CouponResultCalculatedamount calculatedamount;
         
         /// <remarks/>
         public string code;
@@ -1234,6 +1311,21 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         public bool valid;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class CouponResultCalculatedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class ResultShippingrate : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class ResultTotaltax : Money {
     }
     
     /// <remarks/>
