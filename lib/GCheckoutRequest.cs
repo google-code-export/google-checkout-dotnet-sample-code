@@ -49,8 +49,8 @@ namespace GCheckout {
       myRequest.Headers.Add("Authorization",
         string.Format("Basic {0}",
         GetAuthorization(_MerchantID, _MerchantKey)));
-      myRequest.ContentType = "application/xml";
-      myRequest.Accept = "application/xml";
+      myRequest.ContentType = "text/xml; charset=UTF-8";
+      myRequest.Accept = "text/xml; charset=UTF-8";
       myRequest.KeepAlive = false;
       // Send the data.
       using (Stream requestStream = myRequest.GetRequestStream()) {
