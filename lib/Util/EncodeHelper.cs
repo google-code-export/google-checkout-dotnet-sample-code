@@ -249,6 +249,7 @@ namespace GCheckout.Util {
 
       using (System.Security.Cryptography.HMACSHA1 cryptobj = new
               System.Security.Cryptography.HMACSHA1(key)) {
+
         string retVal = 
           System.Convert.ToBase64String(cryptobj.ComputeHash(cart));
 
@@ -256,6 +257,45 @@ namespace GCheckout.Util {
         return retVal;
       }
     }
+
+    /// <summary>
+    /// Encode a url that is not already encoded
+    /// </summary>
+    /// <param name="url">The URL to encode.</param>
+    /// <returns></returns>
+    internal static string UrlEncodeUrl(string url) {
+      Uri uri = new Uri(url);
+      if (!uri.UserEscaped && uri.Query != null && uri.Query.Length > 1) {
+        StringBuilder sb = new StringBuilder(url.Length);
+        sb.Append(uri.Scheme).Append(":").Append("//");
+        sb.Append(uri.Host);
+        if (!uri.IsDefaultPort) {
+          sb.Append(":").Append(uri.Port);
+        }
+        sb.Append(uri.AbsolutePath).Append("?");
+
+        Encoding utf = new UTF8Encoding();
+ 
+        string[] nameValue = uri.Query.Substring(1).Split('&');
+
+        if (nameValue != null && nameValue.Length > 1) {
+          for (int i = 0; i < nameValue.Length; i++) {
+            string[] parts = nameValue[i].Split('=');
+            sb.Append(parts[0]);
+            sb.Append("=");
+            sb.Append(System.Web.HttpUtility.UrlEncode(parts[1], utf));
+            if (i + 1 < nameValue.Length) {
+              sb.Append("&amp;");
+            }
+          }
+
+          url = sb.ToString();
+        }      
+      }
+
+      return url;
+    }
+
 
   }
 }

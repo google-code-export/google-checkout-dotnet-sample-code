@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,17 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Collections;
 using GCheckout.Util;
+using System.Text;
+using System.Diagnostics;
 
 namespace GCheckout.Checkout {
+  /// <summary>
+  /// Class used to create the structure needed by Google Checkout
+  /// </summary>
+  /// <remarks>
+  /// The class also has the ability to send that request to Google or return
+  /// the Xml needed to place in the hidden form fields.
+  /// </remarks>
   public class CheckoutShoppingCartRequest : GCheckoutRequest {
     private ArrayList _Items;
     private AutoGen.TaxTables _TaxTables;
@@ -37,6 +46,9 @@ namespace GCheckout.Checkout {
     private DateTime _CartExpiration = DateTime.MinValue;
     private string _Currency = null;
     private string _AnalyticsData = null;
+    private long _PlatformID = 0;
+
+    private ParameterizedUrls _ParameterizedUrls = new ParameterizedUrls();
 
     /// <summary>
     /// This method is called by the <see cref="GCheckoutButton"/> class and
@@ -98,6 +110,29 @@ namespace GCheckout.Checkout {
 
     /// <summary>
     /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely identifies the product in your system.</param>
+    /// <param name="Price">The price of the item. This value corresponds to 
+    /// the value of the &lt;unit-price&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    public void AddItem(string Name, string Description, string MerchantItemID,
+      decimal Price, int Quantity) {
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, Quantity));
+    }
+
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
     /// have &lt;merchant-private-item-data&gt; XML blocks associated with them.
     /// </summary>
     /// <param name="Name">The name of the item. This value corresponds to the 
@@ -116,10 +151,11 @@ namespace GCheckout.Checkout {
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
+    [Obsolete("MerchantPrivateData is now a XmlNode Array. Please use one of the AddItem methods that take in a XmlNode Array.")]
     public void AddItem(string Name, string Description, decimal Price,
       int Quantity, string MerchantPrivateItemData) {
       _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity,
-        MerchantPrivateItemData));
+        MakeXmlElement(MerchantPrivateItemData)));
     }
 
     /// <summary>
@@ -157,6 +193,33 @@ namespace GCheckout.Checkout {
     /// <param name="Description">The description of the item. This value 
     /// corresponds to the value of the &lt;item-description&gt; tag in the 
     /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely identifies the product in your system.</param>
+    /// <param name="Price">The price of the item. This value corresponds to 
+    /// the value of the &lt;unit-price&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// associated with the item in the Checkout API request. This value 
+    /// corresponds to the value of the value of the 
+    /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
+    /// request.</param>
+    public void AddItem(string Name, string Description, string MerchantItemID, 
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemData) {
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, Quantity,
+        MerchantPrivateItemData));
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// have &lt;merchant-private-item-data&gt; XML blocks associated with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
     /// <param name="Price">The price of the item. This value corresponds to 
     /// the value of the &lt;unit-price&gt; tag in the Checkout API 
     /// request.</param>
@@ -171,6 +234,33 @@ namespace GCheckout.Checkout {
     public void AddItem(string Name, string Description, decimal Price,
       int Quantity, XmlNode[] MerchantPrivateItemData) {
       _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity,
+        MerchantPrivateItemData));
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// have &lt;merchant-private-item-data&gt; XML blocks associated with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely identifies the product in your system.</param>
+    /// <param name="Price">The price of the item. This value corresponds to 
+    /// the value of the &lt;unit-price&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="MerchantPrivateItemData">An array of XML nodes that should be 
+    /// associated with the item in the Checkout API request. This value 
+    /// corresponds to the value of the value of the 
+    /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
+    /// request.</param>
+    public void AddItem(string Name, string Description, string MerchantItemID,
+      decimal Price, int Quantity, XmlNode[] MerchantPrivateItemData) {
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, Quantity,
         MerchantPrivateItemData));
     }
 
@@ -304,6 +394,34 @@ namespace GCheckout.Checkout {
       Rule.taxarea.Item = Area;
       Area.zippattern = ZipPattern;
       AddNewTaxRule(Rule);
+    }
+
+    /// <summary>
+    /// Add an already <see cref="System.Web.HttpUtility.UrlEncode(string)"/> Url
+    /// </summary>
+    /// <param name="url">The UrlEncoded &lt;parameterized-url&gt; to add to the collection</param>
+    public ParameterizedUrl AddParameterizedUrl(string url) {
+      return AddParameterizedUrl(url, false);
+    }
+
+    /// <summary>
+    /// Add a Third Party Tracking URL.
+    /// </summary>
+    /// <param name="url">The &lt;parameterized-url&gt; to add to the collection</param>
+    /// <param name="urlEncode">true if you need the url to be <see cref="System.Web.HttpUtility.UrlEncode(string)"/></param>
+    /// <returns>A new <see cref="ParameterizedUrl" /></returns>
+    public ParameterizedUrl AddParameterizedUrl(string url, bool urlEncode) {
+      ParameterizedUrl retVal = ParameterizedUrls.AddUrl(url, urlEncode);
+      return retVal;
+    }
+
+    /// <summary>
+    /// Add a Third Party Tracking URL.
+    /// </summary>
+    /// <param name="url">The &lt;parameterized-url&gt; object to add to the collection</param>
+    /// <returns>A new <see cref="ParameterizedUrl" /></returns>
+    public void AddParameterizedUrl(ParameterizedUrl url) {
+      _ParameterizedUrls.AddUrl(url);
     }
 
     /// <summary>
@@ -505,6 +623,10 @@ namespace GCheckout.Checkout {
         MyCart.checkoutflowsupport.Item.analyticsdata = _AnalyticsData;
       }
 
+      if (_PlatformID != 0) {
+        MyCart.checkoutflowsupport.Item.platformid = _PlatformID;
+      }
+
       // Add the &lt;edit-cart-url&gt; element to the API request.
       if (_EditCartUrl != null) {
         MyCart.checkoutflowsupport.Item.editcarturl = _EditCartUrl;
@@ -545,6 +667,44 @@ namespace GCheckout.Checkout {
           acceptgiftcertificates = true;
         MyCart.checkoutflowsupport.Item.merchantcalculations.
           acceptgiftcertificatesSpecified = true;
+      }
+
+      //See if we have any ParameterizedUrl that need to be added to the message.
+      if (_ParameterizedUrls.Urls.Length > 0) {
+        GCheckout.AutoGen.ParameterizedUrl[] destUrls
+          = new GCheckout.AutoGen.ParameterizedUrl[_ParameterizedUrls.Urls.Length];
+        Debug.WriteLine("<ParameterizedUrls>");
+        for (int i = 0; i < _ParameterizedUrls.Urls.Length; i++) {
+          Debug.WriteLine("<ParameterizedUrl>");
+          ParameterizedUrl fromUrl = _ParameterizedUrls.Urls[i];
+          GCheckout.AutoGen.ParameterizedUrl toUrl 
+            = new GCheckout.AutoGen.ParameterizedUrl();
+          toUrl.url = fromUrl.URL;
+
+          //ok now we have to see if params exist, and if they do we need to look that array and build it out.
+          if (fromUrl.Params.Length > 0) {
+            GCheckout.AutoGen.UrlParameter[] destparams
+              = new GCheckout.AutoGen.UrlParameter[fromUrl.Params.Length];
+            for (int j = 0; j < fromUrl.Params.Length; j++) {
+              UrlParamter fromParam = fromUrl.Params[j];
+              GCheckout.AutoGen.UrlParameter toParam
+              = new GCheckout.AutoGen.UrlParameter();
+              toParam.name = fromParam.Name;
+              //Use the reflection code to get the string value of the enum.
+              toParam.type = fromParam.SerializedValue;
+              Debug.WriteLine("<parameterized-url url=\"" + toUrl.url + "\" />");
+              destparams[j] = toParam;
+            }
+            toUrl.parameters = destparams;
+          }
+
+          Debug.WriteLine("<parameterized-url url=\"" + toUrl.url + "\">");
+          destUrls[i] = toUrl; //add the url to the array.
+
+          MyCart.checkoutflowsupport.Item.parameterizedurls = destUrls;
+          Debug.WriteLine("</ParameterizedUrl>");
+        }
+        Debug.WriteLine("</ParameterizedUrls>");
       }
 
       // Call the EncodeHelper.Serialize method to generate the XML for
@@ -797,6 +957,10 @@ namespace GCheckout.Checkout {
     /// &lt;analytics-data&gt; element. Google Analytics uses this
     /// to Track Google Checkout Orders.
     /// </summary>
+    /// <remarks>
+    /// Please read http://code.google.com/apis/checkout/developer/checkout_analytics_integration.html"
+    /// for more information.
+    /// </remarks>
     /// <value>The &lt;analytics-data&gt; element value.</value>
     public string AnalyticsData {
       get {
@@ -807,11 +971,49 @@ namespace GCheckout.Checkout {
       }
     }
 
+    /// <summary>
+    /// This property sets or retrieves the value of the 
+    /// &lt;platform-id&gt; element.
+    /// </summary>
+    /// <remarks>
+    /// The &lt;platform-id&gt; tag should only be used by eCommerce providers
+    /// who make API requests on behalf of a merchant. The tag's value contains
+    /// a Google Checkout merchant ID that identifies the eCommerce provider.
+    /// </remarks>
+    /// <value>The &lt;analytics-data&gt; element value.</value>
+    public long PlatformID {
+      get {
+        return _PlatformID;
+      }
+      set {
+        _PlatformID = value;
+      }
+    }
+
+    /// <summary>
+    /// The &lt;parameterized-urls&gt; tag
+    /// </summary>
+    /// <remarks>
+    /// It contains information about all of the
+    /// web beacons that the merchant wants to add to the Google Checkout order 
+    /// confirmation page. This tag encapsulates a list of one or more
+    /// &lt;parameterized-url&gt; (<see cref="ParameterizedUrl"/>) tags.
+    /// See
+    /// http://code.google.com/apis/checkout/developer/checkout_pixel_tracking.html
+    /// For additional information on Third-Party Conversion Tracking
+    /// </remarks>
+    public ParameterizedUrls ParameterizedUrls {
+      get {
+        return _ParameterizedUrls;
+      }
+    }
+
     private class ShoppingCartItem {
-      public string Name = "";
-      public string Description = "";
+      public string Name = string.Empty;
+      public string Description = string.Empty;
       public decimal Price = 0.0m;
       public int Quantity = 0;
+      public string MerchantItemID = string.Empty;
       public XmlNode[] MerchantPrivateItemDataNodes = new XmlNode[] {};
 
       /// <summary>
@@ -834,21 +1036,39 @@ namespace GCheckout.Checkout {
       /// This method initializes a new instance of the 
       /// <see cref="ShoppingCartItem"/> class, which creates an object
       /// corresponding to an individual item in an order. This method 
-      /// is used for items that do have an associated
+      /// is used for items that do not have an associated
       /// &lt;merchant-private-item-data&gt; XML block.
       /// </summary>
       /// <param name="InName">The name of the item.</param>
       /// <param name="InDescription">A description of the item.</param>
+      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely identifies the product in your system. (optional)</param>
       /// <param name="InPrice">The price of the item, per item.</param>
       /// <param name="InQuantity">The number of the item that is included in the order.</param>
-      /// <param name="InMerchantPrivateItemData">The merchant private
-      /// item data associated with the item.</param>
       public ShoppingCartItem(string InName, string InDescription,
-        decimal InPrice, int InQuantity, string InMerchantPrivateItemData) :
-        this(InName, InDescription, InPrice, InQuantity, 
-        MakeXmlElement(InMerchantPrivateItemData)) {
-
+        string InMerchantItemID, decimal InPrice, int InQuantity)
+        : this(InName, InDescription, InMerchantItemID, InPrice, InQuantity, new XmlNode[] { }) {
       }
+
+
+      ///// <summary>
+      ///// This method initializes a new instance of the 
+      ///// <see cref="ShoppingCartItem"/> class, which creates an object
+      ///// corresponding to an individual item in an order. This method 
+      ///// is used for items that do have an associated
+      ///// &lt;merchant-private-item-data&gt; XML block.
+      ///// </summary>
+      ///// <param name="InName">The name of the item.</param>
+      ///// <param name="InDescription">A description of the item.</param>
+      ///// <param name="InPrice">The price of the item, per item.</param>
+      ///// <param name="InQuantity">The number of the item that is included in the order.</param>
+      ///// <param name="InMerchantPrivateItemData">The merchant private
+      ///// item data associated with the item.</param>
+      //[Obsolete("MerchantPrivateData is now a XmlNode Array. Please use one of the new constructors.")]
+      //public ShoppingCartItem(string InName, string InDescription,
+      //  decimal InPrice, int InQuantity, string InMerchantPrivateItemData) :
+      //  this(InName, InDescription, InPrice, InQuantity, 
+      //  MakeXmlElement(InMerchantPrivateItemData)) {
+      //}
 
       /// <summary>
       /// This method initializes a new instance of the 
@@ -863,12 +1083,35 @@ namespace GCheckout.Checkout {
       /// <param name="InQuantity">The number of the item that is included in the order.</param>
       /// <param name="InMerchantPrivateItemData">The merchant private
       /// item data associated with the item.</param>
-      public ShoppingCartItem(string InName, string InDescription,
+      public ShoppingCartItem(string InName, string InDescription, 
         decimal InPrice, int InQuantity, XmlNode InMerchantPrivateItemData):
         this(InName, InDescription, InPrice, InQuantity, 
         new XmlNode[] { InMerchantPrivateItemData }) {
 
       }
+
+      /// <summary>
+      /// This method initializes a new instance of the 
+      /// <see cref="ShoppingCartItem"/> class, which creates an object
+      /// corresponding to an individual item in an order. This method 
+      /// is used for items that do have an associated
+      /// &lt;merchant-private-item-data&gt; XML block.
+      /// </summary>
+      /// <param name="InName">The name of the item.</param>
+      /// <param name="InDescription">A description of the item.</param>
+      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely identifies the product in your system. (optional)</param>
+      /// <param name="InPrice">The price of the item, per item.</param>
+      /// <param name="InQuantity">The number of the item that is included in the order.</param>
+      /// <param name="InMerchantPrivateItemData">The merchant private
+      /// item data associated with the item.</param>
+      public ShoppingCartItem(string InName, string InDescription,
+        string InMerchantItemID, decimal InPrice, int InQuantity, 
+        XmlNode InMerchantPrivateItemData) :
+        this(InName, InDescription, InMerchantItemID, InPrice, InQuantity,
+        new XmlNode[] { InMerchantPrivateItemData }) {
+
+      }
+
 
       /// <summary>
       /// This method initializes a new instance of the 
@@ -892,7 +1135,31 @@ namespace GCheckout.Checkout {
         MerchantPrivateItemDataNodes = InMerchantPrivateItemData;
       }
 
-    
+      /// <summary>
+      /// This method initializes a new instance of the 
+      /// <see cref="ShoppingCartItem"/> class, which creates an object
+      /// corresponding to an individual item in an order. This method 
+      /// is used for items that do have an associated
+      /// &lt;merchant-private-item-data&gt; XML block.
+      /// </summary>
+      /// <param name="InName">The name of the item.</param>
+      /// <param name="InDescription">A description of the item.</param>
+      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely identifies the product in your system. (optional)</param>
+      /// <param name="InPrice">The price of the item, per item.</param>
+      /// <param name="InQuantity">The number of the item that is included in the order.</param>
+      /// <param name="InMerchantPrivateItemData">The merchant private
+      /// item data associated with the item.</param>
+      public ShoppingCartItem(string InName, string InDescription,
+        string InMerchantItemID, decimal InPrice, int InQuantity, XmlNode[] InMerchantPrivateItemData) {
+        Name = InName;
+        Description = InDescription;
+        MerchantItemID = InMerchantItemID;
+        Price = InPrice;
+        Quantity = InQuantity;
+        MerchantPrivateItemDataNodes = InMerchantPrivateItemData;
+      }
     }
   }
+
+  
 }

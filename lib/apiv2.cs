@@ -47,115 +47,80 @@ namespace GCheckout.AutoGen {
     public class CheckoutShoppingCart {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("checkout-flow-support")]
-        public CheckoutShoppingCartCheckoutflowsupport checkoutflowsupport;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shopping-cart")]
         public ShoppingCart shoppingcart;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("checkout-flow-support")]
+        public CheckoutShoppingCartCheckoutflowsupport checkoutflowsupport;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class CheckoutShoppingCartCheckoutflowsupport {
+    public class ShoppingCart {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-checkout-flow-support")]
-        public MerchantCheckoutFlowSupport Item;
+        [System.Xml.Serialization.XmlElementAttribute("merchant-private-data")]
+        public anyMultiple merchantprivatedata;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("cart-expiration")]
+        public CartExpiration cartexpiration;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("item", IsNullable=false)]
+        public Item[] items;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class MerchantCheckoutFlowSupport {
+    public class anyMultiple {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("analytics-data")]
-        public string analyticsdata;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("continue-shopping-url", DataType="anyURI")]
-        public string continueshoppingurl;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("edit-cart-url", DataType="anyURI")]
-        public string editcarturl;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-calculations")]
-        public MerchantCalculations merchantcalculations;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("request-buyer-phone-number")]
-        public bool requestbuyerphonenumber;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool requestbuyerphonenumberSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-methods")]
-        public MerchantCheckoutFlowSupportShippingmethods shippingmethods;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("tax-tables")]
-        public TaxTables taxtables;
+        [System.Xml.Serialization.XmlTextAttribute()]
+        [System.Xml.Serialization.XmlAnyElementAttribute()]
+        public System.Xml.XmlNode[] Any;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class MerchantCalculations {
+    public class CartExpiration {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("accept-gift-certificates")]
-        public bool acceptgiftcertificates;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool acceptgiftcertificatesSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("accept-merchant-coupons")]
-        public bool acceptmerchantcoupons;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool acceptmerchantcouponsSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-calculations-url", DataType="anyURI")]
-        public string merchantcalculationsurl;
+        [System.Xml.Serialization.XmlElementAttribute("good-until-date")]
+        public System.DateTime gooduntildate;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class MerchantCheckoutFlowSupportShippingmethods {
+    public class Item {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("flat-rate-shipping", typeof(FlatRateShipping))]
-        [System.Xml.Serialization.XmlElementAttribute("pickup", typeof(Pickup))]
-        [System.Xml.Serialization.XmlElementAttribute("merchant-calculated-shipping", typeof(MerchantCalculatedShipping))]
-        public object[] Items;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class FlatRateShipping {
+        [System.Xml.Serialization.XmlElementAttribute("item-name")]
+        public string itemname;
         
         /// <remarks/>
-        public FlatRateShippingPrice price;
+        [System.Xml.Serialization.XmlElementAttribute("item-description")]
+        public string itemdescription;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-restrictions")]
-        public ShippingRestrictions shippingrestrictions;
+        [System.Xml.Serialization.XmlElementAttribute("unit-price")]
+        public Money unitprice;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string name;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class FlatRateShippingPrice : Money {
+        public int quantity;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-private-item-data")]
+        public anyMultiple merchantprivateitemdata;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-item-id")]
+        public string merchantitemid;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("tax-table-selector")]
+        public string taxtableselector;
     }
     
     /// <remarks/>
@@ -186,26 +151,129 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class ShippingRestrictions {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("allowed-areas")]
-        public ShippingRestrictionsAllowedareas allowedareas;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("excluded-areas")]
-        public ShippingRestrictionsExcludedareas excludedareas;
+    public class FlatRateShippingPrice : Money {
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class ShippingRestrictionsAllowedareas {
+    public class CheckoutShoppingCartCheckoutflowsupport {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-checkout-flow-support")]
+        public MerchantCheckoutFlowSupport Item;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class MerchantCheckoutFlowSupport {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("edit-cart-url", DataType="anyURI")]
+        public string editcarturl;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("continue-shopping-url", DataType="anyURI")]
+        public string continueshoppingurl;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("tax-tables")]
+        public TaxTables taxtables;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-methods")]
+        public MerchantCheckoutFlowSupportShippingmethods shippingmethods;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute("parameterized-urls")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("parameterized-url", IsNullable=false)]
+        public ParameterizedUrl[] parameterizedurls;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-calculations")]
+        public MerchantCalculations merchantcalculations;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("request-buyer-phone-number")]
+        public bool requestbuyerphonenumber;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool requestbuyerphonenumberSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("analytics-data")]
+        public string analyticsdata;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("platform-id")]
+        public long platformid;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool platformidSpecified;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class TaxTables {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("default-tax-table")]
+        public DefaultTaxTable defaulttaxtable;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute("alternate-tax-tables")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("alternate-tax-table", IsNullable=false)]
+        public AlternateTaxTable[] alternatetaxtables;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute("merchant-calculated")]
+        public bool merchantcalculated;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool merchantcalculatedSpecified;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class DefaultTaxTable {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute("tax-rules")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("default-tax-rule", IsNullable=false)]
+        public DefaultTaxRule[] taxrules;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class DefaultTaxRule {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-taxed")]
+        public bool shippingtaxed;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool shippingtaxedSpecified;
+        
+        /// <remarks/>
+        public System.Double rate;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("tax-area")]
+        public DefaultTaxRuleTaxarea taxarea;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class DefaultTaxRuleTaxarea {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
-        public object[] Items;
+        public object Item;
     }
     
     /// <remarks/>
@@ -246,67 +314,6 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         ALL,
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class ShippingRestrictionsExcludedareas {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
-        [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
-        [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
-        public object[] Items;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class Pickup {
-        
-        /// <remarks/>
-        public PickupPrice price;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string name;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class MerchantCalculatedShipping {
-        
-        /// <remarks/>
-        public MerchantCalculatedShippingPrice price;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-restrictions")]
-        public ShippingRestrictions shippingrestrictions;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string name;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class TaxTables {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute("alternate-tax-tables")]
-        [System.Xml.Serialization.XmlArrayItemAttribute("alternate-tax-table", IsNullable=false)]
-        public AlternateTaxTable[] alternatetaxtables;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("default-tax-table")]
-        public DefaultTaxTable defaulttaxtable;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute("merchant-calculated")]
-        public bool merchantcalculated;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool merchantcalculatedSpecified;
     }
     
     /// <remarks/>
@@ -356,107 +363,143 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class DefaultTaxTable {
+    public class MerchantCheckoutFlowSupportShippingmethods {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute("tax-rules")]
-        [System.Xml.Serialization.XmlArrayItemAttribute("default-tax-rule", IsNullable=false)]
-        public DefaultTaxRule[] taxrules;
+        [System.Xml.Serialization.XmlElementAttribute("flat-rate-shipping", typeof(FlatRateShipping))]
+        [System.Xml.Serialization.XmlElementAttribute("pickup", typeof(Pickup))]
+        [System.Xml.Serialization.XmlElementAttribute("merchant-calculated-shipping", typeof(MerchantCalculatedShipping))]
+        public object[] Items;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class DefaultTaxRule {
+    public class FlatRateShipping {
         
         /// <remarks/>
-        public System.Double rate;
+        public FlatRateShippingPrice price;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-taxed")]
-        public bool shippingtaxed;
+        [System.Xml.Serialization.XmlElementAttribute("shipping-restrictions")]
+        public ShippingRestrictions shippingrestrictions;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool shippingtaxedSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("tax-area")]
-        public DefaultTaxRuleTaxarea taxarea;
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string name;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class DefaultTaxRuleTaxarea {
+    public class ShippingRestrictions {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("allowed-areas")]
+        public ShippingRestrictionsAllowedareas allowedareas;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("excluded-areas")]
+        public ShippingRestrictionsExcludedareas excludedareas;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class ShippingRestrictionsAllowedareas {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
-        public object Item;
+        public object[] Items;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class ShoppingCart {
+    public class ShippingRestrictionsExcludedareas {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("cart-expiration")]
-        public CartExpiration cartexpiration;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("item", IsNullable=false)]
-        public Item[] items;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-private-data")]
-        public anyMultiple merchantprivatedata;
+        [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
+        [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
+        [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
+        public object[] Items;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class CartExpiration {
+    public class Pickup {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("good-until-date")]
-        public System.DateTime gooduntildate;
+        public PickupPrice price;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string name;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class Item {
+    public class MerchantCalculatedShipping {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("item-description")]
-        public string itemdescription;
+        [System.Xml.Serialization.XmlElementAttribute("shipping-restrictions")]
+        public ShippingRestrictions shippingrestrictions;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("item-name")]
-        public string itemname;
+        public MerchantCalculatedShippingPrice price;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-private-item-data")]
-        public anyMultiple merchantprivateitemdata;
-        
-        /// <remarks/>
-        public int quantity;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("tax-table-selector")]
-        public string taxtableselector;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("unit-price")]
-        public Money unitprice;
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string name;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class anyMultiple {
+    public class ParameterizedUrl {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        [System.Xml.Serialization.XmlAnyElementAttribute()]
-        public System.Xml.XmlNode[] Any;
+        [System.Xml.Serialization.XmlArrayItemAttribute("url-parameter", IsNullable=false)]
+        public UrlParameter[] parameters;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string url;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class UrlParameter {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string name;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string type;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class MerchantCalculations {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-calculations-url", DataType="anyURI")]
+        public string merchantcalculationsurl;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("accept-merchant-coupons")]
+        public bool acceptmerchantcoupons;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool acceptmerchantcouponsSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("accept-gift-certificates")]
+        public bool acceptgiftcertificates;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool acceptgiftcertificatesSpecified;
     }
     
     /// <remarks/>
@@ -492,10 +535,10 @@ namespace GCheckout.AutoGen {
     public class RefundOrderRequest {
         
         /// <remarks/>
-        public Money amount;
+        public string comment;
         
         /// <remarks/>
-        public string comment;
+        public Money amount;
         
         /// <remarks/>
         public string reason;
@@ -537,16 +580,16 @@ namespace GCheckout.AutoGen {
     public class DeliverOrderRequest {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("tracking-data")]
+        public TrackingData trackingdata;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("send-email")]
         public bool sendemail;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool sendemailSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("tracking-data")]
-        public TrackingData trackingdata;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("google-order-number", DataType="token")]
@@ -650,32 +693,27 @@ namespace GCheckout.AutoGen {
     public class NewOrderNotification {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("buyer-billing-address")]
-        public Address buyerbillingaddress;
+        public System.DateTime timestamp;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("buyer-id")]
-        public long buyerid;
+        [System.Xml.Serialization.XmlElementAttribute("shopping-cart")]
+        public ShoppingCart shoppingcart;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("buyer-marketing-preferences")]
-        public BuyerMarketingPreferences buyermarketingpreferences;
+        [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
+        public string googleordernumber;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("buyer-shipping-address")]
         public Address buyershippingaddress;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("financial-order-state")]
-        public FinancialOrderState financialorderstate;
+        [System.Xml.Serialization.XmlElementAttribute("buyer-billing-address")]
+        public Address buyerbillingaddress;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("fulfillment-order-state")]
-        public FulfillmentOrderState fulfillmentorderstate;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
-        public string googleordernumber;
+        [System.Xml.Serialization.XmlElementAttribute("buyer-marketing-preferences")]
+        public BuyerMarketingPreferences buyermarketingpreferences;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("order-adjustment")]
@@ -686,11 +724,16 @@ namespace GCheckout.AutoGen {
         public Money ordertotal;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shopping-cart")]
-        public ShoppingCart shoppingcart;
+        [System.Xml.Serialization.XmlElementAttribute("fulfillment-order-state")]
+        public FulfillmentOrderState fulfillmentorderstate;
         
         /// <remarks/>
-        public System.DateTime timestamp;
+        [System.Xml.Serialization.XmlElementAttribute("financial-order-state")]
+        public FinancialOrderState financialorderstate;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("buyer-id")]
+        public long buyerid;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
@@ -702,41 +745,41 @@ namespace GCheckout.AutoGen {
     public class Address {
         
         /// <remarks/>
-        public string address1;
+        public string email;
         
         /// <remarks/>
-        public string address2;
-        
-        /// <remarks/>
-        public string city;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("company-name")]
-        public string companyname;
+        public string phone;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("contact-name")]
         public string contactname;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("country-code")]
-        public string countrycode;
-        
-        /// <remarks/>
-        public string email;
+        [System.Xml.Serialization.XmlElementAttribute("company-name")]
+        public string companyname;
         
         /// <remarks/>
         public string fax;
         
         /// <remarks/>
-        public string phone;
+        public string address1;
+        
+        /// <remarks/>
+        public string address2;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("country-code")]
+        public string countrycode;
+        
+        /// <remarks/>
+        public string region;
+        
+        /// <remarks/>
+        public string city;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("postal-code")]
         public string postalcode;
-        
-        /// <remarks/>
-        public string region;
     }
     
     /// <remarks/>
@@ -747,6 +790,189 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("email-allowed")]
         public bool emailallowed;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class OrderAdjustment {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-calculation-successful")]
+        public bool merchantcalculationsuccessful;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool merchantcalculationsuccessfulSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-codes")]
+        public OrderAdjustmentMerchantcodes merchantcodes;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("total-tax")]
+        public OrderAdjustmentTotaltax totaltax;
+        
+        /// <remarks/>
+        public OrderAdjustmentShipping shipping;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("adjustment-total")]
+        public Money adjustmenttotal;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class OrderAdjustmentMerchantcodes {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("coupon-adjustment", typeof(CouponAdjustment))]
+        [System.Xml.Serialization.XmlElementAttribute("gift-certificate-adjustment", typeof(GiftCertificateAdjustment))]
+        public object[] Items;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class CouponAdjustment {
+        
+        /// <remarks/>
+        public string message;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
+        public CouponAdjustmentCalculatedamount calculatedamount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("applied-amount")]
+        public CouponAdjustmentAppliedamount appliedamount;
+        
+        /// <remarks/>
+        public string code;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class CouponAdjustmentCalculatedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class CouponAdjustmentAppliedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class GiftCertificateAdjustment {
+        
+        /// <remarks/>
+        public string message;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
+        public GiftCertificateAdjustmentCalculatedamount calculatedamount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("applied-amount")]
+        public GiftCertificateAdjustmentAppliedamount appliedamount;
+        
+        /// <remarks/>
+        public string code;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class GiftCertificateAdjustmentCalculatedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class GiftCertificateAdjustmentAppliedamount : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class OrderAdjustmentTotaltax : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class OrderAdjustmentShipping {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-calculated-shipping-adjustment", typeof(MerchantCalculatedShippingAdjustment))]
+        [System.Xml.Serialization.XmlElementAttribute("flat-rate-shipping-adjustment", typeof(FlatRateShippingAdjustment))]
+        [System.Xml.Serialization.XmlElementAttribute("pickup-shipping-adjustment", typeof(PickupShippingAdjustment))]
+        public object Item;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class MerchantCalculatedShippingAdjustment {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
+        public string shippingname;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
+        public MerchantCalculatedShippingAdjustmentShippingcost shippingcost;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class MerchantCalculatedShippingAdjustmentShippingcost : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class FlatRateShippingAdjustment {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
+        public string shippingname;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
+        public FlatRateShippingAdjustmentShippingcost shippingcost;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class FlatRateShippingAdjustmentShippingcost : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class PickupShippingAdjustment {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
+        public string shippingname;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
+        public PickupShippingAdjustmentShippingcost shippingcost;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class PickupShippingAdjustmentShippingcost : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public enum FulfillmentOrderState {
+        
+        /// <remarks/>
+        NEW,
+        
+        /// <remarks/>
+        PROCESSING,
+        
+        /// <remarks/>
+        DELIVERED,
+        
+        /// <remarks/>
+        WILL_NOT_DELIVER,
     }
     
     /// <remarks/>
@@ -777,217 +1003,34 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public enum FulfillmentOrderState {
-        
-        /// <remarks/>
-        NEW,
-        
-        /// <remarks/>
-        PROCESSING,
-        
-        /// <remarks/>
-        DELIVERED,
-        
-        /// <remarks/>
-        WILL_NOT_DELIVER,
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class OrderAdjustment {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("adjustment-total")]
-        public Money adjustmenttotal;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-calculation-successful")]
-        public bool merchantcalculationsuccessful;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool merchantcalculationsuccessfulSpecified;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-codes")]
-        public OrderAdjustmentMerchantcodes merchantcodes;
-        
-        /// <remarks/>
-        public OrderAdjustmentShipping shipping;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("total-tax")]
-        public OrderAdjustmentTotaltax totaltax;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class OrderAdjustmentMerchantcodes {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("coupon-adjustment", typeof(CouponAdjustment))]
-        [System.Xml.Serialization.XmlElementAttribute("gift-certificate-adjustment", typeof(GiftCertificateAdjustment))]
-        public object[] Items;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class CouponAdjustment {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("applied-amount")]
-        public CouponAdjustmentAppliedamount appliedamount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
-        public CouponAdjustmentCalculatedamount calculatedamount;
-        
-        /// <remarks/>
-        public string code;
-        
-        /// <remarks/>
-        public string message;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class CouponAdjustmentAppliedamount : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class CouponAdjustmentCalculatedamount : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class GiftCertificateAdjustment {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("applied-amount")]
-        public GiftCertificateAdjustmentAppliedamount appliedamount;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
-        public GiftCertificateAdjustmentCalculatedamount calculatedamount;
-        
-        /// <remarks/>
-        public string code;
-        
-        /// <remarks/>
-        public string message;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class GiftCertificateAdjustmentAppliedamount : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class GiftCertificateAdjustmentCalculatedamount : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class OrderAdjustmentShipping {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-calculated-shipping-adjustment", typeof(MerchantCalculatedShippingAdjustment))]
-        [System.Xml.Serialization.XmlElementAttribute("flat-rate-shipping-adjustment", typeof(FlatRateShippingAdjustment))]
-        [System.Xml.Serialization.XmlElementAttribute("pickup-shipping-adjustment", typeof(PickupShippingAdjustment))]
-        public object Item;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class MerchantCalculatedShippingAdjustment {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
-        public MerchantCalculatedShippingAdjustmentShippingcost shippingcost;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
-        public string shippingname;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class MerchantCalculatedShippingAdjustmentShippingcost : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class FlatRateShippingAdjustment {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
-        public FlatRateShippingAdjustmentShippingcost shippingcost;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
-        public string shippingname;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class FlatRateShippingAdjustmentShippingcost : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class PickupShippingAdjustment {
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
-        public PickupShippingAdjustmentShippingcost shippingcost;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
-        public string shippingname;
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class PickupShippingAdjustmentShippingcost : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class OrderAdjustmentTotaltax : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     [System.Xml.Serialization.XmlRootAttribute("order-state-change-notification", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
     public class OrderStateChangeNotification {
+        
+        /// <remarks/>
+        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
         public string googleordernumber;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("new-financial-order-state")]
-        public FinancialOrderState newfinancialorderstate;
+        public string reason;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("new-fulfillment-order-state")]
         public FulfillmentOrderState newfulfillmentorderstate;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("previous-financial-order-state")]
-        public FinancialOrderState previousfinancialorderstate;
+        [System.Xml.Serialization.XmlElementAttribute("new-financial-order-state")]
+        public FinancialOrderState newfinancialorderstate;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("previous-fulfillment-order-state")]
         public FulfillmentOrderState previousfulfillmentorderstate;
         
         /// <remarks/>
-        public string reason;
-        
-        /// <remarks/>
-        public System.DateTime timestamp;
+        [System.Xml.Serialization.XmlElementAttribute("previous-financial-order-state")]
+        public FinancialOrderState previousfinancialorderstate;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
@@ -1000,15 +1043,15 @@ namespace GCheckout.AutoGen {
     public class ChargeAmountNotification {
         
         /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
         public string googleordernumber;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("latest-charge-amount")]
         public Money latestchargeamount;
-        
-        /// <remarks/>
-        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("total-charge-amount")]
@@ -1025,15 +1068,15 @@ namespace GCheckout.AutoGen {
     public class ChargebackAmountNotification {
         
         /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
         public string googleordernumber;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("latest-chargeback-amount")]
         public Money latestchargebackamount;
-        
-        /// <remarks/>
-        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("total-chargeback-amount")]
@@ -1050,15 +1093,15 @@ namespace GCheckout.AutoGen {
     public class RefundAmountNotification {
         
         /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
         public string googleordernumber;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("latest-refund-amount")]
         public Money latestrefundamount;
-        
-        /// <remarks/>
-        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("total-refund-amount")]
@@ -1075,15 +1118,15 @@ namespace GCheckout.AutoGen {
     public class RiskInformationNotification {
         
         /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
         public string googleordernumber;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("risk-information")]
         public RiskInformation riskinformation;
-        
-        /// <remarks/>
-        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
@@ -1095,32 +1138,32 @@ namespace GCheckout.AutoGen {
     public class RiskInformation {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("avs-response")]
-        public string avsresponse;
+        [System.Xml.Serialization.XmlElementAttribute("eligible-for-protection")]
+        public bool eligibleforprotection;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("billing-address")]
         public Address billingaddress;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("buyer-account-age")]
-        public int buyeraccountage;
+        [System.Xml.Serialization.XmlElementAttribute("avs-response")]
+        public string avsresponse;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("cvn-response")]
         public string cvnresponse;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("eligible-for-protection")]
-        public bool eligibleforprotection;
+        [System.Xml.Serialization.XmlElementAttribute("partial-cc-number")]
+        public string partialccnumber;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("buyer-account-age")]
+        public int buyeraccountage;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ip-address")]
         public string ipaddress;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("partial-cc-number")]
-        public string partialccnumber;
     }
     
     /// <remarks/>
@@ -1133,6 +1176,10 @@ namespace GCheckout.AutoGen {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     [System.Xml.Serialization.XmlRootAttribute("merchant-calculation-callback", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
     public class MerchantCalculationCallback {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shopping-cart")]
+        public ShoppingCart shoppingcart;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("buyer-id")]
@@ -1150,10 +1197,6 @@ namespace GCheckout.AutoGen {
         public Calculate calculate;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shopping-cart")]
-        public ShoppingCart shoppingcart;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
         public string serialnumber;
     }
@@ -1163,8 +1206,11 @@ namespace GCheckout.AutoGen {
     public class Calculate {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("anonymous-address", IsNullable=false)]
-        public AnonymousAddress[] addresses;
+        public bool tax;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("method", IsNullable=false)]
+        public Method[] shipping;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute("merchant-code-strings")]
@@ -1172,34 +1218,17 @@ namespace GCheckout.AutoGen {
         public MerchantCodeString[] merchantcodestrings;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("method", IsNullable=false)]
-        public Method[] shipping;
-        
-        /// <remarks/>
-        public bool tax;
+        [System.Xml.Serialization.XmlArrayItemAttribute("anonymous-address", IsNullable=false)]
+        public AnonymousAddress[] addresses;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class AnonymousAddress {
-        
-        /// <remarks/>
-        public string city;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("country-code")]
-        public string countrycode;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("postal-code")]
-        public string postalcode;
-        
-        /// <remarks/>
-        public string region;
+    public class Method {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string id;
+        public string name;
     }
     
     /// <remarks/>
@@ -1213,11 +1242,25 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class Method {
+    public class AnonymousAddress {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("country-code")]
+        public string countrycode;
+        
+        /// <remarks/>
+        public string region;
+        
+        /// <remarks/>
+        public string city;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("postal-code")]
+        public string postalcode;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string name;
+        public string id;
     }
     
     /// <remarks/>
@@ -1235,8 +1278,12 @@ namespace GCheckout.AutoGen {
     public class Result {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-code-results")]
-        public ResultMerchantcoderesults merchantcoderesults;
+        [System.Xml.Serialization.XmlElementAttribute("total-tax")]
+        public ResultTotaltax totaltax;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-rate")]
+        public ResultShippingrate shippingrate;
         
         /// <remarks/>
         public bool shippable;
@@ -1246,20 +1293,26 @@ namespace GCheckout.AutoGen {
         public bool shippableSpecified;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("shipping-rate")]
-        public ResultShippingrate shippingrate;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("total-tax")]
-        public ResultTotaltax totaltax;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute("address-id")]
-        public string addressid;
+        [System.Xml.Serialization.XmlElementAttribute("merchant-code-results")]
+        public ResultMerchantcoderesults merchantcoderesults;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("shipping-name")]
         public string shippingname;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute("address-id")]
+        public string addressid;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class ResultTotaltax : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class ResultShippingrate : Money {
     }
     
     /// <remarks/>
@@ -1277,17 +1330,17 @@ namespace GCheckout.AutoGen {
     public class GiftCertificateResult {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
-        public GiftCertificateResultCalculatedamount calculatedamount;
-        
-        /// <remarks/>
-        public string code;
+        public bool valid;
         
         /// <remarks/>
         public string message;
         
         /// <remarks/>
-        public bool valid;
+        [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
+        public GiftCertificateResultCalculatedamount calculatedamount;
+        
+        /// <remarks/>
+        public string code;
     }
     
     /// <remarks/>
@@ -1300,32 +1353,22 @@ namespace GCheckout.AutoGen {
     public class CouponResult {
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
-        public CouponResultCalculatedamount calculatedamount;
-        
-        /// <remarks/>
-        public string code;
+        public bool valid;
         
         /// <remarks/>
         public string message;
         
         /// <remarks/>
-        public bool valid;
+        [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
+        public CouponResultCalculatedamount calculatedamount;
+        
+        /// <remarks/>
+        public string code;
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public class CouponResultCalculatedamount : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class ResultShippingrate : Money {
-    }
-    
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public class ResultTotaltax : Money {
     }
     
     /// <remarks/>
