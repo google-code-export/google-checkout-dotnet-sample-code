@@ -6,16 +6,12 @@ using System.IO;
 using System.Diagnostics;
 
 namespace GCheckout.Checkout.Tests {
-  
-  /// <summary>
-  /// 
-  /// </summary>
+
+  /// <exclude/>
   [TestFixture()]
   public class CheckoutTests {
 
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <exclude/>
     [Test()]
     public void TestURLParamters() {
 
