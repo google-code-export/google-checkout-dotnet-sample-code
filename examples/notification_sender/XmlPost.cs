@@ -9,15 +9,17 @@ namespace NotificationSender {
     protected string _MerchantKey;
     protected string _RequestUrl;
     protected string _RequestXml;
+    protected int _TimeoutMilliseconds;
 
     public XmlPost(string MerchantID, string MerchantKey, string RequestUrl, 
-      string RequestXmlFile) {
+      string RequestXmlFile, int TimeoutMilliseconds) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _RequestUrl = RequestUrl;
       StreamReader InFile = new StreamReader(RequestXmlFile);
       _RequestXml = InFile.ReadToEnd();
       InFile.Close();
+      _TimeoutMilliseconds = TimeoutMilliseconds;
     }
 
     private static string GetAuthorization(string User, string Password) {
@@ -26,7 +28,8 @@ namespace NotificationSender {
     }
 
     public string Send() {
-      string RetVal = string.Empty;
+      string RetVal = "\n\n";
+      DateTime StartTime = DateTime.MinValue;
       byte[] Data = StringToUtf8Bytes(_RequestXml);
       // Prepare web request.
       System.Net.ServicePointManager.CertificatePolicy = 
@@ -40,28 +43,37 @@ namespace NotificationSender {
         GetAuthorization(_MerchantID, _MerchantKey)));
       myRequest.ContentType = "application/xml";
       myRequest.Accept = "application/xml";
+      myRequest.Timeout = _TimeoutMilliseconds;
       // Send the data.
-      Stream newStream = myRequest.GetRequestStream();
-      newStream.Write(Data, 0, Data.Length);
-      newStream.Close();
-      // Read the response.
       try {
-        HttpWebResponse myResponse = (HttpWebResponse)myRequest.GetResponse();
-        RetVal = string.Format("Status code: {0}\n\n", myResponse.StatusCode);
-        Stream ResponseStream = myResponse.GetResponseStream();
-        StreamReader ResponseStreamReader = new StreamReader(ResponseStream);
-        RetVal += ResponseStreamReader.ReadToEnd();
-        ResponseStreamReader.Close();
-      }
-      catch (WebException WebExcp) {
-        if(WebExcp.Response != null) {
-          HttpWebResponse HttpWResponse = (HttpWebResponse)WebExcp.Response;
-          RetVal = string.Format("Status code: {0}\n\n", HttpWResponse.StatusCode);
-          StreamReader sr = new
-            StreamReader(HttpWResponse.GetResponseStream());
-          RetVal += sr.ReadToEnd();
-          sr.Close();
+        Stream newStream = myRequest.GetRequestStream();
+        newStream.Write(Data, 0, Data.Length);
+        newStream.Close();
+        // Read the response.
+        try {
+          StartTime = DateTime.Now;
+          HttpWebResponse myResponse = (HttpWebResponse)myRequest.GetResponse();
+          RetVal += string.Format("Status code: {0}\n", myResponse.StatusCode);
+          Stream ResponseStream = myResponse.GetResponseStream();
+          StreamReader ResponseStreamReader = new StreamReader(ResponseStream);
+          RetVal += ResponseStreamReader.ReadToEnd();
+          ResponseStreamReader.Close();
+          RetVal += string.Format("\nResponse time: {0} ms", DateTime.Now.Subtract(StartTime).TotalMilliseconds);
         }
+        catch (WebException WebExcp) {
+          if(WebExcp.Response != null) {
+            HttpWebResponse HttpWResponse = (HttpWebResponse)WebExcp.Response;
+            RetVal += string.Format("Status code: {0}\n", HttpWResponse.StatusCode);
+            StreamReader sr = new
+              StreamReader(HttpWResponse.GetResponseStream());
+            RetVal += sr.ReadToEnd();
+            sr.Close();
+            RetVal += string.Format("\nResponse time: {0} ms", DateTime.Now.Subtract(StartTime).TotalMilliseconds);
+          }
+        }
+      }
+      catch (WebException ex) {
+        RetVal = ex.Message;
       }
       return RetVal;
     }

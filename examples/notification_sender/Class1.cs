@@ -8,9 +8,12 @@ namespace NotificationSender
 		[STAThread]
 		static void Main(string[] args)
 		{
-      XmlPost Req = new XmlPost(GetSetting("GoogleMerchantId"),
-        GetSetting("GoogleMerchantKey"), GetSetting("NotificationListenerUrl"),
-        GetSetting("NotificationFile"));
+      XmlPost Req = new XmlPost(
+        GetSetting("GoogleMerchantId"),
+        GetSetting("GoogleMerchantKey"), 
+        GetSetting("NotificationListenerUrl"),
+        GetSetting("NotificationFile"), 
+        int.Parse(GetSetting("TimeoutMilliseconds")));
       Console.WriteLine(Req.Send());
 		}
 

@@ -22,3 +22,5 @@ that receives and processes notifications.
 NotificationFile - Relative or absolute path to a text file that contains the 
 notification XML that should be sent to the notification listener.
 
+TimeoutMilliseconds - Number of milliseconds to wait for a response before 
+giving up and reporting a timeout.
