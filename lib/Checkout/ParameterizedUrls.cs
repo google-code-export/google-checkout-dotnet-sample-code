@@ -190,7 +190,7 @@ namespace GCheckout.Checkout {
         throw new ArgumentException("name");
       if (paramType == UrlParameterType.Unknown)
         throw new ArgumentException("paramType", "The paramType must be defined as a valid type.");
-      _Name = System.Web.HttpUtility.UrlEncode(name, new UTF8Encoding());
+      _Name = System.Web.HttpUtility.UrlEncode(name, Encoding.UTF8);
       _ParamType = paramType;
     }
 

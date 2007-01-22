@@ -274,7 +274,7 @@ namespace GCheckout.Util {
         }
         sb.Append(uri.AbsolutePath).Append("?");
 
-        Encoding utf = new UTF8Encoding();
+        Encoding utf = Encoding.UTF8;
  
         string[] nameValue = uri.Query.Substring(1).Split('&');
 
