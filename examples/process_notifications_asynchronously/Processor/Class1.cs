@@ -17,6 +17,8 @@
 using System;
 using System.Configuration;
 using GCheckout.NotificationQueue;
+using GCheckout.AutoGen;
+using GCheckout.Util;
 
 namespace GCheckout {
 	class Class1 {
@@ -51,36 +53,40 @@ namespace GCheckout {
     }
 
     private static void ProcessNotification(string Type, string Xml) {
-/*
       switch (Type) {
         case "new-order-notification":
-          NewOrderNotification N1 = (NewOrderNotification) EncodeHelper.Deserialize(RequestXml, typeof(NewOrderNotification));
+          NewOrderNotification N1 = (NewOrderNotification)
+            EncodeHelper.Deserialize(Xml, typeof(NewOrderNotification));
           // Add call to existing business system here, passing data from N1.
           break;
         case "risk-information-notification":
-          RiskInformationNotification N2 = (RiskInformationNotification) EncodeHelper.Deserialize(RequestXml, typeof(RiskInformationNotification));
+          RiskInformationNotification N2 = (RiskInformationNotification)
+            EncodeHelper.Deserialize(Xml, typeof(RiskInformationNotification));
           // Add call to existing business system here, passing data from N2.
           break;
         case "order-state-change-notification":
-          OrderStateChangeNotification N3 = (OrderStateChangeNotification) EncodeHelper.Deserialize(RequestXml, typeof(OrderStateChangeNotification));
+          OrderStateChangeNotification N3 = (OrderStateChangeNotification)
+            EncodeHelper.Deserialize(Xml, typeof(OrderStateChangeNotification));
           // Add call to existing business system here, passing data from N3.
           break;
         case "charge-amount-notification":
-          ChargeAmountNotification N4 = (ChargeAmountNotification) EncodeHelper.Deserialize(RequestXml, typeof(ChargeAmountNotification));
+          ChargeAmountNotification N4 = (ChargeAmountNotification)
+            EncodeHelper.Deserialize(Xml, typeof(ChargeAmountNotification));
           // Add call to existing business system here, passing data from N4.
           break;
         case "refund-amount-notification":
-          RefundAmountNotification N5 = (RefundAmountNotification) EncodeHelper.Deserialize(RequestXml, typeof(RefundAmountNotification));
+          RefundAmountNotification N5 = (RefundAmountNotification)
+            EncodeHelper.Deserialize(Xml, typeof(RefundAmountNotification));
           // Add call to existing business system here, passing data from N5.
           break;
         case "chargeback-amount-notification":
-          ChargebackAmountNotification N6 = (ChargebackAmountNotification) EncodeHelper.Deserialize(RequestXml, typeof(ChargebackAmountNotification));
+          ChargebackAmountNotification N6 = (ChargebackAmountNotification)
+            EncodeHelper.Deserialize(Xml, typeof(ChargebackAmountNotification));
           // Add call to existing business system here, passing data from N6.
           break;
         default:
           throw new ApplicationException("Unknown notification type: " + Type);
       }
-*/
     }
   }
 }

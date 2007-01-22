@@ -84,6 +84,11 @@
                     Project = "{B7BE3211-25E3-4C85-925A-03D0BA9865F5}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
+                <Reference
+                    Name = "GCheckout"
+                    AssemblyName = "GCheckout"
+                    HintPath = "GCheckout.dll"
+                />
             </References>
         </Build>
         <Files>
