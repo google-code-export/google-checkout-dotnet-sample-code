@@ -205,7 +205,7 @@ namespace GCheckout.Checkout {
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
-    public void AddItem(string Name, string Description, string MerchantItemID, 
+    public void AddItem(string Name, string Description, string MerchantItemID,
       decimal Price, int Quantity, XmlNode MerchantPrivateItemData) {
       _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, Quantity,
         MerchantPrivateItemData));
@@ -259,7 +259,7 @@ namespace GCheckout.Checkout {
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
     public void AddItem(string Name, string Description, string MerchantItemID,
-      decimal Price, int Quantity, XmlNode[] MerchantPrivateItemData) {
+      decimal Price, int Quantity, params XmlNode[] MerchantPrivateItemData) {
       _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, Quantity,
         MerchantPrivateItemData));
     }
@@ -574,8 +574,8 @@ namespace GCheckout.Checkout {
         MyCart.shoppingcart.items[i].unitprice = new AutoGen.Money();
         MyCart.shoppingcart.items[i].unitprice.currency = _Currency;
         MyCart.shoppingcart.items[i].unitprice.Value = MyItem.Price;
-        
-        if (MyItem.MerchantPrivateItemDataNodes != null 
+
+        if (MyItem.MerchantPrivateItemDataNodes != null
           && MyItem.MerchantPrivateItemDataNodes.Length > 0) {
           AutoGen.anyMultiple any = new AutoGen.anyMultiple();
 
@@ -597,11 +597,10 @@ namespace GCheckout.Checkout {
           copiedMerchantPrivateData.Add(_MerchantPrivateDataNodes[i]);
       }
 
-      if (copiedMerchantPrivateData.Count > 0)
-      {
+      if (copiedMerchantPrivateData.Count > 0) {
         AutoGen.anyMultiple any = new AutoGen.anyMultiple();
 
-        System.Xml.XmlNode[] nodes = 
+        System.Xml.XmlNode[] nodes =
           new System.Xml.XmlNode[copiedMerchantPrivateData.Count];
         copiedMerchantPrivateData.CopyTo(nodes);
         any.Any = nodes;
@@ -619,7 +618,7 @@ namespace GCheckout.Checkout {
           _ContinueShoppingUrl;
       }
 
-      if (_AnalyticsData != null){
+      if (_AnalyticsData != null) {
         MyCart.checkoutflowsupport.Item.analyticsdata = _AnalyticsData;
       }
 
@@ -677,7 +676,7 @@ namespace GCheckout.Checkout {
         for (int i = 0; i < _ParameterizedUrls.Urls.Length; i++) {
           Debug.WriteLine("<ParameterizedUrl>");
           ParameterizedUrl fromUrl = _ParameterizedUrls.Urls[i];
-          GCheckout.AutoGen.ParameterizedUrl toUrl 
+          GCheckout.AutoGen.ParameterizedUrl toUrl
             = new GCheckout.AutoGen.ParameterizedUrl();
           toUrl.url = fromUrl.URL;
 
@@ -880,7 +879,7 @@ namespace GCheckout.Checkout {
     /// <value>The &lt;merchant-private-data&gt; element value.</value>
     public System.Xml.XmlNode[] MerchantPrivateDataNodes {
       get {
-        System.Xml.XmlNode[] nodes = 
+        System.Xml.XmlNode[] nodes =
           new System.Xml.XmlNode[_MerchantPrivateDataNodes.Count];
         _MerchantPrivateDataNodes.CopyTo(nodes);
         return nodes;
@@ -1009,12 +1008,12 @@ namespace GCheckout.Checkout {
     }
 
     private class ShoppingCartItem {
-      public string Name = string.Empty;
-      public string Description = string.Empty;
+      public string Name;
+      public string Description;
       public decimal Price = 0.0m;
       public int Quantity = 0;
-      public string MerchantItemID = string.Empty;
-      public XmlNode[] MerchantPrivateItemDataNodes = new XmlNode[] {};
+      public string MerchantItemID;
+      public XmlNode[] MerchantPrivateItemDataNodes;
 
       /// <summary>
       /// This method initializes a new instance of the 
@@ -1029,7 +1028,8 @@ namespace GCheckout.Checkout {
       /// <param name="InQuantity">The number of the item that is included in the order.</param>
       public ShoppingCartItem(string InName, string InDescription,
         decimal InPrice, int InQuantity)
-        : this(InName, InDescription, InPrice, InQuantity, new XmlNode[] {}) {
+        : this(InName, InDescription, InPrice, 
+        InQuantity, new XmlNode[] {}) {
       }
 
       /// <summary>
@@ -1046,29 +1046,9 @@ namespace GCheckout.Checkout {
       /// <param name="InQuantity">The number of the item that is included in the order.</param>
       public ShoppingCartItem(string InName, string InDescription,
         string InMerchantItemID, decimal InPrice, int InQuantity)
-        : this(InName, InDescription, InMerchantItemID, InPrice, InQuantity, new XmlNode[] { }) {
+        : this(InName, InDescription, InMerchantItemID, InPrice,
+        InQuantity, new XmlNode[] {}) {
       }
-
-
-      ///// <summary>
-      ///// This method initializes a new instance of the 
-      ///// <see cref="ShoppingCartItem"/> class, which creates an object
-      ///// corresponding to an individual item in an order. This method 
-      ///// is used for items that do have an associated
-      ///// &lt;merchant-private-item-data&gt; XML block.
-      ///// </summary>
-      ///// <param name="InName">The name of the item.</param>
-      ///// <param name="InDescription">A description of the item.</param>
-      ///// <param name="InPrice">The price of the item, per item.</param>
-      ///// <param name="InQuantity">The number of the item that is included in the order.</param>
-      ///// <param name="InMerchantPrivateItemData">The merchant private
-      ///// item data associated with the item.</param>
-      //[Obsolete("MerchantPrivateData is now a XmlNode Array. Please use one of the new constructors.")]
-      //public ShoppingCartItem(string InName, string InDescription,
-      //  decimal InPrice, int InQuantity, string InMerchantPrivateItemData) :
-      //  this(InName, InDescription, InPrice, InQuantity, 
-      //  MakeXmlElement(InMerchantPrivateItemData)) {
-      //}
 
       /// <summary>
       /// This method initializes a new instance of the 
@@ -1083,9 +1063,9 @@ namespace GCheckout.Checkout {
       /// <param name="InQuantity">The number of the item that is included in the order.</param>
       /// <param name="InMerchantPrivateItemData">The merchant private
       /// item data associated with the item.</param>
-      public ShoppingCartItem(string InName, string InDescription, 
-        decimal InPrice, int InQuantity, XmlNode InMerchantPrivateItemData):
-        this(InName, InDescription, InPrice, InQuantity, 
+      public ShoppingCartItem(string InName, string InDescription,
+        decimal InPrice, int InQuantity, XmlNode InMerchantPrivateItemData) 
+        : this(InName, InDescription, InPrice, InQuantity,
         new XmlNode[] { InMerchantPrivateItemData }) {
 
       }
@@ -1105,13 +1085,11 @@ namespace GCheckout.Checkout {
       /// <param name="InMerchantPrivateItemData">The merchant private
       /// item data associated with the item.</param>
       public ShoppingCartItem(string InName, string InDescription,
-        string InMerchantItemID, decimal InPrice, int InQuantity, 
-        XmlNode InMerchantPrivateItemData) :
-        this(InName, InDescription, InMerchantItemID, InPrice, InQuantity,
+        string InMerchantItemID, decimal InPrice, int InQuantity,
+        XmlNode InMerchantPrivateItemData)
+        : this(InName, InDescription, InMerchantItemID, InPrice, InQuantity,
         new XmlNode[] { InMerchantPrivateItemData }) {
-
       }
-
 
       /// <summary>
       /// This method initializes a new instance of the 
@@ -1127,7 +1105,8 @@ namespace GCheckout.Checkout {
       /// <param name="InMerchantPrivateItemData">The merchant private
       /// item data associated with the item.</param>
       public ShoppingCartItem(string InName, string InDescription,
-        decimal InPrice, int InQuantity, XmlNode[] InMerchantPrivateItemData) {
+        decimal InPrice, int InQuantity, 
+        params XmlNode[] InMerchantPrivateItemData) {
         Name = InName;
         Description = InDescription;
         Price = InPrice;
@@ -1150,7 +1129,8 @@ namespace GCheckout.Checkout {
       /// <param name="InMerchantPrivateItemData">The merchant private
       /// item data associated with the item.</param>
       public ShoppingCartItem(string InName, string InDescription,
-        string InMerchantItemID, decimal InPrice, int InQuantity, XmlNode[] InMerchantPrivateItemData) {
+        string InMerchantItemID, decimal InPrice, int InQuantity,
+        params XmlNode[] InMerchantPrivateItemData) {
         Name = InName;
         Description = InDescription;
         MerchantItemID = InMerchantItemID;
@@ -1161,5 +1141,5 @@ namespace GCheckout.Checkout {
     }
   }
 
-  
+
 }
