@@ -232,7 +232,7 @@ namespace GCheckout.Checkout {
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
     public void AddItem(string Name, string Description, decimal Price,
-      int Quantity, XmlNode[] MerchantPrivateItemData) {
+      int Quantity, params XmlNode[] MerchantPrivateItemData) {
       _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity,
         MerchantPrivateItemData));
     }
