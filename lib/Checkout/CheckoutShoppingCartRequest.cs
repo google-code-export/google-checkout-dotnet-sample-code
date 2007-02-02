@@ -575,6 +575,10 @@ namespace GCheckout.Checkout {
         MyCart.shoppingcart.items[i].unitprice.currency = _Currency;
         MyCart.shoppingcart.items[i].unitprice.Value = MyItem.Price;
 
+        if (MyItem.MerchantItemID != null) {
+         MyCart.shoppingcart.items[i].merchantitemid = MyItem.MerchantItemID;  
+        }
+
         if (MyItem.MerchantPrivateItemDataNodes != null
           && MyItem.MerchantPrivateItemDataNodes.Length > 0) {
           AutoGen.anyMultiple any = new AutoGen.anyMultiple();
@@ -1140,6 +1144,4 @@ namespace GCheckout.Checkout {
       }
     }
   }
-
-
 }
