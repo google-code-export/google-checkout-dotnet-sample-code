@@ -15,6 +15,7 @@
 *************************************************/
 
 using System;
+using System.Xml;
 using System.Collections;
 
 namespace GCheckout.MerchantCalculation {
@@ -27,31 +28,33 @@ namespace GCheckout.MerchantCalculation {
   /// </summary>
   public class Order {
     private ArrayList _OrderLines;
-    private AutoGen.anyMultiple _MerchantPrivateDataNodes = new GCheckout.AutoGen.anyMultiple();
+    private XmlNode[] _MerchantPrivateDataNodes = new XmlNode[] {};
 
     public Order(AutoGen.MerchantCalculationCallback Callback) {
       _OrderLines = new ArrayList();
       for (int i = 0; i < Callback.shoppingcart.items.Length; i++) {
         AutoGen.Item ThisItem = Callback.shoppingcart.items[i];
-        //string MerchantPrivateItemData = "";
+
+        XmlNode[] merchantItemPrivateDataNodes = new XmlNode[] {};
+
         if (ThisItem.merchantprivateitemdata != null 
           && ThisItem.merchantprivateitemdata.Any != null
           && ThisItem.merchantprivateitemdata.Any.Length > 0) {
 
-          _MerchantPrivateDataNodes = ThisItem.merchantprivateitemdata;
+          merchantItemPrivateDataNodes = ThisItem.merchantprivateitemdata.Any;
         }
         _OrderLines.Add(
           new OrderLine(ThisItem.itemname, ThisItem.itemdescription,
           ThisItem.quantity, ThisItem.unitprice.Value,
           ThisItem.taxtableselector,
-          _MerchantPrivateDataNodes));
+          merchantItemPrivateDataNodes));
       }
 
       if (Callback.shoppingcart.merchantprivatedata != null
         && Callback.shoppingcart.merchantprivatedata.Any != null
         && Callback.shoppingcart.merchantprivatedata.Any.Length > 0) {
         
-        _MerchantPrivateDataNodes = Callback.shoppingcart.merchantprivatedata;
+        _MerchantPrivateDataNodes = Callback.shoppingcart.merchantprivatedata.Any;
       }
     }
 
@@ -59,11 +62,12 @@ namespace GCheckout.MerchantCalculation {
       return _OrderLines.GetEnumerator();
     }
 
-    [Obsolete("This property must be converted to a XmlNode Array.")]
+    [Obsolete("This property must be converted to a XmlNode Array. Only the First XmlNode will be returned.")]
     public string MerchantPrivateData {
       get {
-        if (_MerchantPrivateDataNodes.Any.Length > 0)
-          return _MerchantPrivateDataNodes.Any[0].OuterXml;
+        if (_MerchantPrivateDataNodes != null
+          && _MerchantPrivateDataNodes.Length > 0)
+          return _MerchantPrivateDataNodes[0].OuterXml;
         
         return string.Empty;
       }
@@ -71,9 +75,8 @@ namespace GCheckout.MerchantCalculation {
 
     public System.Xml.XmlNode[] MerchantPrivateDataNodes {
       get {
-        return _MerchantPrivateDataNodes.Any;
+        return _MerchantPrivateDataNodes;
       }
     }
-
   }
 }

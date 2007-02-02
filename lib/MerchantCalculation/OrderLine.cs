@@ -15,6 +15,7 @@
 *************************************************/
 
 using System;
+using System.Xml;
 
 namespace GCheckout.MerchantCalculation {
   /// <summary>
@@ -31,7 +32,7 @@ namespace GCheckout.MerchantCalculation {
     private int _Quantity;
     private decimal _UnitPrice;
     private string _TaxTableSelector;
-    private AutoGen.anyMultiple _MerchantPrivateItemDataNodes = new GCheckout.AutoGen.anyMultiple();
+    private XmlNode[] _MerchantPrivateItemDataNodes = new XmlNode[] {};
 
     [Obsolete("MerchantPrivateItemData Is no longer a string, please use MerchantPrivateItemDataNodes")]
     public OrderLine(string ItemName, string ItemDescription, int Quantity,
@@ -44,19 +45,20 @@ namespace GCheckout.MerchantCalculation {
       _UnitPrice = UnitPrice;
       _TaxTableSelector = TaxTableSelector;
       if (MerchantPrivateItemData != null)
-        _MerchantPrivateItemDataNodes.Any = new System.Xml.XmlNode[] 
+        _MerchantPrivateItemDataNodes = new System.Xml.XmlNode[] 
           { Checkout.CheckoutShoppingCartRequest.MakeXmlElement(MerchantPrivateItemData)};
     }
 
     public OrderLine(string ItemName, string ItemDescription, int Quantity,
       decimal UnitPrice, string TaxTableSelector,
-      AutoGen.anyMultiple MerchantPrivateItemDataNodes) {
+      XmlNode[] MerchantPrivateItemDataNodes) {
       _ItemName = ItemName;
       _ItemDescription = ItemDescription;
       _Quantity = Quantity;
       _UnitPrice = UnitPrice;
       _TaxTableSelector = TaxTableSelector;
-      _MerchantPrivateItemDataNodes = MerchantPrivateItemDataNodes;
+      if (MerchantPrivateItemDataNodes != null)
+        _MerchantPrivateItemDataNodes = MerchantPrivateItemDataNodes;
     }
 
     public string ItemName {
@@ -89,11 +91,12 @@ namespace GCheckout.MerchantCalculation {
       }
     }
 
-    [Obsolete("This property must be converted to a XmlNode Array.")]
+    [Obsolete("This property must be converted to a XmlNode Array. Only the First XmlNode will be returned.")]
     public string MerchantPrivateItemData {
       get {
-        if (_MerchantPrivateItemDataNodes.Any.Length > 0)
-          return _MerchantPrivateItemDataNodes.Any[0].OuterXml;
+        if (_MerchantPrivateItemDataNodes != null
+          && _MerchantPrivateItemDataNodes.Length > 0)
+          return _MerchantPrivateItemDataNodes[0].OuterXml;
         
         return string.Empty;
       }
@@ -101,7 +104,10 @@ namespace GCheckout.MerchantCalculation {
 
     public System.Xml.XmlNode[] MerchantPrivateDataNodes {
       get {
-        return _MerchantPrivateItemDataNodes.Any;
+        if (_MerchantPrivateItemDataNodes != null)
+          return _MerchantPrivateItemDataNodes;
+        else
+          return new XmlNode[] {};
       }
     }
 
