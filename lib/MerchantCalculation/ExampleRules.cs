@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,9 +76,40 @@ namespace GCheckout.MerchantCalculation {
         RetVal.Shippable = true;
         RetVal.ShippingRate = 20;
       }
-      if (ShipMethodName == "SuperShip") {
+      else if (ShipMethodName == "SuperShip") {
         RetVal.Shippable = true;
         RetVal.ShippingRate = 0;
+      }
+      else {
+        //next we will look at the merchant-private-item-data
+        //if the supplier-id is "ABC Candy Company" then you will get free shipping.
+        //do not assume the nodes will be in the same order, we will walk the node
+        //list looking for a node with the name of "supplier-id"
+
+        //you can just as easily import all the nodes into an XmlDocument and perform
+        //XPath statements.
+
+        //You can also create a string dictionary by performing a foreach statement
+        //on the nodes and using the node name as the key and the innerText as the
+        //value.
+
+        //We are just showing one of many ways to work with an array of XmlNodes.
+        //As you can see from the sample code, you may also have children on any
+        //of the MerchantPrivateDataNodes.
+
+        string supplierID = "ABC Candy Company".ToUpper();
+
+        foreach (OrderLine Line in ThisOrder) {
+          foreach (System.Xml.XmlNode node in Line.MerchantPrivateDataNodes) {
+            if (node.Name == "supplier-id") {
+              if (supplierID == node.InnerText.ToUpper()) {
+                RetVal.Shippable = true;
+                RetVal.ShippingRate = 0;
+                break;
+              }
+            }
+          }
+        }
       }
       return RetVal;
     }
