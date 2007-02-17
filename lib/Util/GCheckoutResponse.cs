@@ -66,6 +66,11 @@ namespace GCheckout.Util {
             typeof(AutoGen.ErrorResponse));
           parsed = true;
         }
+        else {
+          _ErrorResponse = new GCheckout.AutoGen.ErrorResponse();
+          _ErrorResponse.errormessage = "Couldn't parse ResponseXml";
+          parsed = true;
+        }
       }
       catch {
         //let it continue
