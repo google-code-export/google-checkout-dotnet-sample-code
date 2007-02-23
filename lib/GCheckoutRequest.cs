@@ -24,10 +24,14 @@ namespace GCheckout {
   /// This class contains methods for sending API requests to Google Checkout.
   /// </summary>
   public abstract class GCheckoutRequest {
+    /// <summary>Google Checkout Merchant ID</summary>
     protected string _MerchantID;
+    /// <summary>Google Checkout Merchant Key</summary>
     protected string _MerchantKey;
+    /// <summary>EnvironmentType used to determine where the messages are posted (Sandbox, Production)</summary>
     protected EnvironmentType _Environment = EnvironmentType.Sandbox;
 
+    /// <summary>Method that is called to produce the Xml message that can be posted to Google Checkout.</summary>
     public abstract byte[] GetXml();
 
     private static string GetAuthorization(string User, string Password) {
@@ -35,10 +39,12 @@ namespace GCheckout {
         string.Format("{0}:{1}", User, Password)));
     }
 
+    /// <summary>Convert a String like Sandbox to the EnvironmentType enum</summary>
     protected static EnvironmentType StringToEnvironment(string Env) {
       return (EnvironmentType)Enum.Parse(typeof(EnvironmentType), Env, true);
     }
 
+    /// <summary>Send the Message to Google Checkout</summary>
     public GCheckoutResponse Send() {
       byte[] Data = GetXml();
       // Prepare web request.
@@ -83,6 +89,7 @@ namespace GCheckout {
       return new GCheckoutResponse(responseXml);
     }
 
+    /// <summary></summary>
     public string GetPostUrl() {
       if (_Environment == EnvironmentType.Sandbox) {
         return string.Format(
@@ -96,6 +103,7 @@ namespace GCheckout {
       }
     }
 
+    /// <summary>Google Checkout Merchant ID</summary>
     public string MerchantID {
       get {
         return _MerchantID;
@@ -105,6 +113,7 @@ namespace GCheckout {
       }
     }
 
+    /// <summary>Google Checkout Merchant Key</summary>
     public string MerchantKey {
       get {
         return _MerchantKey;
@@ -114,6 +123,7 @@ namespace GCheckout {
       }
     }
 
+    /// <summary>EnvironmentType used to determine where the messages are posted (Sandbox, Production)</summary>
     public EnvironmentType Environment {
       get {
         return _Environment;
@@ -125,9 +135,13 @@ namespace GCheckout {
 
   }
 
+  /// <summary>Determine where the messages are posted (Sandbox, Production)</summary>
   public enum EnvironmentType {
+    /// <summary>Use the Sandbox account to post the messages</summary>
     Sandbox = 0,
+    /// <summary>Use the Production account to post the messages</summary>
     Production = 1,
+    /// <summary>Unknown account.</summary>
     Unknown = 2
   }
 }

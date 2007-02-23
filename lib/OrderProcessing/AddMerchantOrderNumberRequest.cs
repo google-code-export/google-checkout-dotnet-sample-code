@@ -24,22 +24,33 @@ namespace GCheckout.OrderProcessing {
   /// &lt;add-merchant-order-number&gt; API requests.
   /// </summary>
   public class AddMerchantOrderNumberRequest : GCheckoutRequest {
-    private string _GoogleOrderNo;
+    private string _OrderNo;
     private string _MerchantOrderNo;
 
+    /// <summary>
+    /// Create a new &lt;add-merchant-order-number&gt; API requests  message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="MerchantOrderNo">The Merchant Order Number</param>
     public AddMerchantOrderNumberRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNo, string MerchantOrderNo) {
+      string Env, string OrderNo, string MerchantOrderNo) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _GoogleOrderNo = GoogleOrderNo;
+      _OrderNo = OrderNo;
       _MerchantOrderNo = MerchantOrderNo;
     }
 
+    /// <summary>Method that is called to produce the Xml message 
+    /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.AddMerchantOrderNumberRequest Req = 
         new AutoGen.AddMerchantOrderNumberRequest();
-      Req.googleordernumber = _GoogleOrderNo;
+      Req.googleordernumber = _OrderNo;
       Req.merchantordernumber = _MerchantOrderNo;
       return EncodeHelper.Serialize(Req);
     }

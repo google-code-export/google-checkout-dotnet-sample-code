@@ -17,6 +17,12 @@
 using System;
 
 namespace GCheckout.Checkout {
+  /// <summary>
+  /// You can also use the shipping-restrictions element to specify areas where a 
+  /// flat-rate or merchant-calculated shipping option is (or is not) available. 
+  /// Shipping options can be restricted to particular zip codes or zip code ranges, 
+  /// to particular states or to particular areas of the United States.
+  /// </summary>
   public class ShippingRestrictions {
     private AutoGen.ShippingRestrictions _Restrictions;
 

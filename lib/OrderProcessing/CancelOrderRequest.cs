@@ -27,6 +27,15 @@ namespace GCheckout.OrderProcessing {
     private string _Reason = null;
     private string _Comment = null;
 
+    /// <summary>
+    /// Create a new &lt;cancel-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Reason">The Reson for canceling the order</param>
     public CancelOrderRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Reason) {
       _MerchantID = MerchantID;
@@ -36,6 +45,16 @@ namespace GCheckout.OrderProcessing {
       _Reason = Reason;
     }
 
+    /// <summary>
+    /// Create a new &lt;cancel-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Reason">The Reson for canceling the order</param>
+    /// <param name="Comment">A comment to associate to the canceled order</param>
     public CancelOrderRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Reason, string Comment) {
       _MerchantID = MerchantID;
@@ -46,6 +65,8 @@ namespace GCheckout.OrderProcessing {
       _Comment = Comment;
     }
 
+    /// <summary>Method that is called to produce the Xml message 
+    /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.CancelOrderRequest Req = new AutoGen.CancelOrderRequest();
       Req.googleordernumber = _OrderNo;

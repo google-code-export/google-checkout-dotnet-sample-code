@@ -29,10 +29,21 @@ namespace GCheckout.MerchantCalculation {
   public class CallbackProcessor {
     CallbackRules _Rules = null;
 
+    /// <summary>
+    /// Create a new instance of the Processor, passing in the rules used to process
+    /// the request.
+    /// </summary>
+    /// <param name="Rules">The <see cref="CallbackRules"/> object 
+    /// used for the Process Request.</param>
     public CallbackProcessor(CallbackRules Rules) {
       _Rules = Rules;
     }
 
+    /// <summary>
+    /// Process the Xml Message
+    /// </summary>
+    /// <param name="CallbackXML">The Callback message to process</param>
+    /// <returns>The <see cref="AutoGen.MerchantCalculationResults"/> that is returned to Google Checkout</returns>
     public byte[] Process(string CallbackXML) {
       // Deserialize the callback request.
       AutoGen.MerchantCalculationCallback Callback = 
@@ -65,7 +76,7 @@ namespace GCheckout.MerchantCalculation {
           AnonymousAddress ThisAddress = 
             new AnonymousAddress(Callback.calculate.addresses[a]);
           // Check shipping, if requested.
-          if (ShippingMethods[s] != "") {
+          if (ShippingMethods[s] != string.Empty) {
             ThisResult.shippingname = ShippingMethods[s];
             ShippingResult SResult = 
               _Rules.GetShippingResult

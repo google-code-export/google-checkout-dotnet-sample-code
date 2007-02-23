@@ -28,6 +28,14 @@ namespace GCheckout.OrderProcessing {
     private string _TrackingNo = null;
     private bool _SendEmail;
 
+    /// <summary>
+    /// Create a new &lt;deliver-order&gt; API request
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
     public DeliverOrderRequest(string MerchantID, string MerchantKey, 
       string Env, string OrderNo) {
       _MerchantID = MerchantID;
@@ -36,6 +44,17 @@ namespace GCheckout.OrderProcessing {
       _OrderNo = OrderNo;
     }
 
+    /// <summary>
+    /// Create a new &lt;deliver-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Carrier">The Carrier the package was shipped with</param>
+    /// <param name="TrackingNo">The Tracking Number for the order</param>
+    /// <param name="SendEmail">Send an email to the buyer</param>
     public DeliverOrderRequest(string MerchantID, string MerchantKey, 
       string Env, string OrderNo, string Carrier, string TrackingNo,
       bool SendEmail) {
@@ -48,6 +67,8 @@ namespace GCheckout.OrderProcessing {
       _SendEmail = SendEmail;
     }
 
+    /// <summary>Method that is called to produce the Xml message
+    ///  that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.DeliverOrderRequest Req = new AutoGen.DeliverOrderRequest();
       Req.googleordernumber = _OrderNo;

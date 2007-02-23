@@ -25,6 +25,14 @@ namespace GCheckout.OrderProcessing {
   public class ProcessOrderRequest : GCheckoutRequest {
     private string _OrderNo = null;
 
+    /// <summary>
+    /// Create a new &lt;process-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
     public ProcessOrderRequest(string MerchantID, string MerchantKey, 
       string Env, string OrderNo) {
       _MerchantID = MerchantID;
@@ -33,6 +41,8 @@ namespace GCheckout.OrderProcessing {
       _OrderNo = OrderNo;
     }
 
+    /// <summary>Method that is called to produce the Xml message 
+    /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.ProcessOrderRequest Req = new AutoGen.ProcessOrderRequest();
       Req.googleordernumber = _OrderNo;

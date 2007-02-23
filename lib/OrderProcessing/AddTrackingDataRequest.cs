@@ -28,6 +28,16 @@ namespace GCheckout.OrderProcessing {
     private string _Carrier;
     private string _TrackingNo;
 
+    /// <summary>
+    /// Create a new &lt;add-tracking-data&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Carrier">The Carrier the package was shipped with</param>
+    /// <param name="TrackingNo">The Tracking number for the carrier</param>
     public AddTrackingDataRequest(string MerchantID, string MerchantKey, 
       string Env, string OrderNo, string Carrier, string TrackingNo) {
       _MerchantID = MerchantID;
@@ -38,6 +48,8 @@ namespace GCheckout.OrderProcessing {
       _TrackingNo = TrackingNo;
     }
 
+    /// <summary>Method that is called to produce the Xml message 
+    /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.AddTrackingDataRequest Req = 
         new AutoGen.AddTrackingDataRequest();

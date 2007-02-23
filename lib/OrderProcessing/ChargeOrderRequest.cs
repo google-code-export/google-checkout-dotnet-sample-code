@@ -27,6 +27,14 @@ namespace GCheckout.OrderProcessing {
     private string _Currency = null;
     private decimal _Amount = -1;
 
+    /// <summary>
+    /// Create a new &lt;charge-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
     public ChargeOrderRequest(string MerchantID, string MerchantKey, 
       string Env, string OrderNo) {
       _MerchantID = MerchantID;
@@ -35,6 +43,16 @@ namespace GCheckout.OrderProcessing {
       _OrderNo = OrderNo;
     }
 
+    /// <summary>
+    /// Create a new &lt;charge-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Currency">The Currency used to charge the order</param>
+    /// <param name="Amount">The Amount to charge</param>
     public ChargeOrderRequest(string MerchantID, string MerchantKey, 
       string Env, string OrderNo, string Currency, decimal Amount) {
       _MerchantID = MerchantID;
@@ -45,6 +63,8 @@ namespace GCheckout.OrderProcessing {
       _Amount = Amount;
     }
 
+    /// <summary>Method that is called to produce the Xml message 
+    /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.ChargeOrderRequest Req = new AutoGen.ChargeOrderRequest();
       Req.googleordernumber = _OrderNo;

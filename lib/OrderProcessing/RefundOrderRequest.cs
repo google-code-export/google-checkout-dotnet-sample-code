@@ -29,6 +29,15 @@ namespace GCheckout.OrderProcessing {
     private decimal _Amount = -1;
     private string _Comment = null;
 
+    /// <summary>
+    /// Create a new &lt;refund-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Reason">The Reason for the refund</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Reason) {
       _MerchantID = MerchantID;
@@ -38,6 +47,18 @@ namespace GCheckout.OrderProcessing {
       _Reason = Reason;
     }
 
+    /// <summary>
+    /// Create a new &lt;refund-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Reason">The Reason for the refund</param>
+    /// <param name="Currency">The Currency used to charge the order</param>
+    /// <param name="Amount">The Amount to charge</param>
+    /// <param name="Comment">A comment to append to the order</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
       string Env, string OrderNo, string Reason, string Currency,
       decimal Amount, string Comment) {
@@ -51,6 +72,8 @@ namespace GCheckout.OrderProcessing {
       _Comment = Comment;
     }
 
+    /// <summary>Method that is called to produce the Xml message
+    ///  that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.RefundOrderRequest Req = new AutoGen.RefundOrderRequest();
       Req.googleordernumber = _OrderNo;
