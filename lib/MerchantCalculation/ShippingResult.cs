@@ -23,7 +23,9 @@ namespace GCheckout.MerchantCalculation {
   /// designated shipping address.
   /// </summary>
   public class ShippingResult {
+    /// <summary>Shipping Rate</summary>
     public decimal ShippingRate = 0;
+    /// <summary>Is this shippable?</summary>
     public bool Shippable = false;
   }
 }
