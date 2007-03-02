@@ -93,12 +93,12 @@ namespace GCheckout {
     public string GetPostUrl() {
       if (_Environment == EnvironmentType.Sandbox) {
         return string.Format(
-          "https://sandbox.google.com/checkout/cws/v2/Merchant/{0}/request",
+          "https://sandbox.google.com/checkout/cws/v2/Merchant/{0}/merchantCheckout",
           _MerchantID);
       }
       else {
         return string.Format(
-          "https://checkout.google.com/cws/v2/Merchant/{0}/request",
+          "https://checkout.google.com/cws/v2/Merchant/{0}/merchantCheckout",
           _MerchantID);
       }
     }
