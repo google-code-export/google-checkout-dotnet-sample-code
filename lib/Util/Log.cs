@@ -25,6 +25,9 @@ namespace GCheckout.Util {
   /// and error information, to log files.
   /// </summary>
   public class Log {
+
+    internal static readonly object lockObject = new object();
+
     /// <summary>
     /// Writes a string to a file.
     /// </summary>
@@ -32,13 +35,12 @@ namespace GCheckout.Util {
     /// <param name="strLine">The line to write.</param>
     public static void WriteToFile(string strFileName, string strLine) {
       if (LoggingOn()) {
-        StreamWriter objStreamWriter;
-        // Pass the file path and the file name to the StreamWriter ctor.
-        objStreamWriter = new StreamWriter(strFileName, true);
-        // Write a line of text.
-        objStreamWriter.WriteLine(strLine);
-        // Close the file.
-        objStreamWriter.Close();
+        lock (lockObject) {
+          using(StreamWriter objStreamWriter = new StreamWriter(strFileName, true)) {
+            // Write a line of text.
+            objStreamWriter.WriteLine(strLine);
+          }   
+        }
       }
     }
 
@@ -59,8 +61,7 @@ namespace GCheckout.Util {
     /// the config file key "LogDirectory".
     /// </summary>
     /// <param name="strLine">The error message to write.</param>
-    public static void Err(string strLine)
-    {
+    public static void Err(string strLine) {
       if (LoggingOn()) {
         WriteToFile(GetLogPath() + "error.txt", DateTime.Now + " - " + 
           strLine + (new StackTrace()).ToString());
@@ -90,7 +91,5 @@ namespace GCheckout.Util {
     private static string GetLogPath() {
       return ConfigurationSettings.AppSettings["LogDirectory"];
     }
-
   }
-
 }
