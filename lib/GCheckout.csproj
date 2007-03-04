@@ -114,6 +114,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Checkout\AlternateTaxTable.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Checkout\AlternateTaxTableCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Checkout\CheckoutShoppingCartRequest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

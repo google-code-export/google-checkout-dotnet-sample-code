@@ -59,5 +59,47 @@ namespace GCheckout.Checkout.Tests {
       Debug.WriteLine("");
 
     }
+
+    /// <exclude/>
+    [Test()]
+    public void TestAlternateTaxTables() {
+      CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest("123456", "456789", EnvironmentType.Sandbox, "USD", 120);
+
+      //Ensure the factory works as expected
+      AlternateTaxTable ohio1 = request.AlternateTaxTables.Factory("ohio");
+      AlternateTaxTable ohio2 = request.AlternateTaxTables.Factory("ohio");
+      AlternateTaxTable ohio3 = new AlternateTaxTable("ohio", false);
+
+      //Ensure that two Tax tables with the same name are not the same reference
+      Assert.AreSame(ohio1, ohio2);
+      Assert.IsFalse(object.ReferenceEquals(ohio1, ohio3));
+      //Assert.AreEqual(ohio1, ohio3);
+
+      //Now add some rules to the item
+      ohio1.AddStateTaxRule("OH", .02);
+
+      //Make sure we can add an item to the cart.
+      request.AddItem("Item 1", "Cool Candy 1", 2.00M, 1, ohio1);
+      try {
+        request.AddItem("Item 2", "Cool Candy 2", 2.00M, 1, ohio3);
+        Assert.Fail("An exception should have been thrown when we tried to add an item that has a new Tax Reference");
+      }
+      catch (Exception) {
+   
+      }
+
+      //Now this should work fine.
+      request.AddItem("Item 3", "Cool Candy 3", 2.00M, 1, ohio2);
+
+
+      Assert.AreEqual(1, ohio1.RuleCount);
+
+      //Ensure we are able to create the cart xml
+
+      byte[] cart = request.GetXml();
+
+      Console.WriteLine(System.Text.UTF8Encoding.UTF8.GetString(cart));
+    }
+
   }
 }

@@ -31,6 +31,12 @@ namespace GCheckout.Checkout {
   /// the Xml needed to place in the hidden form fields.
   /// </remarks>
   public class CheckoutShoppingCartRequest : GCheckoutRequest {
+
+    internal const string ZIP_CODE_PATTERN_EXCEPTION = 
+      "Zip code patterns must be five " +
+      "numeric characters, or zero to 4 numeric characters followed by " +
+      "a single asterisk as a wildcard character.";
+
     private ArrayList _Items;
     private AutoGen.TaxTables _TaxTables;
     private AutoGen.MerchantCheckoutFlowSupportShippingmethods
@@ -47,8 +53,12 @@ namespace GCheckout.Checkout {
     private string _Currency = null;
     private string _AnalyticsData = null;
     private long _PlatformID = 0;
-
+    
     private ParameterizedUrls _ParameterizedUrls = new ParameterizedUrls();
+
+    //jf Tax Tables added 3/1/2007
+    private AlternateTaxTableCollection _alternateTaxTables = new AlternateTaxTableCollection();
+
 
     /// <summary>
     /// This method is called by the <see cref="GCheckoutButton"/> class and
@@ -105,7 +115,8 @@ namespace GCheckout.Checkout {
     /// in the Checkout API request.</param>
     public void AddItem(string Name, string Description, decimal Price,
       int Quantity) {
-      _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity));
+      _Items.Add(new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        Quantity));
     }
 
     /// <summary>
@@ -118,7 +129,33 @@ namespace GCheckout.Checkout {
     /// <param name="Description">The description of the item. This value 
     /// corresponds to the value of the &lt;item-description&gt; tag in the 
     /// Checkout API request.</param>
-    /// <param name="MerchantItemID">The Merchant Item Id that uniquely identifies the product in your system.</param>
+    /// <param name="Price">The price of the item. This value corresponds to 
+    /// the value of the &lt;unit-price&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+    /// To assign to the item </param>
+    public void AddItem(string Name, string Description, decimal Price,
+      int Quantity, AlternateTaxTable taxTable) {
+      _alternateTaxTables.VerifyTaxRule(taxTable);
+      _Items.Add(new ShoppingCartItem(Name, Description, string.Empty, Price,
+        Quantity, taxTable));
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
     /// <param name="Price">The price of the item. This value corresponds to 
     /// the value of the &lt;unit-price&gt; tag in the Checkout API 
     /// request.</param>
@@ -127,9 +164,36 @@ namespace GCheckout.Checkout {
     /// in the Checkout API request.</param>
     public void AddItem(string Name, string Description, string MerchantItemID,
       decimal Price, int Quantity) {
-      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, Quantity));
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price,
+        Quantity));
     }
 
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
+    /// <param name="Price">The price of the item. This value corresponds to 
+    /// the value of the &lt;unit-price&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+    /// To assign to the item </param>
+    public void AddItem(string Name, string Description, string MerchantItemID,
+      decimal Price, int Quantity, AlternateTaxTable taxTable) {
+      _alternateTaxTables.VerifyTaxRule(taxTable);
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price,
+        Quantity, taxTable));
+    }
 
     /// <summary>
     /// This method adds an item to an order. This method handles items that 
@@ -151,11 +215,12 @@ namespace GCheckout.Checkout {
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
-    [Obsolete("MerchantPrivateData is now a XmlNode Array. Please use one of the AddItem methods that take in a XmlNode Array.")]
+    [Obsolete("MerchantPrivateData is now a XmlNode Array. Please use one of the" + 
+              " AddItem methods that take in a XmlNode Array.")]
     public void AddItem(string Name, string Description, decimal Price,
       int Quantity, string MerchantPrivateItemData) {
-      _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity,
-        MakeXmlElement(MerchantPrivateItemData)));
+      _Items.Add(new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        Quantity, AlternateTaxTable.Empty, MakeXmlElement(MerchantPrivateItemData)));
     }
 
     /// <summary>
@@ -180,8 +245,8 @@ namespace GCheckout.Checkout {
     /// request.</param>
     public void AddItem(string Name, string Description, decimal Price,
       int Quantity, XmlNode MerchantPrivateItemData) {
-      _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity,
-        MerchantPrivateItemData));
+      _Items.Add(new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemData));
     }
 
     /// <summary>
@@ -193,7 +258,38 @@ namespace GCheckout.Checkout {
     /// <param name="Description">The description of the item. This value 
     /// corresponds to the value of the &lt;item-description&gt; tag in the 
     /// Checkout API request.</param>
-    /// <param name="MerchantItemID">The Merchant Item Id that uniquely identifies the product in your system.</param>
+    /// <param name="Price">The price of the item. This value corresponds to 
+    /// the value of the &lt;unit-price&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// associated with the item in the Checkout API request. This value 
+    /// corresponds to the value of the value of the 
+    /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+    /// To assign to the item </param>
+    public void AddItem(string Name, string Description, decimal Price,
+      int Quantity, XmlNode MerchantPrivateItemData, 
+      AlternateTaxTable taxTable) {
+      _alternateTaxTables.VerifyTaxRule(taxTable);
+      _Items.Add(new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        Quantity, taxTable, MerchantPrivateItemData));
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// have &lt;merchant-private-item-data&gt; XML blocks associated with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
     /// <param name="Price">The price of the item. This value corresponds to 
     /// the value of the &lt;unit-price&gt; tag in the Checkout API 
     /// request.</param>
@@ -207,8 +303,40 @@ namespace GCheckout.Checkout {
     /// request.</param>
     public void AddItem(string Name, string Description, string MerchantItemID,
       decimal Price, int Quantity, XmlNode MerchantPrivateItemData) {
-      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, Quantity,
-        MerchantPrivateItemData));
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemData));
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// have &lt;merchant-private-item-data&gt; XML blocks associated with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
+    /// <param name="Price">The price of the item. This value corresponds to 
+    /// the value of the &lt;unit-price&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// associated with the item in the Checkout API request. This value 
+    /// corresponds to the value of the value of the 
+    /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+    /// To assign to the item </param>
+    public void AddItem(string Name, string Description, string MerchantItemID,
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemData, 
+      AlternateTaxTable taxTable) {
+      _alternateTaxTables.VerifyTaxRule(taxTable);
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
+        Quantity, taxTable, MerchantPrivateItemData));
     }
 
     /// <summary>
@@ -233,8 +361,8 @@ namespace GCheckout.Checkout {
     /// request.</param>
     public void AddItem(string Name, string Description, decimal Price,
       int Quantity, params XmlNode[] MerchantPrivateItemData) {
-      _Items.Add(new ShoppingCartItem(Name, Description, Price, Quantity,
-        MerchantPrivateItemData));
+      _Items.Add(new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemData));
     }
 
     /// <summary>
@@ -246,7 +374,8 @@ namespace GCheckout.Checkout {
     /// <param name="Description">The description of the item. This value 
     /// corresponds to the value of the &lt;item-description&gt; tag in the 
     /// Checkout API request.</param>
-    /// <param name="MerchantItemID">The Merchant Item Id that uniquely identifies the product in your system.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely 
+    /// identifies the product in your system.</param>
     /// <param name="Price">The price of the item. This value corresponds to 
     /// the value of the &lt;unit-price&gt; tag in the Checkout API 
     /// request.</param>
@@ -260,8 +389,8 @@ namespace GCheckout.Checkout {
     /// request.</param>
     public void AddItem(string Name, string Description, string MerchantItemID,
       decimal Price, int Quantity, params XmlNode[] MerchantPrivateItemData) {
-      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, Quantity,
-        MerchantPrivateItemData));
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price,
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemData));
     }
 
     /// <summary>
@@ -381,9 +510,7 @@ namespace GCheckout.Checkout {
     public void AddZipTaxRule(string ZipPattern, double TaxRate,
       bool ShippingTaxed) {
       if (!IsValidZipPattern(ZipPattern)) {
-        throw new ApplicationException("Zip code patterns must be five " +
-          "numeric characters, or zero to 4 numeric characters followed by " +
-          "a single asterisk as a wildcard character.");
+        throw new ApplicationException(ZIP_CODE_PATTERN_EXCEPTION);
       }
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
       Rule.rate = TaxRate;
@@ -574,8 +701,8 @@ namespace GCheckout.Checkout {
         MyCart.shoppingcart.items[i].unitprice = new AutoGen.Money();
         MyCart.shoppingcart.items[i].unitprice.currency = _Currency;
         MyCart.shoppingcart.items[i].unitprice.Value = MyItem.Price;
-
-        if (MyItem.MerchantItemID != null) {
+        
+        if (MyItem.MerchantItemID != null && MyItem.MerchantItemID.Length > 0) {
          MyCart.shoppingcart.items[i].merchantitemid = MyItem.MerchantItemID;  
         }
 
@@ -585,6 +712,11 @@ namespace GCheckout.Checkout {
 
           any.Any = MyItem.MerchantPrivateItemDataNodes;
           MyCart.shoppingcart.items[i].merchantprivateitemdata = any;
+        }
+
+        if (MyItem.TaxTable != null && 
+          MyItem.TaxTable != AlternateTaxTable.Empty) {
+          MyCart.shoppingcart.items[i].taxtableselector = MyItem.TaxTable.Name; 
         }
       }
 
@@ -644,6 +776,11 @@ namespace GCheckout.Checkout {
 
       // Add the shipping methods to the API request.
       MyCart.checkoutflowsupport.Item.shippingmethods = _ShippingMethods;
+
+      //jf Tax Tables added 3/1/2007
+      if (_alternateTaxTables != null) {
+        _alternateTaxTables.AppendToRequest(_TaxTables);   
+      }
 
       // Add the tax tables to the API request.
       if (_TaxTables != null) {
@@ -1011,6 +1148,19 @@ namespace GCheckout.Checkout {
       }
     }
 
+    /// <summary>
+    /// The Alternate Tax Tables container
+    /// </summary>
+    /// <remarks>
+    /// All of the Alternate Tax tables are added to this Container.
+    /// A Factory Method is also provided to create a Tax table and return it.
+    /// </remarks>
+    public AlternateTaxTableCollection AlternateTaxTables {
+      get {
+        return _alternateTaxTables; 
+      }
+    }
+
     private class ShoppingCartItem {
       public string Name;
       public string Description;
@@ -1018,6 +1168,7 @@ namespace GCheckout.Checkout {
       public int Quantity = 0;
       public string MerchantItemID;
       public XmlNode[] MerchantPrivateItemDataNodes;
+      public AlternateTaxTable TaxTable = null;
 
       /// <summary>
       /// This method initializes a new instance of the 
@@ -1028,30 +1179,15 @@ namespace GCheckout.Checkout {
       /// </summary>
       /// <param name="InName">The name of the item.</param>
       /// <param name="InDescription">A description of the item.</param>
+      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely 
+      /// identifies the product in your system. (optional)</param>
       /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The number of the item that is included in the order.</param>
-      public ShoppingCartItem(string InName, string InDescription,
-        decimal InPrice, int InQuantity)
-        : this(InName, InDescription, InPrice, 
-        InQuantity, new XmlNode[] {}) {
-      }
-
-      /// <summary>
-      /// This method initializes a new instance of the 
-      /// <see cref="ShoppingCartItem"/> class, which creates an object
-      /// corresponding to an individual item in an order. This method 
-      /// is used for items that do not have an associated
-      /// &lt;merchant-private-item-data&gt; XML block.
-      /// </summary>
-      /// <param name="InName">The name of the item.</param>
-      /// <param name="InDescription">A description of the item.</param>
-      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely identifies the product in your system. (optional)</param>
-      /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The number of the item that is included in the order.</param>
+      /// <param name="InQuantity">The number of the item that is 
+      /// included in the order.</param>
       public ShoppingCartItem(string InName, string InDescription,
         string InMerchantItemID, decimal InPrice, int InQuantity)
         : this(InName, InDescription, InMerchantItemID, InPrice,
-        InQuantity, new XmlNode[] {}) {
+        InQuantity, AlternateTaxTable.Empty, new XmlNode[] {}) {
       }
 
       /// <summary>
@@ -1063,84 +1199,28 @@ namespace GCheckout.Checkout {
       /// </summary>
       /// <param name="InName">The name of the item.</param>
       /// <param name="InDescription">A description of the item.</param>
+      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely 
+      /// identifies the product in your system. (optional)</param>
       /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The number of the item that is included in the order.</param>
+      /// <param name="InQuantity">The number of the item that is 
+      /// included in the order.</param>
       /// <param name="InMerchantPrivateItemData">The merchant private
       /// item data associated with the item.</param>
-      public ShoppingCartItem(string InName, string InDescription,
-        decimal InPrice, int InQuantity, XmlNode InMerchantPrivateItemData) 
-        : this(InName, InDescription, InPrice, InQuantity,
-        new XmlNode[] { InMerchantPrivateItemData }) {
-
-      }
-
-      /// <summary>
-      /// This method initializes a new instance of the 
-      /// <see cref="ShoppingCartItem"/> class, which creates an object
-      /// corresponding to an individual item in an order. This method 
-      /// is used for items that do have an associated
-      /// &lt;merchant-private-item-data&gt; XML block.
-      /// </summary>
-      /// <param name="InName">The name of the item.</param>
-      /// <param name="InDescription">A description of the item.</param>
-      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely identifies the product in your system. (optional)</param>
-      /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The number of the item that is included in the order.</param>
-      /// <param name="InMerchantPrivateItemData">The merchant private
-      /// item data associated with the item.</param>
+      /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+      /// To assign to the item </param>
       public ShoppingCartItem(string InName, string InDescription,
         string InMerchantItemID, decimal InPrice, int InQuantity,
-        XmlNode InMerchantPrivateItemData)
-        : this(InName, InDescription, InMerchantItemID, InPrice, InQuantity,
-        new XmlNode[] { InMerchantPrivateItemData }) {
-      }
-
-      /// <summary>
-      /// This method initializes a new instance of the 
-      /// <see cref="ShoppingCartItem"/> class, which creates an object
-      /// corresponding to an individual item in an order. This method 
-      /// is used for items that do have an associated
-      /// &lt;merchant-private-item-data&gt; XML block.
-      /// </summary>
-      /// <param name="InName">The name of the item.</param>
-      /// <param name="InDescription">A description of the item.</param>
-      /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The number of the item that is included in the order.</param>
-      /// <param name="InMerchantPrivateItemData">The merchant private
-      /// item data associated with the item.</param>
-      public ShoppingCartItem(string InName, string InDescription,
-        decimal InPrice, int InQuantity, 
+        AlternateTaxTable taxTable,
         params XmlNode[] InMerchantPrivateItemData) {
         Name = InName;
         Description = InDescription;
-        Price = InPrice;
-        Quantity = InQuantity;
-        MerchantPrivateItemDataNodes = InMerchantPrivateItemData;
-      }
-
-      /// <summary>
-      /// This method initializes a new instance of the 
-      /// <see cref="ShoppingCartItem"/> class, which creates an object
-      /// corresponding to an individual item in an order. This method 
-      /// is used for items that do have an associated
-      /// &lt;merchant-private-item-data&gt; XML block.
-      /// </summary>
-      /// <param name="InName">The name of the item.</param>
-      /// <param name="InDescription">A description of the item.</param>
-      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely identifies the product in your system. (optional)</param>
-      /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The number of the item that is included in the order.</param>
-      /// <param name="InMerchantPrivateItemData">The merchant private
-      /// item data associated with the item.</param>
-      public ShoppingCartItem(string InName, string InDescription,
-        string InMerchantItemID, decimal InPrice, int InQuantity,
-        params XmlNode[] InMerchantPrivateItemData) {
-        Name = InName;
-        Description = InDescription;
+        if (MerchantItemID == string.Empty)
+          MerchantItemID = null;
         MerchantItemID = InMerchantItemID;
         Price = InPrice;
         Quantity = InQuantity;
-        MerchantPrivateItemDataNodes = InMerchantPrivateItemData;
+        MerchantPrivateItemDataNodes = InMerchantPrivateItemData;        
+        TaxTable = taxTable;
       }
     }
   }
