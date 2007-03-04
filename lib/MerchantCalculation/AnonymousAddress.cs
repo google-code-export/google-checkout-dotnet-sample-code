@@ -54,7 +54,9 @@ namespace GCheckout.MerchantCalculation {
     /// <summary>
     /// Identifies the country code associate with an order's billing
     /// address or shipping address. The value of this tag must be a 
-    /// two-letter ISO 3166 country code.
+    /// two-letter
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code.
     /// </summary>
     public string CountryCode {
       get {

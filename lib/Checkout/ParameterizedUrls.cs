@@ -217,7 +217,9 @@ namespace GCheckout.Checkout {
     [EnumSerilizedName("billing-city")]
     BillingCity,
     ///<summary>
-    ///The two-letter ISO 3166 country code associated with the order's billing address.
+    ///The two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    ///country code associated with the order's billing address.
     ///</summary>
     [EnumSerilizedName("billing-country-code")]
     BillingCountryCode,
@@ -277,7 +279,9 @@ namespace GCheckout.Checkout {
     [EnumSerilizedName("shipping-city")]
     ShippingCity,
     ///<summary>
-    /// The two-letter ISO 3166 country code associated with the order's shipping address.
+    /// The two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code associated with the order's shipping address.
     ///</summary>
     [EnumSerilizedName("shipping-country-code")]
     ShippingCountryCode,
