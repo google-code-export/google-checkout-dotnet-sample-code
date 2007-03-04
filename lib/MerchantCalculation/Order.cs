@@ -30,6 +30,10 @@ namespace GCheckout.MerchantCalculation {
     private ArrayList _OrderLines;
     private XmlNode[] _MerchantPrivateDataNodes = new XmlNode[] {};
 
+    /// <summary>
+    /// Process a Merchant Calculation callback.
+    /// </summary>
+    /// <param name="Callback">The Callback message.</param>
     public Order(AutoGen.MerchantCalculationCallback Callback) {
       _OrderLines = new ArrayList();
       for (int i = 0; i < Callback.shoppingcart.items.Length; i++) {
@@ -58,10 +62,17 @@ namespace GCheckout.MerchantCalculation {
       }
     }
 
+    /// <summary>
+    /// Return an Iterator to process the Order Lines
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator GetEnumerator() {
       return _OrderLines.GetEnumerator();
     }
 
+    /// <summary>
+    /// Merchant Private Data
+    /// </summary>
     [Obsolete("This property must be converted to a XmlNode Array. Only the First XmlNode will be returned.")]
     public string MerchantPrivateData {
       get {
@@ -73,6 +84,9 @@ namespace GCheckout.MerchantCalculation {
       }
     }
 
+    /// <summary>
+    /// An Array of <see cref="System.Xml.XmlNode" /> for the Merchant Private Data
+    /// </summary>
     public System.Xml.XmlNode[] MerchantPrivateDataNodes {
       get {
         return _MerchantPrivateDataNodes;

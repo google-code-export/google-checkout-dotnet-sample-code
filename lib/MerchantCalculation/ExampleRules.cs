@@ -27,6 +27,16 @@ namespace GCheckout.MerchantCalculation {
     private const string SAVE20 = "SAVE20";
     private const string GIFTCERT = "GIFTCERT";
 
+    /// <summary>
+    /// Example rules showing possible ways to handle callbacks
+    /// </summary>
+    /// <param name="ThisOrder">The Order to perform the calculation</param>
+    /// <param name="Address">contains a possible shipping address for an order.
+    /// This address should be used to calculate taxes and shipping costs 
+    /// for the order.</param>
+    /// <param name="MerchantCode">Contains a coupon or gift certificate code
+    /// that the customer entered for an order.</param>
+    /// <returns></returns>
     public override MerchantCodeResult GetMerchantCodeResult(Order ThisOrder, 
       AnonymousAddress Address, string MerchantCode) {
       MerchantCodeResult RetVal = new MerchantCodeResult();
@@ -55,6 +65,15 @@ namespace GCheckout.MerchantCalculation {
       return RetVal;
     }
 
+    /// <summary>
+    /// Example showing how Tax is calculated for a callback
+    /// </summary>
+    /// <param name="ThisOrder">The Order to perform the calculation</param>
+    /// <param name="Address">contains a possible shipping address for an order.
+    /// This address should be used to calculate taxes and shipping costs 
+    /// for the order.</param>
+    /// <param name="ShippingRate">The cost of shipping the order.</param>
+    /// <returns></returns>
     public override decimal GetTaxResult(Order ThisOrder, 
       AnonymousAddress Address, decimal ShippingRate) {
       decimal RetVal = 0;
@@ -68,6 +87,16 @@ namespace GCheckout.MerchantCalculation {
       return RetVal;
     }
 
+    /// <summary>
+    /// Example showing how shipping is calculated for a callback
+    /// </summary>
+    /// <param name="ShipMethodName">Identifies a shipping method for which
+    /// costs need to be calculated.</param>
+    /// <param name="ThisOrder">The Order to perform the calculation</param>
+    /// <param name="Address">contains a possible shipping address for an order.
+    /// This address should be used to calculate taxes and shipping costs 
+    /// for the order.</param>
+    /// <returns></returns>
     public override ShippingResult GetShippingResult(string ShipMethodName, 
       Order ThisOrder, AnonymousAddress Address) {
       ShippingResult RetVal = new ShippingResult();

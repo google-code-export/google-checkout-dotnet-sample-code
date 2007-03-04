@@ -29,6 +29,11 @@ namespace GCheckout.MerchantCalculation {
     private string _PostalCode;
     private string _Region;
 
+    /// <summary>
+    /// Create a new <see cref="AnonymousAddress"/>
+    /// </summary>
+    /// <param name="ThisAddress">The <see cref="AutoGen.AnonymousAddress"/>
+    /// used to create the object.</param>
     public AnonymousAddress(AutoGen.AnonymousAddress ThisAddress) {
       _City = ThisAddress.city;
       _CountryCode = ThisAddress.countrycode;
@@ -37,30 +42,50 @@ namespace GCheckout.MerchantCalculation {
       _Region = ThisAddress.region;
     }
 
+    /// <summary>
+    /// The city to which an order is being shipped.
+    /// </summary>
     public string City {
       get {
         return _City;
       }
     }
 
+    /// <summary>
+    /// Identifies the country code associate with an order's billing
+    /// address or shipping address. The value of this tag must be a 
+    /// two-letter ISO 3166 country code.
+    /// </summary>
     public string CountryCode {
       get {
         return _CountryCode;
       }
     }
 
+    /// <summary>
+    /// The id attribute specifies a unique that identifies
+    ///  a particular address.
+    /// </summary>
     public string Id {
       get {
         return _Id;
       }
     }
   
+    /// <summary>
+    /// Identifies the zip code or postal code associated with 
+    /// either a billing address or a shipping address
+    /// </summary>
     public string PostalCode {
       get {
         return _PostalCode;
       }
     }
   
+    /// <summary>
+    /// Identifies the state or province associated with a billing 
+    /// address or shipping address.
+    /// </summary>
     public string Region {
       get {
         return _Region;

@@ -27,15 +27,33 @@ namespace GCheckout.MerchantCalculation {
   /// certificates.
   /// </summary>
   public class MerchantCodeResult {
+    /// <summary>
+    /// Define the Type of Merchant Code
+    /// </summary>
     public MerchantCodeType Type = MerchantCodeType.Undefined;
+    /// <summary>
+    /// Return if the Code is valid or not
+    /// </summary>
     public bool Valid = false;
+    /// <summary>
+    /// Return the Value of the Code
+    /// </summary>
     public decimal Amount = 0;
+    /// <summary>
+    /// Return a message relating to the callback.
+    /// </summary>
     public string Message = "";
   }
 
+  /// <summary>
+  /// Merchant Code Types
+  /// </summary>
   public enum MerchantCodeType {
+    /// <summary>Unknown</summary>
     Undefined = 0,
+    /// <summary>Gift Certificate</summary>
     GiftCertificate = 1,
+    /// <summary>Coupon</summary>
     Coupon = 2
   }
 

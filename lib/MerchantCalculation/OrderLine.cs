@@ -34,6 +34,21 @@ namespace GCheckout.MerchantCalculation {
     private string _TaxTableSelector;
     private XmlNode[] _MerchantPrivateItemDataNodes = new XmlNode[] {};
 
+    /// <summary>
+    /// Obsolete method
+    /// </summary>
+    /// <param name="ItemName">Identifies the name of an item</param>
+    /// <param name="ItemDescription">Contains a description of an item</param>
+    /// <param name="Quantity">Identifies how many units of a particular item
+    ///  are included in the customer's shopping cart.</param>
+    /// <param name="UnitPrice">Identifies the cost of the item. 
+    /// This tag has one required attribute, which identifies the
+    /// currency of the price.</param>
+    /// <param name="TaxTableSelector">identifies an alternate tax table that 
+    /// should be used to calculate tax for a particular item. 
+    /// The value of the &lt;tax-table-selector&gt; tag should correspond to the 
+    /// value of the name attribute of an alternate-tax-table</param>
+    /// <param name="MerchantPrivateItemData"></param>
     [Obsolete("MerchantPrivateItemData Is no longer a string, please use MerchantPrivateItemDataNodes")]
     public OrderLine(string ItemName, string ItemDescription, int Quantity,
       decimal UnitPrice, string TaxTableSelector,
@@ -49,6 +64,26 @@ namespace GCheckout.MerchantCalculation {
           { Checkout.CheckoutShoppingCartRequest.MakeXmlElement(MerchantPrivateItemData)};
     }
 
+    /// <summary>
+    /// Contains information about an individual item
+    ///  listed in the customer's shopping cart
+    /// </summary>
+    /// <param name="ItemName">Identifies the name of an item</param>
+    /// <param name="ItemDescription">Contains a description of an item</param>
+    /// <param name="Quantity">Identifies how many units of a particular item
+    ///  are included in the customer's shopping cart.</param>
+    /// <param name="UnitPrice">Identifies the cost of the item. 
+    /// This tag has one required attribute, which identifies the
+    /// currency of the price.</param>
+    /// <param name="TaxTableSelector">identifies an alternate tax table that 
+    /// should be used to calculate tax for a particular item. 
+    /// The value of the &lt;tax-table-selector&gt; tag should correspond to the 
+    /// value of the name attribute of an alternate-tax-table</param>
+    /// <param name="MerchantPrivateItemDataNodes">tag contains any well-formed 
+    /// XML sequence that should accompany an individual item in an order. 
+    /// Google Checkout will return this XML in the 
+    /// &lt;merchant-calculation-callback&gt;
+    ///  and the &lt;new-order-notification&gt; for the order.</param>
     public OrderLine(string ItemName, string ItemDescription, int Quantity,
       decimal UnitPrice, string TaxTableSelector,
       XmlNode[] MerchantPrivateItemDataNodes) {
@@ -61,36 +96,60 @@ namespace GCheckout.MerchantCalculation {
         _MerchantPrivateItemDataNodes = MerchantPrivateItemDataNodes;
     }
 
+    /// <summary>
+    /// Identifies the name of an item
+    /// </summary>
     public string ItemName {
       get {
         return _ItemName;
       }
     }
 
+    /// <summary>
+    /// Contains a description of an item
+    /// </summary>
     public string ItemDescription {
       get {
         return _ItemDescription;
       }
     }
 
+    /// <summary>
+    /// Identifies how many units of a particular item
+    ///  are included in the customer's shopping cart
+    /// </summary>
     public int Quantity {
       get {
         return _Quantity;
       }
     }
 
+    /// <summary>
+    /// Identifies the cost of the item. 
+    /// This tag has one required attribute, which identifies the
+    /// currency of the price
+    /// </summary>
     public decimal UnitPrice {
       get {
         return _UnitPrice;
       }
     }
 
+    /// <summary>
+    /// identifies an alternate tax table that 
+    /// should be used to calculate tax for a particular item. 
+    /// The value of the &lt;tax-table-selector&gt; tag should correspond to the 
+    /// value of the name attribute of an alternate-tax-table
+    /// </summary>
     public string TaxTableSelector {
       get {
         return _TaxTableSelector;
       }
     }
 
+    /// <summary>
+    /// Obsolete
+    /// </summary>
     [Obsolete("This property must be converted to a XmlNode Array. Only the First XmlNode will be returned.")]
     public string MerchantPrivateItemData {
       get {
@@ -102,6 +161,9 @@ namespace GCheckout.MerchantCalculation {
       }
     }
 
+    /// <summary>
+    /// An Array of <see cref="System.Xml.XmlNode" /> for the Merchant Private Data
+    /// </summary>
     public System.Xml.XmlNode[] MerchantPrivateDataNodes {
       get {
         if (_MerchantPrivateItemDataNodes != null)
