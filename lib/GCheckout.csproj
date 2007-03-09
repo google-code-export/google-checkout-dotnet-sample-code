@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.6030"
+        ProductVersion = "7.10.3077"
         SchemaVersion = "2.0"
         ProjectGuid = "{006653E6-EEF6-4D43-8F26-D6445CDF817B}"
     >
@@ -235,6 +235,11 @@
                 />
                 <File
                     RelPath = "OrderProcessing\UnarchiveOrderRequest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OrderProcessing\Tests\OrderProcessingRequestTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

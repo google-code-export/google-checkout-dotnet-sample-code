@@ -26,6 +26,7 @@ namespace GCheckout.OrderProcessing {
     private string _OrderNo;
     private string _Carrier = null;
     private string _TrackingNo = null;
+    private bool _SendEmailSpecified = false;
     private bool _SendEmail;
 
     /// <summary>
@@ -65,17 +66,63 @@ namespace GCheckout.OrderProcessing {
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
       _SendEmail = SendEmail;
+      _SendEmailSpecified = true;
+    }
+
+    /// <summary>
+    /// Create a new &lt;deliver-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Carrier">The Carrier the package was shipped with</param>
+    /// <param name="TrackingNo">The Tracking Number for the order</param>
+    public DeliverOrderRequest(string MerchantID, string MerchantKey, 
+      string Env, string OrderNo, string Carrier, string TrackingNo) 
+    {
+      _MerchantID = MerchantID;
+      _MerchantKey = MerchantKey;
+      _Environment = StringToEnvironment(Env);
+      _OrderNo = OrderNo;
+      _Carrier = Carrier;
+      _TrackingNo = TrackingNo;
+    }
+
+    /// <summary>
+    /// Create a new &lt;deliver-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="SendEmail">Send an email to the buyer</param>
+    public DeliverOrderRequest(string MerchantID, string MerchantKey, 
+      string Env, string OrderNo, bool SendEmail)
+    {
+      _MerchantID = MerchantID;
+      _MerchantKey = MerchantKey;
+      _Environment = StringToEnvironment(Env);
+      _OrderNo = OrderNo;
+      _SendEmail = SendEmail;
+      _SendEmailSpecified = true;
     }
 
     /// <summary>Method that is called to produce the Xml message
     ///  that can be posted to Google Checkout.</summary>
-    public override byte[] GetXml() {
+    public override byte[] GetXml() 
+    {
       AutoGen.DeliverOrderRequest Req = new AutoGen.DeliverOrderRequest();
       Req.googleordernumber = _OrderNo;
-      if (_Carrier != null && _TrackingNo != null) {
+      if (_Carrier != null && _TrackingNo != null) 
+      {
         Req.trackingdata = new AutoGen.TrackingData();
         Req.trackingdata.carrier = _Carrier;
         Req.trackingdata.trackingnumber = _TrackingNo;
+      }
+      if (_SendEmailSpecified) {
         Req.sendemail = _SendEmail;
         Req.sendemailSpecified = true;
       }
