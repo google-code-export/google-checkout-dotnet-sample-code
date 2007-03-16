@@ -1161,7 +1161,25 @@ namespace GCheckout.Checkout {
       }
     }
 
-    private class ShoppingCartItem {
+    /// <summary></summary>
+    public override string GetPostUrl() 
+    {
+      if (_Environment == EnvironmentType.Sandbox) 
+      {
+        return string.Format(
+          "https://sandbox.google.com/checkout/cws/v2/Merchant/{0}/merchantCheckout",
+          _MerchantID);
+      }
+      else 
+      {
+        return string.Format(
+          "https://checkout.google.com/cws/v2/Merchant/{0}/merchantCheckout",
+          _MerchantID);
+      }
+    }
+
+    private class ShoppingCartItem 
+    {
       public string Name;
       public string Description;
       public decimal Price = 0.0m;

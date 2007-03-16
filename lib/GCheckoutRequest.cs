@@ -90,15 +90,15 @@ namespace GCheckout {
     }
 
     /// <summary></summary>
-    public string GetPostUrl() {
+    public virtual string GetPostUrl() {
       if (_Environment == EnvironmentType.Sandbox) {
         return string.Format(
-          "https://sandbox.google.com/checkout/cws/v2/Merchant/{0}/merchantCheckout",
+          "https://sandbox.google.com/checkout/cws/v2/Merchant/{0}/request",
           _MerchantID);
       }
       else {
         return string.Format(
-          "https://checkout.google.com/cws/v2/Merchant/{0}/merchantCheckout",
+          "https://checkout.google.com/cws/v2/Merchant/{0}/request",
           _MerchantID);
       }
     }
