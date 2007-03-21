@@ -26,6 +26,7 @@ namespace GCheckout.OrderProcessing {
     private string _OrderNo;
     private string _Carrier = null;
     private string _TrackingNo = null;
+    private bool _SendEmailSpecified = false;
     private bool _SendEmail;
 
     /// <summary>
@@ -65,6 +66,7 @@ namespace GCheckout.OrderProcessing {
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
       _SendEmail = SendEmail;
+      _SendEmailSpecified = true;
     }
 
     /// <summary>
@@ -105,6 +107,7 @@ namespace GCheckout.OrderProcessing {
       _Environment = StringToEnvironment(Env);
       _OrderNo = OrderNo;
       _SendEmail = SendEmail;
+      _SendEmailSpecified = true;
     }
 
     /// <summary>Method that is called to produce the Xml message
@@ -119,8 +122,9 @@ namespace GCheckout.OrderProcessing {
         Req.trackingdata.carrier = _Carrier;
         Req.trackingdata.trackingnumber = _TrackingNo;
       }
-      if (_SendEmail) {
+      if (_SendEmailSpecified) {
         Req.sendemail = _SendEmail;
+        Req.sendemailSpecified = true;
       }
       return EncodeHelper.Serialize(Req);
     }
