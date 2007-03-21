@@ -96,6 +96,10 @@ namespace GCheckout.AutoGen {
     public class Item {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("tax-table-selector")]
+        public string taxtableselector;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("item-name")]
         public string itemname;
         
@@ -111,16 +115,12 @@ namespace GCheckout.AutoGen {
         public int quantity;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-private-item-data")]
-        public anyMultiple merchantprivateitemdata;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("merchant-item-id")]
         public string merchantitemid;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("tax-table-selector")]
-        public string taxtableselector;
+        [System.Xml.Serialization.XmlElementAttribute("merchant-private-item-data")]
+        public anyMultiple merchantprivateitemdata;
     }
     
     /// <remarks/>
@@ -327,15 +327,15 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string name;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
         public bool standalone;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool standaloneSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string name;
     }
     
     /// <remarks/>
@@ -535,10 +535,10 @@ namespace GCheckout.AutoGen {
     public class RefundOrderRequest {
         
         /// <remarks/>
-        public string comment;
+        public Money amount;
         
         /// <remarks/>
-        public Money amount;
+        public string comment;
         
         /// <remarks/>
         public string reason;
@@ -558,6 +558,16 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         public string reason;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute("google-order-number", DataType="token")]
+        public string googleordernumber;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    [System.Xml.Serialization.XmlRootAttribute("authorize-order", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
+    public class AuthorizeOrderRequest {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("google-order-number", DataType="token")]
@@ -628,15 +638,15 @@ namespace GCheckout.AutoGen {
     public class SendBuyerMessageRequest {
         
         /// <remarks/>
-        public string message;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("send-email")]
         public bool sendemail;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool sendemailSpecified;
+        
+        /// <remarks/>
+        public string message;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("google-order-number", DataType="token")]
@@ -693,9 +703,6 @@ namespace GCheckout.AutoGen {
     public class NewOrderNotification {
         
         /// <remarks/>
-        public System.DateTime timestamp;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shopping-cart")]
         public ShoppingCart shoppingcart;
         
@@ -734,6 +741,9 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("buyer-id")]
         public long buyerid;
+        
+        /// <remarks/>
+        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
@@ -835,9 +845,6 @@ namespace GCheckout.AutoGen {
     public class CouponAdjustment {
         
         /// <remarks/>
-        public string message;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
         public CouponAdjustmentCalculatedamount calculatedamount;
         
@@ -847,6 +854,9 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         public string code;
+        
+        /// <remarks/>
+        public string message;
     }
     
     /// <remarks/>
@@ -864,9 +874,6 @@ namespace GCheckout.AutoGen {
     public class GiftCertificateAdjustment {
         
         /// <remarks/>
-        public string message;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
         public GiftCertificateAdjustmentCalculatedamount calculatedamount;
         
@@ -876,6 +883,9 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         public string code;
+        
+        /// <remarks/>
+        public string message;
     }
     
     /// <remarks/>
@@ -1007,14 +1017,8 @@ namespace GCheckout.AutoGen {
     public class OrderStateChangeNotification {
         
         /// <remarks/>
-        public System.DateTime timestamp;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
         public string googleordernumber;
-        
-        /// <remarks/>
-        public string reason;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("new-fulfillment-order-state")]
@@ -1033,6 +1037,12 @@ namespace GCheckout.AutoGen {
         public FinancialOrderState previousfinancialorderstate;
         
         /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
+        public string reason;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
         public string serialnumber;
     }
@@ -1041,9 +1051,6 @@ namespace GCheckout.AutoGen {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     [System.Xml.Serialization.XmlRootAttribute("charge-amount-notification", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
     public class ChargeAmountNotification {
-        
-        /// <remarks/>
-        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
@@ -1058,6 +1065,9 @@ namespace GCheckout.AutoGen {
         public Money totalchargeamount;
         
         /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
         public string serialnumber;
     }
@@ -1066,9 +1076,6 @@ namespace GCheckout.AutoGen {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     [System.Xml.Serialization.XmlRootAttribute("chargeback-amount-notification", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
     public class ChargebackAmountNotification {
-        
-        /// <remarks/>
-        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
@@ -1083,6 +1090,9 @@ namespace GCheckout.AutoGen {
         public Money totalchargebackamount;
         
         /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
         public string serialnumber;
     }
@@ -1091,9 +1101,6 @@ namespace GCheckout.AutoGen {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     [System.Xml.Serialization.XmlRootAttribute("refund-amount-notification", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
     public class RefundAmountNotification {
-        
-        /// <remarks/>
-        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
@@ -1108,6 +1115,9 @@ namespace GCheckout.AutoGen {
         public Money totalrefundamount;
         
         /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
         public string serialnumber;
     }
@@ -1118,15 +1128,15 @@ namespace GCheckout.AutoGen {
     public class RiskInformationNotification {
         
         /// <remarks/>
-        public System.DateTime timestamp;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
         public string googleordernumber;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("risk-information")]
         public RiskInformation riskinformation;
+        
+        /// <remarks/>
+        public System.DateTime timestamp;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
@@ -1164,6 +1174,39 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("ip-address")]
         public string ipaddress;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    [System.Xml.Serialization.XmlRootAttribute("authorization-amount-notification", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
+    public class AuthorizationAmountNotification {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
+        public string googleordernumber;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("avs-response")]
+        public string avsresponse;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("cvn-response")]
+        public string cvnresponse;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("authorization-amount")]
+        public Money authorizationamount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("authorization-expiration-date")]
+        public System.DateTime authorizationexpirationdate;
+        
+        /// <remarks/>
+        public System.DateTime timestamp;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
+        public string serialnumber;
     }
     
     /// <remarks/>
@@ -1333,14 +1376,14 @@ namespace GCheckout.AutoGen {
         public bool valid;
         
         /// <remarks/>
-        public string message;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
         public GiftCertificateResultCalculatedamount calculatedamount;
         
         /// <remarks/>
         public string code;
+        
+        /// <remarks/>
+        public string message;
     }
     
     /// <remarks/>
@@ -1356,14 +1399,14 @@ namespace GCheckout.AutoGen {
         public bool valid;
         
         /// <remarks/>
-        public string message;
-        
-        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("calculated-amount")]
         public CouponResultCalculatedamount calculatedamount;
         
         /// <remarks/>
         public string code;
+        
+        /// <remarks/>
+        public string message;
     }
     
     /// <remarks/>
