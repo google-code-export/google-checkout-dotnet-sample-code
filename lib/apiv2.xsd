@@ -107,6 +107,14 @@
   
   <xs:complexType name="Item">
     <xs:all>
+      <xs:element name="tax-table-selector" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="0" />
+            <xs:maxLength value="255" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
       <xs:element name="item-name" type="xs:string" />
       <xs:element name="item-description" type="xs:string" />
       <xs:element name="unit-price" type="tns:Money" />
@@ -117,16 +125,8 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element name="merchant-private-item-data" type="tns:anyMultiple" minOccurs="0" />
       <xs:element name="merchant-item-id" type="xs:string" minOccurs="0" />
-      <xs:element name="tax-table-selector" minOccurs="0">
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:minLength value="1" />
-            <xs:maxLength value="255" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:element>
+      <xs:element name="merchant-private-item-data" type="tns:anyMultiple" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -272,8 +272,8 @@
   
   <xs:complexType name="RefundOrderRequest">
     <xs:all>
-      <xs:element name="comment" type="xs:string" minOccurs="0" />
       <xs:element name="amount" type="tns:Money" minOccurs="0" />
+      <xs:element name="comment" type="xs:string" minOccurs="0" />
       <xs:element name="reason" type="xs:string" />
     </xs:all>
     <xs:attribute name="google-order-number" type="xs:token" use="required" />
@@ -284,6 +284,10 @@
       <xs:element name="comment" type="xs:string" minOccurs="0" />
       <xs:element name="reason" type="xs:string" />
     </xs:all>
+    <xs:attribute name="google-order-number" type="xs:token" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="AuthorizeOrderRequest">
     <xs:attribute name="google-order-number" type="xs:token" use="required" />
   </xs:complexType>
   
@@ -308,8 +312,8 @@
   
   <xs:complexType name="SendBuyerMessageRequest">
     <xs:all>
-      <xs:element name="message" type="xs:string" />
       <xs:element name="send-email" type="xs:boolean" minOccurs="0" />
+      <xs:element name="message" type="xs:string" />
     </xs:all>
     <xs:attribute name="google-order-number" type="xs:token" use="required" />
   </xs:complexType>
@@ -376,6 +380,7 @@
         </xs:complexType>
       </xs:element>
     </xs:all>
+    <xs:attribute name="standalone" type="xs:boolean" use="optional" />
     <xs:attribute name="name" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:string">
@@ -384,7 +389,6 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
-    <xs:attribute name="standalone" type="xs:boolean" use="optional" />
   </xs:complexType>
   
   <xs:complexType name="DefaultTaxRule">
@@ -512,7 +516,6 @@
   
   <xs:complexType name="NewOrderNotification">
     <xs:all>
-      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="shopping-cart" type="tns:ShoppingCart" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="buyer-shipping-address" type="tns:Address" />
@@ -523,58 +526,71 @@
       <xs:element name="fulfillment-order-state" type="tns:FulfillmentOrderState" />
       <xs:element name="financial-order-state" type="tns:FinancialOrderState" />
       <xs:element name="buyer-id" type="xs:long" />
+      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="OrderStateChangeNotification">
     <xs:all>
-      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
-      <xs:element name="reason" type="xs:string" minOccurs="0" />
       <xs:element name="new-fulfillment-order-state" type="tns:FulfillmentOrderState" />
       <xs:element name="new-financial-order-state" type="tns:FinancialOrderState" />
       <xs:element name="previous-fulfillment-order-state" type="tns:FulfillmentOrderState" />
       <xs:element name="previous-financial-order-state" type="tns:FinancialOrderState" />
+      <xs:element name="timestamp" type="xs:dateTime" />
+      <xs:element name="reason" type="xs:string" minOccurs="0" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="ChargeAmountNotification">
     <xs:all>
-      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-charge-amount" type="tns:Money" />
       <xs:element name="total-charge-amount" type="tns:Money" />
+      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="ChargebackAmountNotification">
     <xs:all>
-      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-chargeback-amount" type="tns:Money" />
       <xs:element name="total-chargeback-amount" type="tns:Money" />
+      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="RefundAmountNotification">
     <xs:all>
-      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-refund-amount" type="tns:Money" />
       <xs:element name="total-refund-amount" type="tns:Money" />
+      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="RiskInformationNotification">
     <xs:all>
-      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="risk-information" type="tns:RiskInformation" />
+      <xs:element name="timestamp" type="xs:dateTime" />
+    </xs:all>
+    <xs:attribute name="serial-number" type="xs:string" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="AuthorizationAmountNotification">
+    <xs:all>
+      <xs:element name="google-order-number" type="xs:token" />
+      <xs:element name="avs-response" type="xs:string" />
+      <xs:element name="cvn-response" type="xs:string" />
+      <xs:element name="authorization-amount" type="tns:Money" />
+      <xs:element name="authorization-expiration-date" type="xs:dateTime" />
+      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
@@ -601,7 +617,6 @@
   
   <xs:complexType name="GiftCertificateAdjustment">
     <xs:all>
-      <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="calculated-amount" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -621,12 +636,12 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
+      <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
   <xs:complexType name="CouponAdjustment">
     <xs:all>
-      <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="calculated-amount" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -646,6 +661,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
+      <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -656,7 +672,6 @@
   <xs:complexType name="CouponResult">
     <xs:all>
       <xs:element name="valid" type="xs:boolean" />
-      <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="calculated-amount" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -667,13 +682,13 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
+      <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
   <xs:complexType name="GiftCertificateResult">
     <xs:all>
       <xs:element name="valid" type="xs:boolean" />
-      <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="calculated-amount" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -684,6 +699,7 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
+      <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -887,6 +903,8 @@
   
   <xs:element name="cancel-order" type="tns:CancelOrderRequest" />
   
+  <xs:element name="authorize-order" type="tns:AuthorizeOrderRequest" />
+  
   <xs:element name="process-order" type="tns:ProcessOrderRequest" />
   
   <xs:element name="deliver-order" type="tns:DeliverOrderRequest" />
@@ -914,6 +932,8 @@
   <xs:element name="refund-amount-notification" type="tns:RefundAmountNotification" />
   
   <xs:element name="risk-information-notification" type="tns:RiskInformationNotification" />
+  
+  <xs:element name="authorization-amount-notification" type="tns:AuthorizationAmountNotification" />
   
   <xs:element name="notification-acknowledgment" type="tns:NotificationAcknowledgment" />
   
