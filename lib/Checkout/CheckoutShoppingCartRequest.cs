@@ -348,6 +348,38 @@ namespace GCheckout.Checkout {
     /// <param name="Description">The description of the item. This value 
     /// corresponds to the value of the &lt;item-description&gt; tag in the 
     /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
+    /// <param name="Price">The price of the item. This value corresponds to 
+    /// the value of the &lt;unit-price&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="MerchantPrivateItemData">An XML node array that should be 
+    /// associated with the item in the Checkout API request. This value 
+    /// corresponds to the value of the value of the 
+    /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+    /// To assign to the item </param>
+    public void AddItem(string Name, string Description, string MerchantItemID,
+      decimal Price, int Quantity, AlternateTaxTable taxTable,
+      params XmlNode[] MerchantPrivateItemData) {
+      _alternateTaxTables.VerifyTaxRule(taxTable);
+      _Items.Add(new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
+        Quantity, taxTable, MerchantPrivateItemData));
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// have &lt;merchant-private-item-data&gt; XML blocks associated with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
     /// <param name="Price">The price of the item. This value corresponds to 
     /// the value of the &lt;unit-price&gt; tag in the Checkout API 
     /// request.</param>
