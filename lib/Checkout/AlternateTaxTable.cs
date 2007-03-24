@@ -169,7 +169,73 @@ namespace GCheckout.Checkout {
       Area.zippattern = ZipPattern;
       _taxRules.Add(rule);
     }
-    
+ 
+    #region beta-tax rules
+
+    /// <summary>
+    /// Adds the country tax rule.
+    /// This method adds a tax rule associated with a particular state.
+    /// </summary>
+    /// <param name="TaxRate">The tax rate associated with a tax rule. Tax 
+    /// rates are expressed as decimal values. For example, a value of 0.0825 
+    /// specifies a tax rate of 8.25%.</param>
+    public void AddWorldAreaTaxRule(double TaxRate) {
+      AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
+      rule.rate = TaxRate;
+      rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
+      AutoGen.WorldArea ThisArea = new AutoGen.WorldArea();
+      rule.taxarea.Item = ThisArea;
+      _taxRules.Add(rule);
+    }
+
+    /// <summary>
+    /// Adds the postal area tax rule.
+    /// This method adds a tax rule associated with a particular postal area.
+    /// </summary>
+    /// <param name="countryCode">Required. This tag contains the 
+    /// two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code for the postal area.</param>
+    /// <param name="TaxRate">The tax rate associated with a tax rule. Tax 
+    /// rates are expressed as decimal values. For example, a value of 0.0825 
+    /// specifies a tax rate of 8.25%.</param>
+    public void AddPostalAreaTaxRule(string countryCode, double TaxRate) {
+      AddPostalAreaTaxRule(countryCode, string.Empty, TaxRate);
+    }
+
+    /// <summary>
+    /// Adds the country tax rule.
+    /// This method adds a tax rule associated with a particular state.
+    /// </summary>
+    /// <param name="countryCode">Required. This tag contains the 
+    /// two-letter
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code for the postal area.</param>
+    /// <param name="postalCodePattern">Optional. This tag identifies a postal
+    ///  code or a range of postal codes for the postal area. To specify a 
+    ///  range of postal codes, use an asterisk as a wildcard operator in the
+    ///  tag's value. For example, you can specify that a shipping option is 
+    ///  available for all postal codes beginning with "SW" by entering SW* 
+    ///  as the &lt;postal-code-pattern&gt; value.</param>
+    /// <param name="TaxRate">The tax rate associated with a tax rule. Tax 
+    /// rates are expressed as decimal values. For example, a value of 0.0825 
+    /// specifies a tax rate of 8.25%.</param>
+    public void AddPostalAreaTaxRule(string countryCode, string postalCodePattern, 
+      double TaxRate) {
+      AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
+      rule.rate = TaxRate;
+      rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
+      AutoGen.PostalArea ThisArea = new AutoGen.PostalArea();
+      rule.taxarea.Item = ThisArea;
+      ThisArea.countrycode = countryCode;
+      if (postalCodePattern != null && postalCodePattern != string.Empty) {
+        ThisArea.postalcodepattern = postalCodePattern;   
+      }
+      _taxRules.Add(rule);
+    }
+
+    #endregion beta-tax rules
+
     /// <summary>
     /// Create the needed table to append to the collection.
     /// </summary>

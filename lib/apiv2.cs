@@ -53,6 +53,10 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("checkout-flow-support")]
         public CheckoutShoppingCartCheckoutflowsupport checkoutflowsupport;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("order-processing-support")]
+        public OrderProcessingSupport orderprocessingsupport;
     }
     
     /// <remarks/>
@@ -211,6 +215,10 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool platformidSpecified;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("rounding-policy")]
+        public RoundingPolicy roundingpolicy;
     }
     
     /// <remarks/>
@@ -270,10 +278,25 @@ namespace GCheckout.AutoGen {
     public class DefaultTaxRuleTaxarea {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("postal-area", typeof(PostalArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
+        [System.Xml.Serialization.XmlElementAttribute("world-area", typeof(WorldArea))]
         public object Item;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class PostalArea {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("country-code")]
+        public string countrycode;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("postal-code-pattern")]
+        public string postalcodepattern;
     }
     
     /// <remarks/>
@@ -318,6 +341,11 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class WorldArea {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public class AlternateTaxTable {
         
         /// <remarks/>
@@ -355,9 +383,11 @@ namespace GCheckout.AutoGen {
     public class AlternateTaxRuleTaxarea {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("postal-area", typeof(PostalArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
+        [System.Xml.Serialization.XmlElementAttribute("world-area", typeof(WorldArea))]
         public object Item;
     }
     
@@ -399,6 +429,14 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("excluded-areas")]
         public ShippingRestrictionsExcludedareas excludedareas;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("allow-us-po-box")]
+        public bool allowuspobox;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool allowuspoboxSpecified;
     }
     
     /// <remarks/>
@@ -406,9 +444,11 @@ namespace GCheckout.AutoGen {
     public class ShippingRestrictionsAllowedareas {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("postal-area", typeof(PostalArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
+        [System.Xml.Serialization.XmlElementAttribute("world-area", typeof(WorldArea))]
         public object[] Items;
     }
     
@@ -417,9 +457,11 @@ namespace GCheckout.AutoGen {
     public class ShippingRestrictionsExcludedareas {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("postal-area", typeof(PostalArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
         [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
+        [System.Xml.Serialization.XmlElementAttribute("world-area", typeof(WorldArea))]
         public object[] Items;
     }
     
@@ -438,6 +480,10 @@ namespace GCheckout.AutoGen {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public class MerchantCalculatedShipping {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("address-filters")]
+        public ShippingRestrictions addressfilters;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("shipping-restrictions")]
@@ -500,6 +546,70 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool acceptgiftcertificatesSpecified;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class RoundingPolicy {
+        
+        /// <remarks/>
+        public RoundingMode mode;
+        
+        /// <remarks/>
+        public RoundingRule rule;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public enum RoundingMode {
+        
+        /// <remarks/>
+        UP,
+        
+        /// <remarks/>
+        DOWN,
+        
+        /// <remarks/>
+        CEILING,
+        
+        /// <remarks/>
+        FLOOR,
+        
+        /// <remarks/>
+        HALF_UP,
+        
+        /// <remarks/>
+        HALF_DOWN,
+        
+        /// <remarks/>
+        HALF_EVEN,
+        
+        /// <remarks/>
+        UNNECESSARY,
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public enum RoundingRule {
+        
+        /// <remarks/>
+        PER_LINE,
+        
+        /// <remarks/>
+        TOTAL,
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class OrderProcessingSupport {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("request-initial-auth-details")]
+        public bool requestinitialauthdetails;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool requestinitialauthdetailsSpecified;
     }
     
     /// <remarks/>

@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,22 @@ namespace GCheckout.Checkout {
   /// </summary>
   public class ShippingRestrictions {
     private AutoGen.ShippingRestrictions _Restrictions;
+    private bool _allowUSPoBoxes = true;
+
+    /// <summary>
+    /// The &lt;allow-us-po-box&gt; tag indicates whether a particular
+    /// shipping method can be used toship an order to a U.S. post 
+    /// office (P.O.) box.
+    /// </summary>
+    /// <remarks>The Default is true</remarks>
+    public bool AllowUSPOBoxes {
+      get {
+        return _allowUSPoBoxes;
+      }
+      set {
+        _allowUSPoBoxes = value;  
+      }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ShippingRestrictions"/> 
@@ -38,6 +54,51 @@ namespace GCheckout.Checkout {
       _Restrictions.excludedareas = 
         new AutoGen.ShippingRestrictionsExcludedareas();
       _Restrictions.excludedareas.Items = new object[0];
+    }
+
+    /// <summary>
+    /// This tag represents the entire world. This tag has no attributes
+    /// and does not contain anyother elements.
+    /// </summary>
+    /// <remarks>you can use the &lt;world-area&gt; tag to indicate that a shipping 
+    /// option is available worldwide and then identify specific excluded 
+    /// areas where the shipping option is unavailable. Those excluded areas 
+    /// could identify regions that are covered by other
+    /// shipping options or regions where you do not ship items.</remarks>
+    public void AddAllowedWorldArea() {
+      AddNewAllowedArea(new AutoGen.WorldArea());
+    }
+
+    /// <summary>You can use the &lt;postal-area&gt; tag to identify any country 
+    /// in the world, including the United States. You can also specify 
+    /// regions by postal codes. 
+    /// </summary>
+    /// <param name="countryCode">This tag contains the two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code for the postal area.</param>
+    public void AddAllowedPostalArea(string countryCode) {
+      AddAllowedPostalArea(countryCode, null);
+    }
+
+    /// <summary>You can use the &lt;postal-area&gt; tag to identify any country 
+    /// in the world, including the United States. You can also specify 
+    /// regions by postal codes. 
+    /// </summary>
+    /// <param name="countryCode">This tag contains the two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code for the postal area.</param>
+    /// <param name="postalCodePattern">This tag identifies a postal code or 
+    /// a range of postal codes for the postal area. To specify a range of 
+    /// postal codes, use an asterisk as a wildcard operator in the tag's value. 
+    /// For example, you can specify that a shipping option is available for all 
+    /// postal codes beginning with "SW" by entering SW* as the 
+    /// &lt;postal-code-pattern&gt; value.</param>
+    public void AddAllowedPostalArea(string countryCode, string postalCodePattern) {
+      AutoGen.PostalArea area = new GCheckout.AutoGen.PostalArea();
+      area.countrycode = countryCode;
+      if (postalCodePattern != null && postalCodePattern.Length > 0)
+        area.postalcodepattern = postalCodePattern;
+      AddNewAllowedArea(area);
     }
 
     /// <summary>
@@ -90,6 +151,40 @@ namespace GCheckout.Checkout {
       NewAllowedAreas[NewAllowedAreas.Length - 1] = NewArea;
       _Restrictions.allowedareas.Items = NewAllowedAreas;
     }
+
+
+    /// <summary>You can use the &lt;postal-area&gt; tag to identify any country 
+    /// in the world, including the United States. You can also specify 
+    /// regions by postal codes. 
+    /// </summary>
+    /// <param name="countryCode">This tag contains the two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code for the postal area.</param>
+    public void AddExcludedPostalArea(string countryCode) {
+      AddExcludedPostalArea(countryCode, null);
+    }
+
+    /// <summary>You can use the &lt;postal-area&gt; tag to identify any country 
+    /// in the world, including the United States. You can also specify 
+    /// regions by postal codes. 
+    /// </summary>
+    /// <param name="countryCode">This tag contains the two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code for the postal area.</param>
+    /// <param name="postalCodePattern">This tag identifies a postal code or 
+    /// a range of postal codes for the postal area. To specify a range of 
+    /// postal codes, use an asterisk as a wildcard operator in the tag's value. 
+    /// For example, you can specify that a shipping option is available for all 
+    /// postal codes beginning with "SW" by entering SW* as the 
+    /// &lt;postal-code-pattern&gt; value.</param>
+    public void AddExcludedPostalArea(string countryCode, string postalCodePattern) {
+      AutoGen.PostalArea area = new GCheckout.AutoGen.PostalArea();
+      area.countrycode = countryCode;
+      if (postalCodePattern != null && postalCodePattern.Length > 0)
+        area.postalcodepattern = postalCodePattern;
+      AddNewExcludedArea(area);
+    }
+
 
     /// <summary>
     /// This method adds an excluded zip code pattern to a 

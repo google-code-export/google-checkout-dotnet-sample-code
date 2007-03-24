@@ -139,6 +139,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Checkout\RoundingPolicy.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Checkout\ShippingRestrictions.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
