@@ -53,12 +53,14 @@ namespace GCheckout.Checkout {
     private string _Currency = null;
     private string _AnalyticsData = null;
     private long _PlatformID = 0;
-    
+    private bool _roundingRuleSet = false;
+    private RoundingMode _roundingMode = RoundingMode.HALF_EVEN;
+    private RoundingRule _roundingRule = RoundingRule.TOTAL;
+
     private ParameterizedUrls _ParameterizedUrls = new ParameterizedUrls();
 
     //jf Tax Tables added 3/1/2007
     private AlternateTaxTableCollection _alternateTaxTables = new AlternateTaxTableCollection();
-
 
     /// <summary>
     /// This method is called by the <see cref="GCheckoutButton"/> class and
@@ -216,7 +218,7 @@ namespace GCheckout.Checkout {
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
     [Obsolete("MerchantPrivateData is now a XmlNode Array. Please use one of the" + 
-              " AddItem methods that take in a XmlNode Array.")]
+       " AddItem methods that take in a XmlNode Array.")]
     public void AddItem(string Name, string Description, decimal Price,
       int Quantity, string MerchantPrivateItemData) {
       _Items.Add(new ShoppingCartItem(Name, Description, string.Empty, Price, 
@@ -488,6 +490,32 @@ namespace GCheckout.Checkout {
     /// where the shipping method is either available or unavailable.</param>
     public void AddMerchantCalculatedShippingMethod(string Name,
       decimal DefaultCost, ShippingRestrictions Restrictions) {
+
+      AddMerchantCalculatedShippingMethod(Name, DefaultCost, Restrictions, null);
+    }
+
+    /// <summary>
+    /// This method adds a merchant-calculated shipping method to an order. 
+    /// This method handles merchant-calculated shipping methods that have 
+    /// shipping restrictions.
+    /// </summary>
+    /// <param name="Name">The name of the shipping method. This value will be 
+    /// displayed on the Google Checkout order review page.</param>
+    /// <param name="DefaultCost">The default cost associated with the shipping 
+    /// method. This value is the amount that Gogle Checkout will charge for 
+    /// shipping if the merchant calculation callback request fails.</param>
+    /// <param name="Restrictions">A list of country, state or zip code areas 
+    /// where the shipping method is either available or unavailable.</param>
+    /// <param name="AddressFilters">enables you to specify a geographic area 
+    /// where a particular merchant-calculated shipping method is available or
+    /// unavailable. Google Checkout applies address filters before sending you
+    /// a &lt;merchantcalculation-callback&gt; request so that you are not asked
+    /// to calculate shipping costs for a shipping method that is not actually 
+    /// available.</param>
+    public void AddMerchantCalculatedShippingMethod(string Name,
+      decimal DefaultCost, ShippingRestrictions Restrictions,
+      ShippingRestrictions AddressFilters) {
+
       AutoGen.MerchantCalculatedShipping Method =
         new AutoGen.MerchantCalculatedShipping();
       Method.name = Name;
@@ -497,8 +525,12 @@ namespace GCheckout.Checkout {
       if (Restrictions != null) {
         Method.shippingrestrictions = Restrictions.XmlRestrictions;
       }
+      if (AddressFilters != null) {
+        Method.addressfilters = AddressFilters.XmlRestrictions;   
+      }
       AddNewShippingMethod(Method);
     }
+
 
     /// <summary>
     /// This method adds an instore-pickup shipping option to an order.
@@ -663,6 +695,89 @@ namespace GCheckout.Checkout {
       AddNewTaxRule(Rule);
     }
 
+
+
+    /// <summary>
+    /// Adds the country tax rule.
+    /// This method adds a tax rule associated with a particular state.
+    /// </summary>
+    /// <param name="TaxRate">The tax rate associated with a tax rule. Tax 
+    /// rates are expressed as decimal values. For example, a value of 0.0825 
+    /// specifies a tax rate of 8.25%.</param>
+    /// <param name="ShippingTaxed">
+    /// If this parameter has a value of <b>true</b>, then shipping costs will
+    /// be taxed for items that use the associated tax rule.
+    /// </param>
+    public void AddWorldAreaTaxRule(double TaxRate, bool ShippingTaxed) {
+      AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
+      Rule.rate = TaxRate;
+      Rule.shippingtaxedSpecified = true;
+      Rule.shippingtaxed = ShippingTaxed;
+      Rule.taxarea = new AutoGen.DefaultTaxRuleTaxarea();
+      AutoGen.WorldArea ThisArea = new AutoGen.WorldArea();
+      Rule.taxarea.Item = ThisArea;
+      AddNewTaxRule(Rule);
+    }
+
+    /// <summary>
+    /// Adds the postal area tax rule.
+    /// This method adds a tax rule associated with a particular postal area.
+    /// </summary>
+    /// <param name="countryCode">Required. This tag contains the 
+    /// two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code for the postal area.</param>
+    /// <param name="TaxRate">The tax rate associated with a tax rule. Tax 
+    /// rates are expressed as decimal values. For example, a value of 0.0825 
+    /// specifies a tax rate of 8.25%.</param>
+    /// <param name="ShippingTaxed">
+    /// If this parameter has a value of <b>true</b>, then shipping costs will
+    /// be taxed for items that use the associated tax rule.
+    /// </param>
+    public void AddPostalAreaTaxRule(string countryCode, 
+      double TaxRate, bool ShippingTaxed) {
+      AddPostalAreaTaxRule(countryCode, string.Empty, TaxRate, ShippingTaxed);
+    }
+
+    /// <summary>
+    /// Adds the country tax rule.
+    /// This method adds a tax rule associated with a particular state.
+    /// </summary>
+    /// <param name="countryCode">Required. This tag contains the 
+    /// two-letter 
+    /// <a href="http://www.iso.org/iso/en/prods-services/iso3166ma/02iso-3166-code-lists/list-en1.html">ISO 3166-1</a>
+    /// country code for the postal area.</param>
+    /// <param name="postalCodePattern">Optional. This tag identifies a postal
+    ///  code or a range of postal codes for the postal area. To specify a 
+    ///  range of postal codes, use an asterisk as a wildcard operator in the
+    ///  tag's value. For example, you can specify that a shipping option is 
+    ///  available for all postal codes beginning with "SW" by entering SW* 
+    ///  as the &lt;postal-code-pattern&gt; value.</param>
+    /// <param name="TaxRate">The tax rate associated with a tax rule. Tax 
+    /// rates are expressed as decimal values. For example, a value of 0.0825 
+    /// specifies a tax rate of 8.25%.</param>
+    /// <param name="ShippingTaxed">
+    /// If this parameter has a value of <b>true</b>, then shipping costs will
+    /// be taxed for items that use the associated tax rule.
+    /// </param>
+    public void AddPostalAreaTaxRule(string countryCode, string postalCodePattern, 
+      double TaxRate, bool ShippingTaxed) {
+      AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
+      Rule.rate = TaxRate;
+      Rule.shippingtaxedSpecified = true;
+      Rule.shippingtaxed = ShippingTaxed;
+      Rule.taxarea = new AutoGen.DefaultTaxRuleTaxarea();
+      AutoGen.PostalArea ThisArea = new AutoGen.PostalArea();
+      Rule.taxarea.Item = ThisArea;
+      ThisArea.countrycode = countryCode;
+      if (postalCodePattern != null && postalCodePattern != string.Empty) {
+        ThisArea.postalcodepattern = postalCodePattern;   
+      }
+      AddNewTaxRule(Rule);
+    }
+
+
+
     /// <summary>
     /// This method adds a new tax rule to the &lt;default-tax-table&gt;.
     /// This method is called by the methods that create the XML blocks
@@ -733,9 +848,9 @@ namespace GCheckout.Checkout {
         MyCart.shoppingcart.items[i].unitprice = new AutoGen.Money();
         MyCart.shoppingcart.items[i].unitprice.currency = _Currency;
         MyCart.shoppingcart.items[i].unitprice.Value = MyItem.Price;
-        
+
         if (MyItem.MerchantItemID != null && MyItem.MerchantItemID.Length > 0) {
-         MyCart.shoppingcart.items[i].merchantitemid = MyItem.MerchantItemID;  
+          MyCart.shoppingcart.items[i].merchantitemid = MyItem.MerchantItemID;  
         }
 
         if (MyItem.MerchantPrivateItemDataNodes != null
@@ -839,6 +954,17 @@ namespace GCheckout.Checkout {
           acceptgiftcertificates = true;
         MyCart.checkoutflowsupport.Item.merchantcalculations.
           acceptgiftcertificatesSpecified = true;
+      }
+
+      if (_roundingRuleSet) {
+        MyCart.checkoutflowsupport.Item.roundingpolicy =
+          new GCheckout.AutoGen.RoundingPolicy();
+        MyCart.checkoutflowsupport.Item.roundingpolicy.mode 
+          = (AutoGen.RoundingMode) Enum.Parse(typeof(AutoGen.RoundingMode), 
+          _roundingMode.ToString(), true);
+        MyCart.checkoutflowsupport.Item.roundingpolicy.rule 
+          = (AutoGen.RoundingRule) Enum.Parse(typeof(AutoGen.RoundingRule), 
+          _roundingRule.ToString(), true);
       }
 
       //See if we have any ParameterizedUrl that need to be added to the message.
@@ -1210,8 +1336,18 @@ namespace GCheckout.Checkout {
       }
     }
 
-    private class ShoppingCartItem 
-    {
+    /// <summary>
+    /// Set the &lt;rounding-policy&gt; node of &lt;merchant-checkout-flow-support&gt;
+    /// </summary>
+    /// <param name="mode">The <see cref="RoundingMode"/></param>
+    /// <param name="rule">The <see cref="RoundingRule"/></param>
+    public void SetRoundingPolicy(RoundingMode mode, RoundingRule rule) {
+      _roundingRuleSet = true;
+      _roundingMode = mode;
+      _roundingRule = rule;
+    }
+
+    private class ShoppingCartItem {
       public string Name;
       public string Description;
       public decimal Price = 0.0m;
@@ -1269,7 +1405,7 @@ namespace GCheckout.Checkout {
         MerchantItemID = InMerchantItemID;
         Price = InPrice;
         Quantity = InQuantity;
-        MerchantPrivateItemDataNodes = InMerchantPrivateItemData;        
+        MerchantPrivateItemDataNodes = InMerchantPrivateItemData;
         TaxTable = taxTable;
       }
     }

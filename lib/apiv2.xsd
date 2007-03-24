@@ -25,6 +25,7 @@
           </xs:choice>
         </xs:complexType>
       </xs:element>
+      <xs:element name="order-processing-support" type="tns:OrderProcessingSupport" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -62,6 +63,7 @@
       <xs:element name="request-buyer-phone-number" type="xs:boolean" minOccurs="0" />
       <xs:element name="analytics-data" type="xs:string" minOccurs="0" />
       <xs:element name="platform-id" type="xs:long" minOccurs="0" />
+      <xs:element name="rounding-policy" type="tns:RoundingPolicy" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -70,6 +72,13 @@
       <xs:element name="merchant-calculations-url" type="xs:anyURI" />
       <xs:element name="accept-merchant-coupons" type="xs:boolean" minOccurs="0" />
       <xs:element name="accept-gift-certificates" type="xs:boolean" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="RoundingPolicy">
+    <xs:all>
+      <xs:element name="mode" type="tns:RoundingMode" />
+      <xs:element name="rule" type="tns:RoundingRule" />
     </xs:all>
   </xs:complexType>
   
@@ -152,6 +161,15 @@
     <xs:attribute name="country-area" type="tns:USAreas" use="required" />
   </xs:complexType>
   
+  <xs:complexType name="PostalArea">
+    <xs:all>
+      <xs:element name="country-code" type="xs:string" />
+      <xs:element name="postal-code-pattern" type="xs:string" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="WorldArea" />
+  
   <xs:complexType name="Address">
     <xs:all>
       <xs:element name="email" type="xs:string" minOccurs="0" />
@@ -177,6 +195,8 @@
               <xs:element name="us-state-area" type="tns:USStateArea" />
               <xs:element name="us-zip-area" type="tns:USZipArea" />
               <xs:element name="us-country-area" type="tns:USCountryArea" />
+              <xs:element name="postal-area" type="tns:PostalArea" />
+              <xs:element name="world-area" type="tns:WorldArea" />
             </xs:choice>
           </xs:sequence>
         </xs:complexType>
@@ -188,10 +208,13 @@
               <xs:element name="us-state-area" type="tns:USStateArea" />
               <xs:element name="us-zip-area" type="tns:USZipArea" />
               <xs:element name="us-country-area" type="tns:USCountryArea" />
+              <xs:element name="postal-area" type="tns:PostalArea" />
+              <xs:element name="world-area" type="tns:WorldArea" />
             </xs:choice>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="allow-us-po-box" type="xs:boolean" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -220,6 +243,7 @@
   
   <xs:complexType name="MerchantCalculatedShipping">
     <xs:all>
+      <xs:element name="address-filters" type="tns:ShippingRestrictions" minOccurs="0" />
       <xs:element name="shipping-restrictions" type="tns:ShippingRestrictions" minOccurs="0" />
       <xs:element name="price">
         <xs:complexType>
@@ -407,6 +431,8 @@
             <xs:element name="us-state-area" type="tns:USStateArea" />
             <xs:element name="us-zip-area" type="tns:USZipArea" />
             <xs:element name="us-country-area" type="tns:USCountryArea" />
+            <xs:element name="postal-area" type="tns:PostalArea" />
+            <xs:element name="world-area" type="tns:WorldArea" />
           </xs:choice>
         </xs:complexType>
       </xs:element>
@@ -428,6 +454,8 @@
             <xs:element name="us-state-area" type="tns:USStateArea" />
             <xs:element name="us-zip-area" type="tns:USZipArea" />
             <xs:element name="us-country-area" type="tns:USCountryArea" />
+            <xs:element name="postal-area" type="tns:PostalArea" />
+            <xs:element name="world-area" type="tns:WorldArea" />
           </xs:choice>
         </xs:complexType>
       </xs:element>
@@ -837,6 +865,32 @@
       <xs:element name="is-modifiable" type="xs:string" />
     </xs:all>
   </xs:complexType>
+  
+  <xs:complexType name="OrderProcessingSupport">
+    <xs:all>
+      <xs:element name="request-initial-auth-details" type="xs:boolean" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:simpleType name="RoundingMode">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="UP" />
+      <xs:enumeration value="DOWN" />
+      <xs:enumeration value="CEILING" />
+      <xs:enumeration value="FLOOR" />
+      <xs:enumeration value="HALF_UP" />
+      <xs:enumeration value="HALF_DOWN" />
+      <xs:enumeration value="HALF_EVEN" />
+      <xs:enumeration value="UNNECESSARY" />
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="RoundingRule">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="PER_LINE" />
+      <xs:enumeration value="TOTAL" />
+    </xs:restriction>
+  </xs:simpleType>
   
   <xs:complexType name="anyMultiple" mixed="true">
     <xs:sequence>

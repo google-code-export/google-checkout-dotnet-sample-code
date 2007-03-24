@@ -52,16 +52,15 @@ namespace GCheckout.MerchantCalculation {
     [Obsolete("MerchantPrivateItemData Is no longer a string, please use MerchantPrivateItemDataNodes")]
     public OrderLine(string ItemName, string ItemDescription, int Quantity,
       decimal UnitPrice, string TaxTableSelector,
-      string MerchantPrivateItemData)
-    {
+      string MerchantPrivateItemData) {
       _ItemName = ItemName;
       _ItemDescription = ItemDescription;
       _Quantity = Quantity;
       _UnitPrice = UnitPrice;
       _TaxTableSelector = TaxTableSelector;
       if (MerchantPrivateItemData != null)
-        _MerchantPrivateItemDataNodes = new System.Xml.XmlNode[] 
-          { Checkout.CheckoutShoppingCartRequest.MakeXmlElement(MerchantPrivateItemData)};
+        _MerchantPrivateItemDataNodes = new System.Xml.XmlNode[] { 
+            Checkout.CheckoutShoppingCartRequest.MakeXmlElement(MerchantPrivateItemData)};
     }
 
     /// <summary>
