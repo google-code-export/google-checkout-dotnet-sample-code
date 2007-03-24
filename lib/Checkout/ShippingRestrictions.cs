@@ -38,7 +38,9 @@ namespace GCheckout.Checkout {
         return _allowUSPoBoxes;
       }
       set {
-        _allowUSPoBoxes = value;  
+        _allowUSPoBoxes = value;
+        _Restrictions.allowuspobox = value;
+        _Restrictions.allowuspoboxSpecified = true;
       }
     }
 
