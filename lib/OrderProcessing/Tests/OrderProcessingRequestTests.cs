@@ -45,8 +45,21 @@ namespace GCheckout.OrderProcessing.Tests {
     }
 
     private AutoGen.DeliverOrderRequest ParseDeliverOrderRequest(byte[] Xml) {
+      object testVal = null;
+
       Type T = typeof(AutoGen.DeliverOrderRequest);
+
+      testVal = EncodeHelper.Deserialize(Xml);
+      Assert.IsNotNull(testVal);
+      Assert.AreEqual(testVal.GetType(), T);  
+      
       string Xml2 = EncodeHelper.Utf8BytesToString(Xml);
+
+      //we want to test the generic Deserialize Method first.
+      testVal = EncodeHelper.Deserialize(Xml2);
+      Assert.IsNotNull(testVal);
+      Assert.AreEqual(testVal.GetType(), T);
+      
       return (AutoGen.DeliverOrderRequest) EncodeHelper.Deserialize(Xml2, T);
     }
 
