@@ -98,6 +98,9 @@ namespace GCheckout.Checkout.Tests {
 
       byte[] cart = request.GetXml();
 
+      //test to see if the item can desialize
+      Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
+
       Console.WriteLine(System.Text.UTF8Encoding.UTF8.GetString(cart));
     }
 

@@ -84,16 +84,76 @@ namespace GCheckout.Util {
     /// </code>
     /// will return the string <b>new-order-notification</b>.
     /// </example>
-    public static string GetTopElement(string Xml) {
-      using (StringReader SReader = new StringReader(Xml)) {
-        XmlTextReader XReader = new XmlTextReader(SReader);
-        XReader.WhitespaceHandling = WhitespaceHandling.None;
-        XReader.Read();
-        XReader.Read();
-        string RetVal = XReader.Name;
-        XReader.Close();
-        return RetVal;
+    public static string GetTopElement(byte[] Xml) {
+      using (MemoryStream ms = new MemoryStream(Xml)) {
+        return GetTopElement(ms);
       }
+    }
+
+    /// <summary>
+    /// Gets the top element of an XML string.
+    /// </summary>
+    /// <param name="Xml">
+    /// The XML string to extract the top element from.
+    /// </param>
+    /// <returns>
+    /// The name of the first regular XML element.
+    /// </returns>
+    /// <example>
+    /// Calling GetTopElement(Xml) where Xml is:
+    /// <code>
+    /// &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    /// &lt;new-order-notification xmlns="http://checkout.google.com/schema/2"
+    /// serial-number="85f54628-538a-44fc-8605-ae62364f6c71"&gt;
+    /// &lt;google-order-number&gt;841171949013218&lt;/google-order-number&gt;
+    /// ...
+    /// &lt;new-order-notification&gt;
+    /// </code>
+    /// will return the string <b>new-order-notification</b>.
+    /// </example>
+    public static string GetTopElement(string Xml) {
+      return GetTopElement(StringToUtf8Bytes(Xml));
+    }
+
+    /// <summary>
+    /// Gets the top element of an XML string.
+    /// </summary>
+    /// <param name="Xml">
+    /// The XML string to extract the top element from.
+    /// </param>
+    /// <returns>
+    /// The name of the first regular XML element.
+    /// </returns>
+    /// <example>
+    /// Calling GetTopElement(Xml) where Xml is:
+    /// <code>
+    /// &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    /// &lt;new-order-notification xmlns="http://checkout.google.com/schema/2"
+    /// serial-number="85f54628-538a-44fc-8605-ae62364f6c71"&gt;
+    /// &lt;google-order-number&gt;841171949013218&lt;/google-order-number&gt;
+    /// ...
+    /// &lt;new-order-notification&gt;
+    /// </code>
+    /// will return the string <b>new-order-notification</b>.
+    /// </example>
+    public static string GetTopElement(Stream Xml) {
+      //we know that network streams can have issues so we may want to add
+      //code to see if someone passed in a network stream
+      //For now we are going to run unit tests and see if any issues come back
+
+      //set the begin postion so we can set the stream back when we are done.
+      long beginPos = Xml.Position;
+      XmlTextReader XReader = new XmlTextReader(Xml);
+      XReader.WhitespaceHandling = WhitespaceHandling.None;
+      XReader.Read();
+      XReader.Read();
+      string RetVal = XReader.Name;
+      //Do not close the stream, we will still need it for additional
+      //operations.
+      //XReader.Close();
+      //reposition the stream to where it started
+      Xml.Position = beginPos;
+      return RetVal;
     }
 
     /// <summary>
@@ -167,6 +227,80 @@ namespace GCheckout.Util {
       XmlSerializer myDeserializer = new XmlSerializer(ThisType);
       using (StringReader myReader = new StringReader(Xml)) {
         return myDeserializer.Deserialize(myReader);
+      }
+    }
+
+    /// <summary>
+    /// Generic Deserialize method that will attempt to deserialize any class
+    /// in the GCheckout.AutoGen namespace.
+    /// </summary>
+    /// <param name="Xml">The XML that should be made into an object.</param>
+    /// <returns>The reconstituted object.</returns>
+    public static object Deserialize(byte[] Xml) { 
+      using (MemoryStream ms = new MemoryStream(Xml)) {
+        return Deserialize(ms);
+      }
+    }
+
+    /// <summary>
+    /// Generic Deserialize method that will attempt to deserialize any class
+    /// in the GCheckout.AutoGen namespace.
+    /// </summary>
+    /// <param name="Xml">The XML that should be made into an object.</param>
+    /// <returns>The reconstituted object.</returns>
+    public static object Deserialize(string Xml) {
+      byte[] newXml = StringToUtf8Bytes(Xml);
+      return Deserialize(newXml);
+    }
+
+    /// <summary>
+    /// Generic Deserialize method that will attempt to deserialize any class
+    /// in the GCheckout.AutoGen namespace.
+    /// </summary>
+    /// <param name="Xml">The XML that should be made into an object.</param>
+    /// <returns>The reconstituted object.</returns>
+    public static object Deserialize(Stream Xml) {
+
+      //get the name of the node, this is what we will use for the lookup.
+      string nodeName = GetTopElement(Xml);
+
+      //ok here is where the fun starts.
+      string nameSpace = typeof(AutoGen.Hello).Namespace;
+      Type[] types 
+        = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
+
+      Type reflectedType = null;
+
+      foreach(Type t in types) {
+        if (t.Namespace == nameSpace && t.IsClass) {
+          //Console.WriteLine(t.Name);
+          XmlRootAttribute[] att 
+            = t.GetCustomAttributes(typeof(XmlRootAttribute), true)
+            as XmlRootAttribute[];
+          //if we found the custom attribute, then we need to see
+          //if the element name is correct.
+          if (att != null && att.Length > 0) {
+            if (att[0].ElementName == nodeName) {
+              reflectedType = t;
+              break;
+            }
+          }
+        }
+      }
+
+      //ok either the type is supported or it is not
+      //if we could not find the correct type then we must have either
+      //an incorrect dll for the message, or the message
+      //is not a Google Checkout message. Return null if the type
+      //can't be deserialized.
+      if (reflectedType != null) {
+        XmlSerializer myDeserializer = new XmlSerializer(reflectedType);
+        return myDeserializer.Deserialize(Xml);
+      }
+      else {
+        System.Diagnostics.Debug.WriteLine("Deserialize was not able" +
+          "To locate a message of type:" + nodeName+ "");
+        return null;
       }
     }
 
