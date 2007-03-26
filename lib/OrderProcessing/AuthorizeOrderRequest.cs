@@ -36,7 +36,10 @@ namespace GCheckout.OrderProcessing {
     /// <param name="OrderNo">The Google Order Number</param>
     public AuthorizeOrderRequest(string MerchantID, 
       string MerchantKey, string Env, string OrderNo) {
-
+      _MerchantID = MerchantID;
+      _MerchantKey = MerchantKey;
+      _Environment = StringToEnvironment(Env);
+      _OrderNo = OrderNo;
     }
 
     /// <summary>Method that is called to produce the Xml message 
