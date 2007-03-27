@@ -29,7 +29,7 @@ namespace GCheckout {
     /// <summary>Google Checkout Merchant Key</summary>
     protected string _MerchantKey;
     /// <summary>EnvironmentType used to determine where the messages are posted (Sandbox, Production)</summary>
-    protected EnvironmentType _Environment = EnvironmentType.Sandbox;
+    protected EnvironmentType _Environment = EnvironmentType.Unknown;
 
     /// <summary>Method that is called to produce the Xml message that can be posted to Google Checkout.</summary>
     public abstract byte[] GetXml();
@@ -46,6 +46,7 @@ namespace GCheckout {
 
     /// <summary>Send the Message to Google Checkout</summary>
     public GCheckoutResponse Send() {
+      CheckSendPreConditions();
       byte[] Data = GetXml();
       // Prepare web request.
       HttpWebRequest myRequest =
@@ -100,6 +101,19 @@ namespace GCheckout {
         return string.Format(
           "https://checkout.google.com/cws/v2/Merchant/{0}/request",
           _MerchantID);
+      }
+    }
+
+    private void CheckSendPreConditions() {
+      if (_Environment == EnvironmentType.Unknown) {
+        throw new ApplicationException(
+          "Environment has not been set to Sandbox or Production");
+      }
+      if (_MerchantID == null) {
+        throw new ApplicationException("MerchantID has not been set");
+      }
+      if (_MerchantKey == null) {
+        throw new ApplicationException("MerchantKey has not been set");
       }
     }
 
