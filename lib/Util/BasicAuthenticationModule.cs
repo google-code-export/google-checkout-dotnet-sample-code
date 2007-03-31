@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ using System.Text;
 using System.Web;
 
 namespace GCheckout.Util {
+
   /// <summary>
   /// If you are processing notifications or merchant calculation callback 
   /// requests, but you do not want to turn on basic HTTP authentication in 
@@ -28,6 +29,37 @@ namespace GCheckout.Util {
   /// Google Checkout.
   /// </summary>
   public class BasicAuthenticationModule : IHttpModule {
+
+    private string _userName = string.Empty;
+
+    /// <summary>
+    /// The UserName performing the request
+    /// </summary>
+    protected string UserName {
+      get {
+        return _userName;
+      }
+      set {
+        if (value != null)
+          _userName = value;
+      }
+    }
+
+    private string _password = string.Empty;
+
+    /// <summary>
+    /// The Password of the User performing the call.
+    /// </summary>
+    protected string Password {
+      get {
+        return _password;
+      }
+      set {
+        if (value != null)
+          _password = value;
+      }
+    }
+
     /// <summary>
     /// Creates a new instance of the <see cref="BasicAuthenticationModule"/> 
     /// class. This is done by IIS.
@@ -63,8 +95,8 @@ namespace GCheckout.Util {
     public void OnAuthenticateRequest(object source, EventArgs eventArgs) {
       HttpApplication App = (HttpApplication)source;
       string AuthHeader = App.Request.Headers["Authorization"];
-      string UserName = GetUserName(AuthHeader);
-      string Password = GetPassword(AuthHeader);
+      UserName = GetUserName(AuthHeader);
+      Password = GetPassword(AuthHeader);
       if (UserHasAccess(UserName, Password)) {
         App.Context.User = new GenericPrincipal(
           new GenericIdentity(UserName, "Google.Checkout.Basic"),
@@ -120,7 +152,7 @@ namespace GCheckout.Util {
 
     private static string[] GetDecodedAndSplitAuthorizatonHeader(
       string AuthHeader) {
-      string[] RetVal = new string[2] { "", "" };
+      string[] RetVal = new string[2] { string.Empty, string.Empty };
       if (AuthHeader != null && AuthHeader.StartsWith("Basic ")) {
         try {
           string EncodedString = AuthHeader.Substring(6);
@@ -134,15 +166,21 @@ namespace GCheckout.Util {
       return RetVal;
     }
 
-    private bool UserHasAccess(string UserName, string Password) {
+    /// <summary>
+    /// Verify if the user has access to perform the callback
+    /// </summary>
+    /// <param name="UserName">The UserName making the call.</param>
+    /// <param name="Password">The Password of the user.</param>
+    /// <returns>True or false if the user is able to perform the callback.</returns>
+    protected virtual bool UserHasAccess(string UserName, string Password) {
       string ID = ConfigurationSettings.AppSettings["GoogleMerchantID"];
       if (ID == null)
         throw new ApplicationException(
-"Set the 'GoogleMerchantID' key in the config file.");
+          "Set the 'GoogleMerchantID' key in the config file.");
       string Key = ConfigurationSettings.AppSettings["GoogleMerchantKey"];
       if (Key == null)
         throw new ApplicationException(
-"Set the 'GoogleMerchantKey' key in the config file.");
+          "Set the 'GoogleMerchantKey' key in the config file.");
       return (UserName == ID && Password == Key);
     }
   }
