@@ -173,11 +173,11 @@ namespace GCheckout.Util {
     /// <param name="Password">The Password of the user.</param>
     /// <returns>True or false if the user is able to perform the callback.</returns>
     protected virtual bool UserHasAccess(string UserName, string Password) {
-      string ID = ConfigurationSettings.AppSettings["GoogleMerchantID"];
+      string ID = GCheckoutConfigurationHelper.MerchantID.ToString();
       if (ID == null)
         throw new ApplicationException(
           "Set the 'GoogleMerchantID' key in the config file.");
-      string Key = ConfigurationSettings.AppSettings["GoogleMerchantKey"];
+      string Key = GCheckoutConfigurationHelper.MerchantKey;
       if (Key == null)
         throw new ApplicationException(
           "Set the 'GoogleMerchantKey' key in the config file.");
