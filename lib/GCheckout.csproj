@@ -264,6 +264,21 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Util\GCheckoutConfigHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Util\GCheckoutConfigSection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Util\GCheckoutConfigurationHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Util\GCheckoutResponse.cs"
                     SubType = "Code"
                     BuildAction = "Compile"

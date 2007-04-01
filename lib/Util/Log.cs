@@ -76,8 +76,8 @@ namespace GCheckout.Util {
     /// <returns>True if the config keys are correct.</returns>
     public static bool LoggingOn() {
       bool RetVal = true;
-      if (GetLogPath() == null || 
-        ConfigurationSettings.AppSettings["Logging"] != "true") {
+      if ((GetLogPath() == null || GetLogPath() == string.Empty) 
+        || !GCheckoutConfigurationHelper.Logging) {
         RetVal = false;
       }
       return RetVal;
@@ -89,7 +89,7 @@ namespace GCheckout.Util {
     /// </summary>
     /// <returns>Log path.</returns>
     private static string GetLogPath() {
-      return ConfigurationSettings.AppSettings["LogDirectory"];
+      return GCheckoutConfigurationHelper.LogDirectory;
     }
   }
 }

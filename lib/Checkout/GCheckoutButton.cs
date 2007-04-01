@@ -18,6 +18,7 @@ using System;
 using System.Web.UI;
 using System.ComponentModel;
 using System.Configuration;
+using GCheckout.Util;
 
 namespace GCheckout.Checkout {
   /// <summary>
@@ -60,13 +61,12 @@ namespace GCheckout.Checkout {
        "select the Settings tab, click the Integration link.")]
     private string MerchantID {
       get {
-        string RetVal = ConfigurationSettings.AppSettings["GoogleMerchantID"];
+        string RetVal = GCheckoutConfigurationHelper.MerchantID.ToString();
         if (RetVal == null)
           RetVal = string.Empty;
         return RetVal;
       }
     }
-
 
     /// <summary>
     /// The <b>GoogleMerchantKey</b> property value identifies your Google 
@@ -77,7 +77,7 @@ namespace GCheckout.Checkout {
        "Google, select the Settings tab, click the Integration link.")]
     private string MerchantKey {
       get {
-        string RetVal = ConfigurationSettings.AppSettings["GoogleMerchantKey"];
+        string RetVal = GCheckoutConfigurationHelper.MerchantKey;
         if (RetVal == null)
           RetVal = string.Empty;
         return RetVal;
@@ -97,13 +97,7 @@ namespace GCheckout.Checkout {
        "real.")]
     private EnvironmentType Environment {
       get {
-        EnvironmentType RetVal = EnvironmentType.Unknown;
-        string FromFile =
-          ConfigurationSettings.AppSettings["GoogleEnvironment"];
-        if (FromFile != null && FromFile != string.Empty) {
-          RetVal = (EnvironmentType)
-            Enum.Parse(typeof(EnvironmentType), FromFile, true);
-        }
+        EnvironmentType RetVal = GCheckoutConfigurationHelper.Environment;
         return RetVal;
       }
     }
