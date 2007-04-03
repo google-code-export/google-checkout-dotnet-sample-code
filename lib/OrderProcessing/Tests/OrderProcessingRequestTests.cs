@@ -44,6 +44,42 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual(null, D.trackingdata);
     }
 
+    /// <exclude/>
+    [Test]
+    public void CancelOrderRequest() {
+      CancelOrderRequest Req;
+      AutoGen.CancelOrderRequest D;
+      // Test the first constructor.
+      Req = new CancelOrderRequest("", "", "Sandbox", "1234567890", 
+        "Wrong size");
+      D = ParseCancelOrderRequest(Req.GetXml());
+      Assert.AreEqual("1234567890", D.googleordernumber);
+      Assert.AreEqual(null, D.comment);
+      Assert.AreEqual("Wrong size", D.reason);
+      // Test the second constructor.
+      Req = new CancelOrderRequest("", "", "Sandbox", "1234567890", 
+        "Wrong size", "Buyer called to say the T-shirt was the wrong size.");
+      D = ParseCancelOrderRequest(Req.GetXml());
+      Assert.AreEqual("1234567890", D.googleordernumber);
+      Assert.AreEqual("Buyer called to say the T-shirt was the wrong size.", 
+        D.comment);
+      Assert.AreEqual("Wrong size", D.reason);
+    }
+
+    /// <exclude/>
+    [Test, ExpectedException(typeof(ApplicationException))]
+    public void InvalidCancelOrderRequest1() {
+      CancelOrderRequest Req = new CancelOrderRequest("", "", "Sandbox", 
+        "1234567890", null);
+    }
+
+    /// <exclude/>
+    [Test, ExpectedException(typeof(ApplicationException))]
+    public void InvalidCancelOrderRequest2() {
+      CancelOrderRequest Req = new CancelOrderRequest("", "", "Sandbox", 
+        "1234567890", "");
+    }
+
     private AutoGen.DeliverOrderRequest ParseDeliverOrderRequest(byte[] Xml) {
       object testVal = null;
 
@@ -63,6 +99,10 @@ namespace GCheckout.OrderProcessing.Tests {
       return (AutoGen.DeliverOrderRequest) EncodeHelper.Deserialize(Xml2, T);
     }
 
-
+    private AutoGen.CancelOrderRequest ParseCancelOrderRequest(byte[] Xml) {
+      Type T = typeof(AutoGen.CancelOrderRequest);
+      string Xml2 = EncodeHelper.Utf8BytesToString(Xml);
+      return (AutoGen.CancelOrderRequest) EncodeHelper.Deserialize(Xml2, T);
+    }
 	}
 }
