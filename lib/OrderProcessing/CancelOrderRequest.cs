@@ -43,6 +43,7 @@ namespace GCheckout.OrderProcessing {
       _Environment = StringToEnvironment(Env);
       _OrderNo = OrderNo;
       _Reason = Reason;
+      CheckCreationPostConditions();
     }
 
     /// <summary>
@@ -63,6 +64,13 @@ namespace GCheckout.OrderProcessing {
       _OrderNo = OrderNo;
       _Reason = Reason;
       _Comment = Comment;
+      CheckCreationPostConditions();
+    }
+
+    private void CheckCreationPostConditions() {
+      if (_Reason == null || _Reason == string.Empty) {
+        throw new ApplicationException("Reason cannot be empty");
+      }
     }
 
     /// <summary>Method that is called to produce the Xml message 
