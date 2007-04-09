@@ -56,6 +56,7 @@ namespace GCheckout.Checkout {
     private bool _roundingRuleSet = false;
     private RoundingMode _roundingMode = RoundingMode.HALF_EVEN;
     private RoundingRule _roundingRule = RoundingRule.TOTAL;
+    private bool _RequestInitialAuthDetails = false;
 
     private ParameterizedUrls _ParameterizedUrls = new ParameterizedUrls();
 
@@ -967,6 +968,12 @@ namespace GCheckout.Checkout {
           _roundingRule.ToString(), true);
       }
 
+      if (_RequestInitialAuthDetails) {
+        MyCart.orderprocessingsupport = new AutoGen.OrderProcessingSupport();
+        MyCart.orderprocessingsupport.requestinitialauthdetailsSpecified = true;
+        MyCart.orderprocessingsupport.requestinitialauthdetails = true;
+      }
+
       //See if we have any ParameterizedUrl that need to be added to the message.
       if (_ParameterizedUrls.Urls.Length > 0) {
         GCheckout.AutoGen.ParameterizedUrl[] destUrls
@@ -1316,6 +1323,23 @@ namespace GCheckout.Checkout {
     public AlternateTaxTableCollection AlternateTaxTables {
       get {
         return _alternateTaxTables; 
+      }
+    }
+
+    /// <summary>
+    /// Lets the merchant request the detailed information about the initial
+    /// authorization.
+    /// </summary>
+    /// <remarks>
+    /// If the merchant sets this to true, Google will return an
+    /// &lt;authorized-amount-notification&gt; when the order is first placed.
+    /// </remarks>
+    public bool RequestInitialAuthDetails {
+      get {
+        return _RequestInitialAuthDetails;
+      }
+      set {
+        _RequestInitialAuthDetails = value;
       }
     }
 

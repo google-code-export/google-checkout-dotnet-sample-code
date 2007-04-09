@@ -4,6 +4,7 @@ using NUnit.Framework;
 using System.Xml;
 using System.IO;
 using System.Diagnostics;
+using GCheckout.Util;
 
 namespace GCheckout.Checkout.Tests {
 
@@ -103,6 +104,29 @@ namespace GCheckout.Checkout.Tests {
 
       Console.WriteLine(System.Text.UTF8Encoding.UTF8.GetString(cart));
     }
+
+    /// <exclude/>
+    [Test()]
+    public void RequestInitialAuthDetails() {
+      byte[] Xml;
+      AutoGen.CheckoutShoppingCart Cart;
+      CheckoutShoppingCartRequest Req = new CheckoutShoppingCartRequest
+        ("123", "456", EnvironmentType.Sandbox, "USD", 0);
+      Req.AddItem("Mars bar", "", 0.75m, 2);
+      Req.AddFlatRateShippingMethod("USPS", 4.30m);
+      // Check the <order-processing-support> tag is not there by default.
+      Xml = Req.GetXml();
+      Cart = (AutoGen.CheckoutShoppingCart) EncodeHelper.Deserialize(Xml);
+      Assert.IsNull(Cart.orderprocessingsupport);
+      // Set RequestInitialAuthDetails and check that the XML changes.
+      Req.RequestInitialAuthDetails = true;
+      Xml = Req.GetXml();
+      Cart = (AutoGen.CheckoutShoppingCart) EncodeHelper.Deserialize(Xml);
+      Assert.IsNotNull(Cart.orderprocessingsupport);
+      Assert.IsTrue(Cart.orderprocessingsupport.requestinitialauthdetails);
+      Assert.IsTrue(Cart.orderprocessingsupport.requestinitialauthdetailsSpecified);
+    }
+
 
   }
 }
