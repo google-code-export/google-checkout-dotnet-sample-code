@@ -61,10 +61,16 @@ namespace GCheckout.Checkout {
        "select the Settings tab, click the Integration link.")]
     private string MerchantID {
       get {
-        string RetVal = GCheckoutConfigurationHelper.MerchantID.ToString();
-        if (RetVal == null)
-          RetVal = string.Empty;
-        return RetVal;
+        try {
+          //The designer will throw an exception, so let's catch it
+          string RetVal = GCheckoutConfigurationHelper.MerchantID.ToString();
+          if (RetVal == null)
+            RetVal = string.Empty;
+          return RetVal;
+        }
+        catch {
+          return string.Empty;
+        }
       }
     }
 
@@ -77,10 +83,16 @@ namespace GCheckout.Checkout {
        "Google, select the Settings tab, click the Integration link.")]
     private string MerchantKey {
       get {
-        string RetVal = GCheckoutConfigurationHelper.MerchantKey;
-        if (RetVal == null)
-          RetVal = string.Empty;
-        return RetVal;
+        try {
+          //The designer will throw an exception, so let's catch it
+          string RetVal = GCheckoutConfigurationHelper.MerchantKey;
+          if (RetVal == null)
+            RetVal = string.Empty;
+          return RetVal;
+        }
+        catch {
+          return string.Empty;
+        }
       }
     }
 
@@ -97,8 +109,14 @@ namespace GCheckout.Checkout {
        "real.")]
     private EnvironmentType Environment {
       get {
-        EnvironmentType RetVal = GCheckoutConfigurationHelper.Environment;
-        return RetVal;
+        try {
+          //The designer will throw an exception, so let's catch it
+          EnvironmentType RetVal = GCheckoutConfigurationHelper.Environment;
+          return RetVal;
+        }
+        catch {
+          return EnvironmentType.Unknown;
+        }
       }
     }
 
