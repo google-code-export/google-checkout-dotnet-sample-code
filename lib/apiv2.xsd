@@ -858,14 +858,6 @@
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
-  <xs:complexType name="ModifiablePrice">
-    <xs:all>
-      <xs:element name="min-price" type="tns:Money" />
-      <xs:element name="max-price" type="tns:Money" />
-      <xs:element name="is-modifiable" type="xs:string" />
-    </xs:all>
-  </xs:complexType>
-  
   <xs:complexType name="OrderProcessingSupport">
     <xs:all>
       <xs:element name="request-initial-auth-details" type="xs:boolean" minOccurs="0" />
