@@ -136,6 +136,7 @@ namespace GCheckout.Checkout {
       }
       set {
         _Background = value;
+        SetImageUrl();
       }
     }
 
@@ -194,6 +195,20 @@ namespace GCheckout.Checkout {
       }
       set {
         _UseHttps = value;
+        SetImageUrl();
+      }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control is enabled.
+    /// </summary>
+    public override bool Enabled {
+      get {
+        return base.Enabled;
+      }
+      set {
+        base.Enabled = value;
+        SetImageUrl();
       }
     }
 
