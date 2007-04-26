@@ -79,7 +79,7 @@ namespace GCheckout.NotificationQueue {
         else {
           SleepSeconds = SleepSeconds * 2;
           if (SleepSeconds == 0) SleepSeconds = 1;
-          if (SleepSeconds > 30000) SleepSeconds = 30;
+          if (SleepSeconds > 30) SleepSeconds = 30;
           Thread.Sleep(SleepSeconds * 1000);
         }
       }
