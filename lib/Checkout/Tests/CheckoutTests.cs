@@ -127,6 +127,24 @@ namespace GCheckout.Checkout.Tests {
       Assert.IsTrue(Cart.orderprocessingsupport.requestinitialauthdetailsSpecified);
     }
 
+    /// <exclude/>
+    [Test()]
+    public void CartExpiration() {
+      byte[] Xml;
+      AutoGen.CheckoutShoppingCart Cart;
+      CheckoutShoppingCartRequest Req = new CheckoutShoppingCartRequest
+        ("123", "456", EnvironmentType.Sandbox, "USD", 0);
+      Req.AddItem("Mars bar", "", 0.75m, 2);
+      Req.AddFlatRateShippingMethod("USPS", 4.30m);
+      Req.SetExpirationMinutesFromNow(10);
+      Xml = Req.GetXml();
+      Cart = (AutoGen.CheckoutShoppingCart) EncodeHelper.Deserialize(Xml);
+      DateTime Exp = Cart.shoppingcart.cartexpiration.gooduntildate;
+      Exp = Exp.ToLocalTime();
+      TimeSpan T = Exp.Subtract(DateTime.Now);
+      Assert.IsTrue(T.TotalSeconds < 600);
+      Assert.IsTrue(T.TotalSeconds > 595);
+    }
 
   }
 }
