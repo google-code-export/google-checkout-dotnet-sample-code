@@ -908,6 +908,7 @@ namespace GCheckout.Checkout {
 
       if (_PlatformID != 0) {
         MyCart.checkoutflowsupport.Item.platformid = _PlatformID;
+        MyCart.checkoutflowsupport.Item.platformidSpecified = true;
       }
 
       // Add the &lt;edit-cart-url&gt; element to the API request.
