@@ -45,7 +45,7 @@ namespace GCheckout.Util {
       if (!_initialized) {
         try {
           __configSection =
-            System.Web.HttpContext.Current.GetConfig("Google/GoogleCheckout")
+            System.Configuration.ConfigurationSettings.GetConfig("Google/GoogleCheckout")
             as GCheckoutConfigSection;
           _initialized = true;
           configException = null;
