@@ -261,46 +261,57 @@ namespace GCheckout.Util {
     /// <returns>The reconstituted object.</returns>
     public static object Deserialize(Stream Xml) {
 
-      //get the name of the node, this is what we will use for the lookup.
-      string nodeName = GetTopElement(Xml);
+      try {
 
-      //ok here is where the fun starts.
-      string nameSpace = typeof(AutoGen.Hello).Namespace;
-      Type[] types 
-        = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
+        //get the name of the node, this is what we will use for the lookup.
+        string nodeName = GetTopElement(Xml);
 
-      Type reflectedType = null;
+        //ok here is where the fun starts.
+        string nameSpace = typeof(AutoGen.Hello).Namespace;
+        Type[] types 
+          = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
 
-      foreach(Type t in types) {
-        if (t.Namespace == nameSpace && t.IsClass) {
-          //Console.WriteLine(t.Name);
-          XmlRootAttribute[] att 
-            = t.GetCustomAttributes(typeof(XmlRootAttribute), true)
-            as XmlRootAttribute[];
-          //if we found the custom attribute, then we need to see
-          //if the element name is correct.
-          if (att != null && att.Length > 0) {
-            if (att[0].ElementName == nodeName) {
-              reflectedType = t;
-              break;
+        Type reflectedType = null;
+
+        foreach(Type t in types) {
+          if (t.Namespace == nameSpace && t.IsClass) {
+            //Console.WriteLine(t.Name);
+            XmlRootAttribute[] att 
+              = t.GetCustomAttributes(typeof(XmlRootAttribute), true)
+              as XmlRootAttribute[];
+            //if we found the custom attribute, then we need to see
+            //if the element name is correct.
+            if (att != null && att.Length > 0) {
+              if (att[0].ElementName == nodeName) {
+                reflectedType = t;
+                break;
+              }
             }
           }
         }
-      }
 
-      //ok either the type is supported or it is not
-      //if we could not find the correct type then we must have either
-      //an incorrect dll for the message, or the message
-      //is not a Google Checkout message. Return null if the type
-      //can't be deserialized.
-      if (reflectedType != null) {
-        XmlSerializer myDeserializer = new XmlSerializer(reflectedType);
-        return myDeserializer.Deserialize(Xml);
+        //ok either the type is supported or it is not
+        //if we could not find the correct type then we must have either
+        //an incorrect dll for the message, or the message
+        //is not a Google Checkout message. Return null if the type
+        //can't be deserialized.
+        if (reflectedType != null) {
+          XmlSerializer myDeserializer = new XmlSerializer(reflectedType);
+          return myDeserializer.Deserialize(Xml);
+        }
+        else {
+          System.Diagnostics.Debug.WriteLine("Deserialize was not able" +
+            "To locate a message of type:" + nodeName+ "");
+          return null;
+        }
       }
-      else {
-        System.Diagnostics.Debug.WriteLine("Deserialize was not able" +
-          "To locate a message of type:" + nodeName+ "");
-        return null;
+      catch (Exception e) {
+        Xml.Position = 0;
+        string passedXml;
+        using (StreamReader reader = new StreamReader(Xml)) {
+          passedXml = reader.ReadToEnd();
+        }
+        throw new ApplicationException(string.Format("Couldn't parse XML: '{0}'", passedXml), e);
       }
     }
 
