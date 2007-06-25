@@ -79,6 +79,26 @@ namespace GCheckout.OrderProcessing {
     /// <see cref="EnvironmentType"/></param>
     /// <param name="OrderNo">The Google Order Number</param>
     /// <param name="Reason">The Reason for the refund</param>
+    /// <param name="Comment">A comment to append to the order</param>
+    public RefundOrderRequest(string MerchantID, string MerchantKey,
+      string Env, string OrderNo, string Reason, string Comment) {
+      _MerchantID = MerchantID;
+      _MerchantKey = MerchantKey;
+      _Environment = StringToEnvironment(Env);
+      _OrderNo = OrderNo;
+      _Reason = Reason;
+      _Comment = Comment;
+    }
+
+    /// <summary>
+    /// Create a new &lt;refund-order&gt; API request message
+    /// </summary>
+    /// <param name="MerchantID">Google Checkout Merchant ID</param>
+    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
+    /// <param name="Env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="Reason">The Reason for the refund</param>
     /// <param name="Currency">The Currency used to charge the order</param>
     /// <param name="Amount">The Amount to charge</param>
     /// <param name="Comment">A comment to append to the order</param>

@@ -124,6 +124,14 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual("Not delivered in time", D.reason);
       // Test the third constructor.
       Req = new RefundOrderRequest("", "", "Sandbox", "1234567890", 
+        "Not delivered in time", "Sorry about that");
+      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      Assert.AreEqual("1234567890", D.googleordernumber);
+      Assert.AreEqual(null, D.amount);
+      Assert.AreEqual("Sorry about that", D.comment);
+      Assert.AreEqual("Not delivered in time", D.reason);
+      // Test the fourth constructor.
+      Req = new RefundOrderRequest("", "", "Sandbox", "1234567890", 
         "Not delivered in time", "USD", 100.99m, "Sorry about that");
       D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual("1234567890", D.googleordernumber);
