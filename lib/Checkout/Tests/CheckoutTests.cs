@@ -101,8 +101,6 @@ namespace GCheckout.Checkout.Tests {
 
       //test to see if the item can desialize
       Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
-
-      Console.WriteLine(System.Text.UTF8Encoding.UTF8.GetString(cart));
     }
 
     /// <exclude/>
@@ -142,7 +140,7 @@ namespace GCheckout.Checkout.Tests {
       DateTime Exp = Cart.shoppingcart.cartexpiration.gooduntildate;
       Exp = Exp.ToLocalTime();
       TimeSpan T = Exp.Subtract(DateTime.Now);
-      Assert.IsTrue(T.TotalSeconds < 600);
+      Assert.IsTrue(T.TotalSeconds <= 600);
       Assert.IsTrue(T.TotalSeconds > 595);
     }
 
