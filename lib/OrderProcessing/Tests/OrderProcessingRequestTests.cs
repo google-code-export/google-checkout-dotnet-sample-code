@@ -69,6 +69,7 @@ namespace GCheckout.OrderProcessing.Tests {
     /// <exclude/>
     [Test, ExpectedException(typeof(ApplicationException))]
     public void InvalidCancelOrderRequest1() {
+      // Reason is not allowed to be null.
       CancelOrderRequest Req = new CancelOrderRequest("", "", "Sandbox", 
         "1234567890", null);
     }
@@ -76,8 +77,60 @@ namespace GCheckout.OrderProcessing.Tests {
     /// <exclude/>
     [Test, ExpectedException(typeof(ApplicationException))]
     public void InvalidCancelOrderRequest2() {
+      // Reason is not allowed to be an empty string.
       CancelOrderRequest Req = new CancelOrderRequest("", "", "Sandbox", 
         "1234567890", "");
+    }
+
+    /// <exclude/>
+    [Test]
+    public void ChargeOrderRequest() {
+      ChargeOrderRequest Req;
+      AutoGen.ChargeOrderRequest D;
+      // Test the first constructor.
+      Req = new ChargeOrderRequest("", "", "Sandbox", "1234567890");
+      D = (AutoGen.ChargeOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      Assert.AreEqual("1234567890", D.googleordernumber);
+      Assert.AreEqual(null, D.amount);
+      // Test the second constructor.
+      Req = new ChargeOrderRequest("", "", "Sandbox", "5354645", "GBP", 10.2m);
+      D = (AutoGen.ChargeOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      Assert.AreEqual("5354645", D.googleordernumber);
+      Assert.AreEqual("GBP", D.amount.currency);
+      Assert.AreEqual(10.2m, D.amount.Value);
+    }
+
+    /// <exclude/>
+    [Test]
+    public void RefundOrderRequest() {
+      RefundOrderRequest Req;
+      AutoGen.RefundOrderRequest D;
+      // Test the first constructor.
+      Req = new RefundOrderRequest("", "", "Sandbox", "1234567890", 
+        "Not delivered in time");
+      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      Assert.AreEqual("1234567890", D.googleordernumber);
+      Assert.AreEqual(null, D.amount);
+      Assert.AreEqual(null, D.comment);
+      Assert.AreEqual("Not delivered in time", D.reason);
+      // Test the second constructor.
+      Req = new RefundOrderRequest("", "", "Sandbox", "1234567890", 
+        "Not delivered in time", "GBP", 100.98m);
+      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      Assert.AreEqual("1234567890", D.googleordernumber);
+      Assert.AreEqual("GBP", D.amount.currency);
+      Assert.AreEqual(100.98m, D.amount.Value);
+      Assert.AreEqual(null, D.comment);
+      Assert.AreEqual("Not delivered in time", D.reason);
+      // Test the third constructor.
+      Req = new RefundOrderRequest("", "", "Sandbox", "1234567890", 
+        "Not delivered in time", "USD", 100.99m, "Sorry about that");
+      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      Assert.AreEqual("1234567890", D.googleordernumber);
+      Assert.AreEqual("USD", D.amount.currency);
+      Assert.AreEqual(100.99m, D.amount.Value);
+      Assert.AreEqual("Sorry about that", D.comment);
+      Assert.AreEqual("Not delivered in time", D.reason);
     }
 
     private AutoGen.DeliverOrderRequest ParseDeliverOrderRequest(byte[] Xml) {
