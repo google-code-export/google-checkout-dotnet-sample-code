@@ -23,7 +23,7 @@ namespace GCheckout.OrderProcessing {
   /// API requests.
   /// </summary>
   public class SendBuyerMessageRequest : GCheckoutRequest {
-    private string _OrderNo = null;
+    private string _googleOrderNumber = null;
     private string _Message = null;
     private bool _SendEmail = true;
 
@@ -34,14 +34,14 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Message">The Message to send to the buyer</param>
     public SendBuyerMessageRequest(string MerchantID, string MerchantKey,
-      string Env, string OrderNo, string Message) {
+      string Env, string GoogleOrderNumber, string Message) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
       _Message = Message;
     }
 
@@ -52,15 +52,15 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Message">The Message to send to the buyer</param>
     /// <param name="SendEmail">Send an email to the buyer</param>
     public SendBuyerMessageRequest(string MerchantID, string MerchantKey,
-      string Env, string OrderNo, string Message, bool SendEmail) {
+      string Env, string GoogleOrderNumber, string Message, bool SendEmail) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
       _Message = Message;
       _SendEmail = SendEmail;
     }
@@ -70,7 +70,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.SendBuyerMessageRequest Req =
         new AutoGen.SendBuyerMessageRequest();
-      Req.googleordernumber = _OrderNo;
+      Req.googleordernumber = _googleOrderNumber;
       Req.message = EncodeHelper.EscapeXmlChars(_Message);
       Req.sendemail = _SendEmail;
       Req.sendemailSpecified = true;
