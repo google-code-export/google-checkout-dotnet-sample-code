@@ -48,6 +48,21 @@ namespace GCheckout.OrderProcessing {
 
     /// <summary>
     /// Create a new &lt;cancel-order&gt; API request message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="Reason">The Reson for canceling the order</param>
+    public CancelOrderRequest(string GoogleOrderNumber, string Reason) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
+      _googleOrderNumber = GoogleOrderNumber;
+      _Reason = Reason;
+      CheckCreationPostConditions();
+    }
+
+    /// <summary>
+    /// Create a new &lt;cancel-order&gt; API request message
     /// </summary>
     /// <param name="MerchantID">Google Checkout Merchant ID</param>
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
@@ -67,6 +82,23 @@ namespace GCheckout.OrderProcessing {
       CheckCreationPostConditions();
     }
 
+    /// <summary>
+    /// Create a new &lt;cancel-order&gt; API request message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="Reason">The Reson for canceling the order</param>
+    /// <param name="Comment">A comment to associate to the canceled order</param>
+    public CancelOrderRequest(string GoogleOrderNumber, string Reason, 
+      string Comment) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
+      _googleOrderNumber = GoogleOrderNumber;
+      _Reason = Reason;
+      _Comment = Comment;
+      CheckCreationPostConditions();
+    }
     private void CheckCreationPostConditions() {
       if (_Reason == null || _Reason == string.Empty) {
         throw new ApplicationException("Reason cannot be empty");

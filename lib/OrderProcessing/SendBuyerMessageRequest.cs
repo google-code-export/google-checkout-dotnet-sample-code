@@ -47,6 +47,20 @@ namespace GCheckout.OrderProcessing {
 
     /// <summary>
     /// Create a new &lt;send-buyer-message&gt; API request message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="Message">The Message to send to the buyer</param>
+    public SendBuyerMessageRequest(string GoogleOrderNumber, string Message) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
+      _googleOrderNumber = GoogleOrderNumber;
+      _Message = Message;
+    }
+
+    /// <summary>
+    /// Create a new &lt;send-buyer-message&gt; API request message
     /// </summary>
     /// <param name="MerchantID">Google Checkout Merchant ID</param>
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
@@ -60,6 +74,23 @@ namespace GCheckout.OrderProcessing {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
+      _googleOrderNumber = GoogleOrderNumber;
+      _Message = Message;
+      _SendEmail = SendEmail;
+    }
+
+    /// <summary>
+    /// Create a new &lt;send-buyer-message&gt; API request message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="Message">The Message to send to the buyer</param>
+    /// <param name="SendEmail">Send an email to the buyer</param>
+    public SendBuyerMessageRequest(string GoogleOrderNumber, 
+      string Message, bool SendEmail) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
       _googleOrderNumber = GoogleOrderNumber;
       _Message = Message;
       _SendEmail = SendEmail;

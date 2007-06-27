@@ -45,6 +45,18 @@ namespace GCheckout.OrderProcessing {
 
     /// <summary>
     /// Create a new &lt;charge-order&gt; API request message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    public ChargeOrderRequest(string GoogleOrderNumber) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
+      _googleOrderNumber = GoogleOrderNumber;
+    }
+
+    /// <summary>
+    /// Create a new &lt;charge-order&gt; API request message
     /// </summary>
     /// <param name="MerchantID">Google Checkout Merchant ID</param>
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
@@ -58,6 +70,23 @@ namespace GCheckout.OrderProcessing {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
+      _googleOrderNumber = GoogleOrderNumber;
+      _Currency = Currency;
+      _Amount = Amount;
+    }
+
+    /// <summary>
+    /// Create a new &lt;charge-order&gt; API request message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="Currency">The Currency used to charge the order</param>
+    /// <param name="Amount">The Amount to charge</param>
+    public ChargeOrderRequest(string GoogleOrderNumber, string Currency, 
+      decimal Amount) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
       _googleOrderNumber = GoogleOrderNumber;
       _Currency = Currency;
       _Amount = Amount;

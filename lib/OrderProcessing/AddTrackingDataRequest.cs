@@ -49,6 +49,23 @@ namespace GCheckout.OrderProcessing {
       _TrackingNo = TrackingNo;
     }
 
+    /// <summary>
+    /// Create a new &lt;add-tracking-data&gt; API request message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="Carrier">The Carrier the package was shipped with</param>
+    /// <param name="TrackingNo">The Tracking number for the carrier</param>
+    public AddTrackingDataRequest(string GoogleOrderNumber,
+      string Carrier, string TrackingNo) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
+      _googleOrderNumber = GoogleOrderNumber;
+      _Carrier = Carrier;
+      _TrackingNo = TrackingNo;
+    }
+
     /// <summary>Method that is called to produce the Xml message 
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
