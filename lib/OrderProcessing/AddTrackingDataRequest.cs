@@ -39,7 +39,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Carrier">The Carrier the package was shipped with</param>
     /// <param name="TrackingNo">The Tracking number for the carrier</param>
     public AddTrackingDataRequest(string MerchantID, string MerchantKey, 
-      string Env, string GoogleOrderNumber, string Carrier, string TrackingNo) {
+      string Env, string GoogleOrderNumber,
+      string Carrier, string TrackingNo) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
