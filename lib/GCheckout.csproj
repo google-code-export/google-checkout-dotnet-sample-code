@@ -70,11 +70,6 @@
                     HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
                 />
                 <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
-                />
-                <Reference
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
                     HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
@@ -88,11 +83,6 @@
                     Name = "System.Design"
                     AssemblyName = "System.Design"
                     HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
-                />
-                <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "nunit.framework.dll"
                 />
             </References>
         </Build>
@@ -145,11 +135,6 @@
                 />
                 <File
                     RelPath = "Checkout\ShippingRestrictions.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\Tests\CheckoutTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -249,11 +234,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "OrderProcessing\Tests\OrderProcessingRequestTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Util\BasicAuthenticationModule.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -285,11 +265,6 @@
                 />
                 <File
                     RelPath = "Util\Log.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\Test\EncodeHelperTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
