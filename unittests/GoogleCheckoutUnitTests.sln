@@ -3,6 +3,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleCheckoutUnitTests", "
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCheckout", "..\lib\GCheckout.csproj", "{006653E6-EEF6-4D43-8F26-D6445CDF817B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -15,6 +19,10 @@ Global
 		{28A9AC71-61FE-4020-967A-6BAB80DB34A9}.Debug.Build.0 = Debug|.NET
 		{28A9AC71-61FE-4020-967A-6BAB80DB34A9}.Release.ActiveCfg = Release|.NET
 		{28A9AC71-61FE-4020-967A-6BAB80DB34A9}.Release.Build.0 = Release|.NET
+		{006653E6-EEF6-4D43-8F26-D6445CDF817B}.Debug.ActiveCfg = Debug|.NET
+		{006653E6-EEF6-4D43-8F26-D6445CDF817B}.Debug.Build.0 = Debug|.NET
+		{006653E6-EEF6-4D43-8F26-D6445CDF817B}.Release.ActiveCfg = Release|.NET
+		{006653E6-EEF6-4D43-8F26-D6445CDF817B}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

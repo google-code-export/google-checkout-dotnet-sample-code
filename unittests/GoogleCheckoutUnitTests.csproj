@@ -76,8 +76,18 @@
                 />
                 <Reference
                     Name = "System.XML"
-                    AssemblyName = "System.XML"
+                    AssemblyName = "System.Xml"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "nunit.framework.dll"
+                />
+                <Reference
+                    Name = "GCheckout"
+                    Project = "{006653E6-EEF6-4D43-8F26-D6445CDF817B}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
@@ -89,7 +99,17 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Class1.cs"
+                    RelPath = "CheckoutTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "EncodeHelperTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "OrderProcessingRequestTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
