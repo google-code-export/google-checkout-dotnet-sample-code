@@ -41,6 +41,18 @@ namespace GCheckout.OrderProcessing {
       _googleOrderNumber = GoogleOrderNumber;
     }
 
+    /// <summary>
+    /// Create a new &lt;process-order&gt; API request message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    public ProcessOrderRequest(string GoogleOrderNumber) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
+      _googleOrderNumber = GoogleOrderNumber;
+    }
+
     /// <summary>Method that is called to produce the Xml message 
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {

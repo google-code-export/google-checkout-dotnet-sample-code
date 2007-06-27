@@ -45,6 +45,21 @@ namespace GCheckout.OrderProcessing {
       _MerchantOrderNumber = MerchantOrderNumber;
     }
 
+    /// <summary>
+    /// Create a new &lt;add-merchant-order-number&gt; API requests  message
+    /// using the configuration settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="MerchantOrderNumber">The Merchant Order Number</param>
+    public AddMerchantOrderNumberRequest(string GoogleOrderNumber, 
+      string MerchantOrderNumber) {
+      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
+      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
+      _Environment = GCheckoutConfigurationHelper.Environment;
+      _googleOrderNumber = GoogleOrderNumber;
+      _MerchantOrderNumber = MerchantOrderNumber;
+    }
+
     /// <summary>Method that is called to produce the Xml message 
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
