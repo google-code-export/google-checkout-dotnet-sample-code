@@ -24,7 +24,7 @@ namespace GCheckout.OrderProcessing {
   /// API requests.
   /// </summary>
   public class AddTrackingDataRequest : GCheckoutRequest {
-    private string _OrderNo;
+    private string _googleOrderNumber;
     private string _Carrier;
     private string _TrackingNo;
 
@@ -35,15 +35,15 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Carrier">The Carrier the package was shipped with</param>
     /// <param name="TrackingNo">The Tracking number for the carrier</param>
     public AddTrackingDataRequest(string MerchantID, string MerchantKey, 
-      string Env, string OrderNo, string Carrier, string TrackingNo) {
+      string Env, string GoogleOrderNumber, string Carrier, string TrackingNo) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
     }
@@ -53,7 +53,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.AddTrackingDataRequest Req = 
         new AutoGen.AddTrackingDataRequest();
-      Req.googleordernumber = _OrderNo;
+      Req.googleordernumber = _googleOrderNumber;
       Req.trackingdata = new AutoGen.TrackingData();
       Req.trackingdata.carrier = _Carrier;
       Req.trackingdata.trackingnumber = _TrackingNo;

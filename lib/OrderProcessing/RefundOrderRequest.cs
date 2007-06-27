@@ -23,7 +23,7 @@ namespace GCheckout.OrderProcessing {
   /// requests.
   /// </summary>
   public class RefundOrderRequest : GCheckoutRequest {
-    private string _OrderNo = null;
+    private string _googleOrderNumber = null;
     private string _Reason = null;
     private string _Currency = null;
     private decimal _Amount = -1;
@@ -36,14 +36,14 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Reason">The Reason for the refund</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string OrderNo, string Reason) {
+      string Env, string GoogleOrderNumber, string Reason) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
     }
 
@@ -54,17 +54,17 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Reason">The Reason for the refund</param>
     /// <param name="Currency">The Currency used to charge the order</param>
     /// <param name="Amount">The Amount to charge</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string OrderNo, string Reason, string Currency,
+      string Env, string GoogleOrderNumber, string Reason, string Currency,
       decimal Amount) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Currency = Currency;
       _Amount = Amount;
@@ -77,15 +77,15 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Reason">The Reason for the refund</param>
     /// <param name="Comment">A comment to append to the order</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string OrderNo, string Reason, string Comment) {
+      string Env, string GoogleOrderNumber, string Reason, string Comment) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Comment = Comment;
     }
@@ -97,18 +97,18 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Reason">The Reason for the refund</param>
     /// <param name="Currency">The Currency used to charge the order</param>
     /// <param name="Amount">The Amount to charge</param>
     /// <param name="Comment">A comment to append to the order</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string OrderNo, string Reason, string Currency,
+      string Env, string GoogleOrderNumber, string Reason, string Currency,
       decimal Amount, string Comment) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Currency = Currency;
       _Amount = Amount;
@@ -119,7 +119,7 @@ namespace GCheckout.OrderProcessing {
     ///  that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.RefundOrderRequest Req = new AutoGen.RefundOrderRequest();
-      Req.googleordernumber = _OrderNo;
+      Req.googleordernumber = _googleOrderNumber;
       Req.reason = EncodeHelper.EscapeXmlChars(_Reason);
       if (_Amount != -1 && _Currency != null) {
         Req.amount = new AutoGen.Money();

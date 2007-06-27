@@ -23,7 +23,7 @@ namespace GCheckout.OrderProcessing {
   /// requests.
   /// </summary>
   public class ChargeOrderRequest : GCheckoutRequest {
-    private string _OrderNo = null;
+    private string _googleOrderNumber = null;
     private string _Currency = null;
     private decimal _Amount = -1;
 
@@ -34,13 +34,13 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     public ChargeOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string OrderNo) {
+      string Env, string GoogleOrderNumber) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
     }
 
     /// <summary>
@@ -50,15 +50,15 @@ namespace GCheckout.OrderProcessing {
     /// <param name="MerchantKey">Google Checkout Merchant Key</param>
     /// <param name="Env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="OrderNo">The Google Order Number</param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Currency">The Currency used to charge the order</param>
     /// <param name="Amount">The Amount to charge</param>
     public ChargeOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string OrderNo, string Currency, decimal Amount) {
+      string Env, string GoogleOrderNumber, string Currency, decimal Amount) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
-      _OrderNo = OrderNo;
+      _googleOrderNumber = GoogleOrderNumber;
       _Currency = Currency;
       _Amount = Amount;
     }
@@ -67,7 +67,7 @@ namespace GCheckout.OrderProcessing {
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.ChargeOrderRequest Req = new AutoGen.ChargeOrderRequest();
-      Req.googleordernumber = _OrderNo;
+      Req.googleordernumber = _googleOrderNumber;
       if (_Amount != -1 && _Currency != null) {
         Req.amount = new AutoGen.Money();
         Req.amount.currency = _Currency;
