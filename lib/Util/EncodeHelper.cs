@@ -225,14 +225,31 @@ namespace GCheckout.Util {
     /// </example>
     public static object Deserialize(string Xml, Type ThisType) {
       XmlSerializer myDeserializer = new XmlSerializer(ThisType);
+
       try {
         using (StringReader myReader = new StringReader(Xml)) {
           return myDeserializer.Deserialize(myReader);
-        }         
+        }
       }
       catch (Exception e) {
-        //if it threw an exception we want to know why.
-        throw new ApplicationException(string.Format("Couldn't parse XML: '{0}'", Xml), e);
+        //we need to find out what happened. 
+        //for now we are going to wrap the exception.
+        //if we have a bom, we may have a config issue with the server
+        //or Google Checkout is sending a BOM.
+        bool containsBom = false;
+        if (Xml != null) {
+          try {
+            if (Xml.StartsWith(Encoding.UTF8.GetString( 
+              Encoding.UTF8.GetPreamble()))) {
+              containsBom = true;
+            }             
+          }
+          catch {   
+          }
+        }
+        throw new ApplicationException(
+          string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}", 
+          Xml, containsBom), e);
       }
     }
 
@@ -317,7 +334,27 @@ namespace GCheckout.Util {
         using (StreamReader reader = new StreamReader(Xml)) {
           passedXml = reader.ReadToEnd();
         }
-        throw new ApplicationException(string.Format("Couldn't parse XML: '{0}'", passedXml), e);
+
+        bool containsBom = false;
+        if (Xml != null) {
+          try {
+            byte[] theBom = Encoding.UTF8.GetPreamble();
+            Xml.Position = 0;
+            //try to determine we have a bom in the message,
+            //which may cause the deserializer to fail.
+            if (Xml.ReadByte() == theBom[0]
+              && Xml.ReadByte() == theBom[1]
+              && Xml.ReadByte() == theBom[2]) {
+              containsBom = true;
+            }
+          }
+          catch {   
+          }
+        }
+
+        throw new ApplicationException(
+          string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}", 
+          Xml, containsBom), e);
       }
     }
 
@@ -372,11 +409,12 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
-    /// Get the Cart Signature used in the &quot;signature&quot; form field that is posted 
-    /// to Google Checkout.
+    /// Get the Cart Signature used in the &quot;signature&quot; 
+    /// form field that is posted to Google Checkout.
     /// </summary>
     /// <param name="cartXML">A string version of the Cart Xml returned from the
-    /// <see cref="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml"/> method.</param>
+    /// <see cref="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml"/>
+    /// method.</param>
     /// <param name="merchantKey">Your Google Merchant Key</param>
     /// <returns>A Base64 encoded string of the cart signature</returns>
     public static string GetCartSignature(string cartXML, string merchantKey) {
@@ -386,11 +424,12 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
-    /// Get the Cart Signature used in the &quot;signature&quot; form field that is posted 
-    /// to Google Checkout.
+    /// Get the Cart Signature used in the &quot;signature&quot;
+    /// form field that is posted to Google Checkout.
     /// </summary>
     /// <param name="cart">The Cart Xml returned from the 
-    /// <see cref="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml"/> method.</param>
+    /// <see cref="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml"/>
+    /// method.</param>
     /// <param name="merchantKey">Your Google Merchant Key</param>
     /// <returns>A Base64 encoded string of the cart signature</returns>
     public static string GetCartSignature(byte[] cart, string merchantKey) {
