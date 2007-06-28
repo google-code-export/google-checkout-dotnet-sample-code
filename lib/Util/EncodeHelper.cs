@@ -225,8 +225,14 @@ namespace GCheckout.Util {
     /// </example>
     public static object Deserialize(string Xml, Type ThisType) {
       XmlSerializer myDeserializer = new XmlSerializer(ThisType);
-      using (StringReader myReader = new StringReader(Xml)) {
-        return myDeserializer.Deserialize(myReader);
+      try {
+        using (StringReader myReader = new StringReader(Xml)) {
+          return myDeserializer.Deserialize(myReader);
+        }         
+      }
+      catch (Exception e) {
+        //if it threw an exception we want to know why.
+        throw new ApplicationException(string.Format("Couldn't parse XML: '{0}'", Xml), e);
       }
     }
 
