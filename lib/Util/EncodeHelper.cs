@@ -248,8 +248,8 @@ namespace GCheckout.Util {
           }
         }
         throw new ApplicationException(
-          string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}", 
-          Xml, containsBom), e);
+          string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}; Type: {2}", 
+          Xml, containsBom, ThisType.FullName), e);
       }
     }
 
