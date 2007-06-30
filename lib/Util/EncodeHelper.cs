@@ -248,7 +248,7 @@ namespace GCheckout.Util {
           }
         }
         throw new ApplicationException(
-          string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}; Type: {2}", 
+          string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}; Type: {2}.", 
           Xml, containsBom, ThisType.FullName), e);
       }
     }
@@ -353,8 +353,8 @@ namespace GCheckout.Util {
         }
 
         throw new ApplicationException(
-          string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}", 
-          Xml, containsBom), e);
+          string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}.", 
+          passedXml, containsBom), e);
       }
     }
 
@@ -486,6 +486,18 @@ namespace GCheckout.Util {
       return url;
     }
 
+    /// <summary>
+    /// Crean a string and return an String.Empty or a trimmed string.
+    /// </summary>
+    /// <param name="val">The string to Trim</param>
+    /// <returns></returns>
+    internal static string CleanString(string val) {
+      string retVal = val;
+      if (retVal == null)
+        retVal = string.Empty;
+      retVal = retVal.Trim();
+      return retVal;
+    }
 
   }
 }
