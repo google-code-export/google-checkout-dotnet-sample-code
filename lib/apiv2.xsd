@@ -116,6 +116,7 @@
   
   <xs:complexType name="Item">
     <xs:all>
+      <xs:element name="digital-content" type="tns:DigitalContent" minOccurs="0" />
       <xs:element name="tax-table-selector" minOccurs="0">
         <xs:simpleType>
           <xs:restriction base="xs:string">
@@ -364,7 +365,23 @@
   <xs:complexType name="TrackingData">
     <xs:all>
       <xs:element name="carrier" type="xs:string" />
-      <xs:element name="tracking-number" type="xs:string" />
+      <xs:element name="tracking-number" type="xs:string" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="DigitalContent">
+    <xs:all>
+      <xs:element name="key" type="xs:string" minOccurs="0" />
+      <xs:element name="url" type="xs:anyURI" minOccurs="0" />
+      <xs:element name="email-delivery" type="xs:boolean" minOccurs="0" />
+      <xs:element name="description" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="0" />
+            <xs:maxLength value="1024" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
     </xs:all>
   </xs:complexType>
   

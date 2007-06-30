@@ -72,7 +72,6 @@ namespace GCheckout.Checkout {
       return retVal;
     }
 
-
     /// <summary>
     /// Add a Third Party Tracking URL.
     /// </summary>

@@ -84,6 +84,11 @@
                     AssemblyName = "System.Design"
                     HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
                 />
+                <Reference
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
+                />
             </References>
         </Build>
         <Files>
@@ -115,6 +120,11 @@
                 />
                 <File
                     RelPath = "Checkout\CheckoutShoppingCartRequest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Checkout\DigitalItem.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

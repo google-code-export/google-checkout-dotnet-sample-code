@@ -95,9 +95,24 @@ namespace GCheckout.Checkout.Tests {
 
       Assert.AreEqual(1, ohio1.RuleCount);
 
+
+      DigitalItem emailDigitalItem = new DigitalItem();
+      request.AddItem("Email Digital Item", "Cool DigitalItem", 2.00M, 1,  emailDigitalItem);
+
+      DigitalItem urlDigitalItem = new DigitalItem(new Uri("http://www.google.com/download.aspx?myitem=1"), "Url Description for item");
+      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00M, 1,  urlDigitalItem);
+
+      DigitalItem keyDigitalItem = new DigitalItem("24-235-sdf-123541-53", "Key Description for item");
+      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00M, 1,  keyDigitalItem);
+
+      DigitalItem keyUrlItem = new DigitalItem("24-235-sdf-123541-53","http://www.google.com/download.aspx?myitem=1", "Url/Key Description for item");
+      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00M, 1,  keyUrlItem);
+
       //Ensure we are able to create the cart xml
 
       byte[] cart = request.GetXml();
+
+      //Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
 
       //test to see if the item can desialize
       Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
