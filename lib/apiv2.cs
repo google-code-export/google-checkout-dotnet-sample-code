@@ -100,6 +100,10 @@ namespace GCheckout.AutoGen {
     public class Item {
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("digital-content")]
+        public DigitalContent digitalcontent;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("tax-table-selector")]
         public string taxtableselector;
         
@@ -125,6 +129,29 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("merchant-private-item-data")]
         public anyMultiple merchantprivateitemdata;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class DigitalContent {
+        
+        /// <remarks/>
+        public string key;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="anyURI")]
+        public string url;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("email-delivery")]
+        public bool emaildelivery;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool emaildeliverySpecified;
+        
+        /// <remarks/>
+        public string description;
     }
     
     /// <remarks/>
