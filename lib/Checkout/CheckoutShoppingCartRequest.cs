@@ -840,6 +840,22 @@ namespace GCheckout.Checkout {
     }
 
     /// <summary>
+    /// This method adds an item to an order.
+    /// </summary>
+    /// <param name="item">The shopping cart item to add.</param>
+    public void AddItem(ShoppingCartItem item) {      
+      _Items.Add(item);
+    }
+
+    /// <summary>
+    /// This method adds an item to an order.
+    /// </summary>
+    /// <param name="item">The shopping cart item to add.</param>
+    public void AddItem(IShoppingCartItem item) {      
+      _Items.Add(item);
+    }
+
+    /// <summary>
     /// This method adds a flat-rate shipping method to an order. This method 
     /// handles flat-rate shipping methods that do not have shipping 
     /// restrictions.
@@ -1265,7 +1281,13 @@ namespace GCheckout.Checkout {
       MyCart.shoppingcart.items = new AutoGen.Item[_Items.Count];
       for (int i = 0; i < _Items.Count; i++) {
 
-        ShoppingCartItem MyItem = (ShoppingCartItem)_Items[i];
+        IShoppingCartItem MyItem = _Items[i] as IShoppingCartItem;
+        if (MyItem == null) {
+          throw new ApplicationException(
+            "The Shopping Cart Item did not implement IShoppingCartItem." +
+            " This is caused by someone changing the implementation of" +
+            " GCheckout.Checkout.ShoppingCartItem.");
+        }
 
         //set to a local variable of current item to lessen the change of a mistake
         GCheckout.AutoGen.Item currentItem = new AutoGen.Item();
@@ -1825,68 +1847,6 @@ namespace GCheckout.Checkout {
       _roundingRule = rule;
     }
 
-    private class ShoppingCartItem {
-      public string Name;
-      public string Description;
-      public decimal Price = 0.0m;
-      public int Quantity = 0;
-      public string MerchantItemID;
-      public XmlNode[] MerchantPrivateItemDataNodes;
-      public AlternateTaxTable TaxTable = null;
-      public DigitalItem DigitalContent = null;
-
-      /// <summary>
-      /// This method initializes a new instance of the 
-      /// <see cref="ShoppingCartItem"/> class, which creates an object
-      /// corresponding to an individual item in an order. This method 
-      /// is used for items that do not have an associated
-      /// &lt;merchant-private-item-data&gt; XML block.
-      /// </summary>
-      /// <param name="InName">The name of the item.</param>
-      /// <param name="InDescription">A description of the item.</param>
-      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely 
-      /// identifies the product in your system. (optional)</param>
-      /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The number of the item that is 
-      /// included in the order.</param>
-      public ShoppingCartItem(string InName, string InDescription,
-        string InMerchantItemID, decimal InPrice, int InQuantity)
-        : this(InName, InDescription, InMerchantItemID, InPrice,
-        InQuantity, AlternateTaxTable.Empty, new XmlNode[] {}) {
-      }
-
-      /// <summary>
-      /// This method initializes a new instance of the 
-      /// <see cref="ShoppingCartItem"/> class, which creates an object
-      /// corresponding to an individual item in an order. This method 
-      /// is used for items that do have an associated
-      /// &lt;merchant-private-item-data&gt; XML block.
-      /// </summary>
-      /// <param name="InName">The name of the item.</param>
-      /// <param name="InDescription">A description of the item.</param>
-      /// <param name="InMerchantItemID">The Merchant Item Id that uniquely 
-      /// identifies the product in your system. (optional)</param>
-      /// <param name="InPrice">The price of the item, per item.</param>
-      /// <param name="InQuantity">The number of the item that is 
-      /// included in the order.</param>
-      /// <param name="InMerchantPrivateItemData">The merchant private
-      /// item data associated with the item.</param>
-      /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
-      /// To assign to the item </param>
-      public ShoppingCartItem(string InName, string InDescription,
-        string InMerchantItemID, decimal InPrice, int InQuantity,
-        AlternateTaxTable taxTable,
-        params XmlNode[] InMerchantPrivateItemData) {
-        Name = InName;
-        Description = InDescription;
-        if (MerchantItemID == string.Empty)
-          MerchantItemID = null;
-        MerchantItemID = InMerchantItemID;
-        Price = InPrice;
-        Quantity = InQuantity;
-        MerchantPrivateItemDataNodes = InMerchantPrivateItemData;
-        TaxTable = taxTable;
-      }
-    }
+    
   }
 }

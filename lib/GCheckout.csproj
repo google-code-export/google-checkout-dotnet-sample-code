@@ -134,6 +134,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Checkout\IShoppingCartItem.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Checkout\ParameterizedUrls.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -145,6 +150,11 @@
                 />
                 <File
                     RelPath = "Checkout\ShippingRestrictions.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Checkout\ShoppingCartItem.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
