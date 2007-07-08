@@ -943,7 +943,6 @@ namespace GCheckout.Checkout {
       AddNewShippingMethod(Method);
     }
 
-
     /// <summary>
     /// This method adds an instore-pickup shipping option to an order.
     /// </summary>
@@ -964,6 +963,21 @@ namespace GCheckout.Checkout {
     /// </summary>
     /// <param name="NewShippingMethod">The new shipping method.</param>
     private void AddNewShippingMethod(Object NewShippingMethod) {
+      //ensure the type is the only type that exists in the set
+      //shipping methods is an xs:choice so only one type can exist.
+      if (_ShippingMethods.Items.Length > 0) {
+        //since we have been validating the entire time, all we need to do
+        //is grab the first item and ensure the class types are ==
+        Type originalType = _ShippingMethods.Items[0].GetType();
+        if (originalType != NewShippingMethod.GetType()) {
+          string theError = "You may only have one Shipping method." +
+            " The cart already contains a {0} Shipping method and you" +
+            " attempted to add a {1} Shipping method.";
+          throw new ArgumentException(string.Format(theError, originalType, 
+            NewShippingMethod.GetType()));
+        }
+      }
+
       Object[] NewMethods = new Object[_ShippingMethods.Items.Length + 1];
       for (int i = 0; i < _ShippingMethods.Items.Length; i++) {
         NewMethods[i] = _ShippingMethods.Items[i];

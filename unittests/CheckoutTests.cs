@@ -108,6 +108,11 @@ namespace GCheckout.Checkout.Tests {
       DigitalItem keyUrlItem = new DigitalItem("24-235-sdf-123541-53","http://www.google.com/download.aspx?myitem=1", "Url/Key Description for item");
       request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00M, 1,  keyUrlItem);
 
+      //lets make sure we can add 2 different flat rate shipping amounts
+
+      request.AddFlatRateShippingMethod("UPS Ground", 5);
+      request.AddFlatRateShippingMethod("UPS 2 Day Air", 25);
+
       //Ensure we are able to create the cart xml
 
       byte[] cart = request.GetXml();
