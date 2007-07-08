@@ -67,8 +67,9 @@ namespace GCheckout.Checkout.Tests {
       CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest("123456", "456789", EnvironmentType.Sandbox, "USD", 120);
 
       //Ensure the factory works as expected
-      AlternateTaxTable ohio1 = request.AlternateTaxTables.Factory("ohio");
-      AlternateTaxTable ohio2 = request.AlternateTaxTables.Factory("ohio");
+      AlternateTaxTable ohio1 = new AlternateTaxTable("ohio");
+      request.AlternateTaxTables.Add(ohio1);
+      AlternateTaxTable ohio2 = request.AlternateTaxTables["ohio"];
       AlternateTaxTable ohio3 = new AlternateTaxTable("ohio", false);
 
       //Ensure that two Tax tables with the same name are not the same reference
