@@ -28,10 +28,12 @@ namespace GCheckout {
     protected string _MerchantID;
     /// <summary>Google Checkout Merchant Key</summary>
     protected string _MerchantKey;
-    /// <summary>EnvironmentType used to determine where the messages are posted (Sandbox, Production)</summary>
+    /// <summary>EnvironmentType used to determine where the messages are 
+    /// posted (Sandbox, Production)</summary>
     protected EnvironmentType _Environment = EnvironmentType.Unknown;
 
-    /// <summary>Method that is called to produce the Xml message that can be posted to Google Checkout.</summary>
+    /// <summary>Method that is called to produce the Xml message that 
+    /// can be posted to Google Checkout.</summary>
     public abstract byte[] GetXml();
 
     private static string GetAuthorization(string User, string Password) {
@@ -39,7 +41,8 @@ namespace GCheckout {
         string.Format("{0}:{1}", User, Password)));
     }
 
-    /// <summary>Convert a String like Sandbox to the EnvironmentType enum</summary>
+    /// <summary>Convert a String like Sandbox to the 
+    /// EnvironmentType enum</summary>
     protected static EnvironmentType StringToEnvironment(string Env) {
       return (EnvironmentType)Enum.Parse(typeof(EnvironmentType), Env, true);
     }
@@ -137,7 +140,8 @@ namespace GCheckout {
       }
     }
 
-    /// <summary>EnvironmentType used to determine where the messages are posted (Sandbox, Production)</summary>
+    /// <summary>EnvironmentType used to determine where 
+    /// the messages are posted (Sandbox, Production)</summary>
     public EnvironmentType Environment {
       get {
         return _Environment;
@@ -146,10 +150,10 @@ namespace GCheckout {
         _Environment = value;
       }
     }
-
   }
 
-  /// <summary>Determine where the messages are posted (Sandbox, Production)</summary>
+  /// <summary>Determine where the messages are posted
+  /// (Sandbox, Production)</summary>
   public enum EnvironmentType {
     /// <summary>Use the Sandbox account to post the messages</summary>
     Sandbox = 0,
