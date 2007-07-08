@@ -93,6 +93,13 @@ namespace GCheckout.Checkout.Tests {
       //Now this should work fine.
       request.AddItem("Item 3", "Cool Candy 3", 2.00M, 1, ohio2);
 
+      //you could create this as an IShoppingCartItem or ShoppingCartItem
+      IShoppingCartItem newItem = new ShoppingCartItem("Item 2", "Cool Candy 2", string.Empty, 2.00M, 2);
+      //now decide to change your mind on the quantity and price
+      newItem.Price = 20;
+      newItem.Quantity = 4;
+      
+      request.AddItem(newItem);
 
       Assert.AreEqual(1, ohio1.RuleCount);
 
