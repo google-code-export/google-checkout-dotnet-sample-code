@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 
 namespace GCheckout.Checkout {
+
   /// <summary>
   /// Summary description for AlternateTaxTable.
   /// </summary>
@@ -30,9 +31,12 @@ namespace GCheckout.Checkout {
         return _name;
       }
       set {
-        if (value == null || value == string.Empty) {
+        if (value == null || value == string.Empty || value.Trim() == string.Empty) {
           throw new ArgumentNullException("Name", "The Name of the Tax table must not be empty.");   
         }
+
+        value = value.Trim();
+
         if (_name == null || _name == string.Empty) {
           _name = value.ToLower();
         }
@@ -87,6 +91,20 @@ namespace GCheckout.Checkout {
     /// a tax table or shipping method. The attribute value must be at least
     /// one non-space character and may not be longer than 255 characters.
     /// </param>
+    public AlternateTaxTable(string name) {
+      if (name != null)
+        name = name.Trim();
+      Name = name.ToLower();
+    }
+
+    /// <summary>
+    /// Create a new Alternate Tax Table
+    /// </summary>
+    /// <param name="name">
+    /// The name attribute value contains a string that can be used to identify
+    /// a tax table or shipping method. The attribute value must be at least
+    /// one non-space character and may not be longer than 255 characters.
+    /// </param>
     /// <param name="standalone">
     /// The standalone attribute indicates how taxes should be calculated 
     /// if there is no matching alternate-tax-rule for the given state,
@@ -97,6 +115,8 @@ namespace GCheckout.Checkout {
     ///  the default tax table.
     /// </param>
     public AlternateTaxTable(string name, bool standalone) {
+      if (name != null)
+        name = name.Trim();
       Name = name.ToLower();
       StandAlone = standalone;
     }

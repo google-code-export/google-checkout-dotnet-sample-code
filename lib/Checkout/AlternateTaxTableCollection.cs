@@ -56,6 +56,7 @@ namespace GCheckout.Checkout {
     /// one non-space character and may not be longer than 255 characters.
     /// </param>
     /// <returns>A reference to the <see cref="AlternateTaxTable"/></returns>
+    [Obsolete("You should just create a tax table and add it to the collection.")]
     public AlternateTaxTable Factory(string name) {
       return Factory(name, false);
     }
@@ -78,8 +79,9 @@ namespace GCheckout.Checkout {
     ///  the default tax table.
     /// </param>
     /// <returns>A reference to the <see cref="AlternateTaxTable"/></returns>
+    [Obsolete("You should just create a tax table and add it to the collection.")]
     public AlternateTaxTable Factory(string name, bool standalone) {
-      if(name == null || name == string.Empty) {
+      if(name == null || name == string.Empty || name.Trim() == string.Empty) {
         throw new ArgumentNullException("name", "The name of the Tax table must" +
           " not be empty. If you wish to use an Empty Tax table, please call" +
           " AlternateTaxTable.Empty");
@@ -92,8 +94,20 @@ namespace GCheckout.Checkout {
         retVal = new AlternateTaxTable(name, standalone);
         _taxTables.Add(name, retVal);
       }
+      else {
+        //a duplicate tax table is being added.
+        throw new ApplicationException(GetDuplicateTaxTableError(name));
+      }
       
       return retVal;
+    }
+
+    /// <summary>
+    /// Add an <see cref="AlternateTaxTable"/> to the collection
+    /// </summary>
+    /// <param name="taxTable">The tax table to add.</param>
+    public void Add(AlternateTaxTable taxTable) {
+      VerifyTaxRule(taxTable);
     }
 
     /// <summary>
@@ -120,15 +134,20 @@ namespace GCheckout.Checkout {
 
       if (existing != null) {
         if (!object.ReferenceEquals(existing, taxTable)) {
-          throw new ApplicationException("The Tax table '" + taxTable.Name + 
-            "' already exists and the references are not equal. Please use" + 
-            " the Factory method to ensure the references are equal.");
+          throw new ApplicationException(GetDuplicateTaxTableError(taxTable.Name));
         }
       }
       else {
         //Add the item to the collection   
         _taxTables.Add(taxTable.Name.ToLower(), taxTable);
       }
+    }
+
+    private string GetDuplicateTaxTableError(string name) {
+      return "The Tax table '" + name + 
+        "' already exists and the references are not equal. Please use" + 
+        " the AlternateTaxTable this[string name]" +
+        " method of to ensure the references are equal.";
     }
 
     /// <summary>
