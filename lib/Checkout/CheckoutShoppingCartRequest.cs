@@ -1781,8 +1781,17 @@ namespace GCheckout.Checkout {
     /// &lt;parameterized-url&gt; (<see cref="ParameterizedUrl"/>) tags.
     /// See
     /// http://code.google.com/apis/checkout/developer/checkout_pixel_tracking.html
-    /// For additional information on Third-Party Conversion Tracking
+    /// for additional information on Third-Party Conversion Tracking
     /// </remarks>
+    /// <example><code>
+    /// CheckoutShoppingCartRequest Req;
+    /// // Req is assigned to a new CheckoutShoppingCartRequest somehow.
+    /// ParameterizedUrl u = new ParameterizedUrl("https://example.com/track");
+    /// u.AddParameter("oid", UrlParameterType.OrderID);
+    /// u.AddParameter("ot", UrlParameterType.OrderTotal);
+    /// Req.ParameterizedUrls.AddUrl(u);
+    /// GCheckoutResponse Resp = Req.Send();
+    /// </code></example>
     public ParameterizedUrls ParameterizedUrls {
       get {
         return _ParameterizedUrls;
