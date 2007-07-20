@@ -62,10 +62,22 @@ namespace GCheckout {
       myRequest.ContentType = "application/xml; charset=UTF-8";
       myRequest.Accept = "application/xml; charset=UTF-8";
       myRequest.KeepAlive = false;
+
+      //determine if we are using a proxy server
+      if (GCheckoutConfigurationHelper.UseProxy) {
+        Uri proxyUrl = new Uri(GCheckoutConfigurationHelper.ProxyHost);
+        WebProxy proxy = new WebProxy(proxyUrl);
+        proxy.Credentials = new NetworkCredential(
+          GCheckoutConfigurationHelper.ProxyUserName,
+          GCheckoutConfigurationHelper.ProxyPassword);
+        myRequest.Proxy = proxy;
+      }
+
       // Send the data.
       using (Stream requestStream = myRequest.GetRequestStream()) {
         requestStream.Write(Data, 0, Data.Length);
       }
+
       // Read the response.
       string responseXml = string.Empty;
       try {

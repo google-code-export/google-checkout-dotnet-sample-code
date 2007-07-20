@@ -64,7 +64,7 @@ namespace GCheckout.Util {
       }
       set {
         if (value != null && value.Length > 0)
-          _productionMerchantKey = value; 
+          _productionMerchantKey = value.Trim(); 
       }
     }
 
@@ -94,7 +94,7 @@ namespace GCheckout.Util {
       }
       set {
         if (value != null && value.Length > 0)
-          _sandboxMerchantKey = value; 
+          _sandboxMerchantKey = value.Trim(); 
       }
     }
 
@@ -173,7 +173,7 @@ namespace GCheckout.Util {
       }
       set {
         if (value != null && value.Length > 0)
-          _logDirectory = value; 
+          _logDirectory = value.Trim(); 
       }
     }
 
@@ -190,7 +190,75 @@ namespace GCheckout.Util {
       }
       set {
         if (value != null && value.Length > 0)
-          _currency = value;
+          _currency = value.Trim();
+      }
+    }
+
+    private bool _useProxy = false;
+
+    /// <summary>
+    /// True or False if a Proxy Server should be used.
+    /// </summary>
+    /// <remarks>
+    /// If True, the <see cref="ProxyHost"/> , 
+    /// <see cref="ProxyUserName"/> and
+    /// <see cref="ProxyPassword"/>
+    /// (App Settings GoogleProxyHost, 
+    /// GoogleProxyUserName and
+    /// GoogleProxyPassword)
+    /// must be set.
+    /// </remarks>
+    public virtual bool UseProxy {
+      get {
+        return _useProxy;
+      }
+      set {
+        _useProxy = value;
+      }
+    }
+
+    private string _proxyHost = string.Empty;
+
+    /// <summary>
+    /// The Proxy Server Host
+    /// </summary>
+    public virtual string ProxyHost {
+      get {
+        return _proxyHost;
+      }
+      set {
+        if (value != null && value.Length > 0)
+          _proxyHost = value.Trim();
+      }
+    }
+
+    private string _proxyUserName = string.Empty;
+
+    /// <summary>
+    /// The Proxy Server User Name
+    /// </summary>
+    public virtual string ProxyUserName {
+      get {
+        return _proxyUserName;
+      }
+      set {
+        if (value != null && value.Length > 0)
+          _proxyUserName = value.Trim();
+      }
+    }
+
+    private string _proxyPassword = string.Empty;
+
+    /// <summary>
+    /// The Proxy Server Password
+    /// </summary>
+    public virtual string ProxyPassword {
+      get {
+        return _proxyPassword;
+      }
+      set {
+        if (value != null && value.Length > 0)
+          _proxyPassword = value.Trim();
       }
     }
 

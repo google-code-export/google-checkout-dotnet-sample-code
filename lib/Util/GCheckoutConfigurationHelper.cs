@@ -25,6 +25,7 @@ namespace GCheckout.Util {
   /// </summary>
   public class GCheckoutConfigurationHelper {
 
+    private static object __syncRoot = new object();
     private static GCheckoutConfigSection __configSection = null;
     private static bool _initialized = false;
     private static Exception configException = null;
@@ -44,11 +45,20 @@ namespace GCheckout.Util {
     private static void Initialize() {
       if (!_initialized) {
         try {
-          __configSection = 
-            ConfigurationSettings.GetConfig("Google/GoogleCheckout")
-            as GCheckoutConfigSection;
-          _initialized = true;
-          configException = null;
+          //the reason for this is when the web server starts up
+          //a lot of threads may attempt to initialize if the static
+          //initializer fails. so until that happens we want to 
+          //lock the sync root object, then check again
+          //this will keep double initializations from firing.
+          lock (__syncRoot) {
+            if (!_initialized) {
+              __configSection = 
+                ConfigurationSettings.GetConfig("Google/GoogleCheckout")
+                as GCheckoutConfigSection;
+              _initialized = true;
+              configException = null;
+            }
+          }
         }
         catch (Exception ex) {
           _initialized = false;
@@ -69,9 +79,8 @@ namespace GCheckout.Util {
         if (ConfigSection != null) {
           return ConfigSection.MerchantID;
         }
-        else if (ConfigurationSettings.AppSettings["GoogleMerchantID"] != null)
-          return long.Parse(
-            ConfigurationSettings.AppSettings["GoogleMerchantID"]);
+        else if (GetConfigValue("GoogleMerchantID").Length > 0)
+          return long.Parse(GetConfigValue("GoogleMerchantID"));
         else {
           throw new ConfigurationException(
             "Set the 'GoogleMerchantID' key in the config file.");
@@ -88,8 +97,8 @@ namespace GCheckout.Util {
         if (ConfigSection != null) {
           return ConfigSection.MerchantKey;
         }
-        else if (ConfigurationSettings.AppSettings["GoogleMerchantKey"] != null)
-          return ConfigurationSettings.AppSettings["GoogleMerchantKey"];
+        else if (GetConfigValue("GoogleMerchantKey").Length > 0)
+          return GetConfigValue("GoogleMerchantKey");
         else {
           throw new ConfigurationException(
             "Set the 'GoogleMerchantKey' key in the config file.");
@@ -105,10 +114,9 @@ namespace GCheckout.Util {
         if (ConfigSection != null) {
           return ConfigSection.Environment;
         }
-        else if (ConfigurationSettings.AppSettings["GoogleEnvironment"]
-          != null)
+        else if (GetConfigValue("GoogleEnvironment").Length > 0)
           return (EnvironmentType)Enum.Parse(typeof(EnvironmentType),
-            ConfigurationSettings.AppSettings["GoogleEnvironment"], true);
+            GetConfigValue("GoogleEnvironment"), true);
         else {
           throw new ConfigurationException(
             "Set the 'GoogleMerchantKey' key in the config file.");
@@ -133,9 +141,8 @@ namespace GCheckout.Util {
           }
           return ConfigSection.PlatformID;
         }
-        else if (ConfigurationSettings.AppSettings["PlatformID"] != null)
-          return long.Parse(
-            ConfigurationSettings.AppSettings["PlatformID"]);
+        else if (GetConfigValue("PlatformID").Length > 0)
+          return long.Parse(GetConfigValue("PlatformID"));
         else {
           throw new ConfigurationException(
             "Set the 'PlatformID' key in the config file.");
@@ -151,11 +158,10 @@ namespace GCheckout.Util {
         if (ConfigSection != null) {
           return ConfigSection.Logging;
         }
-        else if (ConfigurationSettings.AppSettings["Logging"] != null)
-          return ConfigurationSettings.AppSettings["Logging"] == "true";
+        else if (GetConfigValue("Logging").Length > 0)
+          return GetConfigValue("Logging").ToLower() == "true";
         else {
-          throw new ConfigurationException(
-            "Set the 'Logging' key in the config file.");
+          return false; //no key is required.
         }
       }
     }
@@ -165,14 +171,23 @@ namespace GCheckout.Util {
     /// </summary>
     public static string LogDirectory {
       get {
-        if (ConfigSection != null) {
-          return ConfigSection.LogDirectory;
+        if (Logging) {
+          if (ConfigSection != null) {
+            if (ConfigSection.LogDirectory.Length == 0) {
+              throw new ConfigurationException(
+                "Set the 'LogDirectory' key in the config file.");               
+            }
+            return ConfigSection.LogDirectory;
+          }
+          else if (GetConfigValue("LogDirectory").Length > 0)
+            return GetConfigValue("LogDirectory");
+          else {
+            throw new ConfigurationException(
+              "Set the 'LogDirectory' key in the config file.");
+          }           
         }
-        else if (ConfigurationSettings.AppSettings["LogDirectory"] != null)
-          return ConfigurationSettings.AppSettings["LogDirectory"];
         else {
-          throw new ConfigurationException(
-            "Set the 'LogDirectory' key in the config file.");
+          return string.Empty;
         }
       }
     }
@@ -184,17 +199,15 @@ namespace GCheckout.Util {
     /// </summary>
     public static string Currency {
       get {
-        Initialize();
         if (ConfigSection != null) {
-          if (ConfigSection.Currency == null ||
-            ConfigSection.Currency == string.Empty) {
+          if (ConfigSection.Currency.Length == 0) {
             throw new ConfigurationException(
               "Set the 'Currency' key in the config section.");
           }
           return ConfigSection.Currency;
         }
-        else if (ConfigurationSettings.AppSettings["Currency"] != null)
-          return ConfigurationSettings.AppSettings["Currency"];
+        else if (GetConfigValue("Currency").Length > 0)
+          return GetConfigValue("Currency");
         else {
           throw new ConfigurationException(
             "Set the 'Currency' key in the config file.");
@@ -203,10 +216,129 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
+    /// True or False if a Proxy Server should be used.
+    /// </summary>
+    /// <remarks>
+    /// If True, the <see cref="ProxyHost"/> , 
+    /// <see cref="ProxyUserName"/> and
+    /// <see cref="ProxyPassword"/>
+    /// (App Settings GoogleProxyHost, 
+    /// GoogleProxyUserName and
+    /// GoogleProxyPassword)
+    /// must be set.
+    /// </remarks>
+    public static bool UseProxy {
+      get {
+        if (ConfigSection != null) {
+          return ConfigSection.UseProxy;
+        }
+        else if (GetConfigValue("GoogleUseProxy").Length > 0)
+          return GetConfigValue("GoogleUseProxy").ToLower() == "true";
+        else {
+          return false;
+        }
+      }
+    }
+
+    /// <summary>
+    /// The Proxy Server Host
+    /// </summary>
+    public static string ProxyHost {
+      get {
+        if (UseProxy) {
+          if (ConfigSection != null) {
+            if (ConfigSection.ProxyHost.Length == 0) {
+              throw new ConfigurationException(
+                "Set the 'ProxyHost' key in the config section.");
+            }
+            return ConfigSection.ProxyHost;
+          }
+          else if (GetConfigValue("GoogleProxyHost").Length > 0) {
+            try {
+              Uri proxyUrl = new Uri(GetConfigValue("GoogleProxyHost"));
+            }
+            catch (Exception ex) {
+              throw new ConfigurationException("Error Reading GoogleProxyHost", ex);
+            }
+
+            return GetConfigValue("GoogleProxyHost");
+
+          }
+          else {
+            throw new ConfigurationException(
+              "Set the 'GoogleProxyHost' key in the config file.");
+          }           
+        }
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The Proxy Server User Name
+    /// </summary>
+    public static string ProxyUserName {
+      get {
+        if (UseProxy) {
+          if (ConfigSection != null) {
+            if (ConfigSection.ProxyUserName.Length == 0) {
+              throw new ConfigurationException(
+                "Set the 'ProxyUserName' key in the config section.");
+            }
+            return ConfigSection.ProxyUserName;
+          }
+          else if (GetConfigValue("GoogleProxyUserName").Length > 0)
+            return GetConfigValue("GoogleProxyUserName");
+          else {
+            throw new ConfigurationException(
+              "Set the 'GoogleProxyUserName' key in the config file.");
+          }           
+        }
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The Proxy Server Password
+    /// </summary>
+    public static string ProxyPassword {
+      get {
+        if (UseProxy) {
+          if (ConfigSection != null) {
+            if (ConfigSection.ProxyPassword.Length == 0) {
+              throw new ConfigurationException(
+                "Set the 'ProxyPassword' key in the config section.");
+            }
+            return ConfigSection.ProxyPassword;
+          }
+          else if (GetConfigValue("GoogleProxyPassword").Length > 0)
+            return GetConfigValue("GoogleProxyPassword");
+          else {
+            throw new ConfigurationException(
+              "Set the 'GoogleProxyPassword' key in the config file.");
+          }           
+        }
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
     /// Create a new Configuration helper.
     /// </summary>
     public GCheckoutConfigurationHelper() {
 
+    }
+
+    /// <summary>
+    /// Get the Configuration Key.
+    /// </summary>
+    /// <param name="key">The Key to obtain</param>
+    /// <returns>Empty String or the value</returns>
+    internal static string GetConfigValue(string key) {
+      string retVal = ConfigurationSettings.AppSettings[key];
+      if (retVal != null)
+        retVal = retVal.Trim();
+
+      return retVal;
     }
 
     /// <summary>
