@@ -57,6 +57,7 @@ namespace GCheckout.Util {
       string proxyHost = string.Empty;
       string proxyUserName = string.Empty;
       string proxyPassword = string.Empty;
+      string proxyDomain = string.Empty;
 
       EnvironmentType environment = EnvironmentType.Unknown;
 
@@ -152,9 +153,11 @@ namespace GCheckout.Util {
         }
 
         GCheckoutConfigurationHelper.GetStringValue(
-          section, "ProxyUserName", ref proxyUserName);
+          section, "ProxyUserName", false, ref proxyUserName);
         GCheckoutConfigurationHelper.GetStringValue(
-          section, "ProxyPassword", ref proxyPassword);
+          section, "ProxyPassword", false, ref proxyPassword);
+        GCheckoutConfigurationHelper.GetStringValue(
+          section, "ProxyDomain", false, ref proxyDomain);
       }
 
       retVal.SandboxMerchantKey = sandboxMerchantKey;
@@ -167,6 +170,7 @@ namespace GCheckout.Util {
       retVal.ProxyHost = proxyHost;
       retVal.ProxyUserName = proxyUserName;
       retVal.ProxyPassword = proxyPassword;
+      retVal.ProxyDomain = proxyDomain;
 
       return retVal;
     }

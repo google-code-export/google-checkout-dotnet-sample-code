@@ -66,10 +66,13 @@ namespace GCheckout {
       //determine if we are using a proxy server
       if (GCheckoutConfigurationHelper.UseProxy) {
         Uri proxyUrl = new Uri(GCheckoutConfigurationHelper.ProxyHost);
-        WebProxy proxy = new WebProxy(proxyUrl);
+        //create a proxy but set it to bypass on local (localhost)
+        //someone may want this to be configurable.
+        WebProxy proxy = new WebProxy(proxyUrl, true);
         proxy.Credentials = new NetworkCredential(
           GCheckoutConfigurationHelper.ProxyUserName,
-          GCheckoutConfigurationHelper.ProxyPassword);
+          GCheckoutConfigurationHelper.ProxyPassword,
+          GCheckoutConfigurationHelper.ProxyDomain);
         myRequest.Proxy = proxy;
       }
 
