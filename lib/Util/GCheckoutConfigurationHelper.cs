@@ -47,12 +47,12 @@ namespace GCheckout.Util {
         try {
           //the reason for this is when the web server starts up
           //a lot of threads may attempt to initialize if the static
-          //initializer fails. so until that happens we want to 
+          //initializer fails. so until that happens we want to
           //lock the sync root object, then check again
           //this will keep double initializations from firing.
           lock (__syncRoot) {
             if (!_initialized) {
-              __configSection = 
+              __configSection =
                 ConfigurationSettings.GetConfig("Google/GoogleCheckout")
                 as GCheckoutConfigSection;
               _initialized = true;
@@ -175,7 +175,7 @@ namespace GCheckout.Util {
           if (ConfigSection != null) {
             if (ConfigSection.LogDirectory.Length == 0) {
               throw new ConfigurationException(
-                "Set the 'LogDirectory' key in the config file.");               
+                "Set the 'LogDirectory' key in the config file.");
             }
             return ConfigSection.LogDirectory;
           }
@@ -184,7 +184,7 @@ namespace GCheckout.Util {
           else {
             throw new ConfigurationException(
               "Set the 'LogDirectory' key in the config file.");
-          }           
+          }
         }
         else {
           return string.Empty;
@@ -193,8 +193,8 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
-    /// The currency attribute identifies the unit of currency associated 
-    /// with the tag's value. The value of the currency attribute 
+    /// The currency attribute identifies the unit of currency associated
+    /// with the tag's value. The value of the currency attribute
     /// should be a three-letter ISO 4217 currency code.
     /// </summary>
     public static string Currency {
@@ -219,10 +219,10 @@ namespace GCheckout.Util {
     /// True or False if a Proxy Server should be used.
     /// </summary>
     /// <remarks>
-    /// If True, the <see cref="ProxyHost"/> , 
+    /// If True, the <see cref="ProxyHost"/> ,
     /// <see cref="ProxyUserName"/> and
     /// <see cref="ProxyPassword"/>
-    /// (App Settings GoogleProxyHost, 
+    /// (App Settings GoogleProxyHost,
     /// GoogleProxyUserName and
     /// GoogleProxyPassword)
     /// must be set.
@@ -254,20 +254,20 @@ namespace GCheckout.Util {
             return ConfigSection.ProxyHost;
           }
           else if (GetConfigValue("GoogleProxyHost").Length > 0) {
+            //what we are trying to do is give the user advanced warning
+            //that the host is not valid.
             try {
               Uri proxyUrl = new Uri(GetConfigValue("GoogleProxyHost"));
             }
             catch (Exception ex) {
               throw new ConfigurationException("Error Reading GoogleProxyHost", ex);
             }
-
             return GetConfigValue("GoogleProxyHost");
-
           }
           else {
             throw new ConfigurationException(
               "Set the 'GoogleProxyHost' key in the config file.");
-          }           
+          }
         }
         return string.Empty;
       }
@@ -280,18 +280,11 @@ namespace GCheckout.Util {
       get {
         if (UseProxy) {
           if (ConfigSection != null) {
-            if (ConfigSection.ProxyUserName.Length == 0) {
-              throw new ConfigurationException(
-                "Set the 'ProxyUserName' key in the config section.");
-            }
+            //this is not required, so returning an empty string is valid
             return ConfigSection.ProxyUserName;
           }
           else if (GetConfigValue("GoogleProxyUserName").Length > 0)
             return GetConfigValue("GoogleProxyUserName");
-          else {
-            throw new ConfigurationException(
-              "Set the 'GoogleProxyUserName' key in the config file.");
-          }           
         }
         return string.Empty;
       }
@@ -304,18 +297,28 @@ namespace GCheckout.Util {
       get {
         if (UseProxy) {
           if (ConfigSection != null) {
-            if (ConfigSection.ProxyPassword.Length == 0) {
-              throw new ConfigurationException(
-                "Set the 'ProxyPassword' key in the config section.");
-            }
+            //this is not required, so returning an empty string is valid
             return ConfigSection.ProxyPassword;
           }
           else if (GetConfigValue("GoogleProxyPassword").Length > 0)
             return GetConfigValue("GoogleProxyPassword");
-          else {
-            throw new ConfigurationException(
-              "Set the 'GoogleProxyPassword' key in the config file.");
-          }           
+        }
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The Domain to authenticate the Proxy User
+    /// </summary>
+    public static string ProxyDomain {
+      get {
+        if (UseProxy) {
+          if (ConfigSection != null) {
+            //this is not required, so returning an empty string is valid
+            return ConfigSection.ProxyDomain;
+          }
+          else if (GetConfigValue("GoogleProxyDomain").Length > 0)
+            return GetConfigValue("GoogleProxyDomain");
         }
         return string.Empty;
       }
@@ -353,12 +356,12 @@ namespace GCheckout.Util {
       Type enumType, ref int val) {
       XmlNode a = node.Attributes.RemoveNamedItem(attribute);
       if (a == null)
-        throw new ConfigurationException("Google Checkout Config Section " + 
+        throw new ConfigurationException("Google Checkout Config Section " +
           "attribute required: " + attribute);
       if (Enum.IsDefined(enumType, a.Value))
         val = (int)Enum.Parse(enumType, a.Value, true);
       else
-        throw new ConfigurationException("Google Checkout Config Section " + 
+        throw new ConfigurationException("Google Checkout Config Section " +
           "Invalid Enumeration Value: '" + a.Value + "'", a);
       return a;
     }
@@ -388,9 +391,9 @@ namespace GCheckout.Util {
       XmlNode a = node.Attributes.RemoveNamedItem(attribute);
       if (a == null) {
         if (required)
-          throw new ConfigurationException("Google Checkout Config Section " + 
+          throw new ConfigurationException("Google Checkout Config Section " +
             "attribute required: " + attribute);
-      }  
+      }
       else
         val = a.Value;
       return a;

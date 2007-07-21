@@ -262,6 +262,21 @@ namespace GCheckout.Util {
       }
     }
 
+    private string _proxyDomain = string.Empty;
+
+    /// <summary>
+    /// The Domain to authenticate the Proxy User
+    /// </summary>
+    public virtual string ProxyDomain {
+      get {
+        return _proxyDomain;
+      }
+      set {
+        if (value != null && value.Length > 0)
+          _proxyDomain = value.Trim();
+      }
+    }
+
     /// <summary>
     /// Create a New Config Section
     /// </summary>
