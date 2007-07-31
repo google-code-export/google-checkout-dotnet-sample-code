@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using GCheckout.Util;
+using ch = GCheckout.Util.GCheckoutConfigurationHelper;
 
 namespace GCheckout.MerchantCalculation {
   /// <summary>
@@ -84,13 +85,13 @@ namespace GCheckout.MerchantCalculation {
             ThisResult.shippableSpecified = true;
             ThisResult.shippable = SResult.Shippable;
             ThisResult.shippingrate = new AutoGen.ResultShippingrate();
-            ThisResult.shippingrate.currency = "USD";
+            ThisResult.shippingrate.currency = ch.DefaultCurrency;
             ThisResult.shippingrate.Value = SResult.ShippingRate;
           }
           // Check tax, if requested.
           if (Callback.calculate.tax) {
             ThisResult.totaltax = new AutoGen.ResultTotaltax();
-            ThisResult.totaltax.currency = "USD";
+            ThisResult.totaltax.currency = ch.DefaultCurrency;
             ThisResult.totaltax.Value = 
               _Rules.GetTaxResult
               (ThisOrder, ThisAddress, 
@@ -112,7 +113,7 @@ namespace GCheckout.MerchantCalculation {
               if (UsedMerchantCodes.Contains(CurrentMerchantCode.ToUpper())) {
                 AutoGen.CouponResult CouponResult = new AutoGen.CouponResult();
                 CouponResult.calculatedamount = new AutoGen.CouponResultCalculatedamount();
-                CouponResult.calculatedamount.currency = "USD";
+                CouponResult.calculatedamount.currency = ch.DefaultCurrency;
                 CouponResult.calculatedamount.Value = 0;
                 CouponResult.code = CurrentMerchantCode;
                 CouponResult.message = "Code already used.";
@@ -127,7 +128,7 @@ namespace GCheckout.MerchantCalculation {
                   AutoGen.GiftCertificateResult GCResult = 
                     new AutoGen.GiftCertificateResult();
                   GCResult.calculatedamount = new AutoGen.GiftCertificateResultCalculatedamount();
-                  GCResult.calculatedamount.currency = "USD";
+                  GCResult.calculatedamount.currency = ch.DefaultCurrency;
                   GCResult.calculatedamount.Value = MCR.Amount;
                   GCResult.code = CurrentMerchantCode;
                   GCResult.message = MCR.Message;
@@ -139,7 +140,7 @@ namespace GCheckout.MerchantCalculation {
                   AutoGen.CouponResult CouponResult = 
                     new AutoGen.CouponResult();
                   CouponResult.calculatedamount = new AutoGen.CouponResultCalculatedamount();
-                  CouponResult.calculatedamount.currency = "USD";
+                  CouponResult.calculatedamount.currency = ch.DefaultCurrency;
                   CouponResult.calculatedamount.Value = MCR.Amount;
                   CouponResult.code = CurrentMerchantCode;
                   CouponResult.message = MCR.Message;
