@@ -19,15 +19,17 @@ using System.Web.UI;
 using System.ComponentModel;
 using System.Configuration;
 using GCheckout.Util;
+using ch = GCheckout.Util.GCheckoutConfigurationHelper;
 
 namespace GCheckout.Checkout {
+
   /// <summary>
   /// Google Checkout button that will display on your web page.
   /// </summary>
   public class GCheckoutButton : System.Web.UI.WebControls.ImageButton {
     private ButtonSize _Size = ButtonSize.Medium;
     private BackgroundType _Background = BackgroundType.White;
-    private string _Currency = "USD";
+    private string _Currency = ch.DefaultCurrency;
     private int _CartExpirationMinutes = 0;
     private bool _UseHttps = false;
 
@@ -143,8 +145,7 @@ namespace GCheckout.Checkout {
     /// <summary>
     /// The <b>Currency</b> property value identifies the currency that should
     /// be associated with prices in your Checkout API requests. The value of 
-    /// this property should be a three-letter ISO 4217 currency code. At this
-    /// time, the only supported currency is U.S. dollars ("USD").
+    /// this property should be a three-letter ISO 4217 currency code.
     /// </summary>
     [Category("Google")]
     [Description("USD for US dollars, GBP for British pounds, SEK for " +

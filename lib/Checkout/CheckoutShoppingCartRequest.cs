@@ -75,8 +75,7 @@ namespace GCheckout.Checkout {
     /// <param name="Env">The environment where a request is being executed. 
     /// Valid values for this parameter are "Sandbox" and "Production".</param>
     /// <param name="Currency">The currency associated with prices in a 
-    /// Checkout API request. At this time, the only supported currency value 
-    /// is "USD", which corresponds to U.S. dollars.</param>
+    /// Checkout API request.</param>
     /// <param name="CartExpirationMinutes">
     /// The length of time, in minutes, after which the shopping cart will 
     /// expire if it has not been submitted. A value of <b>0</b> indicates 

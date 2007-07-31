@@ -193,6 +193,24 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
+    /// Attempt to call the Currency method, but if a key is not found
+    /// do not throw an exception, just return the default currency (USD)
+    /// </summary>
+    /// <remarks>Internally this is used to set the button and
+    /// callback currency. It is designed so we do not change
+    /// the default behavior of the application.</remarks>
+    internal static string DefaultCurrency {
+      get {
+        try {
+          return Currency;
+        }
+        catch (Exception) {
+          return "USD";
+        }
+      }
+    }
+
+    /// <summary>
     /// The currency attribute identifies the unit of currency associated
     /// with the tag's value. The value of the currency attribute
     /// should be a three-letter ISO 4217 currency code.
