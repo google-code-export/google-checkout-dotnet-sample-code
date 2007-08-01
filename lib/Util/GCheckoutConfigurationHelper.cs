@@ -358,6 +358,8 @@ namespace GCheckout.Util {
       string retVal = ConfigurationSettings.AppSettings[key];
       if (retVal != null)
         retVal = retVal.Trim();
+      else
+        retVal = string.Empty;
 
       return retVal;
     }
