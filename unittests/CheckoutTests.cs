@@ -103,7 +103,6 @@ namespace GCheckout.Checkout.Tests {
 
       Assert.AreEqual(1, ohio1.RuleCount);
 
-
       DigitalItem emailDigitalItem = new DigitalItem();
       request.AddItem("Email Digital Item", "Cool DigitalItem", 2.00M, 1,  emailDigitalItem);
 
