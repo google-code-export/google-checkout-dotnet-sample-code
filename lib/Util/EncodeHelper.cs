@@ -290,27 +290,18 @@ namespace GCheckout.Util {
         string nodeName = GetTopElement(Xml);
 
         //ok here is where the fun starts.
+        string extNamespace 
+          = typeof(AutoGen.Extended.NewOrderNotificationExtended).Namespace;
         string nameSpace = typeof(AutoGen.Hello).Namespace;
         Type[] types 
           = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
 
-        Type reflectedType = null;
+        //see if the item has a type in the extended namespace
+        Type reflectedType = GetReflectedType(types, extNamespace, nodeName);
 
-        foreach(Type t in types) {
-          if (t.Namespace == nameSpace && t.IsClass) {
-            //Console.WriteLine(t.Name);
-            XmlRootAttribute[] att 
-              = t.GetCustomAttributes(typeof(XmlRootAttribute), true)
-              as XmlRootAttribute[];
-            //if we found the custom attribute, then we need to see
-            //if the element name is correct.
-            if (att != null && att.Length > 0) {
-              if (att[0].ElementName == nodeName) {
-                reflectedType = t;
-                break;
-              }
-            }
-          }
+        //we could not find an extended class. load the default
+        if (reflectedType == null) {
+          reflectedType = GetReflectedType(types, nameSpace, nodeName);
         }
 
         //ok either the type is supported or it is not
@@ -356,6 +347,26 @@ namespace GCheckout.Util {
           string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}.", 
           passedXml, containsBom), e);
       }
+    }
+
+    private static Type GetReflectedType(Type[] types, string ns, string nodeName) {
+      foreach(Type t in types) {
+        if (t.Namespace == ns && t.IsClass) {
+          //Console.WriteLine(t.Name);
+          XmlRootAttribute[] att 
+            = t.GetCustomAttributes(typeof(XmlRootAttribute), true)
+            as XmlRootAttribute[];
+          //if we found the custom attribute, then we need to see
+          //if the element name is correct.
+          if (att != null && att.Length > 0) {
+            if (att[0].ElementName == nodeName) {
+              return t;
+            }
+          }
+        }
+      }
+
+      return null;
     }
 
     /// <summary>
