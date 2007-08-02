@@ -175,7 +175,7 @@ namespace GCheckout.Util {
           if (ConfigSection != null) {
             if (ConfigSection.LogDirectory.Length == 0) {
               throw new ConfigurationException(
-                "Set the 'LogDirectory' key in the config file.");
+                "Set the 'LogDirectory' key in the config section.");
             }
             return ConfigSection.LogDirectory;
           }
