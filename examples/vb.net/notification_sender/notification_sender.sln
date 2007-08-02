@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "notification_sender", "notification_sender.vbproj", "{5C399088-3D10-4612-ACC4-B12399FA697D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{5C399088-3D10-4612-ACC4-B12399FA697D}.Debug.ActiveCfg = Debug|.NET
+		{5C399088-3D10-4612-ACC4-B12399FA697D}.Debug.Build.0 = Debug|.NET
+		{5C399088-3D10-4612-ACC4-B12399FA697D}.Release.ActiveCfg = Release|.NET
+		{5C399088-3D10-4612-ACC4-B12399FA697D}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
