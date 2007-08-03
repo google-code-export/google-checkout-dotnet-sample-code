@@ -84,6 +84,17 @@ of 1024 characters and may contain HTML tags.";
     }
 
     /// <summary>
+    /// used by the extended notification class.
+    /// </summary>
+    /// <param name="content"></param>
+    internal DigitalItem(GCheckout.AutoGen.DigitalContent content) {
+      this._description = content.description;
+      this._emaildelivery = content.emaildelivery;
+      this._key = content.key;
+      this._url = content.url;
+    }
+    
+    /// <summary>
     /// Create a new instance of the &lt;digital-content&gt;
     /// for an &lt;email-delivery&gt;
     /// </summary>

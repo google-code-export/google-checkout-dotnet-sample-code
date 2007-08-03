@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Xml.Serialization;
+using GCheckout.Checkout;
 
 namespace GCheckout.AutoGen.Extended {
   
@@ -18,6 +19,26 @@ namespace GCheckout.AutoGen.Extended {
 
     }
     
+    /// <summary>
+    /// Return a readonly wrapped list of the shopping cart items.
+    /// </summary>
+    public ShoppingCartItem[] Items {
+      get {
+        if (this.shoppingcart != null && this.shoppingcart.items != null) {
+          ShoppingCartItem[] retVal 
+            = new ShoppingCartItem[this.shoppingcart.items.Length];
+
+          for (int i = 0; i < retVal.Length; i++) {
+            retVal[i] = new ShoppingCartItem(this.shoppingcart.items[i]);   
+          }
+
+          return retVal;
+        }
+      
+        return new ShoppingCartItem[] {};
+      }
+    }
+
     /// <summary>
     /// Get the Shipping Method.
     /// </summary>
@@ -51,8 +72,6 @@ namespace GCheckout.AutoGen.Extended {
     /// </summary>
     public decimal ShippingCost {
       get {
-        string retVal = string.Empty;
-
         object item = GetShippingItem();
 
         if (item != null) {
@@ -94,17 +113,14 @@ namespace GCheckout.AutoGen.Extended {
     }
 
     private object GetShippingItem() {
-       
       if (orderadjustment != null) {
         if (orderadjustment.shipping != null) {
           if (orderadjustment.shipping.Item != null) {
-
             return orderadjustment.shipping.Item;
           }
         }
       }
       return null;
     }
-
   }
 }

@@ -315,7 +315,7 @@ namespace GCheckout.Util {
         }
         else {
           System.Diagnostics.Debug.WriteLine("Deserialize was not able" +
-            "To locate a message of type:" + nodeName+ "");
+            "To locate a message of type:" + nodeName + "");
           return null;
         }
       }
@@ -365,7 +365,6 @@ namespace GCheckout.Util {
           }
         }
       }
-
       return null;
     }
 
