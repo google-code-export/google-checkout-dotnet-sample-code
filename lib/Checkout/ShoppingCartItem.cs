@@ -22,7 +22,6 @@ using GCheckout.Util;
 
 namespace GCheckout.Checkout {
 
-
   /// <summary>
   /// A wrapper containing information about an individual item listed 
   /// in the customer's shopping cart
@@ -37,7 +36,6 @@ namespace GCheckout.Checkout {
     private XmlNode[] _merchantPrivateItemDataNodes;
     private AlternateTaxTable _taxTable = null;
     private DigitalItem _digitalContent = null;
-
 
     /// <summary>
     /// Identifies the name of an item
@@ -144,6 +142,21 @@ namespace GCheckout.Checkout {
       }
     }
 
+    string _taxtableselector = string.Empty;
+
+    /// <summary>
+    /// Property used to just return the name of the Tax Table
+    /// </summary>
+    public virtual string TaxTableName {
+      get {
+        if (_taxTable != null && _taxTable.Name != null)
+          return _taxTable.Name;
+        if (_taxtableselector != null && _taxtableselector.Length > 0)
+          return _taxtableselector;
+        return string.Empty;
+      } 
+    }
+
     /// <summary>
     /// Initialize a new instance of the 
     /// <see cref="ShoppingCartItem"/> class, which creates an object
@@ -153,6 +166,26 @@ namespace GCheckout.Checkout {
     /// </summary>
     public ShoppingCartItem() {
        
+    }
+
+    /// <summary>
+    /// ctor used by the extended notification class
+    /// </summary>
+    /// <param name="theItem"></param>
+    internal ShoppingCartItem(GCheckout.AutoGen.Item theItem) {
+      if (theItem.digitalcontent != null)
+        this.DigitalContent = new DigitalItem(theItem.digitalcontent);
+      this.Description = theItem.itemdescription;
+      this.MerchantItemID = theItem.merchantitemid;
+      if (theItem.merchantprivateitemdata != null)
+        this.MerchantPrivateItemDataNodes = theItem.merchantprivateitemdata.Any;
+      else
+        this.MerchantPrivateItemDataNodes = new XmlNode[] {};
+      this.Name = theItem.itemname;
+      this.Price = theItem.unitprice.Value;
+      this.Quantity = theItem.quantity;
+      _taxtableselector = theItem.taxtableselector;
+      //this.TaxTable = theItem.taxtableselector;
     }
 
     /// <summary>
