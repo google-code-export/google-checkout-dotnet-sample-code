@@ -71,6 +71,19 @@ namespace GCheckout.MerchantCalculation {
     }
 
     /// <summary>
+    /// Return the sub total of all the items (Quantity * Price)
+    /// </summary>
+    public decimal ItemSubTotal {
+      get {
+        decimal retVal = 0;
+        foreach (OrderLine Line in this) {
+          retVal += Line.UnitPrice * Line.Quantity;
+        }
+        return retVal;
+      }
+    }
+
+    /// <summary>
     /// Merchant Private Data
     /// </summary>
     [Obsolete("This property must be converted to a XmlNode Array. Only the First XmlNode will be returned.")]
