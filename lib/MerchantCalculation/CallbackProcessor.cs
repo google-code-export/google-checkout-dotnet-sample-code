@@ -70,8 +70,8 @@ namespace GCheckout.MerchantCalculation {
         new AutoGen.Result
         [Callback.calculate.addresses.Length * ShippingMethods.Length];
       int ResultIndex = 0;
-      for (int s = 0; s < ShippingMethods.Length; s++) {
-        for (int a = 0; a < Callback.calculate.addresses.Length; a++) {
+      for (int a = 0; a < Callback.calculate.addresses.Length; a++) {
+        for (int s = 0; s < ShippingMethods.Length; s++) {
           AutoGen.Result ThisResult = new AutoGen.Result();
           ThisResult.addressid = Callback.calculate.addresses[a].id;
           AnonymousAddress ThisAddress = 
