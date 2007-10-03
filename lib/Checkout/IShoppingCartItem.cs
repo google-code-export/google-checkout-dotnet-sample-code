@@ -102,5 +102,14 @@ namespace GCheckout.Checkout {
       get;
       set;
     }
+
+    /// <summary>
+    /// The &lt;item-weight&gt; tag specifies the weight of an 
+    /// individual item in the customer's shopping cart.
+    /// </summary>
+    double Weight {
+      get;
+      set;
+    }
   }
 }
