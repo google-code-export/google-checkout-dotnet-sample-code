@@ -36,6 +36,9 @@ namespace GCheckout.Checkout {
     private XmlNode[] _merchantPrivateItemDataNodes;
     private AlternateTaxTable _taxTable = null;
     private DigitalItem _digitalContent = null;
+    private double _itemWeight;
+    //this is only used by the callback method and should not be used by the cart
+    private string _taxtableselector = string.Empty;
 
     /// <summary>
     /// Identifies the name of an item
@@ -142,19 +145,19 @@ namespace GCheckout.Checkout {
       }
     }
 
-    string _taxtableselector = string.Empty;
-
     /// <summary>
-    /// Property used to just return the name of the Tax Table
+    /// The &lt;item-weight&gt; tag specifies the weight of an 
+    /// individual item in the customer's shopping cart.
     /// </summary>
-    public virtual string TaxTableName {
+    public virtual double Weight {
       get {
-        if (_taxTable != null && _taxTable.Name != null)
-          return _taxTable.Name;
-        if (_taxtableselector != null && _taxtableselector.Length > 0)
-          return _taxtableselector;
-        return string.Empty;
-      } 
+        return _itemWeight;
+      }
+      set {
+        if (value < 0)
+          throw new ArgumentOutOfRangeException("The value must be 0 or larger");
+        _itemWeight = value; 
+      }
     }
 
     /// <summary>
@@ -185,7 +188,6 @@ namespace GCheckout.Checkout {
       this.Price = theItem.unitprice.Value;
       this.Quantity = theItem.quantity;
       _taxtableselector = theItem.taxtableselector;
-      //this.TaxTable = theItem.taxtableselector;
     }
 
     /// <summary>

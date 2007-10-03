@@ -50,7 +50,7 @@ namespace GCheckout.Checkout {
     private string _EditCartUrl = null;
     private bool _RequestBuyerPhoneNumber = false;
     private DateTime _CartExpiration = DateTime.MinValue;
-    private string _Currency = null;
+    internal string _Currency = null;
     private string _AnalyticsData = null;
     private long _PlatformID = 0;
     private bool _roundingRuleSet = false;
@@ -61,7 +61,10 @@ namespace GCheckout.Checkout {
     private ParameterizedUrls _ParameterizedUrls = new ParameterizedUrls();
 
     //jf Tax Tables added 3/1/2007
-    private AlternateTaxTableCollection _alternateTaxTables = new AlternateTaxTableCollection();
+    private AlternateTaxTableCollection _alternateTaxTables 
+      = new AlternateTaxTableCollection();
+    //carrier calculated shipping options
+    private CarrierCalculatedShipping _carrierCalculatedShipping = null;
 
     /// <summary>
     /// This method is called by the <see cref="GCheckoutButton"/> class and
@@ -97,6 +100,7 @@ namespace GCheckout.Checkout {
       if (CartExpirationMinutes > 0) {
         SetExpirationMinutesFromNow(CartExpirationMinutes);
       }
+      _carrierCalculatedShipping = new CarrierCalculatedShipping(this);
     }
 
     /// <summary>
@@ -974,31 +978,176 @@ namespace GCheckout.Checkout {
     }
 
     /// <summary>
+    /// Create a new Carrier Calculated Shipping Option with the minimum
+    /// Amount of information needed.
+    /// </summary>
+    /// <param name="shippingType">The Shipping Type to add
+    /// (This must be unique)</param>
+    /// <param name="defaultValue">The default cost for the shipping option. 
+    /// The default cost will be assessed if Google's attempt to obtain the 
+    /// carrier's shipping rates fails for any reason.</param>
+    /// <returns></returns>
+    public CarrierCalculatedShippingOption 
+      AddCarrierCalculatedShippingOption(
+        ShippingType shippingType, decimal defaultValue) {
+   
+      return _carrierCalculatedShipping.AddShippingOption(
+        shippingType, defaultValue);
+    }
+
+    /// <summary>
+    /// Create a new Carrier Calculated Shipping Option with the minimum
+    /// Amount of information needed.
+    /// </summary>
+    /// <param name="shippingType">The Shipping Type to add
+    /// (This must be unique)</param>
+    /// <param name="defaultValue">The default cost for the shipping option. 
+    /// The default cost will be assessed if Google's attempt to obtain the 
+    /// carrier's shipping rates fails for any reason.</param>
+    /// <param name="carrierPickup">
+    /// The &lt;carrier-pickup&gt; tag specifies how the package will be 
+    /// transferred from the merchant to the shipper. Valid values for this
+    /// tag are REGULAR_PICKUP, SPECIAL_PICKUP and DROP_OFF. The default
+    /// value for this tag is DROP_OFF.
+    /// </param>
+    /// <param name="additionalFixedCharge">
+    /// The &lt;additional-fixed-charge&gt; tag allows you to specify a fixed
+    /// charge that will be added to the total cost of an order if the buyer
+    /// selects the associated shipping option. If you also adjust the
+    /// calculated shipping cost using the
+    /// &lt;additional-variable-charge-percent&gt; tag, the fixed charge will
+    /// be added to the adjusted shipping rate.
+    /// </param>
+    /// <param name="additionalVariableChargePercent">
+    /// The &lt;additional-variable-charge-percent&gt; tag specifies a
+    /// percentage amount by which a carrier-calculated shipping rate will be
+    /// adjusted. The tag's value may be positive or negative. For example, if
+    /// the tag's value is 15, then the carrier's shipping rate will
+    /// effectively be multiplied by 1.15 to determine the shipping cost
+    /// presented to the buyer. So, if the carrier shipping rate were $10.00,
+    /// the adjusted shipping rate would be $11.50 – i.e. $10.00 +
+    /// ($10.00 X 15%). If the &lt;additional-variable-charge-percent&gt; tag
+    /// value is negative, the calculated shipping rate will be discounted by 
+    /// the specified percentage.
+    /// </param>
+    /// <returns></returns>
+    public CarrierCalculatedShippingOption 
+      AddCarrierCalculatedShippingOption(
+        ShippingType shippingType, decimal defaultValue,
+        CarrierPickup carrierPickup, decimal additionalFixedCharge,
+      double additionalVariableChargePercent) {
+
+      return _carrierCalculatedShipping.AddShippingOption(shippingType, 
+        defaultValue, carrierPickup, additionalFixedCharge, 
+        additionalVariableChargePercent);
+    }
+
+    /// <summary>
+    /// Add a Ship Address For Calculated Shipping
+    /// </summary>
+    /// <param name="id">The ID of the Ship From</param>
+    /// <param name="city">
+    /// The &lt;city&gt; tag identifies the city associated with a
+    /// shipping adrress
+    /// </param>
+    /// <param name="region">
+    /// The &lt;region&gt; tag identifies the state or province associated
+    /// with a shipping address.
+    /// </param>
+    /// <param name="postalCode">
+    /// The &lt;postal-code&gt; tag identifies the zip code or postal code.
+    /// </param>
+    /// <returns></returns>
+    public ShippingPackage AddShippingPackage(string id, string city, 
+      string region, string postalCode) {
+      return _carrierCalculatedShipping.AddShippingPackage(id, city, region,
+        postalCode, "US");
+    }
+
+    /// <summary>
+    /// Add a Ship Address For Calculated Shipping
+    /// </summary>
+    /// <param name="id">The ID of the Ship From</param>
+    /// <param name="city">
+    /// The &lt;city&gt; tag identifies the city associated with a
+    /// shipping adrress
+    /// </param>
+    /// <param name="region">
+    /// The &lt;region&gt; tag identifies the state or province associated
+    /// with a shipping address.
+    /// </param>
+    /// <param name="postalCode">
+    /// The &lt;postal-code&gt; tag identifies the zip code or postal code.
+    /// </param>
+    /// <param name="addressCategory">
+    /// The &lt;delivery-address-category&gt; tag indicates whether the shipping 
+    /// method should be applied to a residential or a commercial address. Valid
+    /// values for this tag are RESIDENTIAL and COMMERCIAL. Please note that 
+    /// these names are case-sensitive.
+    /// </param>
+    /// <param name="packaging">
+    /// The &lt;packaging&gt; tag specifies the type of packaging
+    /// that will be used to ship the order.
+    /// </param>
+    /// <param name="height">The Height of the Package</param>
+    /// <param name="length">The Length of the Package</param>
+    /// <param name="width">The Width of the Package</param>
+    /// <returns></returns>
+    public ShippingPackage AddShippingPackage(string id, string city,
+      string region, string postalCode, 
+      DeliveryAddressCategory addressCategory,
+      Packaging packaging, int height, int length, int width) {
+      return _carrierCalculatedShipping.AddShippingPackage(id, city, region,
+        postalCode, "US", addressCategory, packaging, height, length, width);
+    }
+
+    /// <summary>
     /// Adds the new shipping method.
     /// </summary>
     /// <param name="NewShippingMethod">The new shipping method.</param>
-    private void AddNewShippingMethod(Object NewShippingMethod) {
+    internal void AddNewShippingMethod(Object NewShippingMethod) {
+
+      VerifyShippingMethods(NewShippingMethod);
+
+      Object[] NewMethods = new Object[_ShippingMethods.Items.Length + 1];
+      for (int i = 0; i < _ShippingMethods.Items.Length; i++) {
+        NewMethods[i] = _ShippingMethods.Items[i];
+      }
+
+      NewMethods[NewMethods.Length - 1] = NewShippingMethod;
+      _ShippingMethods.Items = NewMethods;
+    }
+
+    internal void VerifyShippingMethods(Object newShippingMethod) {
       //ensure the type is the only type that exists in the set
       //shipping methods is an xs:choice so only one type can exist.
       if (_ShippingMethods.Items.Length > 0) {
         //since we have been validating the entire time, all we need to do
         //is grab the first item and ensure the class types are ==
         Type originalType = _ShippingMethods.Items[0].GetType();
-        if (originalType != NewShippingMethod.GetType()) {
+        Type newType = newShippingMethod.GetType();
+        if (originalType != newType) {
+
+          //change of rules. if it is carrier calculated it can be
+          //combined with flat rate options.
+          //if the first item is flat or calc
+          //and aslo the new one is flat or carrier calc
+          //then the combination is allowed, just return.
+          if ((originalType == typeof(AutoGen.FlatRateShipping)
+            || originalType == typeof(AutoGen.CarrierCalculatedShipping))
+            &&
+            (newType == typeof(AutoGen.FlatRateShipping)
+            || newType == typeof(AutoGen.CarrierCalculatedShipping))) {
+            return;
+          }
+
           string theError = "You may only have one Shipping method." +
             " The cart already contains a {0} Shipping method and you" +
             " attempted to add a {1} Shipping method.";
           throw new ArgumentException(string.Format(theError, originalType, 
-            NewShippingMethod.GetType()));
+            newShippingMethod.GetType()));
         }
       }
-
-      Object[] NewMethods = new Object[_ShippingMethods.Items.Length + 1];
-      for (int i = 0; i < _ShippingMethods.Items.Length; i++) {
-        NewMethods[i] = _ShippingMethods.Items[i];
-      }
-      NewMethods[NewMethods.Length - 1] = NewShippingMethod;
-      _ShippingMethods.Items = NewMethods;
     }
 
     /// <summary>
@@ -1288,7 +1437,8 @@ namespace GCheckout.Checkout {
             " GCheckout.Checkout.ShoppingCartItem.");
         }
 
-        //set to a local variable of current item to lessen the change of a mistake
+        //set to a local variable of current item to lessen the change of
+        //a mistake
         GCheckout.AutoGen.Item currentItem = new AutoGen.Item();
         MyCart.shoppingcart.items[i] = currentItem;
 
@@ -1300,7 +1450,16 @@ namespace GCheckout.Checkout {
         currentItem.unitprice.currency = _Currency;
         currentItem.unitprice.Value = MyItem.Price;
 
-        if (MyItem.MerchantItemID != null && MyItem.MerchantItemID.Length > 0) {
+        //TODO determine if we should try to catch if a UK customer tries to
+        //use this value.
+        if (MyItem.Weight > 0) {           
+          currentItem.itemweight = new AutoGen.ItemWeight();
+          currentItem.itemweight.unit = "LB"; //this is the only option.
+          currentItem.itemweight.value = MyItem.Weight;
+        }
+
+        if (MyItem.MerchantItemID != null 
+          && MyItem.MerchantItemID.Length > 0) {
           currentItem.merchantitemid = MyItem.MerchantItemID;  
         }
 
@@ -1350,7 +1509,8 @@ namespace GCheckout.Checkout {
         copiedMerchantPrivateData.Add(MakeXmlElement(_MerchantPrivateData));
       }
 
-      if (_MerchantPrivateDataNodes != null && _MerchantPrivateDataNodes.Count > 0) {
+      if (_MerchantPrivateDataNodes != null 
+        && _MerchantPrivateDataNodes.Count > 0) {
         for (int i = 0; i < _MerchantPrivateDataNodes.Count; i++)
           copiedMerchantPrivateData.Add(_MerchantPrivateDataNodes[i]);
       }
@@ -1453,15 +1613,14 @@ namespace GCheckout.Checkout {
       if (_ParameterizedUrls.Urls.Length > 0) {
         GCheckout.AutoGen.ParameterizedUrl[] destUrls
           = new GCheckout.AutoGen.ParameterizedUrl[_ParameterizedUrls.Urls.Length];
-        Debug.WriteLine("<ParameterizedUrls>");
         for (int i = 0; i < _ParameterizedUrls.Urls.Length; i++) {
-          Debug.WriteLine("<ParameterizedUrl>");
           ParameterizedUrl fromUrl = _ParameterizedUrls.Urls[i];
           GCheckout.AutoGen.ParameterizedUrl toUrl
             = new GCheckout.AutoGen.ParameterizedUrl();
           toUrl.url = fromUrl.URL;
 
-          //ok now we have to see if params exist, and if they do we need to look that array and build it out.
+          //ok now we have to see if params exist, 
+          //and if they do we need to look that array and build it out.
           if (fromUrl.Params.Length > 0) {
             GCheckout.AutoGen.UrlParameter[] destparams
               = new GCheckout.AutoGen.UrlParameter[fromUrl.Params.Length];
@@ -1472,19 +1631,13 @@ namespace GCheckout.Checkout {
               toParam.name = fromParam.Name;
               //Use the reflection code to get the string value of the enum.
               toParam.type = fromParam.SerializedValue;
-              Debug.WriteLine("<parameterized-url url=\"" + toUrl.url + "\" />");
               destparams[j] = toParam;
             }
             toUrl.parameters = destparams;
           }
-
-          Debug.WriteLine("<parameterized-url url=\"" + toUrl.url + "\">");
           destUrls[i] = toUrl; //add the url to the array.
-
           MyCart.checkoutflowsupport.Item.parameterizedurls = destUrls;
-          Debug.WriteLine("</ParameterizedUrl>");
         }
-        Debug.WriteLine("</ParameterizedUrls>");
       }
 
       // Call the EncodeHelper.Serialize method to generate the XML for
@@ -1520,10 +1673,20 @@ namespace GCheckout.Checkout {
       // 4. If the request indicates that the merchant accepts gift 
       // certificates, the request must also specify a 
       // merchant-calculations-url.
-      if (_AcceptMerchantGiftCertificates && _MerchantCalculationsUrl == null) {
+      if (_AcceptMerchantGiftCertificates 
+        && _MerchantCalculationsUrl == null) {
         throw new ApplicationException("If you set " +
           "AcceptMerchantGiftCertificates=true, you must set " +
           "MerchantCalculationsUrl.");
+      }
+
+      // 5. If a carrier-calculated-shipping item exists.
+      //a shipFrom must also exist
+      if (_carrierCalculatedShipping.ShippingOptionsCount > 0 
+        && !_carrierCalculatedShipping.PackagesExist) {
+        throw new ApplicationException("If you use Carrier Calculated " +
+          "Shipping, a ShipFrom address must also be set." + 
+          " Please call the AddShippingPackage method.");
       }
     }
 
@@ -1643,7 +1806,8 @@ namespace GCheckout.Checkout {
     /// &lt;merchant-private-data&gt; element.
     /// </summary>
     /// <value>The &lt;merchant-private-data&gt; element value.</value>
-    [Obsolete("merchant-private-data is now a XmlNode array. please use the AddMerchantPrivateDataNode method.")]
+    [Obsolete(@"merchant-private-data is now a XmlNode array. 
+    Please use the AddMerchantPrivateDataNode method.")]
     public string MerchantPrivateData {
       get {
         return _MerchantPrivateData;
@@ -1780,7 +1944,7 @@ namespace GCheckout.Checkout {
     /// &lt;parameterized-url&gt; (<see cref="ParameterizedUrl"/>) tags.
     /// See
     /// http://code.google.com/apis/checkout/developer/checkout_pixel_tracking.html
-    /// for additional information on Third-Party Conversion Tracking
+    /// For additional information on Third-Party Conversion Tracking
     /// </remarks>
     /// <example><code>
     /// CheckoutShoppingCartRequest Req;
@@ -1845,7 +2009,8 @@ namespace GCheckout.Checkout {
     }
 
     /// <summary>
-    /// Set the &lt;rounding-policy&gt; node of &lt;merchant-checkout-flow-support&gt;
+    /// Set the &lt;rounding-policy&gt; node of 
+    ///&lt;merchant-checkout-flow-support&gt;
     /// </summary>
     /// <param name="mode">The <see cref="RoundingMode"/></param>
     /// <param name="rule">The <see cref="RoundingRule"/></param>

@@ -18,7 +18,7 @@
   <xs:complexType name="CheckoutShoppingCart">
     <xs:all>
       <xs:element name="shopping-cart" type="tns:ShoppingCart" />
-      <xs:element name="checkout-flow-support">
+      <xs:element name="checkout-flow-support" minOccurs="0">
         <xs:complexType>
           <xs:choice>
             <xs:element name="merchant-checkout-flow-support" type="tns:MerchantCheckoutFlowSupport" />
@@ -48,6 +48,7 @@
               <xs:element name="flat-rate-shipping" type="tns:FlatRateShipping" />
               <xs:element name="merchant-calculated-shipping" type="tns:MerchantCalculatedShipping" />
               <xs:element name="pickup" type="tns:Pickup" />
+              <xs:element name="carrier-calculated-shipping" type="tns:CarrierCalculatedShipping" />
             </xs:choice>
           </xs:sequence>
         </xs:complexType>
@@ -116,6 +117,7 @@
   
   <xs:complexType name="Item">
     <xs:all>
+      <xs:element name="item-weight" type="tns:ItemWeight" minOccurs="0" />
       <xs:element name="digital-content" type="tns:DigitalContent" minOccurs="0" />
       <xs:element name="tax-table-selector" minOccurs="0">
         <xs:simpleType>
@@ -144,6 +146,17 @@
     <xs:all>
       <xs:element name="good-until-date" type="xs:dateTime" />
     </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="ItemWeight">
+    <xs:attribute name="value" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:double">
+          <xs:minInclusive value="0.0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="unit" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="USStateArea">
@@ -288,6 +301,65 @@
     </xs:attribute>
   </xs:complexType>
   
+  <xs:complexType name="CarrierCalculatedShipping">
+    <xs:all>
+      <xs:element name="shipping-packages">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="shipping-package" type="tns:ShippingPackage" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="carrier-calculated-shipping-options">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="carrier-calculated-shipping-option" type="tns:CarrierCalculatedShippingOption" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="CarrierCalculatedShippingOption">
+    <xs:all>
+      <xs:element name="price">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="shipping-company" type="xs:token" />
+      <xs:element name="shipping-type" type="xs:string" />
+      <xs:element name="carrier-pickup" type="xs:token" minOccurs="0" />
+      <xs:element name="additional-fixed-charge" type="tns:Money" minOccurs="0" />
+      <xs:element name="additional-variable-charge-percent" type="xs:double" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="ShippingPackage">
+    <xs:all>
+      <xs:element name="length" type="tns:Dimension" minOccurs="0" />
+      <xs:element name="width" type="tns:Dimension" minOccurs="0" />
+      <xs:element name="height" type="tns:Dimension" minOccurs="0" />
+      <xs:element name="ship-from" type="tns:AnonymousAddress" />
+      <xs:element name="delivery-address-category" type="xs:token" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="Dimension">
+    <xs:attribute name="value" use="required">
+      <xs:simpleType>
+        <xs:restriction base="xs:double">
+          <xs:minInclusive value="0.0" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="unit" type="xs:token" use="required" />
+  </xs:complexType>
+  
   <xs:complexType name="ChargeOrderRequest">
     <xs:all>
       <xs:element name="amount" type="tns:Money" minOccurs="0" />
@@ -297,8 +369,8 @@
   
   <xs:complexType name="RefundOrderRequest">
     <xs:all>
-      <xs:element name="amount" type="tns:Money" minOccurs="0" />
       <xs:element name="comment" type="xs:string" minOccurs="0" />
+      <xs:element name="amount" type="tns:Money" minOccurs="0" />
       <xs:element name="reason" type="xs:string" />
     </xs:all>
     <xs:attribute name="google-order-number" type="xs:token" use="required" />
@@ -337,8 +409,8 @@
   
   <xs:complexType name="SendBuyerMessageRequest">
     <xs:all>
-      <xs:element name="send-email" type="xs:boolean" minOccurs="0" />
       <xs:element name="message" type="xs:string" />
+      <xs:element name="send-email" type="xs:boolean" minOccurs="0" />
     </xs:all>
     <xs:attribute name="google-order-number" type="xs:token" use="required" />
   </xs:complexType>
@@ -382,6 +454,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
+      <xs:element name="display-disposition" type="xs:token" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -421,7 +494,6 @@
         </xs:complexType>
       </xs:element>
     </xs:all>
-    <xs:attribute name="standalone" type="xs:boolean" use="optional" />
     <xs:attribute name="name" use="required">
       <xs:simpleType>
         <xs:restriction base="xs:string">
@@ -430,6 +502,7 @@
         </xs:restriction>
       </xs:simpleType>
     </xs:attribute>
+    <xs:attribute name="standalone" type="xs:boolean" use="optional" />
   </xs:complexType>
   
   <xs:complexType name="DefaultTaxRule">
@@ -501,7 +574,7 @@
           </xs:simpleContent>
         </xs:complexType>
       </xs:element>
-      <xs:element name="shipping">
+      <xs:element name="shipping" minOccurs="0">
         <xs:complexType>
           <xs:choice>
             <xs:element name="merchant-calculated-shipping-adjustment" type="tns:MerchantCalculatedShippingAdjustment" />
@@ -561,81 +634,81 @@
   
   <xs:complexType name="NewOrderNotification">
     <xs:all>
+      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="shopping-cart" type="tns:ShoppingCart" />
       <xs:element name="google-order-number" type="xs:token" />
+      <xs:element name="order-adjustment" type="tns:OrderAdjustment" />
       <xs:element name="buyer-shipping-address" type="tns:Address" />
       <xs:element name="buyer-billing-address" type="tns:Address" />
       <xs:element name="buyer-marketing-preferences" type="tns:BuyerMarketingPreferences" />
-      <xs:element name="order-adjustment" type="tns:OrderAdjustment" />
       <xs:element name="order-total" type="tns:Money" />
       <xs:element name="fulfillment-order-state" type="tns:FulfillmentOrderState" />
       <xs:element name="financial-order-state" type="tns:FinancialOrderState" />
       <xs:element name="buyer-id" type="xs:long" />
-      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="OrderStateChangeNotification">
     <xs:all>
+      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
+      <xs:element name="reason" type="xs:string" minOccurs="0" />
       <xs:element name="new-fulfillment-order-state" type="tns:FulfillmentOrderState" />
       <xs:element name="new-financial-order-state" type="tns:FinancialOrderState" />
       <xs:element name="previous-fulfillment-order-state" type="tns:FulfillmentOrderState" />
       <xs:element name="previous-financial-order-state" type="tns:FinancialOrderState" />
-      <xs:element name="timestamp" type="xs:dateTime" />
-      <xs:element name="reason" type="xs:string" minOccurs="0" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="ChargeAmountNotification">
     <xs:all>
+      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-charge-amount" type="tns:Money" />
       <xs:element name="total-charge-amount" type="tns:Money" />
-      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="ChargebackAmountNotification">
     <xs:all>
+      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-chargeback-amount" type="tns:Money" />
       <xs:element name="total-chargeback-amount" type="tns:Money" />
-      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="RefundAmountNotification">
     <xs:all>
+      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-refund-amount" type="tns:Money" />
       <xs:element name="total-refund-amount" type="tns:Money" />
-      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="RiskInformationNotification">
     <xs:all>
+      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="risk-information" type="tns:RiskInformation" />
-      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="AuthorizationAmountNotification">
     <xs:all>
+      <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="avs-response" type="xs:string" />
       <xs:element name="cvn-response" type="xs:string" />
       <xs:element name="authorization-amount" type="tns:Money" />
       <xs:element name="authorization-expiration-date" type="xs:dateTime" />
-      <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
@@ -662,6 +735,7 @@
   
   <xs:complexType name="GiftCertificateAdjustment">
     <xs:all>
+      <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="calculated-amount" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -681,12 +755,12 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
-      <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
   <xs:complexType name="CouponAdjustment">
     <xs:all>
+      <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="calculated-amount" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -706,7 +780,6 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
-      <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -717,6 +790,7 @@
   <xs:complexType name="CouponResult">
     <xs:all>
       <xs:element name="valid" type="xs:boolean" />
+      <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="calculated-amount" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -727,13 +801,13 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
-      <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
   <xs:complexType name="GiftCertificateResult">
     <xs:all>
       <xs:element name="valid" type="xs:boolean" />
+      <xs:element name="message" type="xs:string" minOccurs="0" />
       <xs:element name="calculated-amount" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -744,7 +818,6 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
-      <xs:element name="message" type="xs:string" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -801,6 +874,7 @@
   
   <xs:complexType name="Result">
     <xs:all>
+      <xs:element name="shippable" type="xs:boolean" minOccurs="0" />
       <xs:element name="total-tax" minOccurs="0">
         <xs:complexType>
           <xs:simpleContent>
@@ -819,7 +893,6 @@
           </xs:simpleContent>
         </xs:complexType>
       </xs:element>
-      <xs:element name="shippable" type="xs:boolean" minOccurs="0" />
       <xs:element name="merchant-code-results" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
@@ -849,7 +922,6 @@
   
   <xs:complexType name="ErrorResponse">
     <xs:all>
-      <xs:element name="error-message" type="xs:string" />
       <xs:element name="warning-messages" minOccurs="0">
         <xs:complexType>
           <xs:sequence>
@@ -857,6 +929,7 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="error-message" type="xs:string" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
@@ -878,6 +951,97 @@
   <xs:complexType name="OrderProcessingSupport">
     <xs:all>
       <xs:element name="request-initial-auth-details" type="xs:boolean" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="ShipItemsRequest">
+    <xs:all>
+      <xs:element name="send-email" type="xs:boolean" minOccurs="0" />
+      <xs:element name="item-shipping-information-list">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="item-shipping-information" type="tns:ItemShippingInformation" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="google-order-number" type="xs:token" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="ResetItemsShippingInformationRequest">
+    <xs:all>
+      <xs:element name="item-ids">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="item-id" type="tns:ItemId" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="send-email" type="xs:boolean" minOccurs="0" />
+    </xs:all>
+    <xs:attribute name="google-order-number" type="xs:token" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="CancelItemsRequest">
+    <xs:all>
+      <xs:element name="comment" type="xs:string" minOccurs="0" />
+      <xs:element name="reason" type="xs:string" />
+      <xs:element name="item-ids">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="item-id" type="tns:ItemId" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="send-email" type="xs:boolean" minOccurs="0" />
+    </xs:all>
+    <xs:attribute name="google-order-number" type="xs:token" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="ReturnItemsRequest">
+    <xs:all>
+      <xs:element name="item-ids">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="item-id" type="tns:ItemId" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="send-email" type="xs:boolean" minOccurs="0" />
+    </xs:all>
+    <xs:attribute name="google-order-number" type="xs:token" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="BackorderItemsRequest">
+    <xs:all>
+      <xs:element name="item-ids">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="item-id" type="tns:ItemId" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="send-email" type="xs:boolean" minOccurs="0" />
+    </xs:all>
+    <xs:attribute name="google-order-number" type="xs:token" use="required" />
+  </xs:complexType>
+  
+  <xs:complexType name="ItemId">
+    <xs:all>
+      <xs:element name="merchant-item-id" type="xs:string" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="ItemShippingInformation">
+    <xs:all>
+      <xs:element name="item-id" type="tns:ItemId" />
+      <xs:element name="tracking-data-list" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="tracking-data" type="tns:TrackingData" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:all>
   </xs:complexType>
   
@@ -1009,6 +1173,16 @@
   <xs:element name="error" type="tns:ErrorResponse" />
   
   <xs:element name="diagnosis" type="tns:DiagnoseResponse" />
+  
+  <xs:element name="ship-items" type="tns:ShipItemsRequest" />
+  
+  <xs:element name="reset-items-shipping-information" type="tns:ResetItemsShippingInformationRequest" />
+  
+  <xs:element name="cancel-items" type="tns:CancelItemsRequest" />
+  
+  <xs:element name="return-items" type="tns:ReturnItemsRequest" />
+  
+  <xs:element name="backorder-items" type="tns:BackorderItemsRequest" />
   
 </xs:schema>
 

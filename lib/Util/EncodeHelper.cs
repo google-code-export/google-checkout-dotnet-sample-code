@@ -509,5 +509,28 @@ namespace GCheckout.Util {
       return retVal;
     }
 
+    /// <summary>
+    /// Create a Money Object given the decimal value
+    /// </summary>
+    /// <remarks>The Currency Must be specified</remarks>
+    /// <param name="value">The Value</param>
+    /// <returns></returns>
+    public static AutoGen.Money Money(decimal value) {
+       return Money(GCheckout.Util.GCheckoutConfigurationHelper.Currency, value);
+    }
+
+    /// <summary>
+    /// Create a Money Object given the decimal value
+    /// </summary>
+    /// <remarks>The Currency Must be specified</remarks>
+    /// <param name="currency">The Currency</param>
+    /// <param name="value">The Value</param>
+    /// <returns></returns>
+    public static AutoGen.Money Money(string currency, decimal value) {
+      AutoGen.Money retval = new GCheckout.AutoGen.Money();
+      retval.currency = currency;
+      retval.Value = value;
+      return retval;
+    }
   }
 }

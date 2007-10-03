@@ -122,6 +122,16 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <File
+                    RelPath = "ResetReturnBackOrderAndCancelItemTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ShipItemsRequestTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
             </Include>
         </Files>
     </CSHARP>
