@@ -1993,13 +1993,13 @@ namespace GCheckout.Checkout {
       if (_Environment == EnvironmentType.Sandbox) 
       {
         return string.Format(
-          "https://sandbox.google.com/checkout/cws/v2/Merchant/{0}/merchantCheckout",
+          "https://sandbox.google.com/checkout/api/checkout/v2/checkout/Merchant/{0}",
           _MerchantID);
       }
-      else 
+      else
       {
         return string.Format(
-          "https://checkout.google.com/cws/v2/Merchant/{0}/merchantCheckout",
+         "https://checkout.google.com/api/checkout/v2/checkout/Merchant/{0}",
           _MerchantID);
       }
     }
