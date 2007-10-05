@@ -1085,10 +1085,6 @@ namespace GCheckout.Checkout {
     /// values for this tag are RESIDENTIAL and COMMERCIAL. Please note that 
     /// these names are case-sensitive.
     /// </param>
-    /// <param name="packaging">
-    /// The &lt;packaging&gt; tag specifies the type of packaging
-    /// that will be used to ship the order.
-    /// </param>
     /// <param name="height">The Height of the Package</param>
     /// <param name="length">The Length of the Package</param>
     /// <param name="width">The Width of the Package</param>
@@ -1096,9 +1092,9 @@ namespace GCheckout.Checkout {
     public ShippingPackage AddShippingPackage(string id, string city,
       string region, string postalCode, 
       DeliveryAddressCategory addressCategory,
-      Packaging packaging, int height, int length, int width) {
+      int height, int length, int width) {
       return _carrierCalculatedShipping.AddShippingPackage(id, city, region,
-        postalCode, "US", addressCategory, packaging, height, length, width);
+        postalCode, "US", addressCategory, height, length, width);
     }
 
     /// <summary>
