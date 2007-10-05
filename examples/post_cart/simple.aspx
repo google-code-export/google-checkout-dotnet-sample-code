@@ -9,12 +9,26 @@
     //GCheckoutButton1.Enabled = false;
   }
 
-
   private void PostCartToGoogle(object sender, System.Web.UI.ImageClickEventArgs e)
   {
     CheckoutShoppingCartRequest Req = GCheckoutButton1.CreateRequest();
     Req.AddItem("Mars bar", "Packed with peanuts", 0.75m, 2);
-    GCheckoutResponse Resp = Req.Send();
+	
+	//lets make sure we can add 2 different flat rate shipping amounts
+	Req.AddFlatRateShippingMethod("UPS Ground", 5);
+	Req.AddFlatRateShippingMethod("UPS 2 Day Air", 25);
+
+	//lets try adding a Carrier Calculated Shipping Type
+
+	//The first thing that needs to be done for carrier calculated shipping is we must set the FOB address.
+	Req.AddShippingPackage("main", "Cleveland", "OH", "44114", DeliveryAddressCategory.COMMERCIAL, 2, 3, 4);
+
+	//The next thing we will do is add a Fedex Home Package.
+	//We will set the default to 3.99, the Pickup to Regular Pickup, the additional fixed charge to 1.29 and the discount to 2.5%
+	Req.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Home_Delivery, 3.99m, CarrierPickup.REGULAR_PICKUP, 1.29m, -2.5);
+	Req.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Second_Day, 9.99m, CarrierPickup.REGULAR_PICKUP, 2.34m, -24.5);
+	
+	GCheckoutResponse Resp = Req.Send();
     if (Resp.IsGood)
     {
       Response.Redirect(Resp.RedirectUrl, true);
