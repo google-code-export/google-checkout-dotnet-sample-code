@@ -34,8 +34,6 @@ namespace GCheckout.Checkout {
     private int _length;
     private int _width;
 
-    private Packaging _packaging = Packaging.Box;
-
     /// <summary>
     /// The Height of the Package.
     /// </summary>
@@ -97,19 +95,6 @@ namespace GCheckout.Checkout {
       }
       set {
         _shipFrom = value;
-      }
-    }
-
-    /// <summary>
-    /// The &lt;packaging&gt; tag specifies the type of packaging
-    /// that will be used to ship the order.
-    /// </summary>
-    public Packaging PackageType {
-      get {
-        return _packaging;
-      }
-      set {
-        _packaging = value;
       }
     }
 

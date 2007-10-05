@@ -250,7 +250,7 @@ namespace GCheckout.Checkout {
     /// <returns></returns>
     public ShippingPackage AddShippingPackage(string shipFromId, string city, string region, 
       string postalCode, string countryCode, DeliveryAddressCategory addressCategory,
-      Packaging packaging, int height, int length, int width) {
+      int height, int length, int width) {
     
       ShippingPackage retVal = AddShippingPackage(shipFromId, city, region, 
         postalCode, countryCode);
@@ -258,7 +258,6 @@ namespace GCheckout.Checkout {
       retVal.AddressCategory = addressCategory;
       retVal.Height = height;
       retVal.Length = length;
-      retVal.PackageType = packaging;
       retVal.Width = width;
  
       return retVal;

@@ -58,6 +58,18 @@
     tempNode2.InnerText = "45";
     Req.AddItem("Flat Candy", "Candy run over by the truck", "candy-flat", 0.02m, 200, tempNode, tempNode2);
 
+	//lets make sure we can add 2 different flat rate shipping amounts
+
+	Req.AddFlatRateShippingMethod("UPS Ground", 5);
+	Req.AddFlatRateShippingMethod("UPS 2 Day Air", 25);
+
+	//lets try adding a Carrier Calculated Shipping Type
+
+	Req.AddShippingPackage("main", "Cleveland", "OH", "44114", DeliveryAddressCategory.COMMERCIAL, Packaging.Carrier_Box, 2, 3, 4);
+
+	Req.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Home_Delivery, 3.99m, CarrierPickup.REGULAR_PICKUP, 1.29m, -2.5);
+	Req.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Second_Day, 9.99m, CarrierPickup.REGULAR_PICKUP, 2.34m, -24.5);
+	  
     GCheckoutResponse Resp = Req.Send();
     if (Resp.IsGood)
     {
