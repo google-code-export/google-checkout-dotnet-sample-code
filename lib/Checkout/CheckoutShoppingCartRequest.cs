@@ -57,6 +57,7 @@ namespace GCheckout.Checkout {
     private RoundingMode _roundingMode = RoundingMode.HALF_EVEN;
     private RoundingRule _roundingRule = RoundingRule.TOTAL;
     private bool _RequestInitialAuthDetails = false;
+    private bool _IsDonation = false;
 
     private ParameterizedUrls _ParameterizedUrls = new ParameterizedUrls();
 
@@ -1987,20 +1988,50 @@ namespace GCheckout.Checkout {
       }
     }
 
+    /// <summary>
+    /// Sets/gets whether this is a donation.
+    /// </summary>
+    /// <remarks>
+    /// Donations go in a separate checkout flow with special wording geared
+    /// towards donations and mailing of a receipt instead of items.
+    /// </remarks>
+    public bool IsDonation {
+      get {
+        return _IsDonation;
+      }
+      set {
+        _IsDonation = value;
+      }
+    }
+
     /// <summary></summary>
     public override string GetPostUrl() 
     {
       if (_Environment == EnvironmentType.Sandbox) 
       {
-        return string.Format(
-          "https://sandbox.google.com/checkout/api/checkout/v2/checkout/Merchant/{0}",
-          _MerchantID);
+        if (_IsDonation) {
+          return string.Format(
+            "https://sandbox.google.com/checkout/api/checkout/v2/merchantCheckout/Donations/{0}",
+            _MerchantID);
+        }
+        else {
+          return string.Format(
+            "https://sandbox.google.com/checkout/api/checkout/v2/merchantCheckout/Merchant/{0}",
+            _MerchantID);
+        }
       }
       else
       {
-        return string.Format(
-         "https://checkout.google.com/api/checkout/v2/checkout/Merchant/{0}",
-          _MerchantID);
+        if (_IsDonation) {
+          return string.Format(
+            "https://checkout.google.com/api/checkout/v2/merchantCheckout/Donations/{0}",
+            _MerchantID);
+        }
+        else {
+          return string.Format(
+            "https://checkout.google.com/api/checkout/v2/merchantCheckout/Merchant/{0}",
+            _MerchantID);
+        }
       }
     }
 
