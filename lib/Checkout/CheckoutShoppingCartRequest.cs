@@ -86,7 +86,37 @@ namespace GCheckout.Checkout {
     /// the cart does not expire.
     /// </param>
     public CheckoutShoppingCartRequest(string MerchantID, string MerchantKey,
-      EnvironmentType Env, string Currency, int CartExpirationMinutes) {
+      EnvironmentType Env, string Currency, int CartExpirationMinutes) :
+      this(MerchantID, MerchantKey, Env, Currency, CartExpirationMinutes, 
+      false) {
+    }
+
+    /// <summary>
+    /// This method is called by the <see cref="GCheckoutButton"/> class and
+    /// initializes a new instance of the 
+    /// <see cref="CheckoutShoppingCartRequest"/> class.
+    /// </summary>
+    /// <param name="MerchantID">The Google Checkout merchant ID assigned
+    /// to a particular merchant.</param>
+    /// <param name="MerchantKey">The Google Checkout merchant key assigned
+    /// to a particular merchant.</param>
+    /// <param name="Env">The environment where a request is being executed. 
+    /// Valid values for this parameter are "Sandbox" and "Production".</param>
+    /// <param name="Currency">The currency associated with prices in a 
+    /// Checkout API request.</param>
+    /// <param name="CartExpirationMinutes">
+    /// The length of time, in minutes, after which the shopping cart will 
+    /// expire if it has not been submitted. A value of <b>0</b> indicates 
+    /// the cart does not expire.
+    /// </param>
+    /// <param name="IsDonation">
+    /// True if this is a donation to a non-profit, false if it is a regular 
+    /// purchase. The Checkout pages have slightly different wording for 
+    /// donations.
+    /// </param>
+    public CheckoutShoppingCartRequest(string MerchantID, string MerchantKey,
+      EnvironmentType Env, string Currency, int CartExpirationMinutes, 
+      bool IsDonation) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = Env;
@@ -101,6 +131,7 @@ namespace GCheckout.Checkout {
       if (CartExpirationMinutes > 0) {
         SetExpirationMinutesFromNow(CartExpirationMinutes);
       }
+      _IsDonation = IsDonation;
       _carrierCalculatedShipping = new CarrierCalculatedShipping(this);
     }
 
@@ -1985,22 +2016,6 @@ namespace GCheckout.Checkout {
       }
       set {
         _RequestInitialAuthDetails = value;
-      }
-    }
-
-    /// <summary>
-    /// Sets/gets whether this is a donation.
-    /// </summary>
-    /// <remarks>
-    /// Donations go in a separate checkout flow with special wording geared
-    /// towards donations and mailing of a receipt instead of items.
-    /// </remarks>
-    public bool IsDonation {
-      get {
-        return _IsDonation;
-      }
-      set {
-        _IsDonation = value;
       }
     }
 
