@@ -1127,6 +1127,7 @@ namespace GCheckout.AutoGen {
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("merchant-calculated-shipping-adjustment", typeof(MerchantCalculatedShippingAdjustment))]
+        [System.Xml.Serialization.XmlElementAttribute("carrier-calculated-shipping-adjustment", typeof(CarrierCalculatedShippingAdjustment))]
         [System.Xml.Serialization.XmlElementAttribute("flat-rate-shipping-adjustment", typeof(FlatRateShippingAdjustment))]
         [System.Xml.Serialization.XmlElementAttribute("pickup-shipping-adjustment", typeof(PickupShippingAdjustment))]
         public object Item;
@@ -1148,6 +1149,24 @@ namespace GCheckout.AutoGen {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public class MerchantCalculatedShippingAdjustmentShippingcost : Money {
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class CarrierCalculatedShippingAdjustment {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-name")]
+        public string shippingname;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("shipping-cost")]
+        public CarrierCalculatedShippingAdjustmentShippingcost shippingcost;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class CarrierCalculatedShippingAdjustmentShippingcost : Money {
     }
     
     /// <remarks/>
