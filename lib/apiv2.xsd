@@ -515,7 +515,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element name="tax-area">
+      <xs:element name="tax-area" minOccurs="0">
         <xs:complexType>
           <xs:choice>
             <xs:element name="us-state-area" type="tns:USStateArea" />
@@ -538,7 +538,7 @@
           </xs:restriction>
         </xs:simpleType>
       </xs:element>
-      <xs:element name="tax-area">
+      <xs:element name="tax-area" minOccurs="0">
         <xs:complexType>
           <xs:choice>
             <xs:element name="us-state-area" type="tns:USStateArea" />
@@ -580,6 +580,7 @@
             <xs:element name="merchant-calculated-shipping-adjustment" type="tns:MerchantCalculatedShippingAdjustment" />
             <xs:element name="flat-rate-shipping-adjustment" type="tns:FlatRateShippingAdjustment" />
             <xs:element name="pickup-shipping-adjustment" type="tns:PickupShippingAdjustment" />
+            <xs:element name="carrier-calculated-shipping-adjustment" type="tns:CarrierCalculatedShippingAdjustment" />
           </xs:choice>
         </xs:complexType>
       </xs:element>
@@ -618,6 +619,21 @@
   </xs:complexType>
   
   <xs:complexType name="PickupShippingAdjustment">
+    <xs:all>
+      <xs:element name="shipping-name" type="xs:string" />
+      <xs:element name="shipping-cost">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:restriction base="tns:Money">
+              <xs:minInclusive value="0.0" />
+            </xs:restriction>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="CarrierCalculatedShippingAdjustment">
     <xs:all>
       <xs:element name="shipping-name" type="xs:string" />
       <xs:element name="shipping-cost">
