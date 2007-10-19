@@ -1,7 +1,7 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.10.3077"
+        ProductVersion = "7.10.6030"
         SchemaVersion = "2.0"
         ProjectGuid = "{006653E6-EEF6-4D43-8F26-D6445CDF817B}"
     >
@@ -150,6 +150,11 @@
                 />
                 <File
                     RelPath = "Checkout\GCheckoutButton.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Checkout\GCheckoutButtonBase.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
