@@ -141,6 +141,17 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual("Not delivered in time", D.reason);
     }
 
+    /// <exclude/>
+    [Test()]
+    public void PostUrl() {
+      DeliverOrderRequest Req;
+      // Sandbox.
+      Req = new DeliverOrderRequest("123", "456", "Sandbox", "789", false);
+      Assert.AreEqual("https://sandbox.google.com/checkout/api/checkout/v2/request/Merchant/123", Req.GetPostUrl());
+      Req = new DeliverOrderRequest("123", "456", "Production", "789", false);
+      Assert.AreEqual("https://checkout.google.com/api/checkout/v2/request/Merchant/123", Req.GetPostUrl());
+    }
+
     private AutoGen.DeliverOrderRequest ParseDeliverOrderRequest(byte[] Xml) {
       object testVal = null;
 

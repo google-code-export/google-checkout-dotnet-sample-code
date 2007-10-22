@@ -112,12 +112,12 @@ namespace GCheckout {
     public virtual string GetPostUrl() {
       if (_Environment == EnvironmentType.Sandbox) {
         return string.Format(
-          "https://checkout.google.com/api/checkout/v2/request/Merchant/{0}",
+          "https://sandbox.google.com/checkout/api/checkout/v2/request/Merchant/{0}",
           _MerchantID);
       }
       else {
         return string.Format(
-          "https://sandbox.google.com/checkout/api/checkout/v2/request/Merchant/{0}",
+          "https://checkout.google.com/api/checkout/v2/request/Merchant/{0}",
           _MerchantID);
       }
     }

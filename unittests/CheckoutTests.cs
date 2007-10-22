@@ -181,5 +181,18 @@ namespace GCheckout.Checkout.Tests {
       Assert.IsTrue(T.TotalSeconds > 595);
     }
 
+    /// <exclude/>
+    [Test()]
+    public void PostUrl() {
+      CheckoutShoppingCartRequest Req;
+      // Sandbox.
+      Req = new CheckoutShoppingCartRequest
+        ("123", "456", EnvironmentType.Sandbox, "USD", 0);
+      Assert.AreEqual("https://sandbox.google.com/checkout/api/checkout/v2/merchantCheckout/Merchant/123", Req.GetPostUrl());
+      Req = new CheckoutShoppingCartRequest
+        ("123", "456", EnvironmentType.Production, "USD", 0);
+      Assert.AreEqual("https://checkout.google.com/api/checkout/v2/merchantCheckout/Merchant/123", Req.GetPostUrl());
+    }
+
   }
 }
