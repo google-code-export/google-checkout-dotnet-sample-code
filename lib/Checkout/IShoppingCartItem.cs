@@ -77,6 +77,14 @@ namespace GCheckout.Checkout {
     }
 
     /// <summary>
+    /// A legacy method of allowing the private data be set with a string
+    /// </summary>
+    string MerchantPrivateItemData {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Contains any well-formed XML sequence that should 
     /// accompany an individual item in an order.
     /// </summary>

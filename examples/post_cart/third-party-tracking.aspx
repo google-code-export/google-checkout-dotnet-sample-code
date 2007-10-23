@@ -3,9 +3,8 @@
 <%@ Import Namespace="GCheckout.Util" %>
 <%@ Register TagPrefix="cc1" Namespace="GCheckout.Checkout" Assembly="GCheckout" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<script runat="server" language="c#">
 
-  /*
+  <!--*
    * This sample shows how to implement third-party tracking with Checkout and 
    * the .NET sample code. See
    * http://code.google.com/apis/checkout/developer/checkout_pixel_tracking.html
@@ -30,7 +29,7 @@
    *            analytic1 = new Image();
    *            analytic1.src = "https://example.com/track?mid\u003d123&oid\u003d502117496814353&ot\u003d1.50&zp\u003d94043";
    *         }
-   *    //--> </script>
+   *     </script>
    * 
    * The order ID was 502117496814353, the total was $1.50 and the customer's ZIP
    * code was 94043. Note that the \uXXXX escape sequences will be interpreted by
@@ -39,6 +38,10 @@
    *    https://example.com/track?mid=123&oid=502117496814353&ot=1.50&zp=94043
    *
    */
+   -->
+
+<script runat="server" language="c#">
+  
   private void PostCartToGoogle(object sender, System.Web.UI.ImageClickEventArgs e) {
     CheckoutShoppingCartRequest Req = GCheckoutButton1.CreateRequest();
     // Add tracking URL for entire order.
@@ -64,7 +67,6 @@
 
 </script>
 
-</script>
 <html>
   <head>
     <title>Cart post with third-party tracking</title>
@@ -72,7 +74,7 @@
 
   <body>
     This page demonstrates a cart post with third-party tracking.
-    <p>
+    <p />
     <form id="Form1" method="post" runat="server">
       <cc1:GCheckoutButton id="GCheckoutButton1" onclick="PostCartToGoogle" runat="server" />
     </form>

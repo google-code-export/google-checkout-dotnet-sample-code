@@ -24,7 +24,7 @@ using ch = GCheckout.Util.GCheckoutConfigurationHelper;
 namespace GCheckout.Checkout {
 
   /// <summary>
-  /// Summary description for GCheckoutButtonBase.
+  /// Base Class for All Google Checkout Buttons.
   /// </summary>
   public abstract class GCheckoutButtonBase : System.Web.UI.WebControls.ImageButton {
     

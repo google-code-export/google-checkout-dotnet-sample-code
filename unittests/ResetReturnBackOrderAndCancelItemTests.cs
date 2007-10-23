@@ -104,9 +104,6 @@ namespace GCheckout.OrderProcessing.Tests {
 
       list = doc.DocumentElement.SelectNodes(sb.ToString(), ns);
       Assert.AreEqual(list.Count, 3);
-
-      Console.WriteLine("");       
     }
-
   }
 }

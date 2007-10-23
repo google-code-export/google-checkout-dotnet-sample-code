@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Collections;
 using GCheckout.Util;
+using GCheckout.Checkout;
 
 namespace GCheckout.Checkout {
 
@@ -33,7 +34,7 @@ namespace GCheckout.Checkout {
     private decimal _price = 0.0m;
     private int _quantity = 0;
     private string _merchantItemID;
-    private XmlNode[] _merchantPrivateItemDataNodes;
+    private XmlNode[] _merchantPrivateItemDataNodes = new XmlNode[] {};
     private AlternateTaxTable _taxTable = null;
     private DigitalItem _digitalContent = null;
     private double _itemWeight;
@@ -107,6 +108,59 @@ namespace GCheckout.Checkout {
     }
 
     /// <summary>
+    /// A legacy method of allowing the private data be set with a string
+    /// </summary>
+    public string MerchantPrivateItemData {
+      get {
+        foreach (XmlNode node in MerchantPrivateItemDataNodes) {
+          if (node.Name == CheckoutShoppingCartRequest.MERCHANT_DATA_HIDDEN)
+            return node.InnerXml;
+        }
+        //if we get this far and we have one node, just return it
+        if (MerchantPrivateItemDataNodes.Length == 1)
+          return MerchantPrivateItemDataNodes[0].OuterXml;
+
+        return null;
+      }
+      set {
+        if (value == null)
+          value = string.Empty;
+
+        XmlNode merchantNode = null;
+
+        foreach (XmlNode node in MerchantPrivateItemDataNodes) {
+          if (node.Name == CheckoutShoppingCartRequest.MERCHANT_DATA_HIDDEN) {
+            merchantNode = node;
+            break;
+          }
+        }
+
+        //we must delete the data
+        if (value == string.Empty) {
+          //we are not going to remove the node. we are just going to set it
+          if (merchantNode != null){
+            merchantNode.InnerXml = string.Empty;
+          }
+        }
+        else {
+          if (merchantNode == null) {
+            //we need to copy the array and then add this item to it.
+            merchantNode = CheckoutShoppingCartRequest.MakeXmlElement(value);
+            //now put the node in the array.
+            XmlNode[] nodes 
+              = new XmlNode[MerchantPrivateItemDataNodes.Length + 1];
+            MerchantPrivateItemDataNodes.CopyTo(nodes, 0);
+            nodes[nodes.Length - 1] = merchantNode;
+            _merchantPrivateItemDataNodes = nodes;
+          }
+          else {
+            merchantNode.InnerXml = value;   
+          }
+        }
+      }
+    }
+
+    /// <summary>
     /// Contains any well-formed XML sequence that should 
     /// accompany an individual item in an order.
     /// </summary>
@@ -115,6 +169,8 @@ namespace GCheckout.Checkout {
         return _merchantPrivateItemDataNodes;
       }
       set {
+        if (value == null)
+          value = new XmlNode[] {};
         _merchantPrivateItemDataNodes = value;
       }
     }
@@ -155,7 +211,8 @@ namespace GCheckout.Checkout {
       }
       set {
         if (value < 0)
-          throw new ArgumentOutOfRangeException("The value must be 0 or larger");
+          throw new 
+            ArgumentOutOfRangeException("The value must be 0 or larger");
         _itemWeight = value; 
       }
     }
@@ -181,7 +238,8 @@ namespace GCheckout.Checkout {
       this.Description = theItem.itemdescription;
       this.MerchantItemID = theItem.merchantitemid;
       if (theItem.merchantprivateitemdata != null)
-        this.MerchantPrivateItemDataNodes = theItem.merchantprivateitemdata.Any;
+        this.MerchantPrivateItemDataNodes 
+          = theItem.merchantprivateitemdata.Any;
       else
         this.MerchantPrivateItemDataNodes = new XmlNode[] {};
       this.Name = theItem.itemname;
@@ -208,6 +266,39 @@ namespace GCheckout.Checkout {
       string merchantItemID, decimal price, int quantity)
       : this(name, description, merchantItemID, price,
       quantity, AlternateTaxTable.Empty, new XmlNode[] {}) {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the 
+    /// <see cref="ShoppingCartItem"/> class, which creates an object
+    /// corresponding to an individual item in an order. This method 
+    /// is used for items that do have an associated
+    /// &lt;merchant-private-item-data&gt; XML block.
+    /// </summary>
+    /// <param name="name">The name of the item.</param>
+    /// <param name="description">A description of the item.</param>
+    /// <param name="merchantItemID">The Merchant Item Id that uniquely 
+    /// identifies the product in your system. (optional)</param>
+    /// <param name="price">The price of the item, per item.</param>
+    /// <param name="quantity">The number of the item that is 
+    /// included in the order.</param>
+    /// <param name="merchantPrivateItemData">The merchant private
+    /// item data associated with the item.</param>
+    /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+    /// To assign to the item </param>
+    public ShoppingCartItem(string name, string description,
+      string merchantItemID, decimal price, int quantity,
+      AlternateTaxTable taxTable,
+      string merchantPrivateItemData) {
+      Name = name;
+      Description = description;
+      if (MerchantItemID == string.Empty)
+        MerchantItemID = null;
+      MerchantItemID = merchantItemID;
+      Price = price;
+      Quantity = quantity;
+      MerchantPrivateItemData = merchantPrivateItemData;
+      TaxTable = taxTable;
     }
 
     /// <summary>

@@ -119,7 +119,7 @@ namespace GCheckout.AutoGen.Extended {
     }
 
     private object GetObjectField(object obj, string field) {
-      //we don't care what the object is, just that it supports shipping name.
+      //we don't care what the object is, just that it supports the field we are looking for.
       FieldInfo pi = GetField(obj, field);
       if (pi != null)
         return pi.GetValue(obj);
