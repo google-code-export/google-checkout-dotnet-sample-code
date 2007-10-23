@@ -74,7 +74,7 @@ namespace GCheckout.Checkout.Tests {
 
       byte[] cart = request.GetXml();
 
-      Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
+      //Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
 
       //test to see if the item can desialize
       Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
@@ -92,7 +92,7 @@ namespace GCheckout.Checkout.Tests {
 
       cart = request.GetXml();
 
-      Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
+      //Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
 
       //test to see if the item can desialize
       Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
@@ -109,7 +109,7 @@ namespace GCheckout.Checkout.Tests {
 
       cart = request.GetXml();
 
-      Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
+      //Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
 
       //test to see if the item can desialize
       Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
