@@ -10,6 +10,10 @@
     //GCheckoutButton1.Enabled = false;
   }
 
+  //This rule is discussed at the following url
+  //http://code.google.com/apis/checkout/developer/Google_Checkout_XML_API_Taxes.html
+  //Example 2
+  
   private void PostCartToGoogle(object sender, System.Web.UI.ImageClickEventArgs e) {
     CheckoutShoppingCartRequest Req = GCheckoutButton1.CreateRequest();
     Req.AddItem("Mars bar", "Packed with peanuts", 0.75m, 2);
@@ -17,8 +21,10 @@
     //lets make sure we can add 2 different flat rate shipping amounts
     Req.AddFlatRateShippingMethod("UPS Ground", 5);
 
-    //Add a rule to tax all items at 7.5% for Ohio
-    Req.AddStateTaxRule("OH", 7.5, true);
+    //Add a rule to tax all items at 6% for CT
+    Req.AddStateTaxRule("CT", .06, true);
+    //Add a rule to tax all items at 5% for MD
+    Req.AddStateTaxRule("MD", .05, false);
 
     GCheckoutResponse Resp = Req.Send();
     if (Resp.IsGood) {
@@ -35,7 +41,7 @@
 
 <html>
 <head>
-  <title>Simple cart post</title>
+  <title>Example 2: Charging a single tax rate in one state</title>
 </head>
 <body>
   This page demonstrates a simple cart post.

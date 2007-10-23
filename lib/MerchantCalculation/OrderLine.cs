@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 using System;
 using System.Xml;
+using GCheckout.Checkout;
 
 namespace GCheckout.MerchantCalculation {
   /// <summary>
@@ -35,7 +36,8 @@ namespace GCheckout.MerchantCalculation {
     private XmlNode[] _MerchantPrivateItemDataNodes = new XmlNode[] {};
 
     /// <summary>
-    /// Obsolete method
+    /// Contains information about an individual item
+    /// listed in the customer's shopping cart
     /// </summary>
     /// <param name="ItemName">Identifies the name of an item</param>
     /// <param name="ItemDescription">Contains a description of an item</param>
@@ -49,7 +51,6 @@ namespace GCheckout.MerchantCalculation {
     /// The value of the &lt;tax-table-selector&gt; tag should correspond to the 
     /// value of the name attribute of an alternate-tax-table</param>
     /// <param name="MerchantPrivateItemData"></param>
-    [Obsolete("MerchantPrivateItemData Is no longer a string, please use MerchantPrivateItemDataNodes")]
     public OrderLine(string ItemName, string ItemDescription, int Quantity,
       decimal UnitPrice, string TaxTableSelector,
       string MerchantPrivateItemData) {
@@ -147,21 +148,30 @@ namespace GCheckout.MerchantCalculation {
     }
 
     /// <summary>
-    /// Obsolete
+    /// Look for the Merchant Private Item Data that was set 
+    /// using the string method
     /// </summary>
-    [Obsolete("This property must be converted to a XmlNode Array. Only the First XmlNode will be returned.")]
     public string MerchantPrivateItemData {
       get {
         if (_MerchantPrivateItemDataNodes != null
-          && _MerchantPrivateItemDataNodes.Length > 0)
-          return _MerchantPrivateItemDataNodes[0].OuterXml;
-        
+          && _MerchantPrivateItemDataNodes.Length > 0) {
+          //what we must do is look for an xml node by the name of 
+          //MERCHANT_DATA_HIDDEN
+          foreach (XmlNode node in _MerchantPrivateItemDataNodes) {
+            if (node.Name == CheckoutShoppingCartRequest.MERCHANT_DATA_HIDDEN)
+              return node.InnerXml;
+          }
+          //if we get this far and we have one node, just return it
+          if (_MerchantPrivateItemDataNodes.Length == 1)
+            return _MerchantPrivateItemDataNodes[0].OuterXml;
+        }
         return string.Empty;
       }
     }
 
     /// <summary>
-    /// An Array of <see cref="System.Xml.XmlNode" /> for the Merchant Private Data
+    /// An Array of <see cref="System.Xml.XmlNode" />
+    /// for the Merchant Private Data
     /// </summary>
     public System.Xml.XmlNode[] MerchantPrivateDataNodes {
       get {

@@ -61,6 +61,61 @@ namespace GCheckout.Checkout.Tests {
 
     }
 
+
+    /// <exclude/>
+    [Test()]
+    public void TestExamples() {
+      CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest("123456", "456789", EnvironmentType.Sandbox, "USD", 120);
+
+      //Make sure we can add an item to the cart.
+      request.AddItem("Item 1", "Cool Candy 1", 2.00M, 1);
+
+      request.AddStateTaxRule("CT", .06, true);
+
+      byte[] cart = request.GetXml();
+
+      Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
+
+      //test to see if the item can desialize
+      Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
+
+    
+      //example 2
+
+      request = new CheckoutShoppingCartRequest("123456", "456789", EnvironmentType.Sandbox, "USD", 120);
+
+      //Make sure we can add an item to the cart.
+      request.AddItem("Item 1", "Cool Candy 1", 2.00M, 1);
+
+      request.AddStateTaxRule("CT", .06, true);
+      request.AddStateTaxRule("MD", .05, false);
+
+      cart = request.GetXml();
+
+      Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
+
+      //test to see if the item can desialize
+      Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
+
+      //example 3
+
+      request = new CheckoutShoppingCartRequest("123456", "456789", EnvironmentType.Sandbox, "USD", 120);
+
+      //Make sure we can add an item to the cart.
+      request.AddItem("Item 1", "Cool Candy 1", 2.00M, 1);
+
+      request.AddZipTaxRule("100*", 0.08375, false);
+      request.AddStateTaxRule("NY", 0.0400, true);
+
+      cart = request.GetXml();
+
+      Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
+
+      //test to see if the item can desialize
+      Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
+
+    }
+
     /// <exclude/>
     [Test()]
     public void TestAlternateTaxTables() {
@@ -87,19 +142,31 @@ namespace GCheckout.Checkout.Tests {
         Assert.Fail("An exception should have been thrown when we tried to add an item that has a new Tax Reference");
       }
       catch (Exception) {
-   
+    
       }
 
       //Now this should work fine.
       request.AddItem("Item 3", "Cool Candy 3", 2.00M, 1, ohio2);
 
       //you could create this as an IShoppingCartItem or ShoppingCartItem
-      IShoppingCartItem newItem = new ShoppingCartItem("Item 2", "Cool Candy 2", string.Empty, 2.00M, 2);
+      IShoppingCartItem newItem = new ShoppingCartItem("Item 2", "Cool Candy 2", string.Empty, 2.00M, 2, AlternateTaxTable.Empty, "This is a test of a string of private data");
       //now decide to change your mind on the quantity and price
       newItem.Price = 20;
       newItem.Quantity = 4;
       
       request.AddItem(newItem);
+
+      //Console.WriteLine("private data:" + newItem.MerchantPrivateItemData);
+
+      Assert.AreEqual("This is a test of a string of private data", newItem.MerchantPrivateItemData);
+
+      //now change the private data string and compare again.
+      newItem.MerchantPrivateItemData = "This is a new String";
+      Assert.AreEqual("This is a new String", newItem.MerchantPrivateItemData);
+
+      //now change the private data string and compare again.
+      newItem.MerchantPrivateItemData = string.Empty;
+      Assert.AreEqual(string.Empty, newItem.MerchantPrivateItemData);
 
       Assert.AreEqual(1, ohio1.RuleCount);
 

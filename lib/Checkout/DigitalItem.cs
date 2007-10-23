@@ -14,9 +14,35 @@
  * limitations under the License.
 *************************************************/
 using System;
+using System.Reflection;
 using GCheckout.Util;
 
 namespace GCheckout.Checkout {
+
+  /// <summary>
+  /// The &lt;display-disposition&gt; tag specifies when the buyer will be
+  /// able to access purchased digital content. The only valid values for
+  /// this tag are OPTIMISTIC and PESSIMISTIC.
+  /// </summary>
+  public enum DisplayDisposition {
+    /// <summary>
+    /// If the value of the &lt;display-disposition&gt; tag is PESSIMISTIC,
+    /// the buyer cannot access purchased digital content until his credit
+    /// card has been authorized to be charged for the amount of the order.
+    /// </summary>
+    [EnumSerilizedName("PESSIMISTIC")]
+    Pessimistic,
+    /// <summary>
+    /// If the value of the &lt;display-disposition&gt; tag is OPTIMISTIC,
+    /// then Google will display instructions for accessing the digital
+    /// content as soon as the buyer confirms the order. We recommend that
+    /// you only use optimistic delivery if you can easily revoke access to
+    /// the digital content if Google cannot authorize the customer's
+    /// credit card.
+    /// </summary>
+    [EnumSerilizedName("OPTIMISTIC")]
+    Optimistic
+  }
 
   /// <summary>
   /// The &lt;digital-content&gt; tag contains information relating to
@@ -30,10 +56,26 @@ or unlock the content.";
     private const string DESCRIPTION_LONG = @"This field has a maximum length
 of 1024 characters and may contain HTML tags.";
 
+    private DisplayDisposition _disposition = DisplayDisposition.Pessimistic;
     private string _key = string.Empty;
     private string _url = string.Empty;
     private bool _emaildelivery;
     private string _description = string.Empty;
+
+
+    /// <summary>
+    /// The &lt;display-disposition&gt; tag specifies when the buyer will be 
+    /// able to access purchased digital content. The only valid values for
+    /// this tag are OPTIMISTIC and PESSIMISTIC.
+    /// </summary>
+    public DisplayDisposition Disposition {
+      get {
+        return _disposition;
+      }
+      set {
+        _disposition = value;
+      }
+    }
 
     /// <summary>
     /// The &lt;key&gt; tag contains a key needed to download or 
@@ -222,6 +264,16 @@ of 1024 characters and may contain HTML tags.";
       _description = description;
       //The value is not required so we are not going to throw an exception
       //if it is not set.
+    }
+
+    /// <summary>
+    /// Get the Name for the Enum Value
+    /// </summary>
+    /// <returns></returns>
+    public string GetSerializedDisposition() {
+      Type t = Disposition.GetType();
+      FieldInfo fi = t.GetField(Disposition.ToString());
+      return EnumSerilizedNameAttribute.GetValue(fi);
     }
 
   }

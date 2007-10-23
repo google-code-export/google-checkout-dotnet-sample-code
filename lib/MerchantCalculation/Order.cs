@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 using System;
 using System.Xml;
 using System.Collections;
+using GCheckout.Checkout;
 
 namespace GCheckout.MerchantCalculation {
   /// <summary>
@@ -45,7 +46,8 @@ namespace GCheckout.MerchantCalculation {
           && ThisItem.merchantprivateitemdata.Any != null
           && ThisItem.merchantprivateitemdata.Any.Length > 0) {
 
-          merchantItemPrivateDataNodes = ThisItem.merchantprivateitemdata.Any;
+          merchantItemPrivateDataNodes 
+            = ThisItem.merchantprivateitemdata.Any;
         }
         _OrderLines.Add(
           new OrderLine(ThisItem.itemname, ThisItem.itemdescription,
@@ -58,7 +60,8 @@ namespace GCheckout.MerchantCalculation {
         && Callback.shoppingcart.merchantprivatedata.Any != null
         && Callback.shoppingcart.merchantprivatedata.Any.Length > 0) {
         
-        _MerchantPrivateDataNodes = Callback.shoppingcart.merchantprivatedata.Any;
+        _MerchantPrivateDataNodes 
+          = Callback.shoppingcart.merchantprivatedata.Any;
       }
     }
 
@@ -86,19 +89,27 @@ namespace GCheckout.MerchantCalculation {
     /// <summary>
     /// Merchant Private Data
     /// </summary>
-    [Obsolete("This property must be converted to a XmlNode Array. Only the First XmlNode will be returned.")]
     public string MerchantPrivateData {
       get {
         if (_MerchantPrivateDataNodes != null
-          && _MerchantPrivateDataNodes.Length > 0)
-          return _MerchantPrivateDataNodes[0].OuterXml;
-        
+          && _MerchantPrivateDataNodes.Length > 0) {
+          //what we must do is look for an xml node by the name of
+          //MERCHANT_DATA_HIDDEN
+          foreach (XmlNode node in _MerchantPrivateDataNodes) {
+            if (node.Name == CheckoutShoppingCartRequest.MERCHANT_DATA_HIDDEN)
+              return node.InnerXml;
+          }
+          //if we get this far and we have one node, just return it
+          if (_MerchantPrivateDataNodes.Length == 1)
+            return _MerchantPrivateDataNodes[0].OuterXml;
+        }
         return string.Empty;
       }
     }
 
     /// <summary>
-    /// An Array of <see cref="System.Xml.XmlNode" /> for the Merchant Private Data
+    /// An Array of <see cref="System.Xml.XmlNode" /> 
+    /// for the Merchant Private Data
     /// </summary>
     public System.Xml.XmlNode[] MerchantPrivateDataNodes {
       get {
