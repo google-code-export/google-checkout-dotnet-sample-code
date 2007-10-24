@@ -39,7 +39,7 @@
   }
 </script>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
   <title>Example 2: Charging a single tax rate in one state</title>
 </head>
