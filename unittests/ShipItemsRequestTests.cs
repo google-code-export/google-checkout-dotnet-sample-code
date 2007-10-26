@@ -20,7 +20,7 @@ namespace GCheckout.OrderProcessing.Tests
       ShipItemBox box;
       string xml;
 
-      Console.WriteLine("Using AddMerchantItemId");
+      //Console.WriteLine("Using AddMerchantItemId");
       ShipItemsRequest req = new ShipItemsRequest(
       "1234", "5678", EnvironmentType.Sandbox.ToString(), originalOrderID);
       req.SendEmail = true;
@@ -32,7 +32,17 @@ namespace GCheckout.OrderProcessing.Tests
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
       VerifyTwoItemsShippingInTwoBoxes(xml, false);
 
-      Console.WriteLine("Using Boxes");
+      req = new ShipItemsRequest(originalOrderID);
+      req.SendEmail = true;
+      req.AddMerchantItemId("UPS", "55555555", "A1");
+      req.AddMerchantItemId("UPS", "77777777", "B2");
+      
+      Assert.AreEqual(req.ItemShippingInfo.Length, 2);
+      
+      xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
+      VerifyTwoItemsShippingInTwoBoxes(xml, false);
+
+      //Console.WriteLine("Using Boxes");
 
       //now we want to try the same thing with adding boxes and
       //putting items into the boxes.
@@ -44,12 +54,37 @@ namespace GCheckout.OrderProcessing.Tests
       box = req.AddBox("UPS", "77777777");
       box.AddMerchantItemID("B2");
 
+      Assert.AreEqual(box.Carrier, "UPS");
+      Assert.AreEqual(box.TrackingNumber, "77777777");
+
+      //you can't add the same box twice
+      try {
+        box = req.AddBox("UPS", "55555555");
+        Assert.Fail("The same box can't be added twice.");
+      }
+      catch {}
+
+      //you can't add an empty merchantitemid
+      try {
+        box.AddMerchantItemID(string.Empty);
+        Assert.Fail("you can't add an empty merchantitemid.");
+      }
+      catch {}
+
+      //you can't add a duplicate merchantitemid
+      try {
+        box.AddMerchantItemID("B2");
+        Assert.Fail("you can't add a duplicate merchantitemid.");
+      }
+      catch {}
+
+
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
       
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
       VerifyTwoItemsShippingInTwoBoxes(xml, false);
 
-      Console.WriteLine("Google Items using AddGoogleItemId");
+      //Console.WriteLine("Google Items using AddGoogleItemId");
 
       req = new ShipItemsRequest(
         "1234", "5678", EnvironmentType.Sandbox.ToString(), originalOrderID);
@@ -62,7 +97,7 @@ namespace GCheckout.OrderProcessing.Tests
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
       VerifyTwoItemsShippingInTwoBoxes(xml, true);
 
-      Console.WriteLine("Google Items using Boxes");
+      //Console.WriteLine("Google Items using Boxes");
 
       //now we want to try the same thing with adding boxes and
       //putting items into the boxes.
@@ -148,7 +183,7 @@ namespace GCheckout.OrderProcessing.Tests
       ShipItemBox box;
       string xml;
 
-      Console.WriteLine("Using AddMerchantItemId");
+      //Console.WriteLine("Using AddMerchantItemId");
       ShipItemsRequest req = new ShipItemsRequest(
         "1234", "5678", EnvironmentType.Sandbox.ToString(), originalOrderID);
       req.SendEmail = true;
@@ -158,7 +193,7 @@ namespace GCheckout.OrderProcessing.Tests
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
 
-      Console.WriteLine("Using Boxes");
+      //Console.WriteLine("Using Boxes");
 
       //now we want to try the same thing with adding boxes and
       //putting items into the boxes.
@@ -181,7 +216,7 @@ namespace GCheckout.OrderProcessing.Tests
       ShipItemBox box;
       string xml;
 
-      Console.WriteLine("Using AddMerchantItemId");
+      //Console.WriteLine("Using AddMerchantItemId");
       ShipItemsRequest req = new ShipItemsRequest(
         "1234", "5678", EnvironmentType.Sandbox.ToString(), originalOrderID);
       req.SendEmail = true;
@@ -191,7 +226,7 @@ namespace GCheckout.OrderProcessing.Tests
       Assert.AreEqual(req.ItemShippingInfo.Length, 1);
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
 
-      Console.WriteLine("Using Boxes");
+      //Console.WriteLine("Using Boxes");
 
       //now we want to try the same thing with adding boxes and
       //putting items into the boxes.

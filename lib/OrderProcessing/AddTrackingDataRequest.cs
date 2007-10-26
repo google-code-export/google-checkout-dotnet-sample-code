@@ -23,19 +23,10 @@ namespace GCheckout.OrderProcessing {
   /// This class contains methods that construct &lt;add-tracking-data&gt; 
   /// API requests.
   /// </summary>
-  public class AddTrackingDataRequest : GCheckoutRequest {
-    private string _googleOrderNumber;
+  public class AddTrackingDataRequest : OrderProcessingBase {
+
     private string _Carrier;
     private string _TrackingNo;
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
 
     /// <summary>
     /// The Carrier the package was shipped with
@@ -67,11 +58,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="TrackingNo">The Tracking number for the carrier</param>
     public AddTrackingDataRequest(string MerchantID, string MerchantKey, 
       string Env, string GoogleOrderNumber,
-      string Carrier, string TrackingNo) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Carrier, string TrackingNo)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
     }
@@ -84,11 +72,7 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Carrier">The Carrier the package was shipped with</param>
     /// <param name="TrackingNo">The Tracking number for the carrier</param>
     public AddTrackingDataRequest(string GoogleOrderNumber,
-      string Carrier, string TrackingNo) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+      string Carrier, string TrackingNo) : base(GoogleOrderNumber) {
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
     }
@@ -98,7 +82,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.AddTrackingDataRequest Req = 
         new AutoGen.AddTrackingDataRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       Req.trackingdata = new AutoGen.TrackingData();
       Req.trackingdata.carrier = _Carrier;
       Req.trackingdata.trackingnumber = _TrackingNo;

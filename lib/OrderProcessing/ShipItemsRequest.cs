@@ -34,23 +34,13 @@ namespace GCheckout.OrderProcessing
 	/// The Second way is to just add items to the shipment passing in the
 	/// tracking information.
 	/// </remarks>
-	public class ShipItemsRequest : GCheckoutRequest
+	public class ShipItemsRequest : OrderProcessingBase
 	{
-    private string _googleOrderNumber = null;
-    private bool _sendEmail = false;
-    private bool _sendEmailSpecified = false;
+    private bool _sendEmail;
+    private bool _sendEmailSpecified;
     //The list of boxes for the order.
     private Hashtable _boxes = new Hashtable();
     internal Hashtable _items = new Hashtable();
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
 
     /// <summary>
     /// The &lt;send-email&gt; tag indicates whether Google Checkout 
@@ -63,17 +53,6 @@ namespace GCheckout.OrderProcessing
       set {
         _sendEmail = value;
         _sendEmailSpecified = true;
-      }
-    }
-
-    /// <summary>
-    /// The Array of Boxes that contain products.
-    /// </summary>
-    private ShipItemBox[] Boxes {
-      get {
-        ShipItemBox[] retVal = new ShipItemBox[_boxes.Count];
-        _boxes.CopyTo(retVal, 0);
-        return retVal;
       }
     }
 
@@ -95,11 +74,8 @@ namespace GCheckout.OrderProcessing
     /// Configuration Settings
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    public ShipItemsRequest(string GoogleOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public ShipItemsRequest(string GoogleOrderNumber)
+      : base(GoogleOrderNumber) {
     }
 	
     /// <summary>
@@ -111,11 +87,8 @@ namespace GCheckout.OrderProcessing
     /// <see cref="EnvironmentType"/></param>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     public ShipItemsRequest(string MerchantID, string MerchantKey, 
-      string Env, string GoogleOrderNumber) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -177,7 +150,7 @@ namespace GCheckout.OrderProcessing
     public override byte[] GetXml() {
       //return null;
       AutoGen.ShipItemsRequest retVal = new AutoGen.ShipItemsRequest();
-      retVal.googleordernumber = _googleOrderNumber;
+      retVal.googleordernumber = GoogleOrderNumber;
       if (_sendEmailSpecified) {
         retVal.sendemail = SendEmail;
         retVal.sendemailSpecified = true;

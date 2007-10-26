@@ -19,22 +19,14 @@ using GCheckout.Util;
 using GCheckout.AutoGen;
 
 namespace GCheckout.OrderProcessing {
+
   /// <summary>
   /// This class contains methods that construct 
   /// &lt;add-merchant-order-number&gt; API requests.
   /// </summary>
-  public class AddMerchantOrderNumberRequest : GCheckoutRequest {
-    private string _googleOrderNumber;
-    private string _MerchantOrderNumber;
+  public class AddMerchantOrderNumberRequest : OrderProcessingBase {
 
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
+    private string _MerchantOrderNumber;
 
     /// <summary>
     /// Create a new &lt;add-merchant-order-number&gt; API requests  message
@@ -46,11 +38,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="MerchantOrderNumber">The Merchant Order Number</param>
     public AddMerchantOrderNumberRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string MerchantOrderNumber) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber, string MerchantOrderNumber)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _MerchantOrderNumber = MerchantOrderNumber;
     }
 
@@ -61,11 +50,7 @@ namespace GCheckout.OrderProcessing {
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="MerchantOrderNumber">The Merchant Order Number</param>
     public AddMerchantOrderNumberRequest(string GoogleOrderNumber, 
-      string MerchantOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+      string MerchantOrderNumber) : base(GoogleOrderNumber) {
       _MerchantOrderNumber = MerchantOrderNumber;
     }
 
@@ -74,7 +59,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.AddMerchantOrderNumberRequest Req = 
         new AutoGen.AddMerchantOrderNumberRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       Req.merchantordernumber = _MerchantOrderNumber;
       return EncodeHelper.Serialize(Req);
     }

@@ -21,6 +21,7 @@ namespace GCheckout.Util {
   /// <summary>
   /// Provides a name/value dictionary Attribute for items
   /// </summary>
+  [AttributeUsageAttribute(AttributeTargets.All, AllowMultiple=true)]
   public class TypeDictionaryEntryAttribute : Attribute {
 
     private string _name = string.Empty;

@@ -111,7 +111,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.CancelItemsRequest retVal
         = new GCheckout.AutoGen.CancelItemsRequest();
-      retVal.googleordernumber = _googleOrderNumber;
+      retVal.googleordernumber = GoogleOrderNumber;
       if (_sendEmailSpecified) {
         retVal.sendemail = SendEmail;
         retVal.sendemailSpecified = true;

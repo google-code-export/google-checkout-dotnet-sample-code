@@ -29,6 +29,7 @@ namespace GCheckout.Checkout {
   /// </summary>
   public enum ShippingType {
     /// <summary></summary>
+    [TypeDictionaryEntry("default-value", "true")]
     [TypeDictionaryEntry("shipping-company", "")]
     [EnumSerilizedName("")]
     Unknown = 0,

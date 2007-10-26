@@ -22,19 +22,9 @@ namespace GCheckout.OrderProcessing {
   /// This class contains methods that construct &lt;cancel-order&gt; API 
   /// requests.
   /// </summary>
-  public class CancelOrderRequest : GCheckoutRequest {
-    private string _googleOrderNumber = null;
+  public class CancelOrderRequest : OrderProcessingBase {
     private string _Reason = null;
     private string _Comment = null;
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
 
     /// <summary>
     /// Create a new &lt;cancel-order&gt; API request message
@@ -46,11 +36,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Reason">The Reson for canceling the order</param>
     public CancelOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string Reason) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber, string Reason)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Reason = Reason;
       CheckCreationPostConditions();
     }
@@ -61,11 +48,8 @@ namespace GCheckout.OrderProcessing {
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Reason">The Reson for canceling the order</param>
-    public CancelOrderRequest(string GoogleOrderNumber, string Reason) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public CancelOrderRequest(string GoogleOrderNumber, string Reason)
+      : base(GoogleOrderNumber) {
       _Reason = Reason;
       CheckCreationPostConditions();
     }
@@ -81,11 +65,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Reason">The Reson for canceling the order</param>
     /// <param name="Comment">A comment to associate to the canceled order</param>
     public CancelOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string Reason, string Comment) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber, string Reason, string Comment)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Reason = Reason;
       _Comment = Comment;
       CheckCreationPostConditions();
@@ -99,11 +80,7 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Reason">The Reson for canceling the order</param>
     /// <param name="Comment">A comment to associate to the canceled order</param>
     public CancelOrderRequest(string GoogleOrderNumber, string Reason, 
-      string Comment) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+      string Comment) : base(GoogleOrderNumber) {
       _Reason = Reason;
       _Comment = Comment;
       CheckCreationPostConditions();
@@ -118,7 +95,7 @@ namespace GCheckout.OrderProcessing {
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.CancelOrderRequest Req = new AutoGen.CancelOrderRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       Req.reason = EncodeHelper.EscapeXmlChars(_Reason);
       if (_Comment != null) {
         Req.comment = _Comment;
