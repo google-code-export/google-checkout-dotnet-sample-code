@@ -18,6 +18,7 @@ using System.Collections;
 using GCheckout.Util;
 
 namespace GCheckout.OrderProcessing {
+
   /// <summary>
   /// The &lt;reset-items-shipping-information&gt; command lets you remove
   /// the shipping status associated with one or more items and return those

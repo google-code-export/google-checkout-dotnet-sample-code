@@ -27,6 +27,15 @@ namespace GCheckout.OrderProcessing {
     private string _googleOrderNumber = null;
 
     /// <summary>
+    /// The Google Order Number
+    /// </summary>
+    public string GoogleOrderNumber {
+      get {
+        return _googleOrderNumber;
+      }
+    }
+
+    /// <summary>
     /// Create a new &lt;authorize-order&gt; API request message
     /// </summary>
     /// <param name="MerchantID">Google Checkout Merchant ID</param>

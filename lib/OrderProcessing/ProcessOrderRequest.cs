@@ -23,7 +23,16 @@ namespace GCheckout.OrderProcessing {
   /// requests.
   /// </summary>
   public class ProcessOrderRequest : GCheckoutRequest {
-    private string _googleOrderNumber = null;
+    private string _googleOrderNumber;
+
+    /// <summary>
+    /// The Google Order Number
+    /// </summary>
+    public string GoogleOrderNumber {
+      get {
+        return _googleOrderNumber;
+      }
+    }
 
     /// <summary>
     /// Create a new &lt;process-order&gt; API request message

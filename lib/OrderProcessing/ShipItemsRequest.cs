@@ -44,6 +44,15 @@ namespace GCheckout.OrderProcessing
     internal Hashtable _items = new Hashtable();
 
     /// <summary>
+    /// The Google Order Number
+    /// </summary>
+    public string GoogleOrderNumber {
+      get {
+        return _googleOrderNumber;
+      }
+    }
+
+    /// <summary>
     /// The &lt;send-email&gt; tag indicates whether Google Checkout 
     /// should email the buyer 
     /// </summary>

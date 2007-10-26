@@ -30,6 +30,15 @@ namespace GCheckout.OrderProcessing {
     private bool _SendEmail;
 
     /// <summary>
+    /// The Google Order Number
+    /// </summary>
+    public string GoogleOrderNumber {
+      get {
+        return _googleOrderNumber;
+      }
+    }
+
+    /// <summary>
     /// Create a new &lt;deliver-order&gt; API request
     /// </summary>
     /// <param name="MerchantID">Google Checkout Merchant ID</param>

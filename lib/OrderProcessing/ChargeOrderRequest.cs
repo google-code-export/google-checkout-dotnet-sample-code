@@ -28,6 +28,15 @@ namespace GCheckout.OrderProcessing {
     private decimal _Amount = -1;
 
     /// <summary>
+    /// The Google Order Number
+    /// </summary>
+    public string GoogleOrderNumber {
+      get {
+        return _googleOrderNumber;
+      }
+    }
+
+    /// <summary>
     /// Create a new &lt;charge-order&gt; API request message
     /// </summary>
     /// <param name="MerchantID">Google Checkout Merchant ID</param>

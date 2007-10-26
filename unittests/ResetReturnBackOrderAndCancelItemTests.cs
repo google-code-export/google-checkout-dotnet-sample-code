@@ -25,6 +25,20 @@ namespace GCheckout.OrderProcessing.Tests {
       req1.AddMerchantItemId("123456");
 
       xml = Util.EncodeHelper.Utf8BytesToString(req1.GetXml());
+
+      AutoGen.ResetItemsShippingInformationRequest D
+        = EncodeHelper.Deserialize(xml) as AutoGen.ResetItemsShippingInformationRequest;
+
+      Assert.AreEqual(req1.GoogleOrderNumber, D.googleordernumber);
+
+      req1 =
+        new ResetItemsShippingInformationRequest(originalOrderID);
+      req1.AddMerchantItemId("A1");
+      req1.AddMerchantItemId("B1");
+      req1.AddMerchantItemId("123456");
+      req1.SendEmail = true;
+      xml = Util.EncodeHelper.Utf8BytesToString(req1.GetXml());
+
       VerifyMessage(xml, typeof(AutoGen.ResetItemsShippingInformationRequest));
 
 
@@ -39,6 +53,13 @@ namespace GCheckout.OrderProcessing.Tests {
       xml = Util.EncodeHelper.Utf8BytesToString(req2.GetXml());
       VerifyMessage(xml, typeof(AutoGen.BackorderItemsRequest));
 
+      req2 =
+        new BackorderItemsRequest(originalOrderID);
+      req2.AddMerchantItemId("A1");
+      req2.AddMerchantItemId("B1");
+      req2.AddMerchantItemId("123456");
+      req2.SendEmail = true;
+      xml = Util.EncodeHelper.Utf8BytesToString(req2.GetXml());
 
       CancelItemsRequest req3 =
         new CancelItemsRequest(
@@ -51,6 +72,39 @@ namespace GCheckout.OrderProcessing.Tests {
       xml = Util.EncodeHelper.Utf8BytesToString(req3.GetXml());
       VerifyMessage(xml, typeof(AutoGen.CancelItemsRequest));
 
+      req3 =
+        new CancelItemsRequest(
+        "1234", "5678", EnvironmentType.Sandbox.ToString(), 
+        originalOrderID, true);
+      req3.AddMerchantItemId("A1");
+      req3.AddMerchantItemId("B1");
+      req3.AddMerchantItemId("123456");
+
+      xml = Util.EncodeHelper.Utf8BytesToString(req3.GetXml());
+
+      req3 =
+        new CancelItemsRequest(originalOrderID);
+      req3.AddMerchantItemId("A1");
+      req3.AddMerchantItemId("B1");
+      req3.AddMerchantItemId("123456");
+      xml = Util.EncodeHelper.Utf8BytesToString(req3.GetXml());
+
+      req3 =
+        new CancelItemsRequest(originalOrderID, false);
+      req3.AddMerchantItemId("A1");
+      req3.AddMerchantItemId("B1");
+      req3.AddMerchantItemId("123456");
+      xml = Util.EncodeHelper.Utf8BytesToString(req3.GetXml());
+
+      req3 =
+        new CancelItemsRequest(
+        "1234", "5678", EnvironmentType.Sandbox.ToString(), 
+        originalOrderID, "Comment", "Reason");
+      req3.AddMerchantItemId("A1");
+      req3.AddMerchantItemId("B1");
+      req3.AddMerchantItemId("123456");
+      xml = Util.EncodeHelper.Utf8BytesToString(req3.GetXml());
+
       ReturnItemsRequest req4 =
         new ReturnItemsRequest(
         "1234", "5678", EnvironmentType.Sandbox.ToString(), 
@@ -62,6 +116,13 @@ namespace GCheckout.OrderProcessing.Tests {
       xml = Util.EncodeHelper.Utf8BytesToString(req4.GetXml());
       VerifyMessage(xml, typeof(AutoGen.ReturnItemsRequest));
 
+      req4 =
+        new ReturnItemsRequest(originalOrderID);
+      req4.AddMerchantItemId("A1");
+      req4.AddMerchantItemId("B1");
+      req4.AddMerchantItemId("123456");
+      req4.SendEmail = true;
+      xml = Util.EncodeHelper.Utf8BytesToString(req4.GetXml());
 
     }
 

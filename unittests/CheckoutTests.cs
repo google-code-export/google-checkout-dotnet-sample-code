@@ -26,6 +26,23 @@ namespace GCheckout.Checkout.Tests {
       url.AddParameter("orderid", UrlParameterType.OrderID);
       url.AddParameter("ordertotal", UrlParameterType.OrderTotal);
 
+      try {
+        url.AddParameter(string.Empty, UrlParameterType.BillingCity);
+        Assert.Fail("Empty parameters names are not allowed.");
+      }
+      catch {}
+
+      try {
+        url.AddParameter("Test", UrlParameterType.Unknown);
+        Assert.Fail("Unknown Parameter type is not allowed.");
+      }
+      catch {}
+
+      //needed for 100% coverage
+      ParameterizedUrls testUrls = new ParameterizedUrls();
+      testUrls.AddUrl("http://localhost/test.aspx");
+      testUrls.AddUrl(new ParameterizedUrl("http://localhost/new.aspx"));
+
       //Now get the XML
       byte[] cart = request.GetXml();
 
@@ -118,6 +135,52 @@ namespace GCheckout.Checkout.Tests {
 
     /// <exclude/>
     [Test()]
+    public void TestAddItem() {
+      CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest("123456", "456789", EnvironmentType.Sandbox, "USD", 120);
+
+
+      //Make sure we can add an item to the cart.
+      ShoppingCartItem item = request.AddItem("Item 1", "Cool Candy 1", "Merchant Item ID", 2.00M, 1);
+      item.Weight = 2.2;
+      item.MerchantPrivateItemData = null; //perform a null check
+
+      Assert.AreEqual(2.2, item.Weight);
+      Assert.AreEqual("Merchant Item ID", item.MerchantItemID);
+
+      //this is a very specific test to make sure that if only one node exists, return it. it may be for a reason.
+
+      XmlDocument doc = new XmlDocument();
+      doc.LoadXml("<data />");
+      doc.DocumentElement.SetAttribute("test", "cool");
+
+      string xml = doc.OuterXml;
+      item.MerchantPrivateItemDataNodes = new XmlNode[] { doc.DocumentElement};
+      string xmlReturn = item.MerchantPrivateItemData;
+      Assert.AreEqual(xml, xmlReturn);
+      
+      //create a new node
+      XmlNode secondNode = doc.DocumentElement.AppendChild(doc.CreateElement("test"));
+      item.MerchantPrivateItemDataNodes = new XmlNode[] { doc.DocumentElement, secondNode};
+      
+      xmlReturn = item.MerchantPrivateItemData;
+      Assert.AreEqual(null, xmlReturn);
+
+      item.MerchantPrivateItemDataNodes = null;
+      Assert.AreEqual(new XmlNode[] {}, item.MerchantPrivateItemDataNodes);
+
+      //this should throw an exception
+      try {
+        item.Weight = -1;
+        Assert.Fail("Weight should not be allowed to be negative.");
+      }
+      catch {}
+
+      //create a new instance of the cart item
+      ShoppingCartItem testItem = new ShoppingCartItem();
+    }
+
+    /// <exclude/>
+    [Test()]
     public void TestAlternateTaxTables() {
       CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest("123456", "456789", EnvironmentType.Sandbox, "USD", 120);
 
@@ -136,7 +199,8 @@ namespace GCheckout.Checkout.Tests {
       ohio1.AddStateTaxRule("OH", .02);
 
       //Make sure we can add an item to the cart.
-      request.AddItem("Item 1", "Cool Candy 1", 2.00M, 1, ohio1);
+      ShoppingCartItem item = request.AddItem("Item 1", "Cool Candy 1", 2.00M, 1, ohio1);
+
       try {
         request.AddItem("Item 2", "Cool Candy 2", 2.00M, 1, ohio3);
         Assert.Fail("An exception should have been thrown when we tried to add an item that has a new Tax Reference");
@@ -146,7 +210,7 @@ namespace GCheckout.Checkout.Tests {
       }
 
       //Now this should work fine.
-      request.AddItem("Item 3", "Cool Candy 3", 2.00M, 1, ohio2);
+      request.AddItem("Item 3", "Cool Candy 3", string.Empty, 2.00M, 1, ohio2);
 
       //you could create this as an IShoppingCartItem or ShoppingCartItem
       IShoppingCartItem newItem = new ShoppingCartItem("Item 2", "Cool Candy 2", string.Empty, 2.00M, 2, AlternateTaxTable.Empty, "This is a test of a string of private data");
@@ -189,12 +253,61 @@ namespace GCheckout.Checkout.Tests {
 
       //lets try adding a Carrier Calculated Shipping Type
 
+      //this should fail because the city is empty
+      try {
+        request.AddShippingPackage("failedpackage", string.Empty, "OH", "44114", DeliveryAddressCategory.COMMERCIAL, 2, 3, 4);
+        Assert.Fail("AddCarrierCalculatedShippingOption should not allow duplicates.");
+      }
+      catch {
+         
+      }
+      
       //The first thing that needs to be done for carrier calculated shipping is we must set the FOB address.
       request.AddShippingPackage("main", "Cleveland", "OH", "44114", DeliveryAddressCategory.COMMERCIAL, 2, 3, 4);
       
+      //this should fail because two packages exist
+      try {
+        request.AddShippingPackage("failedpackage", "Cleveland", "OH", "44114", DeliveryAddressCategory.COMMERCIAL, 2, 3, 4);
+        Assert.Fail("AddCarrierCalculatedShippingOption should not allow duplicates.");
+      }
+      catch {
+         
+      }
+      
       //The next thing we will do is add a Fedex Home Package.
       //We will set the default to 3.99, the Pickup to Regular Pickup, the additional fixed charge to 1.29 and the discount to 2.5%
-      request.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Home_Delivery, 3.99m, CarrierPickup.REGULAR_PICKUP, 1.29m, -2.5);
+      CarrierCalculatedShippingOption option 
+        = request.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Home_Delivery, 3.99m, CarrierPickup.REGULAR_PICKUP, 1.29m, -2.5);
+      option.AdditionalVariableChargePercent = 0; //make sure we can set it back to 0;
+      option.AdditionalFixedCharge = 0;
+
+      Assert.AreEqual(option.StatedShippingType, ShippingType.Fedex_Home_Delivery);
+      Assert.AreEqual(option.Price, 3.99m);
+
+      Assert.AreEqual(option.AdditionalVariableChargePercent, 0);
+      Assert.AreEqual(option.AdditionalFixedCharge, 0);
+
+      try {
+        option.AdditionalFixedCharge = -1;
+        Assert.Fail("Additional charge must be >= 0");
+      }
+      catch {}
+
+      option.AdditionalVariableChargePercent = 2; //make sure we can set it back to 0;
+      option.AdditionalFixedCharge = 3;
+
+      Assert.AreEqual(option.AdditionalVariableChargePercent, 2);
+      Assert.AreEqual(option.AdditionalFixedCharge, 3);
+
+      //this should fail
+      try {
+        request.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Home_Delivery, 3.99m, CarrierPickup.REGULAR_PICKUP, 1.29m, -2.5);
+        Assert.Fail("AddCarrierCalculatedShippingOption should not allow duplicates.");
+      }
+      catch {
+         
+      }
+
       request.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Second_Day, 9.99m, CarrierPickup.REGULAR_PICKUP, 2.34m, -24.5);
 
       //Ensure we are able to create the cart xml
