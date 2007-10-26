@@ -31,12 +31,12 @@ namespace GCheckout.Checkout {
 
     private string _name;
     private string _description;
-    private decimal _price = 0.0m;
-    private int _quantity = 0;
+    private decimal _price;
+    private int _quantity;
     private string _merchantItemID;
     private XmlNode[] _merchantPrivateItemDataNodes = new XmlNode[] {};
-    private AlternateTaxTable _taxTable = null;
-    private DigitalItem _digitalContent = null;
+    private AlternateTaxTable _taxTable;
+    private DigitalItem _digitalContent;
     private double _itemWeight;
     //this is only used by the callback method and should not be used by the cart
     private string _taxtableselector = string.Empty;
@@ -292,8 +292,8 @@ namespace GCheckout.Checkout {
       string merchantPrivateItemData) {
       Name = name;
       Description = description;
-      if (MerchantItemID == string.Empty)
-        MerchantItemID = null;
+      if (merchantItemID == string.Empty)
+        merchantItemID = null;
       MerchantItemID = merchantItemID;
       Price = price;
       Quantity = quantity;
@@ -325,8 +325,8 @@ namespace GCheckout.Checkout {
       params XmlNode[] merchantPrivateItemData) {
       Name = name;
       Description = description;
-      if (MerchantItemID == string.Empty)
-        MerchantItemID = null;
+      if (merchantItemID == string.Empty)
+        merchantItemID = null;
       MerchantItemID = merchantItemID;
       Price = price;
       Quantity = quantity;

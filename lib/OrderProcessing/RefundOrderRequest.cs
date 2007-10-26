@@ -23,11 +23,20 @@ namespace GCheckout.OrderProcessing {
   /// requests.
   /// </summary>
   public class RefundOrderRequest : GCheckoutRequest {
-    private string _googleOrderNumber = null;
-    private string _Reason = null;
-    private string _Currency = null;
-    private decimal _Amount = -1;
-    private string _Comment = null;
+    private string _googleOrderNumber;
+    private string _Reason;
+    private string _Currency;
+    private decimal _Amount;
+    private string _Comment;
+
+    /// <summary>
+    /// The Google Order Number
+    /// </summary>
+    public string GoogleOrderNumber {
+      get {
+        return _googleOrderNumber;
+      }
+    }
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
@@ -43,8 +52,10 @@ namespace GCheckout.OrderProcessing {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
+      _Currency = GCheckoutConfigurationHelper.Currency;
       _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
+      _Amount = -1;
     }
 
     /// <summary>
@@ -57,8 +68,10 @@ namespace GCheckout.OrderProcessing {
       _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
       _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
       _Environment = GCheckoutConfigurationHelper.Environment;
+      _Currency = GCheckoutConfigurationHelper.Currency;
       _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
+      _Amount = -1;
     }
 
     /// <summary>
@@ -118,6 +131,7 @@ namespace GCheckout.OrderProcessing {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = StringToEnvironment(Env);
+      _Currency = GCheckoutConfigurationHelper.Currency;
       _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Comment = Comment;
@@ -135,6 +149,7 @@ namespace GCheckout.OrderProcessing {
       _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
       _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
       _Environment = GCheckoutConfigurationHelper.Environment;
+      _Currency = GCheckoutConfigurationHelper.Currency;
       _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Comment = Comment;

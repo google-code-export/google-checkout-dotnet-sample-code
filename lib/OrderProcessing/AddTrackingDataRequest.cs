@@ -29,6 +29,33 @@ namespace GCheckout.OrderProcessing {
     private string _TrackingNo;
 
     /// <summary>
+    /// The Google Order Number
+    /// </summary>
+    public string GoogleOrderNumber {
+      get {
+        return _googleOrderNumber;
+      }
+    }
+
+    /// <summary>
+    /// The Carrier the package was shipped with
+    /// </summary>
+    public string Carrier {
+      get {
+        return _Carrier;
+      }
+    }
+
+    /// <summary>
+    /// The Tracking number for the carrier
+    /// </summary>
+    public string TrackingNo {
+      get {
+        return _TrackingNo;
+      }
+    }
+
+    /// <summary>
     /// Create a new &lt;add-tracking-data&gt; API request message
     /// </summary>
     /// <param name="MerchantID">Google Checkout Merchant ID</param>

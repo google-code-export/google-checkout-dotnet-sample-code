@@ -40,6 +40,21 @@ namespace GCheckout.OrderProcessing {
 
     /// <summary>
     /// Create a new &lt;reset-items-shipping-information&gt;
+    /// API request message using the Configuration Settings
+    /// </summary>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="sendEmail">
+    /// The &lt;send-email&gt; tag indicates whether Google Checkout 
+    /// should email the buyer 
+    /// </param>
+    public CancelItemsRequest(string GoogleOrderNumber,
+      bool sendEmail)
+      : base(GoogleOrderNumber) {
+      SendEmail = sendEmail;
+    }
+
+    /// <summary>
+    /// Create a new &lt;reset-items-shipping-information&gt;
     /// API request message
     /// </summary>
     /// <param name="merchantID">Google Checkout Merchant ID</param>
@@ -50,6 +65,26 @@ namespace GCheckout.OrderProcessing {
     public CancelItemsRequest(string merchantID, 
       string merchantKey, string env, string GoogleOrderNumber) 
       : base(merchantID, merchantKey, env, GoogleOrderNumber) {
+    }
+
+    /// <summary>
+    /// Create a new &lt;reset-items-shipping-information&gt;
+    /// API request message
+    /// </summary>
+    /// <param name="merchantID">Google Checkout Merchant ID</param>
+    /// <param name="merchantKey">Google Checkout Merchant Key</param>
+    /// <param name="env">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="GoogleOrderNumber">The Google Order Number</param>
+    /// <param name="sendEmail">
+    /// The &lt;send-email&gt; tag indicates whether Google Checkout 
+    /// should email the buyer 
+    /// </param>
+    public CancelItemsRequest(string merchantID, 
+      string merchantKey, string env, string GoogleOrderNumber,
+      bool sendEmail) 
+      : base(merchantID, merchantKey, env, GoogleOrderNumber) {
+      SendEmail = SendEmail;
     }
 
     /// <summary>
