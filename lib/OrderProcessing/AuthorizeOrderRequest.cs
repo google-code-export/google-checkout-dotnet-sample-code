@@ -17,23 +17,13 @@
 using System;
 using GCheckout.Util;
 namespace GCheckout.OrderProcessing {
+
   /// <summary>
   /// The &lt;authorize-order&gt; command instructs Google Checkout to explicitly 
   /// reauthorize a customer's credit card for the uncharged balance of an 
   /// order to verify that funds for the order are available.
   /// </summary>
-  public class AuthorizeOrderRequest: GCheckoutRequest {
-
-    private string _googleOrderNumber = null;
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
+  public class AuthorizeOrderRequest: OrderProcessingBase {
 
     /// <summary>
     /// Create a new &lt;authorize-order&gt; API request message
@@ -44,11 +34,8 @@ namespace GCheckout.OrderProcessing {
     /// <see cref="EnvironmentType"/></param>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     public AuthorizeOrderRequest(string MerchantID, 
-      string MerchantKey, string Env, string GoogleOrderNumber) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string MerchantKey, string Env, string GoogleOrderNumber)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -56,18 +43,15 @@ namespace GCheckout.OrderProcessing {
     /// using the configuration settings
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    public AuthorizeOrderRequest(string GoogleOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public AuthorizeOrderRequest(string GoogleOrderNumber)
+      : base(GoogleOrderNumber) {
     }
 
     /// <summary>Method that is called to produce the Xml message 
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.AuthorizeOrderRequest Req = new AutoGen.AuthorizeOrderRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       return EncodeHelper.Serialize(Req);
     }
   }

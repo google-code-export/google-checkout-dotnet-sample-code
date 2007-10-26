@@ -25,12 +25,8 @@ namespace GCheckout.OrderProcessing
 	/// is the root message is different.
 	/// Because of this, we are creating a base
 	/// </summary>
-	public abstract class BackOrderCancelReturnAndResetItemBase : GCheckoutRequest
+	public abstract class BackOrderCancelReturnAndResetItemBase : OrderProcessingBase
 	{
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    protected string _googleOrderNumber = null;
     /// <summary>
     /// Send an Email when the request is received by Google
     /// </summary>
@@ -57,15 +53,6 @@ namespace GCheckout.OrderProcessing
     }
 
     /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
-
-    /// <summary>
     /// The &lt;send-email&gt; tag indicates whether Google Checkout 
     /// should email the buyer 
     /// </summary>
@@ -84,11 +71,8 @@ namespace GCheckout.OrderProcessing
     /// API request message using the Configuration Settings
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    public BackOrderCancelReturnAndResetItemBase(string GoogleOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public BackOrderCancelReturnAndResetItemBase(string GoogleOrderNumber)
+      : base(GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -101,11 +85,8 @@ namespace GCheckout.OrderProcessing
     /// <see cref="EnvironmentType"/></param>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     public BackOrderCancelReturnAndResetItemBase(string merchantID, 
-      string merchantKey, string env, string GoogleOrderNumber) {
-      _MerchantID = merchantID;
-      _MerchantKey = merchantKey;
-      _Environment = StringToEnvironment(env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string merchantKey, string env, string GoogleOrderNumber)
+      : base(merchantID, merchantKey, env, GoogleOrderNumber) {
     }
 
     /// <summary>

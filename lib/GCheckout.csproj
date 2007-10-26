@@ -304,6 +304,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "OrderProcessing\OrderProcessingBase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "OrderProcessing\ProcessOrderRequest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -380,6 +385,11 @@
                 />
                 <File
                     RelPath = "Util\Log.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Util\StreamWrapper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

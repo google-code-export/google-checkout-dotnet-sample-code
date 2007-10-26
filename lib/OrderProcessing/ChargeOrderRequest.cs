@@ -22,19 +22,9 @@ namespace GCheckout.OrderProcessing {
   /// This class contains methods that construct &lt;charge-order&gt; API 
   /// requests.
   /// </summary>
-  public class ChargeOrderRequest : GCheckoutRequest {
-    private string _googleOrderNumber = null;
+  public class ChargeOrderRequest : OrderProcessingBase {
     private string _Currency = null;
     private decimal _Amount = -1;
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
 
     /// <summary>
     /// Create a new &lt;charge-order&gt; API request message
@@ -45,11 +35,8 @@ namespace GCheckout.OrderProcessing {
     /// <see cref="EnvironmentType"/></param>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     public ChargeOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string GoogleOrderNumber) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber) 
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -57,11 +44,8 @@ namespace GCheckout.OrderProcessing {
     /// using the configuration settings
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    public ChargeOrderRequest(string GoogleOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public ChargeOrderRequest(string GoogleOrderNumber)
+      : base(GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -75,11 +59,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Currency">The Currency used to charge the order</param>
     /// <param name="Amount">The Amount to charge</param>
     public ChargeOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string GoogleOrderNumber, string Currency, decimal Amount) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber, string Currency, decimal Amount)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Currency = Currency;
       _Amount = Amount;
     }
@@ -92,11 +73,7 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Currency">The Currency used to charge the order</param>
     /// <param name="Amount">The Amount to charge</param>
     public ChargeOrderRequest(string GoogleOrderNumber, string Currency, 
-      decimal Amount) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+      decimal Amount) : base(GoogleOrderNumber) {
       _Currency = Currency;
       _Amount = Amount;
     }
@@ -105,7 +82,7 @@ namespace GCheckout.OrderProcessing {
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.ChargeOrderRequest Req = new AutoGen.ChargeOrderRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       if (_Amount != -1 && _Currency != null) {
         Req.amount = new AutoGen.Money();
         Req.amount.currency = _Currency;

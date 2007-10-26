@@ -55,7 +55,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.BackorderItemsRequest retVal
         = new GCheckout.AutoGen.BackorderItemsRequest();
-      retVal.googleordernumber = _googleOrderNumber;
+      retVal.googleordernumber = GoogleOrderNumber;
       if (_sendEmailSpecified) {
         retVal.sendemail = SendEmail;
         retVal.sendemailSpecified = true;

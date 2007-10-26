@@ -68,13 +68,6 @@ namespace GCheckout.OrderProcessing {
     }
 
     /// <summary>
-    /// Create a new instance of the ShipItemBox.
-    /// </summary>
-    private ShipItemBox() {
-      throw new NotImplementedException("This ctor is not supported.");
-    }
-
-    /// <summary>
     /// The &lt;merchant-item-id&gt; tag contains a value, 
     /// such as a stock keeping unit (SKU), 
     /// that you use to uniquely identify an item.

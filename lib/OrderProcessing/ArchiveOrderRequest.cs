@@ -22,17 +22,7 @@ namespace GCheckout.OrderProcessing {
   /// This class contains methods that construct 
   /// &lt;archive-order&gt; API requests.
   /// </summary>
-  public class ArchiveOrderRequest : GCheckoutRequest {
-    private string _googleOrderNumber;
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
+  public class ArchiveOrderRequest : OrderProcessingBase {
 
     /// <summary>
     /// Create a new &lt;archive-order&gt; API request message
@@ -43,11 +33,8 @@ namespace GCheckout.OrderProcessing {
     /// <see cref="EnvironmentType"/></param>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     public ArchiveOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string GoogleOrderNumber) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber) 
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -55,18 +42,15 @@ namespace GCheckout.OrderProcessing {
     /// using the configuration settings
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    public ArchiveOrderRequest(string GoogleOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public ArchiveOrderRequest(string GoogleOrderNumber)
+      : base(GoogleOrderNumber) {
     }
 
     /// <summary>Method that is called to produce the Xml message
     ///  that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.ArchiveOrderRequest Req = new AutoGen.ArchiveOrderRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       return EncodeHelper.Serialize(Req);
     }
   }

@@ -22,21 +22,12 @@ namespace GCheckout.OrderProcessing {
   /// This class contains methods that construct &lt;deliver-order&gt; API 
   /// requests.
   /// </summary>
-  public class DeliverOrderRequest : GCheckoutRequest {
-    private string _googleOrderNumber;
+  public class DeliverOrderRequest : OrderProcessingBase {
+
     private string _Carrier = null;
     private string _TrackingNo = null;
     private bool _SendEmailSpecified = false;
     private bool _SendEmail;
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
 
     /// <summary>
     /// Create a new &lt;deliver-order&gt; API request
@@ -47,11 +38,8 @@ namespace GCheckout.OrderProcessing {
     /// <see cref="EnvironmentType"/></param>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     public DeliverOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string GoogleOrderNumber) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -59,11 +47,8 @@ namespace GCheckout.OrderProcessing {
     /// using the configuration settings
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    public DeliverOrderRequest(string GoogleOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public DeliverOrderRequest(string GoogleOrderNumber)
+      : base(GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -79,11 +64,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="SendEmail">Send an email to the buyer</param>
     public DeliverOrderRequest(string MerchantID, string MerchantKey, 
       string Env, string GoogleOrderNumber, string Carrier, string TrackingNo,
-      bool SendEmail) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      bool SendEmail) 
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
       _SendEmail = SendEmail;
@@ -99,11 +81,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="TrackingNo">The Tracking Number for the order</param>
     /// <param name="SendEmail">Send an email to the buyer</param>
     public DeliverOrderRequest(string GoogleOrderNumber, string Carrier, 
-      string TrackingNo, bool SendEmail) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+      string TrackingNo, bool SendEmail) 
+      : base(GoogleOrderNumber) {
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
       _SendEmail = SendEmail;
@@ -121,12 +100,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Carrier">The Carrier the package was shipped with</param>
     /// <param name="TrackingNo">The Tracking Number for the order</param>
     public DeliverOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string GoogleOrderNumber, string Carrier, string TrackingNo) 
-    {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber, string Carrier, string TrackingNo)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
     }
@@ -139,11 +114,7 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Carrier">The Carrier the package was shipped with</param>
     /// <param name="TrackingNo">The Tracking Number for the order</param>
     public DeliverOrderRequest(string GoogleOrderNumber, string Carrier, 
-      string TrackingNo) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+      string TrackingNo) : base(GoogleOrderNumber) {
       _Carrier = Carrier;
       _TrackingNo = TrackingNo;
     }
@@ -159,11 +130,7 @@ namespace GCheckout.OrderProcessing {
     /// <param name="SendEmail">Send an email to the buyer</param>
     public DeliverOrderRequest(string MerchantID, string MerchantKey, 
       string Env, string GoogleOrderNumber, bool SendEmail)
-    {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _SendEmail = SendEmail;
       _SendEmailSpecified = true;
     }
@@ -174,11 +141,8 @@ namespace GCheckout.OrderProcessing {
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="SendEmail">Send an email to the buyer</param>
-    public DeliverOrderRequest(string GoogleOrderNumber, bool SendEmail) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public DeliverOrderRequest(string GoogleOrderNumber, bool SendEmail) 
+      : base (GoogleOrderNumber) {
       _SendEmail = SendEmail;
       _SendEmailSpecified = true;
     }
@@ -188,7 +152,7 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() 
     {
       AutoGen.DeliverOrderRequest Req = new AutoGen.DeliverOrderRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       if (_Carrier != null && _TrackingNo != null) 
       {
         Req.trackingdata = new AutoGen.TrackingData();

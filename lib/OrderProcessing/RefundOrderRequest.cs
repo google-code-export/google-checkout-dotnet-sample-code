@@ -18,25 +18,16 @@ using System;
 using GCheckout.Util;
 
 namespace GCheckout.OrderProcessing {
+  
   /// <summary>
   /// This class contains methods that construct &lt;refund-order&gt; API 
   /// requests.
   /// </summary>
-  public class RefundOrderRequest : GCheckoutRequest {
-    private string _googleOrderNumber;
+  public class RefundOrderRequest : OrderProcessingBase {
     private string _Reason;
     private string _Currency;
     private decimal _Amount;
     private string _Comment;
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
@@ -48,12 +39,9 @@ namespace GCheckout.OrderProcessing {
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Reason">The Reason for the refund</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string Reason) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
+      string Env, string GoogleOrderNumber, string Reason)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Currency = GCheckoutConfigurationHelper.Currency;
-      _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Amount = -1;
     }
@@ -64,12 +52,9 @@ namespace GCheckout.OrderProcessing {
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     /// <param name="Reason">The Reason for the refund</param>
-    public RefundOrderRequest(string GoogleOrderNumber, string Reason) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
+    public RefundOrderRequest(string GoogleOrderNumber, string Reason)
+      : base(GoogleOrderNumber) {
       _Currency = GCheckoutConfigurationHelper.Currency;
-      _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Amount = -1;
     }
@@ -87,11 +72,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Amount">The Amount to charge</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
       string Env, string GoogleOrderNumber, string Reason, string Currency,
-      decimal Amount) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      decimal Amount)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Reason = Reason;
       _Currency = Currency;
       _Amount = Amount;
@@ -106,11 +88,7 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Currency">The Currency used to charge the order</param>
     /// <param name="Amount">The Amount to charge</param>
     public RefundOrderRequest(string GoogleOrderNumber, string Reason,
-      string Currency, decimal Amount) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+      string Currency, decimal Amount) : base(GoogleOrderNumber) {
       _Reason = Reason;
       _Currency = Currency;
       _Amount = Amount;
@@ -127,12 +105,9 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Reason">The Reason for the refund</param>
     /// <param name="Comment">A comment to append to the order</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string Reason, string Comment) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
+      string Env, string GoogleOrderNumber, string Reason, string Comment)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Currency = GCheckoutConfigurationHelper.Currency;
-      _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Comment = Comment;
     }
@@ -145,12 +120,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Reason">The Reason for the refund</param>
     /// <param name="Comment">A comment to append to the order</param>
     public RefundOrderRequest(string GoogleOrderNumber, 
-      string Reason, string Comment) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
+      string Reason, string Comment) : base(GoogleOrderNumber) {
       _Currency = GCheckoutConfigurationHelper.Currency;
-      _googleOrderNumber = GoogleOrderNumber;
       _Reason = Reason;
       _Comment = Comment;
     }
@@ -169,11 +140,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Comment">A comment to append to the order</param>
     public RefundOrderRequest(string MerchantID, string MerchantKey,
       string Env, string GoogleOrderNumber, string Reason, string Currency,
-      decimal Amount, string Comment) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      decimal Amount, string Comment)
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Reason = Reason;
       _Currency = Currency;
       _Amount = Amount;
@@ -190,11 +158,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Amount">The Amount to charge</param>
     /// <param name="Comment">A comment to append to the order</param>
     public RefundOrderRequest(string GoogleOrderNumber, string Reason, 
-      string Currency, decimal Amount, string Comment) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+      string Currency, decimal Amount, string Comment)
+      : base(GoogleOrderNumber) {
       _Reason = Reason;
       _Currency = Currency;
       _Amount = Amount;
@@ -205,7 +170,7 @@ namespace GCheckout.OrderProcessing {
     ///  that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.RefundOrderRequest Req = new AutoGen.RefundOrderRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       Req.reason = EncodeHelper.EscapeXmlChars(_Reason);
       if (_Amount != -1 && _Currency != null) {
         Req.amount = new AutoGen.Money();

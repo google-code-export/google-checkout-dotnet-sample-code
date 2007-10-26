@@ -22,12 +22,11 @@ using System.Xml.Serialization;
 using System.Security.Cryptography;
 
 namespace GCheckout.Util {
+  
   /// <summary>
   /// Collection of various encode-related static methods.
   /// </summary>
-  public class EncodeHelper {
-    private EncodeHelper() {
-    }
+  public sealed class EncodeHelper {
 
     /// <summary>
     /// Converts a string to bytes in UTF-8 encoding.
@@ -58,7 +57,7 @@ namespace GCheckout.Util {
     /// </returns>
     public static string Utf8StreamToString(Stream Utf8Stream) {
       using (StreamReader SReader = 
-        new StreamReader(Utf8Stream, Encoding.UTF8)) {
+               new StreamReader(Utf8Stream, Encoding.UTF8)) {
         return SReader.ReadToEnd();
       }
     }
@@ -143,6 +142,7 @@ namespace GCheckout.Util {
 
       //set the begin postion so we can set the stream back when we are done.
       long beginPos = Xml.Position;
+      Xml.Position = 0;
       XmlTextReader XReader = new XmlTextReader(Xml);
       XReader.WhitespaceHandling = WhitespaceHandling.None;
       XReader.Read();
@@ -238,13 +238,9 @@ namespace GCheckout.Util {
         //or Google Checkout is sending a BOM.
         bool containsBom = false;
         if (Xml != null) {
-          try {
-            if (Xml.StartsWith(Encoding.UTF8.GetString( 
-              Encoding.UTF8.GetPreamble()))) {
-              containsBom = true;
-            }             
-          }
-          catch {   
+          if (Xml.StartsWith(Encoding.UTF8.GetString( 
+            Encoding.UTF8.GetPreamble()))) {
+            containsBom = true;
           }
         }
         throw new ApplicationException(
@@ -284,10 +280,14 @@ namespace GCheckout.Util {
     /// <returns>The reconstituted object.</returns>
     public static object Deserialize(Stream Xml) {
 
-      try {
+      long originalPos = Xml.Position;
+      //Keep the XmlReader from closing the stream on a failure.
+      StreamWrapper wrap = new StreamWrapper(Xml);
+      wrap.Position = 0;
 
+      try {
         //get the name of the node, this is what we will use for the lookup.
-        string nodeName = GetTopElement(Xml);
+        string nodeName = GetTopElement(wrap);
 
         //ok here is where the fun starts.
         string extNamespace 
@@ -311,37 +311,38 @@ namespace GCheckout.Util {
         //can't be deserialized.
         if (reflectedType != null) {
           XmlSerializer myDeserializer = new XmlSerializer(reflectedType);
-          return myDeserializer.Deserialize(Xml);
+          object retVal = myDeserializer.Deserialize(wrap);
+          wrap.Position = originalPos;
+          return retVal;
         }
         else {
           System.Diagnostics.Debug.WriteLine("Deserialize was not able" +
             "To locate a message of type:" + nodeName + "");
+          wrap.Position = originalPos;
           return null;
         }
       }
       catch (Exception e) {
-        Xml.Position = 0;
+        wrap.Position = 0;
         string passedXml;
-        using (StreamReader reader = new StreamReader(Xml)) {
+        using (StreamReader reader = new StreamReader(wrap)) {
           passedXml = reader.ReadToEnd();
         }
 
         bool containsBom = false;
-        if (Xml != null) {
-          try {
-            byte[] theBom = Encoding.UTF8.GetPreamble();
-            Xml.Position = 0;
-            //try to determine we have a bom in the message,
-            //which may cause the deserializer to fail.
-            if (Xml.ReadByte() == theBom[0]
-              && Xml.ReadByte() == theBom[1]
-              && Xml.ReadByte() == theBom[2]) {
-              containsBom = true;
-            }
-          }
-          catch {   
+        if (wrap != null && wrap.Length >= 3) {
+          byte[] theBom = Encoding.UTF8.GetPreamble();
+          wrap.Position = 0;
+          //try to determine we have a bom in the message,
+          //which may cause the deserializer to fail.
+          if (wrap.ReadByte() == theBom[0]
+            && wrap.ReadByte() == theBom[1]
+            && wrap.ReadByte() == theBom[2]) {
+            containsBom = true;
           }
         }
+
+        wrap.Position = originalPos;
 
         throw new ApplicationException(
           string.Format("Couldn't parse XML: '{0}'; Contains BOM: {1}.", 
@@ -448,7 +449,7 @@ namespace GCheckout.Util {
       byte[] key = encoding.GetBytes(merchantKey);
 
       using (System.Security.Cryptography.HMACSHA1 cryptobj = new
-              System.Security.Cryptography.HMACSHA1(key)) {
+               System.Security.Cryptography.HMACSHA1(key)) {
 
         string retVal = 
           System.Convert.ToBase64String(cryptobj.ComputeHash(cart));
@@ -516,7 +517,7 @@ namespace GCheckout.Util {
     /// <param name="value">The Value</param>
     /// <returns></returns>
     public static AutoGen.Money Money(decimal value) {
-       return Money(GCheckout.Util.GCheckoutConfigurationHelper.Currency, value);
+      return Money(GCheckout.Util.GCheckoutConfigurationHelper.Currency, value);
     }
 
     /// <summary>

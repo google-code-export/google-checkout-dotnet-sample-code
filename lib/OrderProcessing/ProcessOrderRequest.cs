@@ -18,21 +18,12 @@ using System;
 using GCheckout.Util;
 
 namespace GCheckout.OrderProcessing {
+
   /// <summary>
   /// This class contains methods that construct &lt;process-order&gt; API 
   /// requests.
   /// </summary>
-  public class ProcessOrderRequest : GCheckoutRequest {
-    private string _googleOrderNumber;
-
-    /// <summary>
-    /// The Google Order Number
-    /// </summary>
-    public string GoogleOrderNumber {
-      get {
-        return _googleOrderNumber;
-      }
-    }
+  public class ProcessOrderRequest : OrderProcessingBase {
 
     /// <summary>
     /// Create a new &lt;process-order&gt; API request message
@@ -43,11 +34,8 @@ namespace GCheckout.OrderProcessing {
     /// <see cref="EnvironmentType"/></param>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
     public ProcessOrderRequest(string MerchantID, string MerchantKey, 
-      string Env, string GoogleOrderNumber) {
-      _MerchantID = MerchantID;
-      _MerchantKey = MerchantKey;
-      _Environment = StringToEnvironment(Env);
-      _googleOrderNumber = GoogleOrderNumber;
+      string Env, string GoogleOrderNumber) 
+      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
     }
 
     /// <summary>
@@ -55,18 +43,15 @@ namespace GCheckout.OrderProcessing {
     /// using the configuration settings
     /// </summary>
     /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    public ProcessOrderRequest(string GoogleOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
-      _googleOrderNumber = GoogleOrderNumber;
+    public ProcessOrderRequest(string GoogleOrderNumber)
+      : base(GoogleOrderNumber) {
     }
 
     /// <summary>Method that is called to produce the Xml message 
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
       AutoGen.ProcessOrderRequest Req = new AutoGen.ProcessOrderRequest();
-      Req.googleordernumber = _googleOrderNumber;
+      Req.googleordernumber = GoogleOrderNumber;
       return EncodeHelper.Serialize(Req);
     }
 
