@@ -48,7 +48,7 @@ namespace GCheckout.Checkout {
   /// The &lt;digital-content&gt; tag contains information relating to
   /// digital delivery of an item.
   /// </summary>
-  public class DigitalItem {
+  public class DigitalItem : ICloneable {
     private const string MISSING_KEY_OR_URL = @"You must provide either a URL
 where the buyer can access the digital content or a key needed to download 
 or unlock the content.";
@@ -276,5 +276,17 @@ of 1024 characters and may contain HTML tags.";
       return EnumSerilizedNameAttribute.GetValue(fi);
     }
 
+    #region ICloneable Members
+
+    /// <summary>
+    /// Clone the Digital Item
+    /// </summary>
+    /// <returns></returns>
+    public object Clone() {
+      return this.MemberwiseClone();
+    }
+
+    #endregion
+  
   }
 }

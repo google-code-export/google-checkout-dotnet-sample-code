@@ -27,7 +27,7 @@ namespace GCheckout.Checkout {
   /// A wrapper containing information about an individual item listed 
   /// in the customer's shopping cart
   /// </summary>
-  public class ShoppingCartItem : IShoppingCartItem {
+  public class ShoppingCartItem : IShoppingCartItem, ICloneable {
 
     private string _name;
     private string _description;
@@ -171,7 +171,19 @@ namespace GCheckout.Checkout {
       set {
         if (value == null)
           value = new XmlNode[] {};
+
+        //see if there is a private node set as a string first
+        string mpd = null;
+        foreach (XmlNode node in MerchantPrivateItemDataNodes) {
+          if (node.Name == CheckoutShoppingCartRequest.MERCHANT_DATA_HIDDEN)
+            mpd = node.InnerXml;
+        }
+
         _merchantPrivateItemDataNodes = value;
+
+        if (mpd != null && mpd.Length > 0) {
+          MerchantPrivateItemData = mpd;   
+        }
       }
     }
 
@@ -333,5 +345,33 @@ namespace GCheckout.Checkout {
       MerchantPrivateItemDataNodes = merchantPrivateItemData;
       TaxTable = taxTable;
     }
+
+    #region ICloneable Members
+
+    /// <summary>
+    /// Clone the item
+    /// </summary>
+    /// <returns></returns>
+    public object Clone() {
+      ShoppingCartItem retVal = this.MemberwiseClone() as ShoppingCartItem;
+
+      //clone the xml
+      XmlNode[] nodes = new XmlNode[this.MerchantPrivateItemDataNodes.Length];
+      
+      for (int i = 0; i < nodes.Length; i++) {
+        nodes[i] = MerchantPrivateItemDataNodes[i].Clone();
+      }
+
+      retVal.MerchantPrivateItemDataNodes = nodes;
+
+      //clone the digital item
+      if (DigitalContent != null)
+        retVal.DigitalContent = DigitalContent.Clone() as DigitalItem;
+
+      return retVal;
+    }
+
+    #endregion
+
   }
 }

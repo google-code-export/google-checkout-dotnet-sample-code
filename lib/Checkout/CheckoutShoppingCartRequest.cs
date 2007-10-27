@@ -416,16 +416,16 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, XmlNode MerchantPrivateItemData) {
+      int Quantity, XmlNode MerchantPrivateItemDataNodes) {
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, string.Empty, Price, 
-        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemData);
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
       _Items.Add(retVal);
       return retVal;
     }
@@ -445,7 +445,7 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
@@ -455,11 +455,11 @@ namespace GCheckout.Checkout {
     /// digital delivery of an item.
     /// </param>
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, XmlNode MerchantPrivateItemData, DigitalItem digitalItem) {
+      int Quantity, XmlNode MerchantPrivateItemDataNodes, DigitalItem digitalItem) {
 
       ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
         string.Empty, Price, Quantity, AlternateTaxTable.Empty, 
-        MerchantPrivateItemData);
+        MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
       _Items.Add(item);
       return item;
@@ -480,7 +480,7 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
@@ -488,12 +488,12 @@ namespace GCheckout.Checkout {
     /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
     /// To assign to the item </param>
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, XmlNode MerchantPrivateItemData, 
+      int Quantity, XmlNode MerchantPrivateItemDataNodes, 
       AlternateTaxTable taxTable) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, string.Empty, Price, 
-        Quantity, taxTable, MerchantPrivateItemData);
+        Quantity, taxTable, MerchantPrivateItemDataNodes);
       _Items.Add(retVal);
       return retVal;
     }
@@ -513,7 +513,7 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
@@ -525,11 +525,11 @@ namespace GCheckout.Checkout {
     /// digital delivery of an item.
     /// </param>
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, XmlNode MerchantPrivateItemData, 
+      int Quantity, XmlNode MerchantPrivateItemDataNodes, 
       AlternateTaxTable taxTable, DigitalItem digitalItem) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
-        string.Empty, Price, Quantity, taxTable, MerchantPrivateItemData);
+        string.Empty, Price, Quantity, taxTable, MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
       _Items.Add(item);
       return item;
@@ -552,16 +552,17 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
-      decimal Price, int Quantity, XmlNode MerchantPrivateItemData) {
+    public ShoppingCartItem AddItem(string Name, string Description, 
+      string MerchantItemID,
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes) {
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
-        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemData);
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
       _Items.Add(retVal);
       return retVal;
     }
@@ -583,7 +584,7 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
@@ -592,12 +593,13 @@ namespace GCheckout.Checkout {
     /// The &lt;digital-content&gt; tag contains information relating to
     /// digital delivery of an item.
     /// </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
-      decimal Price, int Quantity, XmlNode MerchantPrivateItemData, 
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes, 
       DigitalItem digitalItem) {
       ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
         MerchantItemID, Price, Quantity, AlternateTaxTable.Empty,
-        MerchantPrivateItemData);
+        MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
       _Items.Add(item);
       return item;
@@ -620,20 +622,21 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
     /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
     /// To assign to the item </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
-      decimal Price, int Quantity, XmlNode MerchantPrivateItemData, 
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes, 
       AlternateTaxTable taxTable) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
-        Quantity, taxTable, MerchantPrivateItemData);
+        Quantity, taxTable, MerchantPrivateItemDataNodes);
       _Items.Add(retVal);
       return retVal;
     }
@@ -655,7 +658,7 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
@@ -666,12 +669,13 @@ namespace GCheckout.Checkout {
     /// The &lt;digital-content&gt; tag contains information relating to
     /// digital delivery of an item.
     /// </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
-      decimal Price, int Quantity, XmlNode MerchantPrivateItemData, 
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes, 
       AlternateTaxTable taxTable, DigitalItem digitalItem) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
-        MerchantItemID, Price, Quantity, taxTable, MerchantPrivateItemData);
+        MerchantItemID, Price, Quantity, taxTable, MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
       _Items.Add(item);
       return item;
@@ -694,20 +698,21 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node array that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node array that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
     /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
     /// To assign to the item </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
       decimal Price, int Quantity, AlternateTaxTable taxTable,
-      params XmlNode[] MerchantPrivateItemData) {
+      params XmlNode[] MerchantPrivateItemDataNodes) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
-        Quantity, taxTable, MerchantPrivateItemData);
+        Quantity, taxTable, MerchantPrivateItemDataNodes);
       _Items.Add(retVal);
       return retVal;
     }
@@ -729,7 +734,7 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An XML node array that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An XML node array that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
@@ -740,12 +745,13 @@ namespace GCheckout.Checkout {
     /// The &lt;digital-content&gt; tag contains information relating to
     /// digital delivery of an item.
     /// </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
       decimal Price, int Quantity, AlternateTaxTable taxTable,
-      DigitalItem digitalItem, params XmlNode[] MerchantPrivateItemData) {
+      DigitalItem digitalItem, params XmlNode[] MerchantPrivateItemDataNodes) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem item = new ShoppingCartItem(Name, Description,
-        MerchantItemID, Price, Quantity, taxTable, MerchantPrivateItemData);
+        MerchantItemID, Price, Quantity, taxTable, MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
       _Items.Add(item);
       return item;
@@ -766,16 +772,18 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An array of XML nodes that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An array of XML nodes
+    /// that should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
-    public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, params XmlNode[] MerchantPrivateItemData) {
+    public ShoppingCartItem AddItem(string Name, string Description,
+      decimal Price,
+      int Quantity, params XmlNode[] MerchantPrivateItemDataNodes) {
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, string.Empty, Price, 
-        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemData);
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
       _Items.Add(retVal);
       return retVal;
     }
@@ -795,7 +803,8 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An array of XML nodes that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An array of XML nodes that
+    /// should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
@@ -806,10 +815,10 @@ namespace GCheckout.Checkout {
     /// </param>
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
       int Quantity, DigitalItem digitalItem, 
-      params XmlNode[] MerchantPrivateItemData) {
+      params XmlNode[] MerchantPrivateItemDataNodes) {
       ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         string.Empty, Price, Quantity, AlternateTaxTable.Empty, 
-        MerchantPrivateItemData);
+        MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
       _Items.Add(item);
       return item;
@@ -832,16 +841,18 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An array of XML nodes that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An array of XML nodes that
+    /// should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
-      decimal Price, int Quantity, params XmlNode[] MerchantPrivateItemData) {
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
+      decimal Price, int Quantity, params XmlNode[] MerchantPrivateItemDataNodes) {
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, MerchantItemID, Price,
-        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemData);
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
       _Items.Add(retVal);
       return retVal;
     }
@@ -863,7 +874,8 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    /// <param name="MerchantPrivateItemData">An array of XML nodes that should be 
+    /// <param name="MerchantPrivateItemDataNodes">An array of XML nodes that
+    /// should be 
     /// associated with the item in the Checkout API request. This value 
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
@@ -872,12 +884,13 @@ namespace GCheckout.Checkout {
     /// The &lt;digital-content&gt; tag contains information relating to
     /// digital delivery of an item.
     /// </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
       decimal Price, int Quantity, DigitalItem digitalItem,
-      params XmlNode[] MerchantPrivateItemData) {
+      params XmlNode[] MerchantPrivateItemDataNodes) {
       ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
         MerchantItemID, Price, Quantity, AlternateTaxTable.Empty,
-        MerchantPrivateItemData);      
+        MerchantPrivateItemDataNodes);      
       item.DigitalContent = digitalItem;
       _Items.Add(item);
       return item;
@@ -887,7 +900,9 @@ namespace GCheckout.Checkout {
     /// This method adds an item to an order.
     /// </summary>
     /// <param name="item">The shopping cart item to add.</param>
-    public ShoppingCartItem AddItem(ShoppingCartItem item) {      
+    public ShoppingCartItem AddItem(ShoppingCartItem item) {
+      if (item == null)
+        throw new ArgumentNullException("item must not be null");
       _Items.Add(item);
       return item;
     }
@@ -896,7 +911,9 @@ namespace GCheckout.Checkout {
     /// This method adds an item to an order.
     /// </summary>
     /// <param name="item">The shopping cart item to add.</param>
-    public IShoppingCartItem AddItem(IShoppingCartItem item) {      
+    public IShoppingCartItem AddItem(IShoppingCartItem item) {
+      if (item == null)
+        throw new ArgumentNullException("item must not be null");
       _Items.Add(item);
       return item;
     }
@@ -1405,8 +1422,6 @@ namespace GCheckout.Checkout {
       AddNewTaxRule(Rule);
     }
 
-
-
     /// <summary>
     /// This method adds a new tax rule to the &lt;default-tax-table&gt;.
     /// This method is called by the methods that create the XML blocks
@@ -1459,9 +1474,9 @@ namespace GCheckout.Checkout {
       MyCart.shoppingcart = new AutoGen.ShoppingCart();
 
       // Add the Shopping cart expiration element.
-      if (_CartExpiration != DateTime.MinValue) {
+      if (CartExpiration != DateTime.MinValue) {
         MyCart.shoppingcart.cartexpiration = new AutoGen.CartExpiration();
-        MyCart.shoppingcart.cartexpiration.gooduntildate = _CartExpiration;
+        MyCart.shoppingcart.cartexpiration.gooduntildate = CartExpiration;
       }
 
       // Add the items in the shopping cart to the API request.
@@ -1469,12 +1484,14 @@ namespace GCheckout.Checkout {
       for (int i = 0; i < _Items.Count; i++) {
 
         IShoppingCartItem MyItem = _Items[i] as IShoppingCartItem;
-        if (MyItem == null) {
-          throw new ApplicationException(
-            "The Shopping Cart Item did not implement IShoppingCartItem." +
-            " This is caused by someone changing the implementation of" +
-            " GCheckout.Checkout.ShoppingCartItem.");
-        }
+        //this can't happen at this time but if we expose a way for people to add items
+        //this test needs to be peformed.
+//        if (MyItem == null) {
+//          throw new ApplicationException(
+//            "The Shopping Cart Item did not implement IShoppingCartItem." +
+//            " This is caused by someone changing the implementation of" +
+//            " GCheckout.Checkout.ShoppingCartItem.");
+//        }
 
         //set to a local variable of current item to lessen the change of
         //a mistake
@@ -1546,8 +1563,8 @@ namespace GCheckout.Checkout {
       ArrayList copiedMerchantPrivateData = new ArrayList();
 
       // Add the &lt;merchant-private-data&gt; element to the API request.
-      if (_MerchantPrivateData != null) {
-        copiedMerchantPrivateData.Add(MakeXmlElement(_MerchantPrivateData));
+      if (MerchantPrivateData != null) {
+        copiedMerchantPrivateData.Add(MakeXmlElement(MerchantPrivateData));
       }
 
       if (_MerchantPrivateDataNodes != null 
@@ -1570,29 +1587,31 @@ namespace GCheckout.Checkout {
       // Add the &lt;continue-shopping-url&gt; element to the API request.
       MyCart.checkoutflowsupport =
         new AutoGen.CheckoutShoppingCartCheckoutflowsupport();
+      
       MyCart.checkoutflowsupport.Item =
         new AutoGen.MerchantCheckoutFlowSupport();
-      if (_ContinueShoppingUrl != null) {
+      
+      if (ContinueShoppingUrl != null) {
         MyCart.checkoutflowsupport.Item.continueshoppingurl =
-          _ContinueShoppingUrl;
+          ContinueShoppingUrl;
       }
 
-      if (_AnalyticsData != null) {
-        MyCart.checkoutflowsupport.Item.analyticsdata = _AnalyticsData;
+      if (AnalyticsData != null) {
+        MyCart.checkoutflowsupport.Item.analyticsdata = AnalyticsData;
       }
 
-      if (_PlatformID != 0) {
-        MyCart.checkoutflowsupport.Item.platformid = _PlatformID;
+      if (PlatformID != 0) {
+        MyCart.checkoutflowsupport.Item.platformid = PlatformID;
         MyCart.checkoutflowsupport.Item.platformidSpecified = true;
       }
 
       // Add the &lt;edit-cart-url&gt; element to the API request.
-      if (_EditCartUrl != null) {
-        MyCart.checkoutflowsupport.Item.editcarturl = _EditCartUrl;
+      if (EditCartUrl != null) {
+        MyCart.checkoutflowsupport.Item.editcarturl = EditCartUrl;
       }
 
       // Add the &lt;request-buyer-phone-number&gt; element to the API request.
-      if (_RequestBuyerPhoneNumber) {
+      if (RequestBuyerPhoneNumber) {
         MyCart.checkoutflowsupport.Item.requestbuyerphonenumber = true;
         MyCart.checkoutflowsupport.Item.requestbuyerphonenumberSpecified =
           true;
@@ -1620,13 +1639,13 @@ namespace GCheckout.Checkout {
       }
 
       // Indicate whether the merchant accepts coupons and gift certificates.
-      if (_AcceptMerchantCoupons) {
+      if (AcceptMerchantCoupons) {
         MyCart.checkoutflowsupport.Item.merchantcalculations.
           acceptmerchantcoupons = true;
         MyCart.checkoutflowsupport.Item.merchantcalculations.
           acceptmerchantcouponsSpecified = true;
       }
-      if (_AcceptMerchantGiftCertificates) {
+      if (AcceptMerchantGiftCertificates) {
         MyCart.checkoutflowsupport.Item.merchantcalculations.
           acceptgiftcertificates = true;
         MyCart.checkoutflowsupport.Item.merchantcalculations.
@@ -1644,7 +1663,7 @@ namespace GCheckout.Checkout {
           _roundingRule.ToString(), true);
       }
 
-      if (_RequestInitialAuthDetails) {
+      if (RequestInitialAuthDetails) {
         MyCart.orderprocessingsupport = new AutoGen.OrderProcessingSupport();
         MyCart.orderprocessingsupport.requestinitialauthdetailsSpecified = true;
         MyCart.orderprocessingsupport.requestinitialauthdetails = true;
