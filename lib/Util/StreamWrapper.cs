@@ -4,9 +4,15 @@ using System.IO;
 namespace GCheckout.Util {
 
   /// <summary>
-  /// Class used by the Encoder Helper to stop teh XmlReader from closing the stream
+  /// Class used by the Encoder Helper to stop the XmlReader from closing the stream
   /// </summary>
-  internal class StreamWrapper : Stream {
+  /// <remarks>
+  /// If the XmlReader throws an exception against a stream, it closes the stream.
+  /// Since we need to find out what's in the stream, we can't close it.
+  /// The user may also be using the stream for something.
+  /// So what we are doing is not allowing the Close method to be called.
+  /// </remarks>
+  internal class StreamWrapper : Stream, IDisposable {
     
     Stream _bs;
 
@@ -72,6 +78,14 @@ namespace GCheckout.Util {
     public override void SetLength(long value) {
       _bs.SetLength(value);
     }
+
+    #region IDisposable Members
+
+    public void Dispose() {
+      //do nothing. We don't want to wipe out the stream.
+    }
+
+    #endregion
 
   }
 }

@@ -80,13 +80,13 @@ namespace GCheckout.Util {
     /// <returns></returns>
     public static string GetValue(MemberInfo mi, string name) {
       name = name.ToLower();
-      TypeDictionaryEntryAttribute[] att
+      TypeDictionaryEntryAttribute[] atts
         = mi.GetCustomAttributes(typeof(TypeDictionaryEntryAttribute),
         false) as TypeDictionaryEntryAttribute[];
-      if (att != null && att.Length > 0) {
-        for (int i = 0; i < att.Length; i++) {
-          if (att[i].Name == name)
-            return att[i].Value;   
+      if (atts != null && atts.Length > 0) {
+        foreach (TypeDictionaryEntryAttribute att in atts) {
+          if (att.Name == name)
+            return att.Value;   
         }
       }
       return string.Empty;
