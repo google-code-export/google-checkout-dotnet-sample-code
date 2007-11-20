@@ -232,18 +232,23 @@ namespace GCheckout.Checkout {
       string Protocol = "http";
       if (UseHttps)
         Protocol = "https";
+      string Location = "en_US";
+      if (_Currency == "GBP")
+        Location = "en_GB";
 
       if (Environment == EnvironmentType.Sandbox) {
         ImageUrl = string.Format(
           "{0}://sandbox.google.com/checkout/buttons/{6}.gif?" +
-          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}",
-          Protocol, MerchantID, Width.Value, Height.Value, StyleInUrl, VariantInUrl, GifFileName);
+          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}&loc={7}",
+          Protocol, MerchantID, Width.Value, Height.Value, StyleInUrl, 
+          VariantInUrl, GifFileName, Location);
       }
       else {
         ImageUrl = string.Format(
           "{0}://checkout.google.com/buttons/{6}.gif?" +
-          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}",
-          Protocol, MerchantID, Width.Value, Height.Value, StyleInUrl, VariantInUrl, GifFileName);
+          "merchant_id={1}&w={2}&h={3}&style={4}&variant={5}&loc={7}",
+          Protocol, MerchantID, Width.Value, Height.Value, StyleInUrl, 
+          VariantInUrl, GifFileName, Location);
       }
 
     }
