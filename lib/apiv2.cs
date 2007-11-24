@@ -325,6 +325,10 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("tax-area")]
         public DefaultTaxRuleTaxarea taxarea;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("tax-areas")]
+        public DefaultTaxRuleTaxareas taxareas;
     }
     
     /// <remarks/>
@@ -400,6 +404,19 @@ namespace GCheckout.AutoGen {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class DefaultTaxRuleTaxareas {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("postal-area", typeof(PostalArea))]
+        [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
+        [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
+        [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
+        [System.Xml.Serialization.XmlElementAttribute("world-area", typeof(WorldArea))]
+        public object[] Items;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public class AlternateTaxTable {
         
         /// <remarks/>
@@ -430,6 +447,10 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("tax-area")]
         public AlternateTaxRuleTaxarea taxarea;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("tax-areas")]
+        public AlternateTaxRuleTaxareas taxareas;
     }
     
     /// <remarks/>
@@ -443,6 +464,19 @@ namespace GCheckout.AutoGen {
         [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
         [System.Xml.Serialization.XmlElementAttribute("world-area", typeof(WorldArea))]
         public object Item;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class AlternateTaxRuleTaxareas {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("postal-area", typeof(PostalArea))]
+        [System.Xml.Serialization.XmlElementAttribute("us-state-area", typeof(USStateArea))]
+        [System.Xml.Serialization.XmlElementAttribute("us-zip-area", typeof(USZipArea))]
+        [System.Xml.Serialization.XmlElementAttribute("us-country-area", typeof(USCountryArea))]
+        [System.Xml.Serialization.XmlElementAttribute("world-area", typeof(WorldArea))]
+        public object[] Items;
     }
     
     /// <remarks/>
@@ -1004,6 +1038,10 @@ namespace GCheckout.AutoGen {
         public Money ordertotal;
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("promotion", IsNullable=false)]
+        public Promotion[] promotions;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("fulfillment-order-state")]
         public FulfillmentOrderState fulfillmentorderstate;
         
@@ -1245,6 +1283,23 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("postal-code")]
         public string postalcode;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("structured-name")]
+        public StructuredName structuredname;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class StructuredName {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("first-name")]
+        public string firstname;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("last-name")]
+        public string lastname;
     }
     
     /// <remarks/>
@@ -1255,6 +1310,24 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("email-allowed")]
         public bool emailallowed;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class Promotion {
+        
+        /// <remarks/>
+        public string description;
+        
+        /// <remarks/>
+        public long id;
+        
+        /// <remarks/>
+        public string name;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("total-amount")]
+        public Money totalamount;
     }
     
     /// <remarks/>
@@ -1353,6 +1426,10 @@ namespace GCheckout.AutoGen {
         public Money latestchargeamount;
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("latest-promotion-charge-amount")]
+        public Money latestpromotionchargeamount;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("total-charge-amount")]
         public Money totalchargeamount;
         
@@ -1378,6 +1455,10 @@ namespace GCheckout.AutoGen {
         public Money latestchargebackamount;
         
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("latest-promotion-chargeback-amount")]
+        public Money latestpromotionchargebackamount;
+        
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("total-chargeback-amount")]
         public Money totalchargebackamount;
         
@@ -1401,6 +1482,10 @@ namespace GCheckout.AutoGen {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("latest-refund-amount")]
         public Money latestrefundamount;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("latest-promotion-refund-amount")]
+        public Money latestpromotionrefundamount;
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("total-refund-amount")]
@@ -1502,6 +1587,10 @@ namespace GCheckout.AutoGen {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     [System.Xml.Serialization.XmlRootAttribute("notification-acknowledgment", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
     public class NotificationAcknowledgment {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
+        public string serialnumber;
     }
     
     /// <remarks/>

@@ -67,11 +67,11 @@ namespace GCheckout.Checkout {
     /// <summary>
     /// The standalone attribute indicates how taxes should be calculated 
     /// if there is no matching alternate-tax-rule for the given state,
-    ///  zip code or country area. If this attribute's value is TRUE and 
-    ///  there is no matching alternate-tax-rule, the tax amount will be 
-    ///  zero. If the attribute's value is FALSE and there is no matching 
-    ///  alternate-tax-rule, the tax amount will be calculated using 
-    ///  the default tax table.
+    /// zip code or country area. If this attribute's value is TRUE and 
+    /// there is no matching alternate-tax-rule, the tax amount will be 
+    /// zero. If the attribute's value is FALSE and there is no matching 
+    /// alternate-tax-rule, the tax amount will be calculated using 
+    /// the default tax table.
     /// </summary>
     public bool StandAlone {
       get {
@@ -205,8 +205,6 @@ namespace GCheckout.Checkout {
       _taxRules.Add(rule);
     }
  
-    #region beta-tax rules
-
     /// <summary>
     /// Adds the country tax rule.
     /// This method adds a tax rule associated with a particular state.
@@ -268,8 +266,6 @@ namespace GCheckout.Checkout {
       }
       _taxRules.Add(rule);
     }
-
-    #endregion beta-tax rules
 
     /// <summary>
     /// Create the needed table to append to the collection.

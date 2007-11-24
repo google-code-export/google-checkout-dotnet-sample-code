@@ -197,6 +197,7 @@
       <xs:element name="region" type="xs:string" />
       <xs:element name="city" type="xs:string" />
       <xs:element name="postal-code" type="xs:string" />
+      <xs:element name="structured-name" type="tns:StructuredName" minOccurs="0" />
     </xs:all>
   </xs:complexType>
   
@@ -526,6 +527,19 @@
           </xs:choice>
         </xs:complexType>
       </xs:element>
+      <xs:element name="tax-areas" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="us-state-area" type="tns:USStateArea" />
+              <xs:element name="us-zip-area" type="tns:USZipArea" />
+              <xs:element name="us-country-area" type="tns:USCountryArea" />
+              <xs:element name="postal-area" type="tns:PostalArea" />
+              <xs:element name="world-area" type="tns:WorldArea" />
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:all>
   </xs:complexType>
   
@@ -547,6 +561,19 @@
             <xs:element name="postal-area" type="tns:PostalArea" />
             <xs:element name="world-area" type="tns:WorldArea" />
           </xs:choice>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="tax-areas" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="us-state-area" type="tns:USStateArea" />
+              <xs:element name="us-zip-area" type="tns:USZipArea" />
+              <xs:element name="us-country-area" type="tns:USCountryArea" />
+              <xs:element name="postal-area" type="tns:PostalArea" />
+              <xs:element name="world-area" type="tns:WorldArea" />
+            </xs:choice>
+          </xs:sequence>
         </xs:complexType>
       </xs:element>
     </xs:all>
@@ -658,6 +685,13 @@
       <xs:element name="buyer-billing-address" type="tns:Address" />
       <xs:element name="buyer-marketing-preferences" type="tns:BuyerMarketingPreferences" />
       <xs:element name="order-total" type="tns:Money" />
+      <xs:element name="promotions" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="promotion" type="tns:Promotion" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="fulfillment-order-state" type="tns:FulfillmentOrderState" />
       <xs:element name="financial-order-state" type="tns:FinancialOrderState" />
       <xs:element name="buyer-id" type="xs:long" />
@@ -683,6 +717,7 @@
       <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-charge-amount" type="tns:Money" />
+      <xs:element name="latest-promotion-charge-amount" type="tns:Money" minOccurs="0" />
       <xs:element name="total-charge-amount" type="tns:Money" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
@@ -693,6 +728,7 @@
       <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-chargeback-amount" type="tns:Money" />
+      <xs:element name="latest-promotion-chargeback-amount" type="tns:Money" minOccurs="0" />
       <xs:element name="total-chargeback-amount" type="tns:Money" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
@@ -703,6 +739,7 @@
       <xs:element name="timestamp" type="xs:dateTime" />
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="latest-refund-amount" type="tns:Money" />
+      <xs:element name="latest-promotion-refund-amount" type="tns:Money" minOccurs="0" />
       <xs:element name="total-refund-amount" type="tns:Money" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
@@ -729,7 +766,9 @@
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
-  <xs:complexType name="NotificationAcknowledgment" />
+  <xs:complexType name="NotificationAcknowledgment">
+    <xs:attribute name="serial-number" type="xs:string" use="optional" />
+  </xs:complexType>
   
   <xs:complexType name="RiskInformation">
     <xs:all>
@@ -796,6 +835,32 @@
         </xs:complexType>
       </xs:element>
       <xs:element name="code" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+
+
+  
+
+  <xs:complexType name="Promotion">
+    <xs:all>
+      <xs:element name="description" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="0" />
+            <xs:maxLength value="1024" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="id" type="xs:long" />
+      <xs:element name="name" type="xs:string" />
+      <xs:element name="total-amount" type="tns:Money" />
+    </xs:all>
+  </xs:complexType>
+
+  <xs:complexType name="StructuredName">
+    <xs:all>
+      <xs:element name="first-name" type="xs:string" />
+      <xs:element name="last-name" type="xs:string" />
     </xs:all>
   </xs:complexType>
   
@@ -1199,6 +1264,8 @@
   <xs:element name="return-items" type="tns:ReturnItemsRequest" />
   
   <xs:element name="backorder-items" type="tns:BackorderItemsRequest" />
+
   
 </xs:schema>
+
 
