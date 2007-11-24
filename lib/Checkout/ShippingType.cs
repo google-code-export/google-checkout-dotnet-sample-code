@@ -94,6 +94,18 @@ namespace GCheckout.Checkout {
     [TypeDictionaryEntry("shipping-company", "UPS")]
     [EnumSerilizedName("Ground")]
     UPS_Ground = 56,
+    /// <summary>UPS MI</summary>
+    /// <remarks>Please note that UPS MI and UPS Mail Innovations 
+    /// both refer to the same UPS service.</remarks>
+    [TypeDictionaryEntry("shipping-company", "UPS")]
+    [EnumSerilizedName("MI")]
+    UPS_MI = 57,
+    /// <summary>UPS Mail Innovations</summary>
+    /// <remarks>Please note that UPS MI and UPS Mail Innovations 
+    /// both refer to the same UPS service.</remarks>
+    [TypeDictionaryEntry("shipping-company", "UPS")]
+    [EnumSerilizedName("Mail Innovations")]
+    UPS_Mail_Innovations = 58,
 
     //USPS
     /// <summary>Express Mail</summary>
