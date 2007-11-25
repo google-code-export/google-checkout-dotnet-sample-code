@@ -18,15 +18,15 @@
             <property name="Title" value="An NDoc Documented Class Library" />
         </documenter>
         <documenter name="MSDN">
-            <property name="OutputDirectory" value=".\" />
+            <property name="OutputDirectory" value=".\doc\" />
             <property name="HtmlHelpName" value="Google Checkout .NET sample code" />
             <property name="Title" value="Google Checkout .NET sample code v1.3" />
             <property name="ShowVisualBasic" value="True" />
-            <property name="OutputTarget" value="HtmlHelp" />
             <property name="DocumentInheritedMembers" value="None" />
             <property name="DocumentInheritedFrameworkMembers" value="False" />
             <property name="CopyrightText" value="Copyright (C) 2007 Google Inc.&#xD;&#xA;&#xD;&#xA;Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);&#xD;&#xA;you may not use this file except in compliance with the License.&#xD;&#xA;You may obtain a copy of the License at&#xD;&#xA;&#xD;&#xA;     http://www.apache.org/licenses/LICENSE-2.0&#xD;&#xA;&#xD;&#xA;Unless required by applicable law or agreed to in writing, software&#xD;&#xA;distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#xD;&#xA;WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#xD;&#xA;See the License for the specific language governing permissions and&#xD;&#xA;limitations under the License.&#xD;&#xA;" />
             <property name="CopyrightHref" value="http://www.apache.org/licenses/LICENSE-2.0" />
+            <property name="CleanIntermediates" value="True" />
         </documenter>
         <documenter name="MSDN 2003">
             <property name="OutputDirectory" value=".\doc\" />
