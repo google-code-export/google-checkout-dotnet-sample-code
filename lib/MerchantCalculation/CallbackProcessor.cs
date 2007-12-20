@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ using GCheckout.Util;
 using ch = GCheckout.Util.GCheckoutConfigurationHelper;
 
 namespace GCheckout.MerchantCalculation {
+
   /// <summary>
   /// This class contains methods that parse a 
   /// &lt;merchant-calculation-callback&gt; request, allowing you to access 
@@ -30,21 +31,38 @@ namespace GCheckout.MerchantCalculation {
   public class CallbackProcessor {
     CallbackRules _Rules = null;
 
+    private string _currency = string.Empty;
+
     /// <summary>
-    /// Create a new instance of the Processor, passing in the rules used to process
-    /// the request.
+    /// Create a new instance of the Processor, passing in the rules used
+    /// to process the request.
     /// </summary>
     /// <param name="Rules">The <see cref="CallbackRules"/> object 
     /// used for the Process Request.</param>
     public CallbackProcessor(CallbackRules Rules) {
       _Rules = Rules;
+      _currency = ch.DefaultCurrency;
+    }
+
+    /// <summary>
+    /// Create a new instance of the Processor, passing in the rules used
+    /// to process the request.
+    /// </summary>
+    /// <param name="Rules">The <see cref="CallbackRules"/> object 
+    /// used for the Process Request.</param>
+    /// <param name="currency">The currency associated with prices in a 
+    /// Checkout API request.</param>
+    public CallbackProcessor(CallbackRules Rules, string currency) {
+      _Rules = Rules;
+      _currency = currency;
     }
 
     /// <summary>
     /// Process the Xml Message
     /// </summary>
     /// <param name="CallbackXML">The Callback message to process</param>
-    /// <returns>The <see cref="AutoGen.MerchantCalculationResults"/> that is returned to Google Checkout</returns>
+    /// <returns>The <see cref="AutoGen.MerchantCalculationResults"/> 
+    /// that is returned to Google Checkout</returns>
     public byte[] Process(string CallbackXML) {
       // Deserialize the callback request.
       AutoGen.MerchantCalculationCallback Callback = 
@@ -85,13 +103,13 @@ namespace GCheckout.MerchantCalculation {
             ThisResult.shippableSpecified = true;
             ThisResult.shippable = SResult.Shippable;
             ThisResult.shippingrate = new AutoGen.ResultShippingrate();
-            ThisResult.shippingrate.currency = ch.DefaultCurrency;
+            ThisResult.shippingrate.currency = _currency;
             ThisResult.shippingrate.Value = SResult.ShippingRate;
           }
           // Check tax, if requested.
           if (Callback.calculate.tax) {
             ThisResult.totaltax = new AutoGen.ResultTotaltax();
-            ThisResult.totaltax.currency = ch.DefaultCurrency;
+            ThisResult.totaltax.currency = _currency;
             ThisResult.totaltax.Value = 
               _Rules.GetTaxResult
               (ThisOrder, ThisAddress, 
@@ -112,8 +130,9 @@ namespace GCheckout.MerchantCalculation {
                 Callback.calculate.merchantcodestrings[c].code;
               if (UsedMerchantCodes.Contains(CurrentMerchantCode.ToUpper())) {
                 AutoGen.CouponResult CouponResult = new AutoGen.CouponResult();
-                CouponResult.calculatedamount = new AutoGen.CouponResultCalculatedamount();
-                CouponResult.calculatedamount.currency = ch.DefaultCurrency;
+                CouponResult.calculatedamount 
+                  = new AutoGen.CouponResultCalculatedamount();
+                CouponResult.calculatedamount.currency = _currency;
                 CouponResult.calculatedamount.Value = 0;
                 CouponResult.code = CurrentMerchantCode;
                 CouponResult.message = "Code already used.";
@@ -127,8 +146,9 @@ namespace GCheckout.MerchantCalculation {
                 if (MCR.Type == MerchantCodeType.GiftCertificate) {
                   AutoGen.GiftCertificateResult GCResult = 
                     new AutoGen.GiftCertificateResult();
-                  GCResult.calculatedamount = new AutoGen.GiftCertificateResultCalculatedamount();
-                  GCResult.calculatedamount.currency = ch.DefaultCurrency;
+                  GCResult.calculatedamount 
+                    = new AutoGen.GiftCertificateResultCalculatedamount();
+                  GCResult.calculatedamount.currency = _currency;
                   GCResult.calculatedamount.Value = MCR.Amount;
                   GCResult.code = CurrentMerchantCode;
                   GCResult.message = MCR.Message;
@@ -139,8 +159,9 @@ namespace GCheckout.MerchantCalculation {
                 else {
                   AutoGen.CouponResult CouponResult = 
                     new AutoGen.CouponResult();
-                  CouponResult.calculatedamount = new AutoGen.CouponResultCalculatedamount();
-                  CouponResult.calculatedamount.currency = ch.DefaultCurrency;
+                  CouponResult.calculatedamount 
+                    = new AutoGen.CouponResultCalculatedamount();
+                  CouponResult.calculatedamount.currency = _currency;
                   CouponResult.calculatedamount.Value = MCR.Amount;
                   CouponResult.code = CurrentMerchantCode;
                   CouponResult.message = MCR.Message;
