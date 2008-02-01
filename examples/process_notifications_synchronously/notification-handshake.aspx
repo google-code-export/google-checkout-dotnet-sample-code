@@ -4,13 +4,14 @@
 <%@ Import Namespace="GCheckout.Util" %>
 <script runat="server" language="c#">
 
+  public string SerialNumber = "";
+
   void Page_Load(Object sender, EventArgs e) {
     // Extract the XML from the request.
     Stream RequestStream = Request.InputStream;
     StreamReader RequestStreamReader = new StreamReader(RequestStream);
     string RequestXml = RequestStreamReader.ReadToEnd();
     RequestStream.Close();
-    string SerialNumber = "";
     // Act on the XML.
     switch (EncodeHelper.GetTopElement(RequestXml)) {
       case "new-order-notification":
