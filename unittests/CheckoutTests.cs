@@ -408,8 +408,26 @@ namespace GCheckout.Checkout.Tests {
       ShoppingCartItem testItem = new ShoppingCartItem();
     }
 
+    [Test]
+    public void Test_DigitalItem_EncodedUrls(){
+      string url = "http://www.example.com/?hideme=YWJj4oKsxZLihKLCqcKuw6XDq8Oxw7bDvyEiIyQlJicoKSorLC0uLz8/Pz/Lhj8/4oKsUD8=";
+      
+      DigitalItem urlDigitalItem = new DigitalItem(new Uri(url), "Url Description for item");
+      Assert.AreEqual(url, urlDigitalItem.Url);
+
+      url = "HTTP://www.ConToso.com/thick%20and%20thin.htm";
+
+      urlDigitalItem = new DigitalItem(new Uri(url), "Url Description for item");
+      Assert.AreEqual(url.ToLower(), urlDigitalItem.Url);
+
+      Uri uri = new Uri(url);
+      Assert.AreEqual(url.ToLower(), uri.AbsoluteUri.ToLower());
+      Assert.IsFalse(url.ToLower().Equals(uri.ToString().ToLower()));
+
+    }
+
     /// <exclude/>
-    [Test()]
+    [Test]
     public void TestAlternateTaxTables() {
       CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "USD", 120);
 
