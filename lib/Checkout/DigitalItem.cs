@@ -222,10 +222,8 @@ of 1024 characters and may contain HTML tags.";
     /// can download the purchased content.
     /// </param>
     /// <remarks></remarks>
-    public DigitalItem(Uri url) {
-      if (url == null)
-        throw new ArgumentNullException(MISSING_KEY_OR_URL);
-      _url = url.ToString();
+    public DigitalItem(Uri url) 
+      : this(url, string.Empty) {
     }
 
     /// <summary>
@@ -244,7 +242,7 @@ of 1024 characters and may contain HTML tags.";
     public DigitalItem(Uri url, string description) {
       if (url == null)
         throw new ArgumentNullException(MISSING_KEY_OR_URL);
-      _url = url.ToString();
+      _url = url.AbsoluteUri;
 
       SetDescription(description);
     }
