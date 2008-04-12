@@ -80,14 +80,14 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
                 />
                 <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "nunit.framework.dll"
-                />
-                <Reference
                     Name = "GCheckout"
                     Project = "{006653E6-EEF6-4D43-8F26-D6445CDF817B}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "nunit.framework.dll"
                 />
             </References>
         </Build>
@@ -118,6 +118,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "NotificationTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "OrderProcessingRequestTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -131,6 +136,10 @@
                     RelPath = "ShipItemsRequestTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Xml\new-order-notification-base.xml"
+                    BuildAction = "EmbeddedResource"
                 />
             </Include>
         </Files>
