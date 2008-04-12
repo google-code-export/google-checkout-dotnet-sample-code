@@ -40,6 +40,8 @@ namespace GCheckout.Checkout {
     private double _itemWeight;
     //this is only used by the callback method and should not be used by the cart
     private string _taxtableselector = string.Empty;
+    //we want the for the table table information.
+    private GCheckout.AutoGen.Item _notificationItem;
 
     /// <summary>
     /// Identifies the name of an item
@@ -193,10 +195,31 @@ namespace GCheckout.Checkout {
     /// </summary>
     public virtual AlternateTaxTable TaxTable {
       get {
+        if (_notificationItem != null)
+          throw new NotImplementedException("This Item was built from a " + 
+          "new-order-notification and has no knowledge of a tax table. " +
+          "Please call 'TaxTableSelector' to read the tax-table-selector property.");
         return _taxTable;
       }
       set {
         _taxTable = value;
+      }
+    }
+
+    /// <summary>
+    /// Property used only when this object was built from an 
+    /// <seealso cref="GCheckout.AutoGen.Item"/> object.
+    /// </summary>
+    public virtual string TaxTableSelector {
+      get {
+        if (_notificationItem == null)
+          throw new NotImplementedException("This Item was not built from a " + 
+            "new-order-notification. " +
+            "Please call 'TaxTable' to read the AlternateTaxTable for a " +
+            "GCheckoutRequest.");
+        if (_notificationItem.taxtableselector == null)
+          _notificationItem.taxtableselector= string.Empty;
+        return _notificationItem.taxtableselector;
       }
     }
 
@@ -258,6 +281,7 @@ namespace GCheckout.Checkout {
       this.Price = theItem.unitprice.Value;
       this.Quantity = theItem.quantity;
       _taxtableselector = theItem.taxtableselector;
+      _notificationItem = theItem;
     }
 
     /// <summary>

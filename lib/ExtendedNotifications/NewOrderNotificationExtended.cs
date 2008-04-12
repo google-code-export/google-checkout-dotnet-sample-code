@@ -113,6 +113,15 @@ namespace GCheckout.AutoGen.Extended {
       }
     }
 
+    /// <summary>
+    /// Get the merchant codes associated to the order
+    /// </summary>
+    public MerchantCode[] MerchantCodes {
+      get {
+        return MerchantCode.GetMerchantCodes(this);
+      }
+    }
+
     private FieldInfo GetField(object obj, string field) {
       if (obj == null)
         return null;

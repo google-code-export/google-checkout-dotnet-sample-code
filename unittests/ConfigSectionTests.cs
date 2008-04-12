@@ -7,7 +7,7 @@ using System.Diagnostics;
 using GCheckout.Util;
 
 
-namespace GoogleCheckoutUnitTests
+namespace GCheckout.Configuration.Tests
 {
 
   /// <exclude/>

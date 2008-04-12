@@ -169,6 +169,16 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Checkout\MerchantCode.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Checkout\MerchantCodeType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Checkout\ParameterizedUrls.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
