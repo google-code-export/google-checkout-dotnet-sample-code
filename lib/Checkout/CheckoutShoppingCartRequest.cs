@@ -1618,7 +1618,12 @@ namespace GCheckout.Checkout {
       }
 
       // Add the shipping methods to the API request.
-      MyCart.checkoutflowsupport.Item.shippingmethods = _ShippingMethods;
+      // Fix potential issue.
+      if (_ShippingMethods != null && _ShippingMethods.Items != null
+        && _ShippingMethods.Items.Length > 0)
+      {
+        MyCart.checkoutflowsupport.Item.shippingmethods = _ShippingMethods;
+      }
 
       //jf Tax Tables added 3/1/2007
       if (_alternateTaxTables != null) {
@@ -1626,8 +1631,20 @@ namespace GCheckout.Checkout {
       }
 
       // Add the tax tables to the API request.
+      //Fix for Issue 36
+      //Only if we have a tax table do we want to append it.
       if (_TaxTables != null) {
-        MyCart.checkoutflowsupport.Item.taxtables = _TaxTables;
+        if (
+          (_TaxTables.alternatetaxtables != null 
+          && _TaxTables.alternatetaxtables.Length > 0)
+          ||
+          (_TaxTables.defaulttaxtable != null
+          && _TaxTables.defaulttaxtable.taxrules != null
+          && _TaxTables.defaulttaxtable.taxrules.Length > 0)
+          )
+        {
+          MyCart.checkoutflowsupport.Item.taxtables = _TaxTables;
+        }
       }
 
       // Add the merchant calculations URL to the API request.
