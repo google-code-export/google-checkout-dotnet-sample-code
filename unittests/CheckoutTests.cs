@@ -205,6 +205,21 @@ namespace GCheckout.Checkout.Tests {
       //test to see if the item can desialize
       Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
 
+      //example 2a
+
+      request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "USD", 120);
+
+      //Make sure we can add an item to the cart.
+      request.AddItem("Item 1", "Cool Candy 1", 2.00M, 1);
+
+      cart = request.GetXml();
+
+      //Console.WriteLine(EncodeHelper.Utf8BytesToString(cart));
+
+      //test to see if the item can desialize
+      Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
+
+
       //example 3
 
       request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "USD", 120);
