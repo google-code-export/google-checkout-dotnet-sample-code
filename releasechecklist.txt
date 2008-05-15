@@ -1,0 +1,19 @@
+Make sure all unit tests are OK.
+
+Make sure AssemblyInfo.cs has the right version number. 
+
+Recompile the DLL using .NET v1.1.
+
+Recompile the help files.
+
+Upload new files to http://code.google.com/p/google-checkout-dotnet-sample-code/downloads/list
+
+Mark old files as Deprecated on the donwnload page.
+
+Add a new tag/branch to the SVN tree.
+
+Update the wiki: http://code.google.com/p/google-checkout-dotnet-sample-code/wiki/Documentation
+
+Make forum post (http://groups.google.com/group/google-checkout-api-dotnet/topics)
+
+Update AssemblyInfo.cs with a new version number and check it in to the trunk.
