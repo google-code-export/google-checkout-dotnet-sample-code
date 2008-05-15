@@ -1,0 +1,20 @@
+v1.3.2 5/14/08 10:45 PM Eastern Time
+Joe Feser joseph.feser@gmail.com
+
+Added:
+
+Added NDepend Reports for Cyclomatic complexity Analysis.
+The ability to obtain GiftCertificateAdjustment from the NewOrderNotificationExtended class.
+
+Bug Fixes:
+
+Issue 29: "MerchantCalculationCallback does not work with non USD Currency " Allow the currency to be set without using the web.config file. This is consistent with the other callback classes.
+Issue 30: "GCheckout problem sending URLEncoded Querystrings". We are using .NET 1.1 so the issue was fixed as close as possible to match the .NET 2.0 fix.
+Issue 31: "GiftCertificateAdjustment Access from the Extended New Order Notification" is fixed.
+Issue 36: "Tax rates entered in UI aren't applied" This was an oversite on my side. We now check to make sure at least one Tax table is in use before building out the node. If the node exists and it is empty, it will override any values entered into the Admin UI.
+
+Fixed the ShoppingCartItem class to allow you to obtain the TaxTableSelector property from a NewOrderNotificationExtended class. The property was not available in the past.
+
+v1.3.1 Experimental Release
+
+Never released.
