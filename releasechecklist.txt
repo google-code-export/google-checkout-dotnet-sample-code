@@ -1,18 +1,12 @@
-Steps to perform release:
+Make sure all unit tests are OK.
 
 Make sure AssemblyInfo.cs has the right version number. 
 
 Recompile the DLL using .NET v1.1.
 
-Make sure all unit tests are OK.
+Change Version in the NDOC File
 
-Run NCoverExplorer to obtain Coverage.xml File.
-
-Export Full HTML Report and zip the results into a file called CodeReport.zip
-
-Run NDepend v2.8+ on project to obtain Report
-
-Recompile the help files.
+Recompile the help files with NDoc v1.3.1851+.
 
 Upload new files to http://code.google.com/p/google-checkout-dotnet-sample-code/downloads/list
 
