@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<AssembliesMetrics>
+  <Assembly Assembly="GCheckout v1.3.0.0" NTypes="188" NAbstractTypes="7" NILInstructionInAsm="10466" NbLinesOfCodeInAsm="2235" NbLinesOfCommentInAsm="4618" PercentageCommentInAsm="67%" AfferentCoupling="6" EfferentCoupling="150" RelationalCohesion="2.14" Instability="0.96" Abstractness="0.04" DistFrMainSeq="0" NormDistFrMainSeq="0" />
+  <Assembly Assembly="GoogleCheckoutUnitTests v1.0.3022.15236" NTypes="6" NAbstractTypes="0" NILInstructionInAsm="4224" NbLinesOfCodeInAsm="847" NbLinesOfCommentInAsm="188" PercentageCommentInAsm="18%" AfferentCoupling="0" EfferentCoupling="110" RelationalCohesion="0.17" Instability="1" Abstractness="0" DistFrMainSeq="0" NormDistFrMainSeq="0" />
+</AssembliesMetrics>
