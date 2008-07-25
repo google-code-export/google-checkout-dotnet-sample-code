@@ -163,6 +163,26 @@ of 1024 characters and may contain HTML tags.";
     /// <summary>
     /// Create a new instance of a Url/Key &lt;digital-content&gt; object
     /// </summary>
+    /// <param name="description">
+    /// The &lt;description&gt; tag contains instructions for downloading a digital 
+    /// content item. Please use the &lt;item-description&gt; tag to provide
+    /// the description of the item being purchased.
+    /// </param>
+    /// <param name="emailDelivery">
+    /// The &lt;email-delivery&gt; tag indicates that the merchant will 
+    /// send emailto the buyer explaining how to access the digital
+    /// content. Email delivery allows the merchant to charge the buyer
+    /// for an order before allowing the buyer to access the digital
+    /// </param>
+    /// <remarks></remarks>
+    public DigitalItem(string description, bool emailDelivery) {
+      _emaildelivery = emailDelivery;
+      SetDescription(description);
+    }
+
+    /// <summary>
+    /// Create a new instance of a Url/Key &lt;digital-content&gt; object
+    /// </summary>
     /// <param name="key">
     /// The &lt;key&gt; tag contains a key needed to download or 
     /// unlock a digital content item.
