@@ -108,7 +108,7 @@ namespace GCheckout.Util {
         else if (Environment == EnvironmentType.Production)
           return _productionMerchantID;
         else {
-          throw new ConfigurationException("Environment Must be set.");   
+          throw new ConfigurationErrorsException("Environment Must be set.");   
         }
       }
     }
@@ -123,7 +123,7 @@ namespace GCheckout.Util {
         else if (Environment == EnvironmentType.Production)
           return _productionMerchantKey;
         else {
-          throw new ConfigurationException("Environment Must be set.");   
+          throw new ConfigurationErrorsException("Environment Must be set.");   
         }
       }
     }

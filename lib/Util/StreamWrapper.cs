@@ -79,14 +79,6 @@ namespace GCheckout.Util {
       _bs.SetLength(value);
     }
 
-    #region IDisposable Members
-
-    public void Dispose() {
-      //do nothing. We don't want to wipe out the stream.
-    }
-
-    #endregion
-
   }
 }
 

@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
-
+/*
+ Edit History:
+ *  August 2008   Joe Feser joe.feser@joefeser.com
+ *  Initial Release.
+ * 
+*/
 using System;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -199,6 +204,8 @@ namespace GCheckout.Checkout {
           throw new NotImplementedException("This Item was built from a " + 
           "new-order-notification and has no knowledge of a tax table. " +
           "Please call 'TaxTableSelector' to read the tax-table-selector property.");
+        if (_taxTable == null)
+          _taxTable = new AlternateTaxTable();
         return _taxTable;
       }
       set {

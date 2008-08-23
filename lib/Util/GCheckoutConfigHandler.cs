@@ -41,7 +41,7 @@ namespace GCheckout.Util {
     /// <param name="configContext"></param>
     /// <param name="section"></param>
     /// <returns></returns>
-    public object Create(object parent, object configContext, 
+    public object Create(object parent, object configContext,
       XmlNode section) {
 
       GCheckoutConfigSection retVal = new GCheckoutConfigSection();
@@ -80,7 +80,7 @@ namespace GCheckout.Util {
 
       GCheckoutConfigurationHelper.GetEnumValue(
         section, "Environment", typeof(EnvironmentType), ref envTemp);
-      environment = (EnvironmentType) envTemp;
+      environment = (EnvironmentType)envTemp;
 
       GCheckoutConfigurationHelper.GetStringValue(
         section, "Logging", false, ref logTemp);
@@ -97,7 +97,8 @@ namespace GCheckout.Util {
         }
       }
       catch (Exception ex) {
-        throw new ConfigurationException("Error Setting PlatformID", ex);
+        throw new ConfigurationErrorsException(
+          "Error Setting PlatformID", ex);
       }
 
       GCheckoutConfigurationHelper.GetStringValue(
@@ -107,8 +108,8 @@ namespace GCheckout.Util {
         retVal.ProductionMerchantID = long.Parse(productionMerchantID);
       }
       catch (Exception ex) {
-        throw
-          new ConfigurationException("Error Setting ProductionMerchantID", ex);
+        throw new ConfigurationErrorsException(
+          "Error Setting ProductionMerchantID", ex);
       }
       retVal.ProductionMerchantKey = productionMerchantKey;
 
@@ -116,8 +117,8 @@ namespace GCheckout.Util {
         retVal.SandboxMerchantID = long.Parse(sandboxMerchantID);
       }
       catch (Exception ex) {
-        throw 
-          new ConfigurationException("Error Setting SandboxMerchantID", ex);
+        throw new ConfigurationErrorsException(
+          "Error Setting SandboxMerchantID", ex);
       }
 
       //try to read the UseProxy Key.
@@ -126,11 +127,12 @@ namespace GCheckout.Util {
         GCheckoutConfigurationHelper.GetStringValue(
           section, "UseProxy", false, ref useProxyVal);
         if (useProxyVal != null && useProxyVal.Length > 0) {
-          useProxy = bool.Parse(useProxyVal);   
+          useProxy = bool.Parse(useProxyVal);
         }
       }
       catch (Exception ex) {
-        throw new ConfigurationException("Error Setting UseProxy", ex);
+        throw new ConfigurationErrorsException(
+          "Error Setting UseProxy", ex);
       }
 
       //if we have the key, then attempt to read the other values
@@ -148,7 +150,7 @@ namespace GCheckout.Util {
             Uri proxyUrl = new Uri(proxyHost);
           }
           catch (Exception ex) {
-            throw new ConfigurationException("Error Setting ProxyHost", ex);
+            throw new ConfigurationErrorsException("Error Setting ProxyHost", ex);
           }
         }
 

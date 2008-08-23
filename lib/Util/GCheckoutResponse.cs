@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2008 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,89 +13,185 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
-
+/*
+ Edit History:
+ *  August 2008   Joe Feser joe.feser@joefeser.com
+ *  Cleaned up all of the classes to pass the responses through this class.
+ * 
+*/
 using System;
+using System.Collections.Generic;
 using System.Text;
-using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
-using GCheckout.Util;
+using GCheckout.Checkout;
 
 namespace GCheckout.Util {
+  //GCheckoutResponse
   /// <summary>
-  /// This request contains methods that handle a &lt;checkout-redirect&gt; 
-  /// response from Google Checkout and capture the URL to which a customer 
-  /// should be redirected to complete the checkout process.
+  /// Generic Response Parser
   /// </summary>
   public class GCheckoutResponse {
-    private AutoGen.RequestReceivedResponse _GoodResponse = null;
-    private AutoGen.ErrorResponse _ErrorResponse = null;
-    private AutoGen.CheckoutRedirect _CheckoutRedirectResponse = null;
+
+    private AutoGen.RequestReceivedResponse _GoodResponse;
+    private AutoGen.ErrorResponse _ErrorResponse;
     private string _Xml;
+    //private bool _parsed = false;
 
     /// <summary>
-    /// Creates a new instance of the <see cref="GCheckoutResponse"/> class.
+    /// The Good Response was received
     /// </summary>
-    /// <param name="ResponseXml">The XML returned from Google.</param>
-    public GCheckoutResponse(string ResponseXml) {
-      _Xml = ResponseXml;
+    protected AutoGen.RequestReceivedResponse GoodResponse {
+      get {
+        return _GoodResponse;
+      }
+      set {
+        _GoodResponse = value;
+      }
+    }
 
+    /// <summary>
+    /// An Error Response was received
+    /// </summary>
+    protected AutoGen.ErrorResponse ErrorResponse {
+      get {
+        return _ErrorResponse;
+      }
+      set {
+        _ErrorResponse = value;
+      }
+    }
+
+    #region IGCheckoutResponse Members
+
+    /// <summary>
+    /// If Google responded with an error (IsGood = false) then this 
+    /// property will contain the human-readable error message.
+    /// </summary>
+    /// <value>
+    /// The error message returned by Google, or an empty string if
+    /// there was no error.
+    /// </value>
+    public virtual string ErrorMessage {
+      get {
+        if (_ErrorResponse != null) {
+          return _ErrorResponse.errormessage;
+        }
+        else {
+          return string.Empty;
+        }
+      }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether Google returned an error code or not.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the response did not indicate an error; 
+    /// otherwise, <c>false</c>.
+    /// </value>
+    public virtual bool IsGood {
+      get {
+        return (_GoodResponse != null);
+      }
+    }
+
+    /// <summary>
+    /// If Google indicated a redirect URL in the response, this property
+    /// will contain the URL string.
+    /// </summary>
+    /// <value>
+    /// The redirect URL, or the empty string if Google didn't send a redirect
+    /// URL.
+    /// </value>
+    public virtual string RedirectUrl {
+      get {
+        return string.Empty;
+      }
+    }
+
+    /// <summary>
+    /// The Response that was returned from the server.
+    /// </summary>
+    public virtual object Response {
+      get {
+        if (_GoodResponse != null)
+          return _GoodResponse;
+        if (_ErrorResponse != null)
+          return _ErrorResponse;
+        return null;
+      }
+    }
+
+    /// <summary>
+    /// The Response Xml
+    /// </summary>
+    public virtual string ResponseXml {
+      get {
+        return _Xml;
+      }
+    }
+
+    /// <summary>
+    /// Gets the serial number. Google attaches a unique serial number to
+    /// every response.
+    /// </summary>
+    /// <value>
+    /// The serial number, for example 58ea39d3-025b-4d52-a697-418f0be74bf9.
+    /// </value>
+    public virtual string SerialNumber {
+      get {
+        if (_GoodResponse != null) {
+          return _GoodResponse.serialnumber;
+        }
+        if (_ErrorResponse != null) {
+          return _ErrorResponse.serialnumber;
+        }
+        return string.Empty;
+      }
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Create a new instance of the Response parser
+    /// </summary>
+    /// <param name="responseXml"></param>
+    public GCheckoutResponse(string responseXml) {
       //to cut down on the number or exceptions, we are going to try to
       //predetermine the type of message being returned this will allow for
       //a greater experience on the dev side. If you are not using debug
       //symbols, it is very difficult to determine if the error is real
       //or not if you are breaking on all thrown exceptions.
-      bool parsed = false;
 
-      try {
-        if (ResponseXml.IndexOf("<checkout-redirect") > -1) {
-          _CheckoutRedirectResponse = (AutoGen.CheckoutRedirect)
-            EncodeHelper.Deserialize(ResponseXml,
-            typeof(AutoGen.CheckoutRedirect));
-          parsed = true;
-        }
-        else if (ResponseXml.IndexOf("<request-received") > -1) {
-          _GoodResponse = (AutoGen.RequestReceivedResponse)
-            EncodeHelper.Deserialize(ResponseXml,
-            typeof(AutoGen.RequestReceivedResponse));
-          parsed = true;
-        }
-        else if (ResponseXml.IndexOf("<error") > -1) {
-          _ErrorResponse = (AutoGen.ErrorResponse)
-            EncodeHelper.Deserialize(ResponseXml,
-            typeof(AutoGen.ErrorResponse));
-          parsed = true;
-        }
-        else {
-          _ErrorResponse = new GCheckout.AutoGen.ErrorResponse();
-          _ErrorResponse.errormessage = "Couldn't parse ResponseXml";
-          parsed = true;
-        }
+      _Xml = responseXml;
+
+      if (ResponseXml.IndexOf("<request-received") > -1) {
+        _GoodResponse = (AutoGen.RequestReceivedResponse)
+          EncodeHelper.Deserialize(ResponseXml,
+          typeof(AutoGen.RequestReceivedResponse));
+        //_parsed = true;
       }
-      catch {
-        //let it continue
+      else if (ResponseXml.IndexOf("<error") > -1) {
+        _ErrorResponse = (AutoGen.ErrorResponse)
+          EncodeHelper.Deserialize(ResponseXml,
+          typeof(AutoGen.ErrorResponse));
+        //_parsed = true;
+      }
+      else if (ParseMessage()) {
+        //_parsed = true;
+      }
+      else {
+        _ErrorResponse = new GCheckout.AutoGen.ErrorResponse();
+        _ErrorResponse.errormessage = "Couldn't parse ResponseXml";
       }
 
+    }
 
-      if (!parsed) {
-        try {
-          _GoodResponse = (AutoGen.RequestReceivedResponse)
-            EncodeHelper.Deserialize(ResponseXml,
-            typeof(AutoGen.RequestReceivedResponse));
-        }
-        catch {
-          try {
-            _ErrorResponse = (AutoGen.ErrorResponse)
-              EncodeHelper.Deserialize(ResponseXml,
-              typeof(AutoGen.ErrorResponse));
-          }
-          catch {
-            _CheckoutRedirectResponse = (AutoGen.CheckoutRedirect)
-              EncodeHelper.Deserialize(ResponseXml,
-              typeof(AutoGen.CheckoutRedirect));
-          }
-        }
-      }
+    /// <summary>
+    /// If the base is not able to parse then it is the job of the class to parse the message.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual bool ParseMessage() {
+      return false;
     }
 
     /// <summary>
@@ -109,93 +205,8 @@ namespace GCheckout.Util {
     /// </returns>
     public override string ToString() {
       return string.Format("[GCheckoutResponse -- IsGood: '{0}', " +
-      "SerialNo: '{1}', ErrorMsg: '{2}', RedirectUrl: '{3}']", 
-        IsGood, SerialNumber, ErrorMessage, RedirectUrl);
+      "SerialNo: '{1}', ErrorMsg: '{2}']",
+        IsGood, SerialNumber, ErrorMessage);
     }
-
-    /// <summary>
-    /// Gets a value indicating whether Google returned an error code or not.
-    /// </summary>
-    /// <value>
-    /// <c>true</c> if the response did not indicate an error; 
-    /// otherwise, <c>false</c>.
-    /// </value>
-    public bool IsGood {
-      get {
-        return (_GoodResponse != null || _CheckoutRedirectResponse != null);
-      }
-    }
-
-    /// <summary>
-    /// Gets the serial number. Google attaches a unique serial number to
-    /// every response.
-    /// </summary>
-    /// <value>
-    /// The serial number, for example 58ea39d3-025b-4d52-a697-418f0be74bf9.
-    /// </value>
-    public string SerialNumber {
-      get {
-        if (_GoodResponse != null) {
-          return _GoodResponse.serialnumber;
-        }
-        if (_ErrorResponse != null) {
-          return _ErrorResponse.serialnumber;
-        }
-        if (_CheckoutRedirectResponse != null) {
-          return _CheckoutRedirectResponse.serialnumber;
-        }
-        throw new ApplicationException("All three responses are null; " +
-          "something's wrong!");
-      }
-    }
-
-    /// <summary>
-    /// If Google responded with an error (IsGood = false) then this 
-    /// property will contain the human-readable error message.
-    /// </summary>
-    /// <value>
-    /// The error message returned by Google, or an empty string if
-    /// there was no error.
-    /// </value>
-    public string ErrorMessage {
-      get {
-        if (_ErrorResponse != null) {
-          return _ErrorResponse.errormessage;
-        }
-        else {
-          return "";
-        }
-      }
-    }
-
-    /// <summary>
-    /// If Google indicated a redirect URL in the response, this property
-    /// will contain the URL string.
-    /// </summary>
-    /// <value>
-    /// The redirect URL, or the empty string if Google didn't send a redirect
-    /// URL.
-    /// </value>
-    public string RedirectUrl {
-      get {
-        if (_CheckoutRedirectResponse != null) {
-          return _CheckoutRedirectResponse.redirecturl.Replace("&amp;", "&");
-        }
-        else {
-          return "";
-        }
-      }
-    }
-
-    /// <summary>
-    /// Gets the response XML sent by Google.
-    /// </summary>
-    /// <value>The response XML sent by Google.</value>
-    public string ResponseXml {
-      get {
-        return _Xml;
-      }
-    }
-
   }
 }

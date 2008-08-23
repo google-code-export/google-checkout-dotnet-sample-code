@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2008 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
-
+/*
+ Edit History:
+ *  August 2008   Joe Feser joe.feser@joefeser.com
+ *  Created as a base class for all responses from the server.
+ *  
+*/
 using System;
 using System.IO;
 using System.Net;
 using GCheckout.Util;
+using GCheckout.Checkout;
 
 namespace GCheckout {
+
   /// <summary>
   /// This class contains methods for sending API requests to Google Checkout.
   /// </summary>
@@ -36,76 +43,24 @@ namespace GCheckout {
     /// can be posted to Google Checkout.</summary>
     public abstract byte[] GetXml();
 
-    private static string GetAuthorization(string User, string Password) {
-      return Convert.ToBase64String(EncodeHelper.StringToUtf8Bytes(
-        string.Format("{0}:{1}", User, Password)));
-    }
-
     /// <summary>Convert a String like Sandbox to the 
     /// EnvironmentType enum</summary>
     protected static EnvironmentType StringToEnvironment(string Env) {
       return (EnvironmentType)Enum.Parse(typeof(EnvironmentType), Env, true);
     }
 
+    /// <summary>
+    /// This is designed to allow derived response classes to parse for non generic responses.
+    /// </summary>
+    /// <param name="response"></param>
+    /// <returns></returns>
+    protected abstract GCheckoutResponse ParseResponse(string response);
+
     /// <summary>Send the Message to Google Checkout</summary>
-    public GCheckoutResponse Send() {
+    public virtual GCheckoutResponse Send() {
       CheckSendPreConditions();
-      byte[] Data = GetXml();
-      // Prepare web request.
-      HttpWebRequest myRequest =
-        (HttpWebRequest)WebRequest.Create(GetPostUrl());
-      myRequest.Method = "POST";
-      myRequest.ContentLength = Data.Length;
-      myRequest.Headers.Add("Authorization",
-        string.Format("Basic {0}",
-        GetAuthorization(_MerchantID, _MerchantKey)));
-      myRequest.ContentType = "application/xml; charset=UTF-8";
-      myRequest.Accept = "application/xml; charset=UTF-8";
-      myRequest.KeepAlive = false;
-
-      //determine if we are using a proxy server
-      if (GCheckoutConfigurationHelper.UseProxy) {
-        Uri proxyUrl = new Uri(GCheckoutConfigurationHelper.ProxyHost);
-        //create a proxy but set it to bypass on local (localhost)
-        //someone may want this to be configurable.
-        WebProxy proxy = new WebProxy(proxyUrl, true);
-        proxy.Credentials = new NetworkCredential(
-          GCheckoutConfigurationHelper.ProxyUserName,
-          GCheckoutConfigurationHelper.ProxyPassword,
-          GCheckoutConfigurationHelper.ProxyDomain);
-        myRequest.Proxy = proxy;
-      }
-
-      // Send the data.
-      using (Stream requestStream = myRequest.GetRequestStream()) {
-        requestStream.Write(Data, 0, Data.Length);
-      }
-
-      // Read the response.
-      string responseXml = string.Empty;
-      try {
-        using (HttpWebResponse myResponse =
-          (HttpWebResponse)myRequest.GetResponse()) {
-          using (Stream ResponseStream = myResponse.GetResponseStream()) {
-            using (StreamReader ResponseStreamReader =
-              new StreamReader(ResponseStream)) {
-              responseXml = ResponseStreamReader.ReadToEnd();
-            }
-          }
-        }
-      }
-      catch (WebException WebExcp) {
-        if (WebExcp.Response != null) {
-          using (HttpWebResponse HttpWResponse =
-            (HttpWebResponse)WebExcp.Response) {
-            using (StreamReader sr =
-              new StreamReader(HttpWResponse.GetResponseStream())) {
-              responseXml = sr.ReadToEnd();
-            }
-          }
-        }
-      }
-      return new GCheckoutResponse(responseXml);
+      string responseXml = HttpHelper.SendMessage(GetXml(), GetPostUrl(), MerchantID, MerchantKey);
+      return ParseResponse(responseXml);
     }
 
     /// <summary></summary>
@@ -122,7 +77,10 @@ namespace GCheckout {
       }
     }
 
-    private void CheckSendPreConditions() {
+    /// <summary>
+    /// Check the conditions to ensure we are able to send the message.
+    /// </summary>
+    protected void CheckSendPreConditions() {
       if (_Environment == EnvironmentType.Unknown) {
         throw new ApplicationException(
           "Environment has not been set to Sandbox or Production");

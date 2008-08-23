@@ -1949,4 +1949,78 @@ namespace GCheckout.AutoGen {
         [System.Xml.Serialization.XmlAttributeAttribute("google-order-number", DataType="token")]
         public string googleordernumber;
     }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    [System.Xml.Serialization.XmlRootAttribute("notification-data-request", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
+    public class NotificationDataRequest {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("continue-token")]
+        public string continuetoken;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    [System.Xml.Serialization.XmlRootAttribute("notification-data-response", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
+    public class NotificationDataResponse {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("continue-token")]
+        public string continuetoken;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("has-more-notifications")]
+        public bool hasmorenotifications;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        public bool hasmorenotificationsSpecified;
+        
+        /// <remarks/>
+        public NotificationDataResponseNotifications notifications;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
+        public string serialnumber;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public class NotificationDataResponseNotifications {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("risk-information-notification", typeof(RiskInformationNotification))]
+        [System.Xml.Serialization.XmlElementAttribute("chargeback-amount-notification", typeof(ChargebackAmountNotification))]
+        [System.Xml.Serialization.XmlElementAttribute("authorization-amount-notification", typeof(AuthorizationAmountNotification))]
+        [System.Xml.Serialization.XmlElementAttribute("order-state-change-notification", typeof(OrderStateChangeNotification))]
+        [System.Xml.Serialization.XmlElementAttribute("refund-amount-notification", typeof(RefundAmountNotification))]
+        [System.Xml.Serialization.XmlElementAttribute("charge-amount-notification", typeof(ChargeAmountNotification))]
+        [System.Xml.Serialization.XmlElementAttribute("new-order-notification", typeof(NewOrderNotification))]
+        public object[] Items;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    [System.Xml.Serialization.XmlRootAttribute("notification-data-token-request", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
+    public class NotificationDataTokenRequest {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("start-time")]
+        public System.DateTime starttime;
+    }
+    
+    /// <remarks/>
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    [System.Xml.Serialization.XmlRootAttribute("notification-data-token-response", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
+    public class NotificationDataTokenResponse {
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("continue-token")]
+        public string continuetoken;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute("serial-number")]
+        public string serialnumber;
+    }
 }
