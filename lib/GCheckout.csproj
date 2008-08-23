@@ -1,415 +1,307 @@
-<VisualStudioProject>
-    <CSHARP
-        ProjectType = "Local"
-        ProductVersion = "7.10.6030"
-        SchemaVersion = "2.0"
-        ProjectGuid = "{006653E6-EEF6-4D43-8F26-D6445CDF817B}"
-    >
-        <Build>
-            <Settings
-                ApplicationIcon = ""
-                AssemblyKeyContainerName = ""
-                AssemblyName = "GCheckout"
-                AssemblyOriginatorKeyFile = ""
-                DefaultClientScript = "JScript"
-                DefaultHTMLPageLayout = "Grid"
-                DefaultTargetSchema = "IE50"
-                DelaySign = "false"
-                OutputType = "Library"
-                PreBuildEvent = ""
-                PostBuildEvent = ""
-                RootNamespace = "GCheckout"
-                RunPostBuildEvent = "OnBuildSuccess"
-                StartupObject = ""
-            >
-                <Config
-                    Name = "Debug"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
-                    DocumentationFile = "GCheckout.xml"
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "false"
-                    OutputPath = "bin\Debug\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-                <Config
-                    Name = "Release"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "285212672"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    NoStdLib = "false"
-                    NoWarn = ""
-                    Optimize = "true"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
-                />
-            </Settings>
-            <References>
-                <Reference
-                    Name = "System"
-                    AssemblyName = "System"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
-                />
-                <Reference
-                    Name = "System.XML"
-                    AssemblyName = "System.Xml"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
-                />
-                <Reference
-                    Name = "System.Web"
-                    AssemblyName = "System.Web"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Web.dll"
-                />
-                <Reference
-                    Name = "System.Design"
-                    AssemblyName = "System.Design"
-                    HintPath = "..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Design.dll"
-                />
-                <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
-                />
-            </References>
-        </Build>
-        <Files>
-            <Include>
-                <File
-                    RelPath = "apiv2.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "GCheckoutRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\AlternateTaxTable.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\AlternateTaxTableCollection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\CarrierCalculatedShipping.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\CarrierCalculatedShippingOption.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\CarrierPickup.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\CheckoutShoppingCartRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\DeliveryAddressCategory.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\DigitalItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\GCheckoutButton.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\GCheckoutButtonBase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\GCheckoutDonateButton.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\IShoppingCartItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\MerchantCode.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\MerchantCodeType.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\ParameterizedUrls.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\RoundingPolicy.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\ShipFrom.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\ShippingPackage.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\ShippingRestrictions.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\ShippingType.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\ShoppingCartItem.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Checkout\UrlParameterType.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "ExtendedNotifications\NewOrderNotificationExtended.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MerchantCalculation\AnonymousAddress.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MerchantCalculation\CallbackProcessor.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MerchantCalculation\CallbackRules.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MerchantCalculation\ExampleRules.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MerchantCalculation\MerchantCodeResult.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MerchantCalculation\Order.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MerchantCalculation\OrderLine.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "MerchantCalculation\ShippingResult.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\AddMerchantOrderNumberRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\AddTrackingDataRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\ArchiveOrderRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\AuthorizeOrderRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\BackOrderCancelReturnAndResetItemBase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\BackorderItemsRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\CancelItemsRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\CancelOrderRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\ChargeOrderRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\DeliverOrderRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\OrderProcessingBase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\ProcessOrderRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\RefundOrderRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\ResetItemsShippingInformationRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\ReturnItemsRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\SendBuyerMessageRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\ShipItemBox.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\ShipItemsRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OrderProcessing\UnarchiveOrderRequest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\BasicAuthenticationModule.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\EncodeHelper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\EnumSerilizedNameAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\GCheckoutConfigHandler.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\GCheckoutConfigSection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\GCheckoutConfigurationHelper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\GCheckoutResponse.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\Log.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\StreamWrapper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Util\TypeDictionaryEntryAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-            </Include>
-        </Files>
-    </CSHARP>
-</VisualStudioProject>
-
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{006653E6-EEF6-4D43-8F26-D6445CDF817B}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>GCheckout</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GCheckout</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>GCheckout.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Design">
+      <Name>System.Design</Name>
+    </Reference>
+    <Reference Include="System.Web">
+      <Name>System.Web</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="apiv2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\AlternateTaxTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\AlternateTaxTableCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\CarrierCalculatedShipping.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\CarrierCalculatedShippingOption.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\CarrierPickup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\CheckoutShoppingCartRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\DeliveryAddressCategory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\DigitalItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\GCheckoutButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\GCheckoutButtonBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\GCheckoutDonateButton.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\IShoppingCartItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\MerchantCode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\MerchantCodeType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\ParameterizedUrls.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\RoundingPolicy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\ShipFrom.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\ShippingPackage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\ShippingRestrictions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\ShippingType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\ShoppingCartItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Checkout\UrlParameterType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ExtendedNotifications\NewOrderNotificationExtended.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GCheckoutRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MerchantCalculation\AnonymousAddress.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MerchantCalculation\CallbackProcessor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MerchantCalculation\CallbackRules.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MerchantCalculation\ExampleRules.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MerchantCalculation\MerchantCodeResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MerchantCalculation\Order.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MerchantCalculation\OrderLine.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MerchantCalculation\ShippingResult.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\AddMerchantOrderNumberRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\AddTrackingDataRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\ArchiveOrderRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\AuthorizeOrderRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\BackOrderCancelReturnAndResetItemBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\BackorderItemsRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\CancelItemsRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\CancelOrderRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\ChargeOrderRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\DeliverOrderRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\GCheckoutShoppingCartResponse.cs" />
+    <Compile Include="OrderProcessing\HelloCheckoutResponse.cs" />
+    <Compile Include="OrderProcessing\HelloRequest.cs" />
+    <Compile Include="OrderProcessing\NotificationDataRequest.cs" />
+    <Compile Include="OrderProcessing\NotificationDataResponse.cs" />
+    <Compile Include="OrderProcessing\NotificationDataTokenRequest.cs" />
+    <Compile Include="OrderProcessing\NotificationDataTokenResponse.cs" />
+    <Compile Include="OrderProcessing\OrderProcessingBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\PollingApi.cs" />
+    <Compile Include="OrderProcessing\ProcessOrderRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\RefundOrderRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\ReportRequestBase.cs" />
+    <Compile Include="OrderProcessing\ResetItemsShippingInformationRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\ReturnItemsRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\SendBuyerMessageRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\ShipItemBox.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\ShipItemsRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OrderProcessing\UnarchiveOrderRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\BasicAuthenticationModule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\EncodeHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\EnumSerilizedNameAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\GCheckoutConfigHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\GCheckoutConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\GCheckoutConfigurationHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\GCheckoutResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\HttpHelper.cs" />
+    <Compile Include="Util\Log.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\ReflectionHelper.cs" />
+    <Compile Include="Util\StreamWrapper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\TypeDictionaryEntryAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GoogleCheckout.mdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,3 +1,24 @@
+/*************************************************
+ * Copyright (C) 2006-2008 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*************************************************/
+/*
+ Edit History:
+ *  August 2008   Joe Feser joe.feser@joefeser.com  
+ *  Added test for digital item to ensure 1024 characters is the limit.
+*/
+
 using System;
 using System.Text;
 using NUnit.Framework;
@@ -21,6 +42,7 @@ namespace GCheckout.Checkout.Tests {
     public const string COMMENT = "This is a Test Comment";
     public const string MERCHANT_ORDER_NUMBER = "ABCDEFGHIJ";
     public const string UPS_TRACKING = "Z1234567890";
+    public const string CONST_URL = "http://www.example.com/?hideme=YWJj4oKsxZLihKLCqcKuw6XDq8Oxw7bDvyEiIyQlJicoKSorLC0uLz8/Pz/Lhj8/4oKsUD8=";
 
     /// <exclude/>
     [Test()]
@@ -301,6 +323,8 @@ namespace GCheckout.Checkout.Tests {
       si.TaxTable = taxTable;      
       si.Weight = 10.5;
 
+      si.TaxTable.AddCountryTaxRule(GCheckout.AutoGen.USAreas.ALL, 5.0);
+
       CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "USD", 120);
 
       request.ContinueShoppingUrl = "http://localhost/";
@@ -424,10 +448,18 @@ namespace GCheckout.Checkout.Tests {
     }
 
     [Test]
+    [ExpectedException(typeof(ArgumentException))]
+    public void Test_Digital_Item_Expect_Failure_1024_Char_Limit() {
+      DigitalItem aaa = new DigitalItem(new Uri(CONST_URL), "Url Description for item 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+    }
+
+    [Test]
     public void Test_DigitalItem_EncodedUrls(){
-      string url = "http://www.example.com/?hideme=YWJj4oKsxZLihKLCqcKuw6XDq8Oxw7bDvyEiIyQlJicoKSorLC0uLz8/Pz/Lhj8/4oKsUD8=";
-      
+
+      string url = CONST_URL;
+
       DigitalItem urlDigitalItem = new DigitalItem(new Uri(url), "Url Description for item");
+
       Assert.AreEqual(url, urlDigitalItem.Url);
 
       url = "HTTP://www.ConToso.com/thick%20and%20thin.htm";

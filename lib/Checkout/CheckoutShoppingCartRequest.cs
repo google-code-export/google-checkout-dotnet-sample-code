@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
-
+/*
+ Edit History:
+ *  August 2008   Joe Feser joe.feser@joefeser.com
+ *  ParseReponse Added.
+ * 
+*/
 using System;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -1781,6 +1786,15 @@ namespace GCheckout.Checkout {
       XmlElement El = Doc.CreateElement(MERCHANT_DATA_HIDDEN);
       El.InnerXml = Xml;
       return El;
+    }
+
+    /// <summary>
+    /// Process the response.
+    /// </summary>
+    /// <param name="response">The Xml Response from the Request.</param>
+    /// <returns>A class that implements the IGCheckoutResponse interface.</returns>
+    protected override GCheckoutResponse ParseResponse(string response) {
+      return new GCheckoutShoppingCartResponse(response);
     }
 
     /// <summary>

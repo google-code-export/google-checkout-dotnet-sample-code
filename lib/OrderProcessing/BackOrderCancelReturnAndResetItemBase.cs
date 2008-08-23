@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
+/*
+ Edit History:
+ *  August 2008   Joe Feser joe.feser@joefeser.com
+ *  Initial Release.
+ * 
+*/
 using System;
 using System.Collections;
 using GCheckout.Util;
@@ -25,7 +31,8 @@ namespace GCheckout.OrderProcessing
 	/// is the root message is different.
 	/// Because of this, we are creating a base
 	/// </summary>
-	public abstract class BackOrderCancelReturnAndResetItemBase : OrderProcessingBase
+	public abstract class BackOrderCancelReturnAndResetItemBase 
+    : OrderProcessingBase
 	{
     /// <summary>
     /// Send an Email when the request is received by Google

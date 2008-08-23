@@ -53,7 +53,7 @@ namespace GCheckout.Util {
           lock (__syncRoot) {
             if (!_initialized) {
               __configSection =
-                ConfigurationSettings.GetConfig("Google/GoogleCheckout")
+                ConfigurationManager.GetSection("Google/GoogleCheckout")
                 as GCheckoutConfigSection;
               _initialized = true;
               configException = null;
@@ -82,7 +82,7 @@ namespace GCheckout.Util {
         else if (GetConfigValue("GoogleMerchantID").Length > 0)
           return long.Parse(GetConfigValue("GoogleMerchantID"));
         else {
-          throw new ConfigurationException(
+          throw new ConfigurationErrorsException(
             "Set the 'GoogleMerchantID' key in the config file.");
         }
       }
@@ -100,7 +100,7 @@ namespace GCheckout.Util {
         else if (GetConfigValue("GoogleMerchantKey").Length > 0)
           return GetConfigValue("GoogleMerchantKey");
         else {
-          throw new ConfigurationException(
+          throw new ConfigurationErrorsException(
             "Set the 'GoogleMerchantKey' key in the config file.");
         }
       }
@@ -118,7 +118,7 @@ namespace GCheckout.Util {
           return (EnvironmentType)Enum.Parse(typeof(EnvironmentType),
             GetConfigValue("GoogleEnvironment"), true);
         else {
-          throw new ConfigurationException(
+          throw new ConfigurationErrorsException(
             "Set the 'GoogleMerchantKey' key in the config file.");
         }
       }
@@ -136,7 +136,7 @@ namespace GCheckout.Util {
       get {
         if (ConfigSection != null) {
           if (ConfigSection.PlatformID <= 0) {
-            throw new ConfigurationException(
+            throw new ConfigurationErrorsException(
               "Set the 'PlatformID' attribute in the config section.");
           }
           return ConfigSection.PlatformID;
@@ -144,7 +144,7 @@ namespace GCheckout.Util {
         else if (GetConfigValue("PlatformID").Length > 0)
           return long.Parse(GetConfigValue("PlatformID"));
         else {
-          throw new ConfigurationException(
+          throw new ConfigurationErrorsException(
             "Set the 'PlatformID' key in the config file.");
         }
       }
@@ -174,7 +174,7 @@ namespace GCheckout.Util {
         if (Logging) {
           if (ConfigSection != null) {
             if (ConfigSection.LogDirectory.Length == 0) {
-              throw new ConfigurationException(
+              throw new ConfigurationErrorsException(
                 "Set the 'LogDirectory' key in the config section.");
             }
             return ConfigSection.LogDirectory;
@@ -182,7 +182,7 @@ namespace GCheckout.Util {
           else if (GetConfigValue("LogDirectory").Length > 0)
             return GetConfigValue("LogDirectory");
           else {
-            throw new ConfigurationException(
+            throw new ConfigurationErrorsException(
               "Set the 'LogDirectory' key in the config file.");
           }
         }
@@ -219,7 +219,7 @@ namespace GCheckout.Util {
       get {
         if (ConfigSection != null) {
           if (ConfigSection.Currency.Length == 0) {
-            throw new ConfigurationException(
+            throw new ConfigurationErrorsException(
               "Set the 'Currency' key in the config section.");
           }
           return ConfigSection.Currency;
@@ -227,7 +227,7 @@ namespace GCheckout.Util {
         else if (GetConfigValue("Currency").Length > 0)
           return GetConfigValue("Currency");
         else {
-          throw new ConfigurationException(
+          throw new ConfigurationErrorsException(
             "Set the 'Currency' key in the config file.");
         }
       }
@@ -266,7 +266,7 @@ namespace GCheckout.Util {
         if (UseProxy) {
           if (ConfigSection != null) {
             if (ConfigSection.ProxyHost.Length == 0) {
-              throw new ConfigurationException(
+              throw new ConfigurationErrorsException(
                 "Set the 'ProxyHost' key in the config section.");
             }
             return ConfigSection.ProxyHost;
@@ -278,12 +278,12 @@ namespace GCheckout.Util {
               Uri proxyUrl = new Uri(GetConfigValue("GoogleProxyHost"));
             }
             catch (Exception ex) {
-              throw new ConfigurationException("Error Reading GoogleProxyHost", ex);
+              throw new ConfigurationErrorsException("Error Reading GoogleProxyHost", ex);
             }
             return GetConfigValue("GoogleProxyHost");
           }
           else {
-            throw new ConfigurationException(
+            throw new ConfigurationErrorsException(
               "Set the 'GoogleProxyHost' key in the config file.");
           }
         }
@@ -355,7 +355,7 @@ namespace GCheckout.Util {
     /// <param name="key">The Key to obtain</param>
     /// <returns>Empty String or the value</returns>
     internal static string GetConfigValue(string key) {
-      string retVal = ConfigurationSettings.AppSettings[key];
+      string retVal = ConfigurationManager.AppSettings[key];
       if (retVal != null)
         retVal = retVal.Trim();
       else
@@ -376,12 +376,12 @@ namespace GCheckout.Util {
       Type enumType, ref int val) {
       XmlNode a = node.Attributes.RemoveNamedItem(attribute);
       if (a == null)
-        throw new ConfigurationException("Google Checkout Config Section " +
+        throw new ConfigurationErrorsException("Google Checkout Config Section " +
           "attribute required: " + attribute);
       if (Enum.IsDefined(enumType, a.Value))
         val = (int)Enum.Parse(enumType, a.Value, true);
       else
-        throw new ConfigurationException("Google Checkout Config Section " +
+        throw new ConfigurationErrorsException("Google Checkout Config Section " +
           "Invalid Enumeration Value: '" + a.Value + "'", a);
       return a;
     }
@@ -411,7 +411,7 @@ namespace GCheckout.Util {
       XmlNode a = node.Attributes.RemoveNamedItem(attribute);
       if (a == null) {
         if (required)
-          throw new ConfigurationException("Google Checkout Config Section " +
+          throw new ConfigurationErrorsException("Google Checkout Config Section " +
             "attribute required: " + attribute);
       }
       else
