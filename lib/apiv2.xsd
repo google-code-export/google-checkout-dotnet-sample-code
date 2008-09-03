@@ -1236,6 +1236,57 @@
       <xs:any namespace="##any" processContents="skip" />
     </xs:sequence>
   </xs:complexType>
+
+  <xs:complexType name="NotificationHistoryRequest">
+    <xs:all>
+      <xs:element name="end-time" type="xs:dateTime" minOccurs="0" />
+      <xs:element name="next-page-token" type="xs:string" minOccurs="0" />
+      <xs:element name="notification-types" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="notification-type" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="order-numbers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="google-order-number" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="start-time" type="xs:dateTime" minOccurs="0" />
+    </xs:all>
+  </xs:complexType>
+  
+  <xs:complexType name="NotificationHistoryResponse">
+    <xs:all>
+      <xs:element name="invalid-order-numbers" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="google-order-number" type="xs:token" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="next-page-token" type="xs:string" minOccurs="0" />
+      <xs:element name="notifications">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="authorization-amount-notification" type="tns:AuthorizationAmountNotification" />
+              <xs:element name="charge-amount-notification" type="tns:ChargeAmountNotification" />
+              <xs:element name="chargeback-amount-notification" type="tns:ChargebackAmountNotification" />
+              <xs:element name="new-order-notification" type="tns:NewOrderNotification" />
+              <xs:element name="order-state-change-notification" type="tns:OrderStateChangeNotification" />
+              <xs:element name="refund-amount-notification" type="tns:RefundAmountNotification" />
+              <xs:element name="risk-information-notification" type="tns:RiskInformationNotification" />
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="serial-number" type="xs:string" use="required" />
+  </xs:complexType>
   
   <xs:element name="hello" type="tns:Hello" />
   
@@ -1314,6 +1365,10 @@
   <xs:element name="notification-data-token-request" type="tns:NotificationDataTokenRequest" />
   
   <xs:element name="notification-data-token-response" type="tns:NotificationDataTokenResponse" />
+
+  <xs:element name="notification-history-request" type="tns:NotificationHistoryRequest" />
+
+  <xs:element name="notification-history-response" type="tns:NotificationHistoryResponse" />
 
 </xs:schema>
 
