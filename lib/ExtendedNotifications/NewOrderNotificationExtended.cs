@@ -19,39 +19,39 @@ using System.Xml.Serialization;
 using GCheckout.Checkout;
 
 namespace GCheckout.AutoGen.Extended {
-  
+
   /// <summary>
   /// This is a class that is designed to extend the New order notification.
   /// </summary>
-  [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-  [System.Xml.Serialization.XmlRootAttribute("new-order-notification", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
+  [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://checkout.google.com/schema/2")]
+  [System.Xml.Serialization.XmlRootAttribute("new-order-notification", Namespace = "http://checkout.google.com/schema/2", IsNullable = false)]
   public class NewOrderNotificationExtended
     : GCheckout.AutoGen.NewOrderNotification {
-    
+
     /// <summary>
     /// Create a new instance of the extended NewOrderNotification
     /// </summary>
     public NewOrderNotificationExtended() {
 
     }
-    
+
     /// <summary>
     /// Return a readonly wrapped list of the shopping cart items.
     /// </summary>
     public ShoppingCartItem[] Items {
       get {
         if (this.shoppingcart != null && this.shoppingcart.items != null) {
-          ShoppingCartItem[] retVal 
+          ShoppingCartItem[] retVal
             = new ShoppingCartItem[this.shoppingcart.items.Length];
 
           for (int i = 0; i < retVal.Length; i++) {
-            retVal[i] = new ShoppingCartItem(this.shoppingcart.items[i]);   
+            retVal[i] = new ShoppingCartItem(this.shoppingcart.items[i]);
           }
 
           return retVal;
         }
-      
-        return new ShoppingCartItem[] {};
+
+        return new ShoppingCartItem[] { };
       }
     }
 
@@ -122,19 +122,25 @@ namespace GCheckout.AutoGen.Extended {
       }
     }
 
-    private FieldInfo GetField(object obj, string field) {
+    /// <summary>
+    /// For v2.0 of the Xsd.exe app we must use properties.
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="field"></param>
+    /// <returns></returns>
+    private PropertyInfo GetField(object obj, string field) {
       if (obj == null)
         return null;
-      return obj.GetType().GetField(field, 
+      return obj.GetType().GetProperty(field,
         BindingFlags.Public | BindingFlags.Instance);
     }
 
     private object GetObjectField(object obj, string field) {
       //we don't care what the object is, just that it 
       //supports the field we are looking for.
-      FieldInfo pi = GetField(obj, field);
+      PropertyInfo pi = GetField(obj, field);
       if (pi != null)
-        return pi.GetValue(obj);
+        return pi.GetValue(obj, null);
       else
         return null;
     }
