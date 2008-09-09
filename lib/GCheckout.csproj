@@ -98,6 +98,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AutoGen\IGCheckoutResponse.cs" />
+    <Compile Include="AutoGen\NewOrderNotification.cs" />
     <Compile Include="AutoGen\NotificationHistoryRequest.cs" />
     <Compile Include="AutoGen\NotificationHistoryResponse.cs" />
     <Compile Include="Checkout\AlternateTaxTable.cs">
