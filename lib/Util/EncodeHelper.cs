@@ -288,21 +288,6 @@ namespace GCheckout.Util {
       try {
         //get the name of the node, this is what we will use for the lookup.
         string nodeName = GetTopElement(wrap);
-
-        //ok here is where the fun starts.
-        //string extNamespace 
-        //  = typeof(AutoGen.Extended.NewOrderNotificationExtended).Namespace;
-        //string nameSpace = typeof(AutoGen.Hello).Namespace;
-        //Type[] types 
-        //  = System.Reflection.Assembly.GetExecutingAssembly().GetTypes();
-
-        ////see if the item has a type in the extended namespace
-        //Type reflectedType = GetReflectedType(types, extNamespace, nodeName);
-
-        ////we could not find an extended class. load the default
-        //if (reflectedType == null) {
-        //  reflectedType = GetReflectedType(types, nameSpace, nodeName);
-        //}
         
         string nameSpace = typeof(AutoGen.Hello).Namespace;
         Type[] types
