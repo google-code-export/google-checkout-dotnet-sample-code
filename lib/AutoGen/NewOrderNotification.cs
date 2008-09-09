@@ -32,19 +32,25 @@ namespace GCheckout.AutoGen {
   /// A New order Notification.
   /// </summary>
   public partial class NewOrderNotification {
+
+    private List<ShoppingCartItem> _items;
+    private List<MerchantCode> _merchantCodes;
+
     /// <summary>
     /// Return a readonly wrapped list of the shopping cart items.
     /// </summary>
     [XmlIgnore]
     public virtual List<ShoppingCartItem> Items {
       get {
-        List<ShoppingCartItem> retVal = new List<ShoppingCartItem>();
-        if (this.shoppingcart != null && this.shoppingcart.items != null) {
-          foreach (Item item in this.shoppingcart.items) {
-            retVal.Add(new ShoppingCartItem(item));
+        if (_items == null) {
+          _items = new List<ShoppingCartItem>();
+          if (this.shoppingcart != null && this.shoppingcart.items != null) {
+            foreach (Item item in this.shoppingcart.items) {
+              _items.Add(new ShoppingCartItem(item));
+            }
           }
         }
-        return retVal;
+        return _items;
       }
     }
 
@@ -114,7 +120,10 @@ namespace GCheckout.AutoGen {
     [XmlIgnore]
     public List<MerchantCode> MerchantCodes {
       get {
-        return MerchantCode.GetMerchantCodes(this);
+        if (_merchantCodes == null) {
+          _merchantCodes = MerchantCode.GetMerchantCodes(this);
+        }
+        return _merchantCodes;
       }
     }
 
