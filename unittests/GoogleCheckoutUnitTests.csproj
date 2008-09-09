@@ -107,6 +107,7 @@
     <Compile Include="EncodeHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NotificationHistoryTests.cs" />
     <Compile Include="NotificationTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -121,6 +122,9 @@
       <SubType>Code</SubType>
     </Compile>
     <EmbeddedResource Include="Xml\new-order-notification-base.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Xml\NotificationHistoryResponse1.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

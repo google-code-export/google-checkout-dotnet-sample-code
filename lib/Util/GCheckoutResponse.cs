@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using GCheckout.Checkout;
+using GCheckout.AutoGen;
 
 namespace GCheckout.Util {
   //GCheckoutResponse
@@ -139,6 +140,12 @@ namespace GCheckout.Util {
     /// </value>
     public virtual string SerialNumber {
       get {
+
+        IGCheckoutResponse response = Response as IGCheckoutResponse;
+
+        if (response != null) {
+          return response.MessageSerialNumber;
+        }
         if (_GoodResponse != null) {
           return _GoodResponse.serialnumber;
         }
