@@ -97,6 +97,9 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AutoGen\IGCheckoutResponse.cs" />
+    <Compile Include="AutoGen\NotificationHistoryRequest.cs" />
+    <Compile Include="AutoGen\NotificationHistoryResponse.cs" />
     <Compile Include="Checkout\AlternateTaxTable.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -220,6 +223,7 @@
     <Compile Include="OrderProcessing\ChargeOrderRequest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="OrderProcessing\NotificationTypes.cs" />
     <Compile Include="OrderProcessing\DeliverOrderRequest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -230,6 +234,8 @@
     <Compile Include="OrderProcessing\NotificationDataResponse.cs" />
     <Compile Include="OrderProcessing\NotificationDataTokenRequest.cs" />
     <Compile Include="OrderProcessing\NotificationDataTokenResponse.cs" />
+    <Compile Include="OrderProcessing\NotificationHistoryRequest.cs" />
+    <Compile Include="OrderProcessing\NotificationHistoryResponse.cs" />
     <Compile Include="OrderProcessing\OrderProcessingBase.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -284,6 +290,7 @@
     <Compile Include="Util\Log.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Util\NotificationHistoryException.cs" />
     <Compile Include="Util\ReflectionHelper.cs" />
     <Compile Include="Util\StreamWrapper.cs">
       <SubType>Code</SubType>

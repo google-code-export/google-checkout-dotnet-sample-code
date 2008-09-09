@@ -45,6 +45,19 @@ namespace GCheckout.OrderProcessing
       _Environment = StringToEnvironment(environment);
     }
 
+    /// <summary>
+    /// The base constructor to create a report request
+    /// </summary>
+    /// <param name="merchantID">The merchant id</param>
+    /// <param name="merchantKey">The merchant key</param>
+    /// <param name="environment">The Environment</param>
+    public ReportRequestBase(long merchantID,
+      string merchantKey, EnvironmentType environment) {
+      _MerchantID = merchantID.ToString();
+      _MerchantKey = merchantKey;
+      _Environment = environment;
+    }
+
     /// <summary>Method that is called to produce the Xml message 
     /// that can be posted to Google Checkout.</summary>
     public override string GetPostUrl() {
