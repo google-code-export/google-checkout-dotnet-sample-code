@@ -15,6 +15,7 @@
 *************************************************/
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GCheckout.Checkout {
   
@@ -133,7 +134,7 @@ namespace GCheckout.Checkout {
     /// </summary>
     /// <param name="notification">The <seealso cref="AutoGen.NewOrderNotification"/></param>
     /// <returns></returns>
-    public static MerchantCode[] GetMerchantCodes(AutoGen.NewOrderNotification notification) {
+    public static List<MerchantCode> GetMerchantCodes(AutoGen.NewOrderNotification notification) {
       return GetMerchantCodes(notification.orderadjustment);
     }
 
@@ -142,9 +143,9 @@ namespace GCheckout.Checkout {
     /// </summary>
     /// <param name="adjustment">The <seealso cref="AutoGen.OrderAdjustment"/></param>
     /// <returns></returns>
-    public static MerchantCode[] GetMerchantCodes(AutoGen.OrderAdjustment adjustment) {
+    public static List<MerchantCode> GetMerchantCodes(AutoGen.OrderAdjustment adjustment) {
       if (adjustment == null)
-        return new MerchantCode[] {};
+        return new List<MerchantCode>();
       return GetMerchantCodes(adjustment.merchantcodes);
     }
 
@@ -153,26 +154,21 @@ namespace GCheckout.Checkout {
     /// </summary>
     /// <param name="merchantcodes">The <seealso cref="AutoGen.OrderAdjustmentMerchantcodes"/></param>
     /// <returns></returns>
-    public static MerchantCode[] GetMerchantCodes(AutoGen.OrderAdjustmentMerchantcodes merchantcodes) {
+    public static List<MerchantCode> GetMerchantCodes(AutoGen.OrderAdjustmentMerchantcodes merchantcodes) {
+      List<MerchantCode> retVal = new List<MerchantCode>();
       if (merchantcodes == null)
-        return new MerchantCode[] {};
-
-      ArrayList al = new ArrayList();
+        return retVal;
 
       foreach(object item in merchantcodes.Items) {
         if (item is AutoGen.CouponAdjustment) {
           AutoGen.CouponAdjustment adjust = item as AutoGen.CouponAdjustment;
-          al.Add(new MerchantCode(adjust));
+          retVal.Add(new MerchantCode(adjust));
         }
         if (item is AutoGen.GiftCertificateAdjustment) {
           AutoGen.GiftCertificateAdjustment adjust = item as AutoGen.GiftCertificateAdjustment;
-          al.Add(new MerchantCode(adjust));
+          retVal.Add(new MerchantCode(adjust));
         }
       }
-
-      //convert the array
-      MerchantCode[] retVal = new MerchantCode[al.Count];
-      al.CopyTo(retVal);
       return retVal;
     }
   }

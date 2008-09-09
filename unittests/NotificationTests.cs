@@ -21,6 +21,7 @@ using GCheckout.Checkout;
 using GCheckout.AutoGen;
 using GCheckout.AutoGen.Extended;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 namespace GCheckout.Notifications.Tests {
 
@@ -30,14 +31,14 @@ namespace GCheckout.Notifications.Tests {
   [TestFixture]
   public class NotificationTests {
 
-    private static NewOrderNotificationExtended extended;
+    private static NewOrderNotification extended;
 
     /// <summary>
     /// Initialize the Xml Documents
     /// </summary>
     static NotificationTests() {
       using (Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("GoogleCheckoutUnitTests.Xml.new-order-notification-base.xml")) {
-        extended = GCheckout.Util.EncodeHelper.Deserialize(s) as NewOrderNotificationExtended;
+        extended = GCheckout.Util.EncodeHelper.Deserialize(s) as NewOrderNotification;
       }
     }
 
@@ -101,7 +102,7 @@ namespace GCheckout.Notifications.Tests {
       VerifyMerchantCodes(MerchantCode.GetMerchantCodes(extended.orderadjustment.merchantcodes));
     }
 
-    private void VerifyMerchantCodes(MerchantCode[] codes) {
+    private void VerifyMerchantCodes(List<MerchantCode> codes) {
 //      <coupon-adjustment>
 //        <applied-amount currency="USD">5.00</applied-amount>
 //        <code>FirstVisitCoupon</code>
@@ -117,7 +118,7 @@ namespace GCheckout.Notifications.Tests {
 
       //we should get 2 codes back one of each
 
-      Assert.AreEqual(2, codes.Length);
+      Assert.AreEqual(2, codes.Count);
 
       MerchantCode code;
 
