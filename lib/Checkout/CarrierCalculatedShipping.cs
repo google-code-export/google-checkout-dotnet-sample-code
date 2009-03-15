@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2007 Google Inc.
+ * Copyright (C) 2007-2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
+/*
+ Edit History:
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
+ *  Converted class to use generics and removed hashtable and the ArrayList.
+ * 
+*/
 using System;
 using System.Collections;
 using eh = GCheckout.Util.EncodeHelper;
+using System.Collections.Generic;
 
 namespace GCheckout.Checkout {
 
@@ -27,8 +35,10 @@ namespace GCheckout.Checkout {
   public class CarrierCalculatedShipping {
   
     private CheckoutShoppingCartRequest _request = null;
-    private ArrayList _packages = new ArrayList();
-    private Hashtable _shippingOptions = new Hashtable();
+    private List<ShippingPackage> _packages = new List<ShippingPackage>();
+    private Dictionary<ShippingType, 
+      CarrierCalculatedShippingOption> _shippingOptions
+      = new Dictionary<ShippingType,CarrierCalculatedShippingOption>();
     private AutoGen.CarrierCalculatedShipping _shippingNode;
 
     /// <summary>
@@ -69,6 +79,8 @@ namespace GCheckout.Checkout {
     public CarrierCalculatedShippingOption AddShippingOption(
       ShippingType shippingType, decimal defaultValue) {
 
+      //CarrierCalculatedShippingOption verifies the fractional cents
+
       if (_shippingNode == null) {
         //don't add it until we make sure we can use it.
        GCheckout.AutoGen.CarrierCalculatedShipping cs 
@@ -81,7 +93,7 @@ namespace GCheckout.Checkout {
         _request.AddNewShippingMethod(cs);
       }
 
-      if (_shippingOptions.Contains(shippingType))
+      if (_shippingOptions.ContainsKey(shippingType))
         throw new ApplicationException(
           string.Format("The carrier option {0} already exists."));
 
@@ -89,6 +101,9 @@ namespace GCheckout.Checkout {
         = new CarrierCalculatedShippingOption(_request._Currency, 
         shippingType, defaultValue);
 
+      //we need to copy the array and add an item to the end of the array
+      //we would modify the xsd to be lists but it would most likely
+      //confuse people.
       GCheckout.AutoGen.CarrierCalculatedShippingOption[] newArray
         = new GCheckout.AutoGen.CarrierCalculatedShippingOption[
         ShippingOptionsCount + 1
@@ -148,9 +163,12 @@ namespace GCheckout.Checkout {
       CarrierPickup carrierPickup, decimal additionalFixedCharge,
       double additionalVariableChargePercent) {
 
+      //CarrierCalculatedShippingOption verifies the fractional cents
       //call the default Add to perform the validation
       CarrierCalculatedShippingOption retVal 
         = AddShippingOption(shippingType, defaultValue);
+
+      additionalFixedCharge = Math.Round(additionalFixedCharge, 2);
 
       retVal.CarrierPickup = carrierPickup;
       retVal.AdditionalFixedCharge = additionalFixedCharge;

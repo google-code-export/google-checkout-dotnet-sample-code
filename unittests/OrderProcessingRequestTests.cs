@@ -230,10 +230,10 @@ namespace GCheckout.OrderProcessing.Tests {
       D = (AutoGen.ChargeOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(Req.GoogleOrderNumber, D.googleordernumber);
  
-      Req = new ChargeOrderRequest(ORDER_NUMBER, "USD", 12.95m);
+      Req = new ChargeOrderRequest(ORDER_NUMBER, "USD", 12.975m);
       D = (AutoGen.ChargeOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(Req.GoogleOrderNumber, D.googleordernumber);
-
+      Assert.AreEqual(Req.Amount, 12.98m);
     }
 
     /// <exclude/>
@@ -271,7 +271,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       // Test the second constructor.
       Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, 
-        REASON, "GBP", 100.98m);
+        REASON, "GBP", 100.975m);
       D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual("GBP", D.amount.currency);
@@ -290,7 +290,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       // Test the fourth constructor.
       Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, 
-        REASON, "USD", 100.99m, COMMENT);
+        REASON, "USD", 100.993m, COMMENT);
       D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual("USD", D.amount.currency);
@@ -307,7 +307,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       // Test the sixth constructor.
       Req = new RefundOrderRequest(ORDER_NUMBER, 
-        REASON, "USD", 100.99m);
+        REASON, "USD", 100.993m);
       D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(100.99m, D.amount.Value);
@@ -325,7 +325,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       // Test the eighth constructor.
       Req = new RefundOrderRequest(ORDER_NUMBER, 
-        REASON, "USD", 100.99m, COMMENT);
+        REASON, "USD", 100.993m, COMMENT);
       D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(100.99m, D.amount.Value);

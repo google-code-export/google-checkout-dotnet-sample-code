@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006-2007 Google Inc.
+ * Copyright (C) 2006-2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
-
+/*
+ Edit History:
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
+ * 
+*/
 using System;
 
 namespace GCheckout.MerchantCalculation {

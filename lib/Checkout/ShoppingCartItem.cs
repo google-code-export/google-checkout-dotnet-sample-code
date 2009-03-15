@@ -17,7 +17,8 @@
  Edit History:
  *  August 2008   Joe Feser joe.feser@joefeser.com
  *  Initial Release.
- * 
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
 */
 using System;
 using System.Text.RegularExpressions;
@@ -81,6 +82,7 @@ namespace GCheckout.Checkout {
         return _price;
       }
       set {
+        value = Math.Round(value, 2); //fix for sending in fractional cents
         _price = value;
       }
     }
@@ -285,7 +287,7 @@ namespace GCheckout.Checkout {
       else
         this.MerchantPrivateItemDataNodes = new XmlNode[] {};
       this.Name = theItem.itemname;
-      this.Price = theItem.unitprice.Value;
+      this.Price = theItem.unitprice.Value; //is checked for fractions
       this.Quantity = theItem.quantity;
       _taxtableselector = theItem.taxtableselector;
       _notificationItem = theItem;
@@ -338,7 +340,7 @@ namespace GCheckout.Checkout {
       if (merchantItemID == string.Empty)
         merchantItemID = null;
       MerchantItemID = merchantItemID;
-      Price = price;
+      Price = price; //is checked for fractions
       Quantity = quantity;
       MerchantPrivateItemData = merchantPrivateItemData;
       TaxTable = taxTable;
@@ -371,7 +373,7 @@ namespace GCheckout.Checkout {
       if (merchantItemID == string.Empty)
         merchantItemID = null;
       MerchantItemID = merchantItemID;
-      Price = price;
+      Price = price; //is checked for fractions
       Quantity = quantity;
       MerchantPrivateItemDataNodes = merchantPrivateItemData;
       TaxTable = taxTable;

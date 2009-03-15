@@ -11,13 +11,13 @@
   <ModuleThresholds />
   <NCoverInfo>
     <NCoverExe>C:\Dev\NCover\Main\Debug\NCover.Console.exe</NCoverExe>
-    <AppToProfileExe>D:\Program Files\NUnit 2.4.6\bin\nunit-console.exe </AppToProfileExe>
-    <AppToProfileArgs>D:\Work\Google\Checkout\Main\google-checkout-dotnet-sample-code\unittests\GoogleCheckoutUnitTests.nunit</AppToProfileArgs>
+    <AppToProfileExe>C:\Program Files\NUnit 2.4.8\bin\nunit-console.exe </AppToProfileExe>
+    <AppToProfileArgs>E:\Work\Google\Checkout\Main\google-checkout-dotnet-sample-code\unittests\GoogleCheckoutUnitTests.nunit</AppToProfileArgs>
     <CoverageFile>Coverage.xml</CoverageFile>
     <CoverageHtmlPath />
     <LogLevel>Normal</LogLevel>
     <LogFile>Coverage.log</LogFile>
-    <WorkingDirectory>D:\Work\Google\Checkout\Main\google-checkout-dotnet-sample-code\unittests</WorkingDirectory>
+    <WorkingDirectory>e:\Work\Google\Checkout\Main\google-checkout-dotnet-sample-code\unittests</WorkingDirectory>
     <ExcludeAttributes />
     <ProfileIIS>false</ProfileIIS>
     <ProfileService />
