@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
-
+/*
+ Edit History:
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
+ * 
+*/
 using System;
 using GCheckout.Util;
 
@@ -76,7 +81,7 @@ namespace GCheckout.OrderProcessing {
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Reason = Reason;
       _Currency = Currency;
-      _Amount = Amount;
+      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>
@@ -91,7 +96,7 @@ namespace GCheckout.OrderProcessing {
       string Currency, decimal Amount) : base(GoogleOrderNumber) {
       _Reason = Reason;
       _Currency = Currency;
-      _Amount = Amount;
+      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>
@@ -144,7 +149,7 @@ namespace GCheckout.OrderProcessing {
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Reason = Reason;
       _Currency = Currency;
-      _Amount = Amount;
+      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
       _Comment = Comment;
     }
 
@@ -162,7 +167,7 @@ namespace GCheckout.OrderProcessing {
       : base(GoogleOrderNumber) {
       _Reason = Reason;
       _Currency = Currency;
-      _Amount = Amount;
+      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
       _Comment = Comment;
     }
 
@@ -175,7 +180,7 @@ namespace GCheckout.OrderProcessing {
       if (_Amount != -1 && _Currency != null) {
         Req.amount = new AutoGen.Money();
         Req.amount.currency = _Currency;
-        Req.amount.Value = _Amount;
+        Req.amount.Value = _Amount; //already checked.
       }
       if (_Comment != null) {
         Req.comment = _Comment;

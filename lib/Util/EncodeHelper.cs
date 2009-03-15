@@ -507,6 +507,7 @@ namespace GCheckout.Util {
     /// <param name="value">The Value</param>
     /// <returns></returns>
     public static AutoGen.Money Money(decimal value) {
+      value = Math.Round(value, 2); //fix for sending in fractional cents
       return Money(GCheckout.Util.GCheckoutConfigurationHelper.Currency, value);
     }
 
@@ -518,6 +519,7 @@ namespace GCheckout.Util {
     /// <param name="value">The Value</param>
     /// <returns></returns>
     public static AutoGen.Money Money(string currency, decimal value) {
+      value = Math.Round(value, 2); //fix for sending in fractional cents
       AutoGen.Money retval = new GCheckout.AutoGen.Money();
       retval.currency = currency;
       retval.Value = value;

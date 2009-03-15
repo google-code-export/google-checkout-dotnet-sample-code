@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006-2007 Google Inc.
+ * Copyright (C) 2006-2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,10 @@
  Edit History:
  *  August 2008   Joe Feser joe.feser@joefeser.com
  *  ParseReponse Added.
- * 
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
+ *  Any method that forwards the request to a new method or creates an object assumes that
+ *  the object will perform it's own validation.
 */
 using System;
 using System.Text.RegularExpressions;
@@ -28,6 +31,7 @@ using System.Text;
 using System.Diagnostics;
 
 namespace GCheckout.Checkout {
+
   /// <summary>
   /// Class used to create the structure needed by Google Checkout
   /// </summary>
@@ -932,6 +936,7 @@ namespace GCheckout.Checkout {
     /// displayed on the Google Checkout order review page.</param>
     /// <param name="Cost">The cost associated with the shipping method.</param>
     public void AddFlatRateShippingMethod(string Name, decimal Cost) {
+      Cost = Math.Round(Cost, 2); //no fractional cents
       AddFlatRateShippingMethod(Name, Cost, null);
     }
 
@@ -946,6 +951,7 @@ namespace GCheckout.Checkout {
     /// where the shipping method is either available or unavailable.</param>
     public void AddFlatRateShippingMethod(string Name, decimal Cost,
       ShippingRestrictions Restrictions) {
+      Cost = Math.Round(Cost, 2); //no fractional cents
       AutoGen.FlatRateShipping Method = new AutoGen.FlatRateShipping();
       Method.name = Name;
       Method.price = new AutoGen.FlatRateShippingPrice();
@@ -1011,6 +1017,8 @@ namespace GCheckout.Checkout {
     public void AddMerchantCalculatedShippingMethod(string Name,
       decimal DefaultCost, ShippingRestrictions Restrictions,
       ShippingRestrictions AddressFilters) {
+      
+      DefaultCost = Math.Round(DefaultCost, 2); //no fractional cents
 
       AutoGen.MerchantCalculatedShipping Method =
         new AutoGen.MerchantCalculatedShipping();
@@ -1034,6 +1042,9 @@ namespace GCheckout.Checkout {
     /// displayed on the Google Checkout order review page.</param>
     /// <param name="Cost">The cost associated with the shipping method.</param>
     public void AddPickupShippingMethod(string Name, decimal Cost) {
+      
+      Cost = Math.Round(Cost, 2); //no fractional cents
+      
       AutoGen.Pickup Method = new AutoGen.Pickup();
       Method.name = Name;
       Method.price = new AutoGen.PickupPrice();

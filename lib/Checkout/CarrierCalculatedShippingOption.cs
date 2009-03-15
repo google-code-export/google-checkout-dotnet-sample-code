@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2007 Google Inc.
+ * Copyright (C) 2007-2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
-
+/*
+ Edit History:
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
+ * 
+*/
 using System;
 using GCheckout.Util;
 using td = GCheckout.Util.TypeDictionaryEntryAttribute;
@@ -43,6 +48,7 @@ namespace GCheckout.Checkout {
         return _autoGenClass.price.Value;
       }
       set {
+        value = Math.Round(value, 2); //fix for sending in fractional cents
         AutoGen.Money m = eh.Money(_currency, value);
 
         AutoGen.CarrierCalculatedShippingOptionPrice tp =
@@ -124,6 +130,7 @@ namespace GCheckout.Checkout {
           _autoGenClass.additionalfixedcharge = null;
         }
         else {
+          value = Math.Round(value, 2); //fix for sending in fractional cents
           _autoGenClass.additionalfixedcharge = eh.Money(_currency, value);           
         }
       }
@@ -183,6 +190,7 @@ namespace GCheckout.Checkout {
     public CarrierCalculatedShippingOption(string currency,
       ShippingType shippingType, decimal defaultPrice) {
 
+      defaultPrice = Math.Round(defaultPrice, 2); //fix for sending in fractional cents
       _autoGenClass = new GCheckout.AutoGen.CarrierCalculatedShippingOption();
 
       _currency = currency;

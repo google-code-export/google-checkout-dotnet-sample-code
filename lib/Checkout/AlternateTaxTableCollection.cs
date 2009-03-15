@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
+/*
+ Edit History:
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  Verify tax rules and better code coverage.  
+ * 
+*/
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -140,9 +146,6 @@ namespace GCheckout.Checkout {
     /// </summary>
     /// <param name="taxTable">the <see cref="AlternateTaxTable"/> to verify.</param>
     internal void VerifyTaxRule(AlternateTaxTable taxTable) {
-      if (taxTable == null || taxTable == AlternateTaxTable.Empty)
-        return;
-
       //Now we need to see if the item exists in the collection
 
       AlternateTaxTable existing = this[taxTable.Name];

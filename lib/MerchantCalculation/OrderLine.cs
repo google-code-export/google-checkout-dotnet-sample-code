@@ -57,7 +57,7 @@ namespace GCheckout.MerchantCalculation {
       _ItemName = ItemName;
       _ItemDescription = ItemDescription;
       _Quantity = Quantity;
-      _UnitPrice = UnitPrice;
+      _UnitPrice = Math.Round(UnitPrice, 2); //fix for sending in fractional cents
       _TaxTableSelector = TaxTableSelector;
       if (MerchantPrivateItemData != null)
         _MerchantPrivateItemDataNodes = new System.Xml.XmlNode[] { 
@@ -90,7 +90,7 @@ namespace GCheckout.MerchantCalculation {
       _ItemName = ItemName;
       _ItemDescription = ItemDescription;
       _Quantity = Quantity;
-      _UnitPrice = UnitPrice;
+      _UnitPrice = Math.Round(UnitPrice, 2); //fix for sending in fractional cents
       _TaxTableSelector = TaxTableSelector;
       if (MerchantPrivateItemDataNodes != null)
         _MerchantPrivateItemDataNodes = MerchantPrivateItemDataNodes;

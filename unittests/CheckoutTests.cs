@@ -27,6 +27,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Reflection;
 using GCheckout.Util;
+using GCheckout.Checkout;
 
 namespace GCheckout.Checkout.Tests {
 
@@ -66,13 +67,15 @@ namespace GCheckout.Checkout.Tests {
         url.AddParameter(string.Empty, UrlParameterType.BillingCity);
         Assert.Fail("Empty parameters names are not allowed.");
       }
-      catch {}
+      catch {
+      }
 
       try {
         url.AddParameter("Test", UrlParameterType.Unknown);
         Assert.Fail("Unknown Parameter type is not allowed.");
       }
-      catch {}
+      catch {
+      }
 
       //needed for 100% coverage
       ParameterizedUrls testUrls = new ParameterizedUrls();
@@ -105,7 +108,7 @@ namespace GCheckout.Checkout.Tests {
         }
         else {
           Assert.AreEqual("ordertotal", name);
-          Assert.AreEqual("order-total", type);        
+          Assert.AreEqual("order-total", type);
         }
         index++;
       }
@@ -127,23 +130,22 @@ namespace GCheckout.Checkout.Tests {
         xml = request.GetXml();
         Assert.Fail("You should not be able to obtain the xml:MerchantCalculatedTax");
       }
-      catch (Exception ex)
-      {
+      catch (Exception ex) {
         if (ex.Message.IndexOf("MerchantCalculatedTax=true, you must add at least one tax rule.") == -1) {
-          Assert.Fail(ex.Message);   
+          Assert.Fail(ex.Message);
         }
       }
 
       //now we want to set a tax table and let it blow up because the callback url was not set.
       request.AddStateTaxRule("OH", .06, true);
-      
+
       try {
         xml = request.GetXml();
         Assert.Fail("You should not be able to obtain the xml:AddStateTaxRule");
       }
       catch (Exception ex) {
         if (ex.Message.IndexOf("MerchantCalculatedTax=true, you must set MerchantCalculationsUrl.") == -1) {
-          Assert.Fail(ex.Message);   
+          Assert.Fail(ex.Message);
         }
       }
 
@@ -156,7 +158,7 @@ namespace GCheckout.Checkout.Tests {
       }
       catch (Exception ex) {
         if (ex.Message.IndexOf("AcceptMerchantCoupons=true, you must set MerchantCalculationsUrl.") == -1) {
-          Assert.Fail(ex.Message);   
+          Assert.Fail(ex.Message);
         }
       }
 
@@ -169,7 +171,7 @@ namespace GCheckout.Checkout.Tests {
       }
       catch (Exception ex) {
         if (ex.Message.IndexOf("AcceptMerchantGiftCertificates=true, you must set") == -1) {
-          Assert.Fail(ex.Message);   
+          Assert.Fail(ex.Message);
         }
       }
 
@@ -187,7 +189,7 @@ namespace GCheckout.Checkout.Tests {
       }
       catch (Exception ex) {
         if (ex.Message.IndexOf("a ShipFrom address must also be set") == -1) {
-          Assert.Fail(ex.Message);   
+          Assert.Fail(ex.Message);
         }
       }
     }
@@ -209,7 +211,7 @@ namespace GCheckout.Checkout.Tests {
       //test to see if the item can desialize
       Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
 
-    
+
       //example 2
 
       request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "USD", 120);
@@ -257,7 +259,8 @@ namespace GCheckout.Checkout.Tests {
         request.AddZipTaxRule("255333", .05, true);
         Assert.Fail("255333 should not be a correct zip code format");
       }
-      catch {}
+      catch {
+      }
 
       cart = request.GetXml();
 
@@ -291,7 +294,8 @@ namespace GCheckout.Checkout.Tests {
         request.AddMerchantPrivateDataNode(null);
         Assert.Fail("Null can't be sent to AddMerchantPrivateDataNode.");
       }
-      catch {}
+      catch {
+      }
 
     }
 
@@ -310,8 +314,8 @@ namespace GCheckout.Checkout.Tests {
       mpdDoc.LoadXml("<data />");
       mpdDoc.DocumentElement.AppendChild(mpdDoc.CreateElement("node1"));
       mpdDoc.DocumentElement.AppendChild(mpdDoc.CreateElement("node2"));
-      XmlNode[] mpdNodes = new XmlNode[] {mpdDoc.DocumentElement.ChildNodes[0], mpdDoc.DocumentElement.ChildNodes[1]};
-      
+      XmlNode[] mpdNodes = new XmlNode[] { mpdDoc.DocumentElement.ChildNodes[0], mpdDoc.DocumentElement.ChildNodes[1] };
+
       si.MerchantPrivateItemDataNodes = mpdNodes;
       si.Name = "Name";
       si.Price = 0.99m;
@@ -319,8 +323,8 @@ namespace GCheckout.Checkout.Tests {
 
       AlternateTaxTable taxTable = new AlternateTaxTable("Example");
       taxTable.AddStateTaxRule("OH", .06);
-      
-      si.TaxTable = taxTable;      
+
+      si.TaxTable = taxTable;
       si.Weight = 10.5;
 
       si.TaxTable.AddCountryTaxRule(GCheckout.AutoGen.USAreas.ALL, 5.0);
@@ -343,20 +347,22 @@ namespace GCheckout.Checkout.Tests {
 
       XmlNode[] mpdn = request.MerchantPrivateDataNodes;
 
-      Assert.AreSame(mpdn[0], mpdNodes[0]); 
+      Assert.AreSame(mpdn[0], mpdNodes[0]);
 
       try {
         request.AddItem(null);
         Assert.Fail("Null can't be passed to the AddItem methods");
       }
-      catch {}
+      catch {
+      }
 
       try {
-        MethodInfo mi = typeof(CheckoutShoppingCartRequest).GetMethod("AddItem", new Type[] {typeof(IShoppingCartItem)});
-        mi.Invoke(request, new object[] {null});
+        MethodInfo mi = typeof(CheckoutShoppingCartRequest).GetMethod("AddItem", new Type[] { typeof(IShoppingCartItem) });
+        mi.Invoke(request, new object[] { null });
         Assert.Fail("Null can't be passed to the AddItem methods");
       }
-      catch {}
+      catch {
+      }
 
       request.AddItem(si);
       request.AddItem(si.Clone() as IShoppingCartItem);
@@ -371,7 +377,7 @@ namespace GCheckout.Checkout.Tests {
           ShoppingCartItem si2 = si.Clone() as ShoppingCartItem;
           ParameterInfo[] parameters = mi.GetParameters();
           object[] setter = new object[parameters.Length];
-          for(int i = 0; i < parameters.Length; i++) {
+          for (int i = 0; i < parameters.Length; i++) {
             ParameterInfo pi = parameters[i];
             if (pi.ParameterType == typeof(ShoppingCartItem) || pi.ParameterType == typeof(IShoppingCartItem)) {
               cancel = true;
@@ -380,7 +386,7 @@ namespace GCheckout.Checkout.Tests {
             //get the property from the object
             PropertyInfo source;
             if (pi.Name != "digitalItem") {
-              source = sct.GetProperty(pi.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance );
+              source = sct.GetProperty(pi.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
             }
             else {
               source = sct.GetProperty("DigitalContent");
@@ -412,6 +418,14 @@ namespace GCheckout.Checkout.Tests {
       item.Weight = 2.2;
       item.MerchantPrivateItemData = null; //perform a null check
 
+      //verify we can't set the price to fractions.
+
+      item.Price = 1.975m;
+      Assert.AreEqual(1.98m, item.Price);
+
+      item.Price = 1.994m;
+      Assert.AreEqual(1.99m, item.Price);
+
       Assert.AreEqual(2.2, item.Weight);
       Assert.AreEqual("Merchant Item ID", item.MerchantItemID);
 
@@ -425,23 +439,24 @@ namespace GCheckout.Checkout.Tests {
       item.MerchantPrivateItemDataNodes = new XmlNode[] { doc.DocumentElement };
       string xmlReturn = item.MerchantPrivateItemData;
       Assert.AreEqual(xml, xmlReturn);
-      
+
       //create a new node
       XmlNode secondNode = doc.DocumentElement.AppendChild(doc.CreateElement("test"));
-      item.MerchantPrivateItemDataNodes = new XmlNode[] { doc.DocumentElement, secondNode};
-      
+      item.MerchantPrivateItemDataNodes = new XmlNode[] { doc.DocumentElement, secondNode };
+
       xmlReturn = item.MerchantPrivateItemData;
       Assert.AreEqual(null, xmlReturn);
 
       item.MerchantPrivateItemDataNodes = null;
-      Assert.AreEqual(new XmlNode[] {}, item.MerchantPrivateItemDataNodes);
+      Assert.AreEqual(new XmlNode[] { }, item.MerchantPrivateItemDataNodes);
 
       //this should throw an exception
       try {
         item.Weight = -1;
         Assert.Fail("Weight should not be allowed to be negative.");
       }
-      catch {}
+      catch {
+      }
 
       //create a new instance of the cart item
       ShoppingCartItem testItem = new ShoppingCartItem();
@@ -454,7 +469,7 @@ namespace GCheckout.Checkout.Tests {
     }
 
     [Test]
-    public void Test_DigitalItem_EncodedUrls(){
+    public void Test_DigitalItem_EncodedUrls() {
 
       string url = CONST_URL;
 
@@ -473,6 +488,75 @@ namespace GCheckout.Checkout.Tests {
 
     }
 
+    [Test]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void TestAlternateTaxTableNullName() {
+      AlternateTaxTable att = new AlternateTaxTable(null);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ApplicationException))]
+    public void TestAlternateTaxTableSetNameTwice() {
+      AlternateTaxTable att = new AlternateTaxTable("Name1");
+      att.Name = "Blow up";
+    }
+
+    [Test]
+    [ExpectedException(typeof(ApplicationException))]
+    public void TestAlternateTaxAddZipCodeRuleBad1() {
+      AlternateTaxTable att = new AlternateTaxTable();
+      att.AddZipTaxRule("555555", .025);
+    }
+
+    [Test]
+    public void TestAlternateTaxAddZipCodeRuleGood() {
+      AlternateTaxTable att = new AlternateTaxTable();
+      att.AddZipTaxRule("44444", .025);
+    }
+
+    [Test]
+    public void TestAlternateTaxAddWorldAreaTaxRule() {
+      AlternateTaxTable att = new AlternateTaxTable();
+      att.AddWorldAreaTaxRule(.025);
+    }
+
+    [Test]
+    public void TestAlternateTaxStandAlone() {
+      AlternateTaxTable att = new AlternateTaxTable("name", true);
+      att.AddWorldAreaTaxRule(.025);
+      Assert.AreEqual(true, att.StandAlone);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ApplicationException))]
+    public void TestAlternateTaxTableNullNameFailAddWorldAreaTwice() {
+      AlternateTaxTable att = new AlternateTaxTable();
+      att.AddWorldAreaTaxRule(.025);
+      att.AddWorldAreaTaxRule(.025); //will blow up.
+    }
+
+    [Test]
+    public void TestAlternateTaxAddPostalCodeRuleGood() {
+      AlternateTaxTable att = new AlternateTaxTable();
+      att.AddPostalAreaTaxRule("CA", .040);
+      att.AddPostalAreaTaxRule("CA", "5F4F5F", .025);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ArgumentException))]
+    public void TestAlternateTaxAddPostalCodeBadCountry() {
+      AlternateTaxTable att = new AlternateTaxTable();
+      att.AddPostalAreaTaxRule(string.Empty, .040);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ApplicationException))]
+    public void TestAlternateTaxAddPostalCodeDuplicate() {
+      AlternateTaxTable att = new AlternateTaxTable();
+      att.AddPostalAreaTaxRule("CA", .040);
+      att.AddPostalAreaTaxRule("CA", .025);
+    }
+
     /// <exclude/>
     [Test]
     public void TestAlternateTaxTables() {
@@ -482,7 +566,7 @@ namespace GCheckout.Checkout.Tests {
       AlternateTaxTable ohio1 = new AlternateTaxTable("ohio");
       request.AlternateTaxTables.Add(ohio1);
       AlternateTaxTable ohio2 = request.AlternateTaxTables["ohio"];
-      AlternateTaxTable ohio3 = new AlternateTaxTable("ohio", false);
+      AlternateTaxTable ohio3 = new AlternateTaxTable("ohio", true);
 
       //Ensure that two Tax tables with the same name are not the same reference
       Assert.AreSame(ohio1, ohio2);
@@ -500,7 +584,7 @@ namespace GCheckout.Checkout.Tests {
         Assert.Fail("An exception should have been thrown when we tried to add an item that has a new Tax Reference");
       }
       catch (Exception) {
-    
+
       }
 
       //Now this should work fine.
@@ -511,7 +595,7 @@ namespace GCheckout.Checkout.Tests {
       //now decide to change your mind on the quantity and price
       newItem.Price = 20;
       newItem.Quantity = 4;
-      
+
       request.AddItem(newItem);
 
       //Console.WriteLine("private data:" + newItem.MerchantPrivateItemData);
@@ -529,16 +613,16 @@ namespace GCheckout.Checkout.Tests {
       Assert.AreEqual(1, ohio1.RuleCount);
 
       DigitalItem emailDigitalItem = new DigitalItem();
-      request.AddItem("Email Digital Item", "Cool DigitalItem", 2.00m, 1,  emailDigitalItem);
+      request.AddItem("Email Digital Item", "Cool DigitalItem", 2.00m, 1, emailDigitalItem);
 
       DigitalItem urlDigitalItem = new DigitalItem(new Uri("http://www.google.com/download.aspx?myitem=1"), "Url Description for item");
-      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00m, 1,  urlDigitalItem);
+      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00m, 1, urlDigitalItem);
 
       DigitalItem keyDigitalItem = new DigitalItem("24-235-sdf-123541-53", "Key Description for item");
-      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00m, 1,  keyDigitalItem);
+      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00m, 1, keyDigitalItem);
 
-      DigitalItem keyUrlItem = new DigitalItem("24-235-sdf-123541-53","http://www.google.com/download.aspx?myitem=1", "Url/Key Description for item");
-      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00m, 1,  keyUrlItem);
+      DigitalItem keyUrlItem = new DigitalItem("24-235-sdf-123541-53", "http://www.google.com/download.aspx?myitem=1", "Url/Key Description for item");
+      request.AddItem("Url Digital Item", "Cool Url DigitalItem", 2.00m, 1, keyUrlItem);
 
       //lets make sure we can add 2 different flat rate shipping amounts
 
@@ -551,7 +635,8 @@ namespace GCheckout.Checkout.Tests {
         request.AddMerchantCalculatedShippingMethod("Test", 12.95m);
         Assert.Fail("AddCarrierCalculatedShippingOption should not allow duplicates.");
       }
-      catch {}
+      catch {
+      }
 
       //lets try adding a Carrier Calculated Shipping Type
 
@@ -560,27 +645,30 @@ namespace GCheckout.Checkout.Tests {
         request.AddShippingPackage("failedpackage", string.Empty, "OH", "44114", DeliveryAddressCategory.COMMERCIAL, 2, 3, 4);
         Assert.Fail("AddCarrierCalculatedShippingOption should not allow duplicates.");
       }
-      catch {}
-      
+      catch {
+      }
+
       //The first thing that needs to be done for carrier calculated shipping is we must set the FOB address.
       request.AddShippingPackage("main", "Cleveland", "OH", "44114", DeliveryAddressCategory.COMMERCIAL, 2, 3, 4);
-      
+
       //this should fail because two packages exist
       try {
         request.AddShippingPackage("failedpackage", "Cleveland", "OH", "44114", DeliveryAddressCategory.COMMERCIAL, 2, 3, 4);
         Assert.Fail("AddCarrierCalculatedShippingOption should not allow duplicates.");
       }
-      catch {}
+      catch {
+      }
 
       try {
         request.AddShippingPackage("main", "Cleveland", "OH", "44114");
         Assert.Fail("AddCarrierCalculatedShippingOption should not allow duplicates.");
       }
-      catch {}
+      catch {
+      }
 
       //The next thing we will do is add a Fedex Home Package.
       //We will set the default to 3.99, the Pickup to Regular Pickup, the additional fixed charge to 1.29 and the discount to 2.5%
-      CarrierCalculatedShippingOption option 
+      CarrierCalculatedShippingOption option
         = request.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Home_Delivery, 3.99m, CarrierPickup.REGULAR_PICKUP, 1.29m, -2.5);
       option.AdditionalVariableChargePercent = 0; //make sure we can set it back to 0;
       option.AdditionalFixedCharge = 0;
@@ -595,7 +683,8 @@ namespace GCheckout.Checkout.Tests {
         option.AdditionalFixedCharge = -1;
         Assert.Fail("Additional charge must be >= 0");
       }
-      catch {}
+      catch {
+      }
 
       option.AdditionalVariableChargePercent = 2; //make sure we can set it back to 0;
       option.AdditionalFixedCharge = 3;
@@ -609,10 +698,14 @@ namespace GCheckout.Checkout.Tests {
         Assert.Fail("AddCarrierCalculatedShippingOption should not allow duplicates.");
       }
       catch {
-         
+
       }
 
-      request.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Ground, 1.99m);
+      //verify the rounding works
+      CarrierCalculatedShippingOption ccso = request.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Ground, 1.993m);
+      Assert.AreEqual(1.99m, ccso.Price);
+      ccso.Price = 1.975m;
+      Assert.AreEqual(1.98m, ccso.Price);
       request.AddCarrierCalculatedShippingOption(ShippingType.Fedex_Second_Day, 9.99m, CarrierPickup.REGULAR_PICKUP, 2.34m, -24.5);
 
       //Ensure we are able to create the cart xml
@@ -623,6 +716,50 @@ namespace GCheckout.Checkout.Tests {
 
       //test to see if the item can desialize
       Assert.IsNotNull(GCheckout.Util.EncodeHelper.Deserialize(cart));
+    }
+
+    [Test]
+    public void TestAlternateTaxTableCollectionTestExists() {
+      AlternateTaxTableCollection attc = new AlternateTaxTableCollection();
+      attc.Add(new AlternateTaxTable("test"));
+      Assert.IsTrue(attc.Exists("test"));
+    }
+
+    [Test]
+    public void TestAlternateTaxTableCollectionTestFactories() {
+      AlternateTaxTableCollection attc = new AlternateTaxTableCollection();
+      AlternateTaxTable att = attc.Factory("name");
+      Assert.AreEqual(att.Name, "name");
+      att = attc.Factory("name2", true);
+      Assert.AreEqual(att.Name, "name2");
+      Assert.AreEqual(att.StandAlone, true);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void TestAlternateTaxTableCollectionTestFactoriesNullName() {
+      AlternateTaxTableCollection attc = new AlternateTaxTableCollection();
+      AlternateTaxTable att = attc.Factory(null);
+    }
+
+    [Test]
+    [ExpectedException(typeof(ApplicationException))]
+    public void TestAlternateTaxTableCollectionTestFactoriesDuplicateName() {
+      AlternateTaxTableCollection attc = new AlternateTaxTableCollection();
+      AlternateTaxTable att = attc.Factory("name");
+      att = attc.Factory("name"); //blow up
+    }
+
+    [Test]
+    public void TestAlternateTaxTableCollectionTestDelete() {
+      AlternateTaxTableCollection attc = new AlternateTaxTableCollection();
+      AlternateTaxTable att = attc.Factory("name");
+      attc.Factory("name2", true);
+      Assert.IsTrue(attc.Exists("name"));
+      Assert.IsTrue(attc.Exists("name2"));
+      attc.Delete("name");
+      Assert.IsFalse(attc.Exists("name"));
+      Assert.IsTrue(attc.Exists("name2"));
     }
 
     /// <exclude/>
@@ -636,12 +773,12 @@ namespace GCheckout.Checkout.Tests {
       Req.AddFlatRateShippingMethod("USPS", 4.30m);
       // Check the <order-processing-support> tag is not there by default.
       Xml = Req.GetXml();
-      Cart = (AutoGen.CheckoutShoppingCart) EncodeHelper.Deserialize(Xml);
+      Cart = (AutoGen.CheckoutShoppingCart)EncodeHelper.Deserialize(Xml);
       Assert.IsNull(Cart.orderprocessingsupport);
       // Set RequestInitialAuthDetails and check that the XML changes.
       Req.RequestInitialAuthDetails = true;
       Xml = Req.GetXml();
-      Cart = (AutoGen.CheckoutShoppingCart) EncodeHelper.Deserialize(Xml);
+      Cart = (AutoGen.CheckoutShoppingCart)EncodeHelper.Deserialize(Xml);
       Assert.IsNotNull(Cart.orderprocessingsupport);
       Assert.IsTrue(Cart.orderprocessingsupport.requestinitialauthdetails);
       Assert.IsTrue(Cart.orderprocessingsupport.requestinitialauthdetailsSpecified);
@@ -658,7 +795,7 @@ namespace GCheckout.Checkout.Tests {
       Req.AddFlatRateShippingMethod("USPS", 4.30m);
       Req.SetExpirationMinutesFromNow(10);
       Xml = Req.GetXml();
-      Cart = (AutoGen.CheckoutShoppingCart) EncodeHelper.Deserialize(Xml);
+      Cart = (AutoGen.CheckoutShoppingCart)EncodeHelper.Deserialize(Xml);
       DateTime Exp = Cart.shoppingcart.cartexpiration.gooduntildate;
       Exp = Exp.ToLocalTime();
       TimeSpan T = Exp.Subtract(DateTime.Now);
@@ -684,8 +821,17 @@ namespace GCheckout.Checkout.Tests {
 
       Req = new CheckoutShoppingCartRequest
         ("123", "456", EnvironmentType.Production, "USD", 0, true);
-      Assert.AreEqual("https://checkout.google.com/api/checkout/v2/merchantCheckout/Donations/123", Req.GetPostUrl());           
+      Assert.AreEqual("https://checkout.google.com/api/checkout/v2/merchantCheckout/Donations/123", Req.GetPostUrl());
 
+    }
+
+    [Test]
+    public void Test_MerchantCode() {
+      MerchantCode mc = new MerchantCode();
+      mc.AppliedAmount = 1.975m;
+      mc.CalculatedAmount = 1.994m;
+      Assert.AreEqual(1.98m, mc.AppliedAmount);
+      Assert.AreEqual(1.99m, mc.CalculatedAmount);
     }
 
   }

@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
+/*
+ Edit History:
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
+ * 
+*/
 
 using System;
 
@@ -27,6 +33,9 @@ namespace GCheckout.MerchantCalculation {
   /// certificates.
   /// </summary>
   public class MerchantCodeResult {
+
+    private decimal _amount;
+
     /// <summary>
     /// Define the Type of Merchant Code
     /// </summary>
@@ -35,10 +44,20 @@ namespace GCheckout.MerchantCalculation {
     /// Return if the Code is valid or not
     /// </summary>
     public bool Valid = false;
+
     /// <summary>
     /// Return the Value of the Code
     /// </summary>
-    public decimal Amount = 0;
+    public decimal Amount {
+      get {
+        return _amount;
+      }
+      set {
+        value = Math.Round(value, 2); //fix for sending in fractional cents
+        _amount = value;
+      }
+    }
+    
     /// <summary>
     /// Return a message relating to the callback.
     /// </summary>

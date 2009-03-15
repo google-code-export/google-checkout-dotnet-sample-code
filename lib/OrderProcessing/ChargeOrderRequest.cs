@@ -13,11 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
-
+/*
+ Edit History:
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
+ * 
+*/
 using System;
 using GCheckout.Util;
 
 namespace GCheckout.OrderProcessing {
+
   /// <summary>
   /// This class contains methods that construct &lt;charge-order&gt; API 
   /// requests.
@@ -25,6 +31,15 @@ namespace GCheckout.OrderProcessing {
   public class ChargeOrderRequest : OrderProcessingBase {
     private string _Currency = null;
     private decimal _Amount = -1;
+
+    /// <summary>
+    /// Get the amount for the Request
+    /// </summary>
+    public decimal Amount {
+      get {
+        return _Amount;
+      }
+    }
 
     /// <summary>
     /// Create a new &lt;charge-order&gt; API request message
@@ -62,7 +77,7 @@ namespace GCheckout.OrderProcessing {
       string Env, string GoogleOrderNumber, string Currency, decimal Amount)
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _Currency = Currency;
-      _Amount = Amount;
+      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>
@@ -75,7 +90,7 @@ namespace GCheckout.OrderProcessing {
     public ChargeOrderRequest(string GoogleOrderNumber, string Currency, 
       decimal Amount) : base(GoogleOrderNumber) {
       _Currency = Currency;
-      _Amount = Amount;
+      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>Method that is called to produce the Xml message 

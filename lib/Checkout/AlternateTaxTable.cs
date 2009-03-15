@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006 Google Inc.
+ * Copyright (C) 2006-2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
+/*
+ Edit History:
+ *  3-14-2009   Joe Feser joe.feser@joefeser.com
+ *  Verify tax rules and better code coverage.  
+ * 
+*/
+
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GCheckout.Checkout {
 
@@ -31,10 +39,11 @@ namespace GCheckout.Checkout {
     ///This is sort of like DBNull.Value for comparisons of AlternateTaxTables
     /// </remarks>
     public static AlternateTaxTable Empty = new AlternateTaxTable();
-    
+
     private string _name;
     private bool _standalone;
-    private ArrayList _taxRules = new ArrayList();
+    private List<AutoGen.AlternateTaxRule> _taxRules
+      = new List<GCheckout.AutoGen.AlternateTaxRule>();
 
     /// <summary>
     /// The name attribute value contains a string that can be used to identify
@@ -47,10 +56,10 @@ namespace GCheckout.Checkout {
       }
       set {
         if (value == null || value == string.Empty || value.Trim() == string.Empty) {
-          throw new ArgumentNullException("Name", "The Name of the Tax table must not be empty.");   
+          throw new ArgumentNullException("Name", "The Name of the Tax table must not be empty.");
         }
 
-        value = value.Trim();
+        value = value.Trim().ToLower();
 
         if (_name == null || _name == string.Empty) {
           _name = value.ToLower();
@@ -59,7 +68,7 @@ namespace GCheckout.Checkout {
           //The reason for this is it has an impact on every tax in the system.
           //Once you set the name, it should not be changed
           throw new ApplicationException("The name of this Tax" +
-            "table has already been set and can't be changed.");   
+            "table has already been set and can't be changed.");
         }
       }
     }
@@ -87,7 +96,7 @@ namespace GCheckout.Checkout {
     /// </summary>
     public int RuleCount {
       get {
-        return _taxRules.Count; 
+        return _taxRules.Count;
       }
     }
 
@@ -109,7 +118,7 @@ namespace GCheckout.Checkout {
     public AlternateTaxTable(string name) {
       if (name != null)
         name = name.Trim();
-      Name = name.ToLower();
+      Name = name; //do not tolower, let the name setter perform it
     }
 
     /// <summary>
@@ -130,9 +139,7 @@ namespace GCheckout.Checkout {
     ///  the default tax table.
     /// </param>
     public AlternateTaxTable(string name, bool standalone) {
-      if (name != null)
-        name = name.Trim();
-      Name = name.ToLower();
+      Name = name;
       StandAlone = standalone;
     }
 
@@ -204,15 +211,23 @@ namespace GCheckout.Checkout {
       Area.zippattern = ZipPattern;
       _taxRules.Add(rule);
     }
- 
+
     /// <summary>
-    /// Adds the country tax rule.
+    /// Adds the world tax rule.
     /// This method adds a tax rule associated with a particular state.
     /// </summary>
     /// <param name="TaxRate">The tax rate associated with a tax rule. Tax 
     /// rates are expressed as decimal values. For example, a value of 0.0825 
     /// specifies a tax rate of 8.25%.</param>
     public void AddWorldAreaTaxRule(double TaxRate) {
+
+      foreach (AutoGen.AlternateTaxRule tr in _taxRules) {
+        if (tr.taxarea.Item.GetType() == typeof(AutoGen.WorldArea)) {
+          throw new ApplicationException(
+            "Only one world tax area may exist.");
+        }
+      }
+
       AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
       rule.rate = TaxRate;
       rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
@@ -255,6 +270,27 @@ namespace GCheckout.Checkout {
     /// specifies a tax rate of 8.25%.</param>
     public void AddPostalAreaTaxRule(string countryCode, string postalCodePattern, 
       double TaxRate) {
+
+      if (string.IsNullOrEmpty(countryCode))
+        throw new ArgumentException("countryCode", "CountryCode is required.");
+
+      countryCode = countryCode.ToUpper();
+
+      if (postalCodePattern == string.Empty)
+        postalCodePattern = null;
+
+      //verify we don't have a duplicate
+      foreach (AutoGen.AlternateTaxRule tr in _taxRules) {
+        AutoGen.PostalArea pa = tr.taxarea.Item as AutoGen.PostalArea;
+        if (pa != null) {
+          if (pa.countrycode == countryCode) {
+            if (pa.postalcodepattern == postalCodePattern) {
+              throw new ApplicationException("Duplicate Postal Pattern");
+            }
+          }
+        }
+      }
+
       AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
       rule.rate = TaxRate;
       rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
@@ -272,19 +308,19 @@ namespace GCheckout.Checkout {
     /// </summary>
     /// <returns></returns>
     internal AutoGen.AlternateTaxTable GetAutoGenTable() {
-      AutoGen.AlternateTaxTable retVal 
+      AutoGen.AlternateTaxTable retVal
         = new GCheckout.AutoGen.AlternateTaxTable();
       retVal.name = Name;
       retVal.standalone = StandAlone;
       if (StandAlone) {
-        retVal.standaloneSpecified = true;   
+        retVal.standaloneSpecified = true;
       }
 
-      AutoGen.AlternateTaxRule[] rules 
+      AutoGen.AlternateTaxRule[] rules
         = new GCheckout.AutoGen.AlternateTaxRule[_taxRules.Count];
       _taxRules.CopyTo(rules, 0);
       retVal.alternatetaxrules = rules;
-      
+
       return retVal;
     }
   }
