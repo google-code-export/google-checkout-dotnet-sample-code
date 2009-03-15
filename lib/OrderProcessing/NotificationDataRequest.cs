@@ -32,6 +32,15 @@ namespace GCheckout.OrderProcessing {
   public class NotificationDataRequest : ReportRequestBase {
 
     string _token;
+
+    /// <summary>
+    /// The Token
+    /// </summary>
+    public string Token {
+      get {
+        return _token;
+      }
+    }
     
     /// <summary>
     /// Create a new Instance of NotificationDataRequest
@@ -45,6 +54,15 @@ namespace GCheckout.OrderProcessing {
       string merchantKey, string environment, string token)
       : base(merchantID, merchantKey, environment) {
       _token = token;
+    }
+
+     /// <summary>
+    /// Create a new Instance of NotificationDataRequest
+    /// </summary>
+    public NotificationDataRequest()
+      : base(GCheckoutConfigurationHelper.MerchantID.ToString(),
+      GCheckoutConfigurationHelper.MerchantKey,
+      GCheckoutConfigurationHelper.Environment.ToString()) {
     }
 
     /// <summary>
