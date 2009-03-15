@@ -107,6 +107,7 @@
     <Compile Include="EncodeHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="MerchantCalculationTests.cs" />
     <Compile Include="NotificationHistoryTests.cs" />
     <Compile Include="NotificationTests.cs">
       <SubType>Code</SubType>

@@ -17,6 +17,7 @@
 using System;
 using NUnit.Framework;
 using GCheckout.Util;
+using GCheckout.Checkout.Tests;
 
 namespace GCheckout.OrderProcessing.Tests {
   /// <exclude/>
@@ -53,7 +54,7 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual(null, D.trackingdata);
 
       // Test the second constructor.
-      Req = new DeliverOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, "UPS", 
+      Req = new DeliverOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, "UPS",
         "1234", false);
       D = ParseDeliverOrderRequest(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
@@ -71,7 +72,7 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual("1234", D.trackingdata.trackingnumber);
 
       // Test the third constructor.
-      Req = new DeliverOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, "UPS", 
+      Req = new DeliverOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, "UPS",
         "1234");
       D = ParseDeliverOrderRequest(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
@@ -101,6 +102,47 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual(true, D.sendemailSpecified);
       Assert.AreEqual(false, D.sendemail);
       Assert.AreEqual(null, D.trackingdata);
+    }
+
+    [Test]
+    public void TestHelloRequest1() {
+      HelloRequest hr = new HelloRequest();
+      AutoGen.Hello sr = EncodeHelper.Deserialize(hr.GetXml()) as AutoGen.Hello;
+      Assert.IsNotNull(sr);
+      hr = new HelloRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Production.ToString());
+      Assert.AreEqual(MERCHANT_ID, hr.MerchantID);
+      Assert.AreEqual(MERCHANT_KEY, hr.MerchantKey);
+      Assert.AreEqual(EnvironmentType.Production, hr.Environment);
+    }
+
+    [Test]
+    public void TestNotificationDataRequest() {
+      NotificationDataRequest hr = new NotificationDataRequest();
+      AutoGen.NotificationDataRequest sr = EncodeHelper.Deserialize(hr.GetXml()) as AutoGen.NotificationDataRequest;
+      Assert.IsNotNull(sr);
+
+      hr = new NotificationDataRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Production.ToString(), "test_token");
+      Assert.AreEqual(MERCHANT_ID, hr.MerchantID);
+      Assert.AreEqual(MERCHANT_KEY, hr.MerchantKey);
+      Assert.AreEqual(EnvironmentType.Production, hr.Environment);
+      Assert.AreEqual("test_token", hr.Token);
+    }
+
+    [Test]
+    public void TestNotificationDataResponse() {
+      AutoGen.NotificationDataResponse dr = new GCheckout.AutoGen.NotificationDataResponse();
+      dr.continuetoken = "ct";
+      dr.hasmorenotifications = true;
+      dr.hasmorenotificationsSpecified = true;
+      dr.notifications = new GCheckout.AutoGen.NotificationDataResponseNotifications();
+      dr.serialnumber = "12345";
+
+      string message = EncodeHelper.Utf8BytesToString(EncodeHelper.Serialize(dr));
+
+      NotificationDataResponse hr = new NotificationDataResponse(message);
+
+      Assert.AreEqual(hr.IsGood, true);
+      Assert.AreEqual(hr.SerialNumber, "12345");
     }
 
     /// <exclude/>
@@ -167,7 +209,7 @@ namespace GCheckout.OrderProcessing.Tests {
       CancelOrderRequest Req;
       AutoGen.CancelOrderRequest D;
       // Test the first constructor.
-      Req = new CancelOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, 
+      Req = new CancelOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER,
         REASON);
       D = ParseCancelOrderRequest(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
@@ -176,7 +218,7 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual(Req.GoogleOrderNumber, D.googleordernumber);
 
       // Test the second constructor.
-      Req = new CancelOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, 
+      Req = new CancelOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER,
         REASON, COMMENT);
       D = ParseCancelOrderRequest(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
@@ -195,7 +237,7 @@ namespace GCheckout.OrderProcessing.Tests {
     [Test, ExpectedException(typeof(ApplicationException))]
     public void InvalidCancelOrderRequest1() {
       // Reason is not allowed to be null.
-      CancelOrderRequest Req = new CancelOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", 
+      CancelOrderRequest Req = new CancelOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox",
         ORDER_NUMBER, null);
     }
 
@@ -203,7 +245,7 @@ namespace GCheckout.OrderProcessing.Tests {
     [Test, ExpectedException(typeof(ApplicationException))]
     public void InvalidCancelOrderRequest2() {
       // Reason is not allowed to be an empty string.
-      CancelOrderRequest Req = new CancelOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", 
+      CancelOrderRequest Req = new CancelOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox",
         ORDER_NUMBER, "");
     }
 
@@ -215,23 +257,23 @@ namespace GCheckout.OrderProcessing.Tests {
 
       // Test the first constructor.
       Req = new ChargeOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER);
-      D = (AutoGen.ChargeOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.ChargeOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(null, D.amount);
-      
+
       // Test the second constructor.
       Req = new ChargeOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, "GBP", 10.2m);
-      D = (AutoGen.ChargeOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.ChargeOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual("GBP", D.amount.currency);
       Assert.AreEqual(10.2m, D.amount.Value);
-    
+
       Req = new ChargeOrderRequest(ORDER_NUMBER);
-      D = (AutoGen.ChargeOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.ChargeOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(Req.GoogleOrderNumber, D.googleordernumber);
- 
+
       Req = new ChargeOrderRequest(ORDER_NUMBER, "USD", 12.975m);
-      D = (AutoGen.ChargeOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.ChargeOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(Req.GoogleOrderNumber, D.googleordernumber);
       Assert.AreEqual(Req.Amount, 12.98m);
     }
@@ -249,9 +291,9 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual(req.GoogleOrderNumber, post.googleordernumber);
 
       req = new ProcessOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER);
-      xml =  req.GetXml();
+      xml = req.GetXml();
 
-    
+
     }
 
     /// <exclude/>
@@ -260,9 +302,9 @@ namespace GCheckout.OrderProcessing.Tests {
       RefundOrderRequest Req;
       AutoGen.RefundOrderRequest D;
       // Test the first constructor.
-      Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, 
+      Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER,
         REASON);
-      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(null, D.amount);
       Assert.AreEqual(null, D.comment);
@@ -270,9 +312,9 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual(Req.GoogleOrderNumber, D.googleordernumber);
 
       // Test the second constructor.
-      Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, 
+      Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER,
         REASON, "GBP", 100.975m);
-      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual("GBP", D.amount.currency);
       Assert.AreEqual(100.98m, D.amount.Value);
@@ -280,18 +322,18 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual(REASON, D.reason);
 
       // Test the third constructor.
-      Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, 
+      Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER,
         REASON, COMMENT);
-      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(0, D.amount.Value);
       Assert.AreEqual(COMMENT, D.comment);
       Assert.AreEqual(REASON, D.reason);
 
       // Test the fourth constructor.
-      Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, 
+      Req = new RefundOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER,
         REASON, "USD", 100.993m, COMMENT);
-      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual("USD", D.amount.currency);
       Assert.AreEqual(100.99m, D.amount.Value);
@@ -300,33 +342,33 @@ namespace GCheckout.OrderProcessing.Tests {
 
       // Test the fifth constructor.
       Req = new RefundOrderRequest(ORDER_NUMBER, REASON);
-      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(null, D.comment);
       Assert.AreEqual(REASON, D.reason);
 
       // Test the sixth constructor.
-      Req = new RefundOrderRequest(ORDER_NUMBER, 
+      Req = new RefundOrderRequest(ORDER_NUMBER,
         REASON, "USD", 100.993m);
-      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(100.99m, D.amount.Value);
       Assert.AreEqual(null, D.comment);
       Assert.AreEqual(REASON, D.reason);
 
       // Test the seventh constructor.
-      Req = new RefundOrderRequest(ORDER_NUMBER, 
+      Req = new RefundOrderRequest(ORDER_NUMBER,
         REASON, COMMENT);
-      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(0, D.amount.Value);
       Assert.AreEqual(COMMENT, D.comment);
       Assert.AreEqual(REASON, D.reason);
 
       // Test the eighth constructor.
-      Req = new RefundOrderRequest(ORDER_NUMBER, 
+      Req = new RefundOrderRequest(ORDER_NUMBER,
         REASON, "USD", 100.993m, COMMENT);
-      D = (AutoGen.RefundOrderRequest) EncodeHelper.Deserialize(Req.GetXml());
+      D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
       Assert.AreEqual(100.99m, D.amount.Value);
       Assert.AreEqual(COMMENT, D.comment);
@@ -349,7 +391,7 @@ namespace GCheckout.OrderProcessing.Tests {
     [Test()]
     public void AddTrackingDataRequestTests() {
       AddTrackingDataRequest req
-        = new AddTrackingDataRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", 
+        = new AddTrackingDataRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox",
         ORDER_NUMBER, "UPS", UPS_TRACKING);
       Assert.AreEqual(ORDER_NUMBER, req.GoogleOrderNumber);
       Assert.AreEqual("UPS", req.Carrier);
@@ -366,12 +408,12 @@ namespace GCheckout.OrderProcessing.Tests {
     [Test()]
     public void ArchiveOrderRequestTests() {
       ArchiveOrderRequest req = new ArchiveOrderRequest(ORDER_NUMBER);
-      ArchiveOrderRequest req2 
+      ArchiveOrderRequest req2
         = EncodeHelper.Deserialize(req.GetXml()) as ArchiveOrderRequest;
 
       Assert.AreEqual(ORDER_NUMBER, req.GoogleOrderNumber);
 
-      req = new ArchiveOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox",ORDER_NUMBER);
+      req = new ArchiveOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER);
       Assert.AreEqual(ORDER_NUMBER, req.GoogleOrderNumber);
 
     }
@@ -380,7 +422,7 @@ namespace GCheckout.OrderProcessing.Tests {
     [Test()]
     public void TestAddMerchantOrderNumberRequest() {
       AddMerchantOrderNumberRequest req = new AddMerchantOrderNumberRequest(ORDER_NUMBER, MERCHANT_ORDER_NUMBER);
-      AutoGen.AddMerchantOrderNumberRequest D 
+      AutoGen.AddMerchantOrderNumberRequest D
         = EncodeHelper.Deserialize(req.GetXml()) as AutoGen.AddMerchantOrderNumberRequest;
 
       Assert.AreEqual(req.GoogleOrderNumber, D.googleordernumber);
@@ -400,22 +442,22 @@ namespace GCheckout.OrderProcessing.Tests {
 
       testVal = EncodeHelper.Deserialize(Xml);
       Assert.IsNotNull(testVal);
-      Assert.AreEqual(testVal.GetType(), T);  
-      
+      Assert.AreEqual(testVal.GetType(), T);
+
       string Xml2 = EncodeHelper.Utf8BytesToString(Xml);
 
       //we want to test the generic Deserialize Method first.
       testVal = EncodeHelper.Deserialize(Xml2);
       Assert.IsNotNull(testVal);
       Assert.AreEqual(testVal.GetType(), T);
-      
-      return (AutoGen.DeliverOrderRequest) EncodeHelper.Deserialize(Xml2, T);
+
+      return (AutoGen.DeliverOrderRequest)EncodeHelper.Deserialize(Xml2, T);
     }
 
     private AutoGen.CancelOrderRequest ParseCancelOrderRequest(byte[] Xml) {
       Type T = typeof(AutoGen.CancelOrderRequest);
       string Xml2 = EncodeHelper.Utf8BytesToString(Xml);
-      return (AutoGen.CancelOrderRequest) EncodeHelper.Deserialize(Xml2, T);
+      return (AutoGen.CancelOrderRequest)EncodeHelper.Deserialize(Xml2, T);
     }
   }
 }
