@@ -115,7 +115,6 @@
     <Compile Include="OrderProcessingRequestTests.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PollingApiUnitTests.cs" />
     <Compile Include="ResetReturnBackOrderAndCancelItemTests.cs">
       <SubType>Code</SubType>
     </Compile>

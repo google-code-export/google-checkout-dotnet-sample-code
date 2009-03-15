@@ -240,7 +240,6 @@
     <Compile Include="OrderProcessing\OrderProcessingBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="OrderProcessing\PollingApi.cs" />
     <Compile Include="OrderProcessing\ProcessOrderRequest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -299,11 +298,6 @@
     <Compile Include="Util\TypeDictionaryEntryAttribute.cs">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="GoogleCheckout.mdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
