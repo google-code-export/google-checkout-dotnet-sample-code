@@ -598,7 +598,7 @@ namespace GCheckout.Checkout.Tests {
 
       //reset
       cart = EncodeHelper.Deserialize(request.GetXml()) as AutoGen.CheckoutShoppingCart;
-      Console.WriteLine(EncodeHelper.Utf8BytesToString(EncodeHelper.Serialize(cart)));
+      //Console.WriteLine(EncodeHelper.Utf8BytesToString(EncodeHelper.Serialize(cart)));
 
       foreach (AutoGen.Item ai in cart.shoppingcart.items) {
         ShoppingCartItem ci = new ShoppingCartItem(ai);
