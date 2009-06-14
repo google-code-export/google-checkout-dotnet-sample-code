@@ -137,9 +137,53 @@
       </xs:element>
       <xs:element name="merchant-item-id" type="xs:string" minOccurs="0" />
       <xs:element name="merchant-private-item-data" type="tns:anyMultiple" minOccurs="0" />
+      <xs:element name="subscription" type="tns:Subscription" minOccurs="0" />
     </xs:all>
   </xs:complexType>
+
+  <xs:complexType name="Subscription">
+    <xs:all>
+      <xs:element name="payments">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="subscription-payment" type="tns:SubscriptionPayment" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="recurrent-item" type="tns:Item" minOccurs="0" />
+    </xs:all>
+    <xs:attribute name="no-charge-after" type="xs:dateTime" use="optional" />
+    <xs:attribute name="period" type="tns:DatePeriod" use="required" />
+    <xs:attribute name="start-date" type="xs:dateTime" use="optional" />
+    <xs:attribute name="type" type="xs:string" use="required" />
+  </xs:complexType>
   
+  <xs:complexType name="SubscriptionPayment">
+    <xs:all>
+      <xs:element name="maximum-charge" type="tns:Money" />
+    </xs:all>
+    <xs:attribute name="times" type="xs:int" use="optional" />
+  </xs:complexType>
+  
+  <xs:simpleType name="DatePeriod">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="DAILY" />
+      <xs:enumeration value="WEEKLY" />
+      <xs:enumeration value="SEMI_MONTHLY" />
+      <xs:enumeration value="MONTHLY" />
+      <xs:enumeration value="EVERY_TWO_MONTHS" />
+      <xs:enumeration value="QUARTERLY" />
+      <xs:enumeration value="YEARLY" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="CreateOrderRecurrenceRequest">
+    <xs:all>
+      <xs:element name="shopping-cart" type="tns:ShoppingCart" />
+    </xs:all>
+    <xs:attribute name="google-order-number" type="xs:token" use="required" />
+  </xs:complexType>
+
   <xs:complexType name="CartExpiration">
     <xs:all>
       <xs:element name="good-until-date" type="xs:dateTime" />
@@ -1297,7 +1341,9 @@
   <xs:element name="checkout-redirect" type="tns:CheckoutRedirect" />
   
   <xs:element name="charge-order" type="tns:ChargeOrderRequest" />
-  
+
+  <xs:element name="create-order-recurrence-request" type="tns:CreateOrderRecurrenceRequest"/>
+
   <xs:element name="refund-order" type="tns:RefundOrderRequest" />
   
   <xs:element name="cancel-order" type="tns:CancelOrderRequest" />

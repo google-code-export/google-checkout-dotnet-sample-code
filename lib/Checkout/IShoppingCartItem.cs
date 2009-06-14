@@ -21,14 +21,14 @@ using System.Collections;
 using GCheckout.Util;
 
 namespace GCheckout.Checkout {
-	
+
   /// <summary>
   /// A wrapper containing information about an individual item listed 
   /// in the customer's shopping cart
   /// </summary>
   /// <remarks>This will allow for a custom implementation of a cart item.
   /// </remarks>
-  public interface IShoppingCartItem {
+  public interface IShoppingCartItem : ICloneable {
 
     /// <summary>
     /// Identifies the name of an item
@@ -97,7 +97,7 @@ namespace GCheckout.Checkout {
     /// Identifies an alternate tax table that should be
     /// used to calculate tax for a particular item.
     /// </summary>
-    AlternateTaxTable TaxTable{
+    AlternateTaxTable TaxTable {
       get;
       set;
     }
@@ -107,6 +107,14 @@ namespace GCheckout.Checkout {
     /// delivery of an item.
     /// </summary>
     DigitalItem DigitalContent {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// This item is a subscription item if this node has a value.
+    /// </summary>
+    Subscription Subscription {
       get;
       set;
     }
