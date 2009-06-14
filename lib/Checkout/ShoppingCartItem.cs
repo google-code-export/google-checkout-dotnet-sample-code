@@ -40,7 +40,7 @@ namespace GCheckout.Checkout {
     private decimal _price;
     private int _quantity;
     private string _merchantItemID;
-    private XmlNode[] _merchantPrivateItemDataNodes = new XmlNode[] {};
+    private XmlNode[] _merchantPrivateItemDataNodes = new XmlNode[] { };
     private AlternateTaxTable _taxTable;
     private DigitalItem _digitalContent;
     private double _itemWeight;
@@ -48,6 +48,7 @@ namespace GCheckout.Checkout {
     private string _taxtableselector = string.Empty;
     //we want the for the table table information.
     private GCheckout.AutoGen.Item _notificationItem;
+    private Subscription _subscription;
 
     /// <summary>
     /// Identifies the name of an item
@@ -147,7 +148,7 @@ namespace GCheckout.Checkout {
         //we must delete the data
         if (value == string.Empty) {
           //we are not going to remove the node. we are just going to set it
-          if (merchantNode != null){
+          if (merchantNode != null) {
             merchantNode.InnerXml = string.Empty;
           }
         }
@@ -156,14 +157,14 @@ namespace GCheckout.Checkout {
             //we need to copy the array and then add this item to it.
             merchantNode = CheckoutShoppingCartRequest.MakeXmlElement(value);
             //now put the node in the array.
-            XmlNode[] nodes 
+            XmlNode[] nodes
               = new XmlNode[MerchantPrivateItemDataNodes.Length + 1];
             MerchantPrivateItemDataNodes.CopyTo(nodes, 0);
             nodes[nodes.Length - 1] = merchantNode;
             _merchantPrivateItemDataNodes = nodes;
           }
           else {
-            merchantNode.InnerXml = value;   
+            merchantNode.InnerXml = value;
           }
         }
       }
@@ -179,7 +180,7 @@ namespace GCheckout.Checkout {
       }
       set {
         if (value == null)
-          value = new XmlNode[] {};
+          value = new XmlNode[] { };
 
         //see if there is a private node set as a string first
         string mpd = null;
@@ -191,7 +192,7 @@ namespace GCheckout.Checkout {
         _merchantPrivateItemDataNodes = value;
 
         if (mpd != null && mpd.Length > 0) {
-          MerchantPrivateItemData = mpd;   
+          MerchantPrivateItemData = mpd;
         }
       }
     }
@@ -203,7 +204,7 @@ namespace GCheckout.Checkout {
     public virtual AlternateTaxTable TaxTable {
       get {
         if (_notificationItem != null)
-          throw new NotImplementedException("This Item was built from a " + 
+          throw new NotImplementedException("This Item was built from a " +
           "new-order-notification and has no knowledge of a tax table. " +
           "Please call 'TaxTableSelector' to read the tax-table-selector property.");
         if (_taxTable == null)
@@ -222,12 +223,12 @@ namespace GCheckout.Checkout {
     public virtual string TaxTableSelector {
       get {
         if (_notificationItem == null)
-          throw new NotImplementedException("This Item was not built from a " + 
+          throw new NotImplementedException("This Item was not built from a " +
             "new-order-notification. " +
             "Please call 'TaxTable' to read the AlternateTaxTable for a " +
             "GCheckoutRequest.");
         if (_notificationItem.taxtableselector == null)
-          _notificationItem.taxtableselector= string.Empty;
+          _notificationItem.taxtableselector = string.Empty;
         return _notificationItem.taxtableselector;
       }
     }
@@ -246,6 +247,18 @@ namespace GCheckout.Checkout {
     }
 
     /// <summary>
+    /// Subscription information for an item
+    /// </summary>
+    public virtual Subscription Subscription {
+      get {
+        return _subscription;
+      }
+      set {
+        _subscription = value;
+      }
+    }
+
+    /// <summary>
     /// The &lt;item-weight&gt; tag specifies the weight of an 
     /// individual item in the customer's shopping cart.
     /// </summary>
@@ -255,9 +268,9 @@ namespace GCheckout.Checkout {
       }
       set {
         if (value < 0)
-          throw new 
+          throw new
             ArgumentOutOfRangeException("The value must be 0 or larger");
-        _itemWeight = value; 
+        _itemWeight = value;
       }
     }
 
@@ -269,28 +282,31 @@ namespace GCheckout.Checkout {
     /// &lt;merchant-private-item-data&gt; XML block.
     /// </summary>
     public ShoppingCartItem() {
-       
+
     }
 
     /// <summary>
     /// ctor used by the extended notification class
     /// </summary>
     /// <param name="theItem"></param>
-    internal ShoppingCartItem(GCheckout.AutoGen.Item theItem) {
+    public ShoppingCartItem(GCheckout.AutoGen.Item theItem) {
       if (theItem.digitalcontent != null)
         this.DigitalContent = new DigitalItem(theItem.digitalcontent);
       this.Description = theItem.itemdescription;
       this.MerchantItemID = theItem.merchantitemid;
       if (theItem.merchantprivateitemdata != null)
-        this.MerchantPrivateItemDataNodes 
+        this.MerchantPrivateItemDataNodes
           = theItem.merchantprivateitemdata.Any;
       else
-        this.MerchantPrivateItemDataNodes = new XmlNode[] {};
+        this.MerchantPrivateItemDataNodes = new XmlNode[] { };
       this.Name = theItem.itemname;
       this.Price = theItem.unitprice.Value; //is checked for fractions
       this.Quantity = theItem.quantity;
       _taxtableselector = theItem.taxtableselector;
       _notificationItem = theItem;
+      if (theItem.subscription != null) {
+        this.Subscription = new Subscription(theItem.subscription);
+      }
     }
 
     /// <summary>
@@ -310,7 +326,7 @@ namespace GCheckout.Checkout {
     public ShoppingCartItem(string name, string description,
       string merchantItemID, decimal price, int quantity)
       : this(name, description, merchantItemID, price,
-      quantity, AlternateTaxTable.Empty, new XmlNode[] {}) {
+      quantity, AlternateTaxTable.Empty, new XmlNode[] { }) {
     }
 
     /// <summary>
@@ -390,7 +406,7 @@ namespace GCheckout.Checkout {
 
       //clone the xml
       XmlNode[] nodes = new XmlNode[this.MerchantPrivateItemDataNodes.Length];
-      
+
       for (int i = 0; i < nodes.Length; i++) {
         nodes[i] = MerchantPrivateItemDataNodes[i].Clone();
       }
@@ -401,10 +417,143 @@ namespace GCheckout.Checkout {
       if (DigitalContent != null)
         retVal.DigitalContent = DigitalContent.Clone() as DigitalItem;
 
+      if (Subscription != null)
+        retVal.Subscription = Subscription.Clone() as Subscription;
+
       return retVal;
     }
 
     #endregion
 
+    /// <summary>
+    /// Convert the item to an autogen item
+    /// </summary>
+    /// <param name="currency">The currency</param>
+    /// <returns></returns>
+    public AutoGen.Item CreateAutoGenItem(string currency) {
+      return ShoppingCartItem.CreateAutoGenItem(this, currency);
+    }
+
+    /// <summary>
+    /// Convert the item to an auto gen item.
+    /// </summary>
+    /// <param name="item">The item to convert</param>
+    /// <param name="currency">The currency</param>
+    /// <returns></returns>
+    public static AutoGen.Item CreateAutoGenItem(IShoppingCartItem item,
+      string currency) {
+      GCheckout.AutoGen.Item currentItem = new AutoGen.Item();
+
+      currentItem.itemname = EncodeHelper.EscapeXmlChars(item.Name);
+      currentItem.itemdescription =
+        EncodeHelper.EscapeXmlChars(item.Description);
+      currentItem.quantity = item.Quantity;
+
+      //if there is a subscription, you may not have a unit price
+
+      if (item.Subscription != null && item.Price > 0) {
+        throw new ApplicationException(
+          "The unit price must be 0 if you are using a subscription item.");
+      }
+
+      currentItem.unitprice = new AutoGen.Money();
+      currentItem.unitprice.currency = currency;
+      currentItem.unitprice.Value = item.Price;
+
+      //TODO determine if we should try to catch if a UK customer tries to
+      //use this value.
+      if (item.Weight > 0) {
+        currentItem.itemweight = new AutoGen.ItemWeight();
+        currentItem.itemweight.unit = "LB"; //this is the only option.
+        currentItem.itemweight.value = item.Weight;
+      }
+
+      if (item.MerchantItemID != null
+        && item.MerchantItemID.Length > 0) {
+        currentItem.merchantitemid = item.MerchantItemID;
+      }
+
+      if (item.MerchantPrivateItemDataNodes != null
+        && item.MerchantPrivateItemDataNodes.Length > 0) {
+        AutoGen.anyMultiple any = new AutoGen.anyMultiple();
+
+        any.Any = item.MerchantPrivateItemDataNodes;
+        currentItem.merchantprivateitemdata = any;
+      }
+
+      if (item.TaxTable != null &&
+        item.TaxTable != AlternateTaxTable.Empty) {
+        currentItem.taxtableselector = item.TaxTable.Name;
+      }
+
+      //if we have a digital item then we need to append the information
+      if (item.DigitalContent != null) {
+        currentItem.digitalcontent = new GCheckout.AutoGen.DigitalContent();
+        //we have one of two types, email or key/url
+        if (item.DigitalContent.EmailDelivery) {
+          currentItem.digitalcontent.emaildelivery = true;
+          currentItem.digitalcontent.emaildeliverySpecified = true;
+        }
+        else {
+          if (item.DigitalContent.Description.Length > 0) {
+            currentItem.digitalcontent.description =
+              item.DigitalContent.Description;
+          }
+          if (item.DigitalContent.Key.Length > 0) {
+            currentItem.digitalcontent.key =
+              item.DigitalContent.Key;
+          }
+          if (item.DigitalContent.Url.Length > 0) {
+            currentItem.digitalcontent.url =
+              item.DigitalContent.Url;
+          }
+          currentItem.digitalcontent.displaydisposition
+            = item.DigitalContent.GetSerializedDisposition();
+        }
+      }
+
+      //see if we have subscription information
+      if (item.Subscription != null) {
+        if (item.Subscription.RecurrentItem == null) {
+          throw new ApplicationException(
+            "You must set a RecurrentItem for a subscription.");
+        }
+        Subscription sub = item.Subscription;
+        //we have to assume the item was validated
+        currentItem.subscription = new GCheckout.AutoGen.Subscription();
+        GCheckout.AutoGen.Subscription autoSub = currentItem.subscription;
+        if (sub.NoChargeAfter.HasValue) {
+          autoSub.nochargeafter = sub.NoChargeAfter.Value;
+          autoSub.nochargeafterSpecified = true;
+        }
+        autoSub.payments
+          = new GCheckout.AutoGen.SubscriptionPayment[sub.Payments.Count];
+        for (int sp = 0; sp < sub.Payments.Count; sp++) {
+          SubscriptionPayment payment = sub.Payments[sp];
+          autoSub.payments[sp] = new GCheckout.AutoGen.SubscriptionPayment();
+          autoSub.payments[sp].maximumcharge
+            = EncodeHelper.Money(currency, payment.MaximumCharge);
+          if (payment.Times > 0) {
+            autoSub.payments[sp].times = payment.Times;
+            autoSub.payments[sp].timesSpecified = true;
+          }
+          autoSub.period = sub.Period;
+          if (sub.RecurrentItem != null
+            && sub.RecurrentItem.Subscription != null) {
+            throw new ApplicationException(
+              "A RecurrentItem may not contain a subscription.");
+          }
+          //call this method to create the recurrent item.
+          autoSub.recurrentitem
+            = ShoppingCartItem.CreateAutoGenItem(sub.RecurrentItem, currency);
+          if (sub.StartDate.HasValue) {
+            autoSub.startdate = sub.StartDate.Value;
+            autoSub.startdateSpecified = true;
+          }
+          autoSub.type = sub.Type.ToString();
+        }
+      }
+      return currentItem;
+    }
   }
 }

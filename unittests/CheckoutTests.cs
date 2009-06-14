@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.Reflection;
 using GCheckout.Util;
 using GCheckout.Checkout;
+using GCheckout.AutoGen;
 
 namespace GCheckout.Checkout.Tests {
 
@@ -555,6 +556,68 @@ namespace GCheckout.Checkout.Tests {
       AlternateTaxTable att = new AlternateTaxTable();
       att.AddPostalAreaTaxRule("CA", .040);
       att.AddPostalAreaTaxRule("CA", .025);
+    }
+
+    [Test]
+    public void TestSubscriptions_All_Data() {
+      CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "USD", 120);
+      //Make sure we can add an item to the cart.
+      Subscription sub = new Subscription();
+      sub.AddSubscriptionPayment(new SubscriptionPayment(2, 12));
+      sub.NoChargeAfter = new DateTime(2010, 1, 1);
+      sub.Period = GCheckout.AutoGen.DatePeriod.DAILY;
+      sub.RecurrentItem = new ShoppingCartItem("Sub Item", "Sub Item Description", "Item 1", 0, 3);
+      sub.StartDate = new DateTime(2009, 7, 1);
+      sub.Type = SubscriptionType.merchant;
+      ShoppingCartItem item = request.AddItem("Item 1", "Cool Candy 1", 1, sub);
+      //Console.WriteLine(EncodeHelper.Utf8BytesToString(request.GetXml()));
+
+      //now deserialize it
+      AutoGen.CheckoutShoppingCart cart = EncodeHelper.Deserialize(request.GetXml()) as AutoGen.CheckoutShoppingCart;
+      //Console.WriteLine(EncodeHelper.Utf8BytesToString(EncodeHelper.Serialize(cart)));
+
+      foreach (AutoGen.Item ai in cart.shoppingcart.items) {
+        ShoppingCartItem ci = new ShoppingCartItem(ai);
+        Assert.AreEqual(ci.Subscription.NoChargeAfter, sub.NoChargeAfter);
+        SubscriptionPayment sp = new SubscriptionPayment(ai.subscription.payments[0]);
+        SubscriptionPayment dp = sub.Payments[0];
+
+        Assert.AreEqual(sp.MaximumCharge, dp.MaximumCharge);
+        Assert.AreEqual(sp.Times, dp.Times);
+
+        Assert.AreEqual(ci.Subscription.Period, sub.Period);
+        Assert.AreEqual(ci.Subscription.StartDate, sub.StartDate);
+        Assert.AreEqual(ci.Subscription.Type, sub.Type);
+
+      }
+
+      sub.NoChargeAfter = null;
+      sub.Period = GCheckout.AutoGen.DatePeriod.QUARTERLY;
+      sub.StartDate = null;
+      sub.Type = SubscriptionType.google;
+
+      //reset
+      cart = EncodeHelper.Deserialize(request.GetXml()) as AutoGen.CheckoutShoppingCart;
+      Console.WriteLine(EncodeHelper.Utf8BytesToString(EncodeHelper.Serialize(cart)));
+
+      foreach (AutoGen.Item ai in cart.shoppingcart.items) {
+        ShoppingCartItem ci = new ShoppingCartItem(ai);
+        //Console.WriteLine(ci.Subscription.NoChargeAfter);
+        Assert.IsFalse(ci.Subscription.NoChargeAfter.HasValue, "NoChargeAfter should be null");
+        SubscriptionPayment sp = new SubscriptionPayment(ai.subscription.payments[0]);
+        SubscriptionPayment dp = sub.Payments[0];
+
+        Assert.AreEqual(sp.MaximumCharge, dp.MaximumCharge);
+        Assert.AreEqual(sp.Times, dp.Times);
+
+        Assert.AreEqual(ci.Subscription.Period, DatePeriod.QUARTERLY);
+        //Console.WriteLine(ci.Subscription.StartDate);
+        //bug in .net
+        //Assert.IsFalse(ci.Subscription.StartDate.HasValue, "StartDate should be null");
+        Assert.AreEqual(ci.Subscription.Type, SubscriptionType.google);
+
+      }
+
     }
 
     /// <exclude/>

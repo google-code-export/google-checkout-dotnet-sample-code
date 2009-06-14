@@ -29,6 +29,7 @@ using System.Collections;
 using GCheckout.Util;
 using System.Text;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace GCheckout.Checkout {
 
@@ -42,12 +43,12 @@ namespace GCheckout.Checkout {
   public class CheckoutShoppingCartRequest : GCheckoutRequest {
 
     internal const string MERCHANT_DATA_HIDDEN = "MERCHANT_DATA_HIDDEN";
-    internal const string ZIP_CODE_PATTERN_EXCEPTION = 
+    internal const string ZIP_CODE_PATTERN_EXCEPTION =
       "Zip code patterns must be five " +
       "numeric characters, or zero to 4 numeric characters followed by " +
       "a single asterisk as a wildcard character.";
 
-    private ArrayList _Items;
+    private List<IShoppingCartItem> _items = new List<IShoppingCartItem>();
     private AutoGen.TaxTables _TaxTables;
     private AutoGen.MerchantCheckoutFlowSupportShippingmethods
       _ShippingMethods;
@@ -72,7 +73,7 @@ namespace GCheckout.Checkout {
     private ParameterizedUrls _ParameterizedUrls = new ParameterizedUrls();
 
     //jf Tax Tables added 3/1/2007
-    private AlternateTaxTableCollection _alternateTaxTables 
+    private AlternateTaxTableCollection _alternateTaxTables
       = new AlternateTaxTableCollection();
     //carrier calculated shipping options
     private CarrierCalculatedShipping _carrierCalculatedShipping = null;
@@ -97,7 +98,7 @@ namespace GCheckout.Checkout {
     /// </param>
     public CheckoutShoppingCartRequest(string MerchantID, string MerchantKey,
       EnvironmentType Env, string Currency, int CartExpirationMinutes) :
-      this(MerchantID, MerchantKey, Env, Currency, CartExpirationMinutes, 
+      this(MerchantID, MerchantKey, Env, Currency, CartExpirationMinutes,
       false) {
     }
 
@@ -125,12 +126,11 @@ namespace GCheckout.Checkout {
     /// donations.
     /// </param>
     public CheckoutShoppingCartRequest(string MerchantID, string MerchantKey,
-      EnvironmentType Env, string Currency, int CartExpirationMinutes, 
+      EnvironmentType Env, string Currency, int CartExpirationMinutes,
       bool IsDonation) {
       _MerchantID = MerchantID;
       _MerchantKey = MerchantKey;
       _Environment = Env;
-      _Items = new ArrayList();
       _TaxTables = new AutoGen.TaxTables();
       _TaxTables.defaulttaxtable = new AutoGen.DefaultTaxTable();
       _TaxTables.defaulttaxtable.taxrules = new AutoGen.DefaultTaxRule[0];
@@ -163,9 +163,32 @@ namespace GCheckout.Checkout {
     /// in the Checkout API request.</param>
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
       int Quantity) {
-      ShoppingCartItem retVal = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem retVal = new ShoppingCartItem(Name, Description,
         string.Empty, Price, Quantity);
-      _Items.Add(retVal);
+      _items.Add(retVal);
+      return retVal;
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="subscription">The subscription item</param>
+    public ShoppingCartItem AddItem(string Name, string Description,
+      int Quantity, Subscription subscription) {
+      ShoppingCartItem retVal = new ShoppingCartItem(Name, Description,
+        string.Empty, 0, Quantity);
+      retVal.Subscription = subscription;
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -191,11 +214,39 @@ namespace GCheckout.Checkout {
     /// </param>
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
       int Quantity, DigitalItem digitalItem) {
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         string.Empty, Price, Quantity);
-       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      item.DigitalContent = digitalItem;
+      _items.Add(item);
       return item;
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="digitalItem">
+    /// The &lt;digital-content&gt; tag contains information relating to
+    /// digital delivery of an item.
+    /// </param>
+    /// <param name="subscription">The subscription item</param>
+    public ShoppingCartItem AddItem(string Name, string Description,
+      int Quantity, DigitalItem digitalItem, Subscription subscription) {
+      ShoppingCartItem retVal = new ShoppingCartItem(Name, Description,
+        string.Empty, 0, Quantity);
+      retVal.DigitalContent = digitalItem;
+      retVal.Subscription = subscription;
+      _items.Add(retVal);
+      return retVal;
     }
 
     /// <summary>
@@ -216,13 +267,40 @@ namespace GCheckout.Checkout {
     /// in the Checkout API request.</param>
     /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
     /// To assign to the item </param>
-    public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, AlternateTaxTable taxTable) {
+    public ShoppingCartItem AddItem(string Name, string Description,
+      decimal Price, int Quantity, AlternateTaxTable taxTable) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, string.Empty, Price,
         Quantity, taxTable);
-      _Items.Add(retVal);
+      _items.Add(retVal);
+      return retVal;
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+    /// To assign to the item </param>
+    /// <param name="subscription">The subscription item</param>
+    public ShoppingCartItem AddItem(string Name, string Description,
+      int Quantity, AlternateTaxTable taxTable, Subscription subscription) {
+      _alternateTaxTables.VerifyTaxRule(taxTable);
+      ShoppingCartItem retVal
+        = new ShoppingCartItem(Name, Description, string.Empty, 0,
+        Quantity, taxTable);
+      retVal.Subscription = subscription;
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -248,13 +326,14 @@ namespace GCheckout.Checkout {
     /// The &lt;digital-content&gt; tag contains information relating to
     /// digital delivery of an item.
     /// </param>
-    public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, AlternateTaxTable taxTable, DigitalItem digitalItem) {
+    public ShoppingCartItem AddItem(string Name, string Description,
+      decimal Price, int Quantity, AlternateTaxTable taxTable,
+      DigitalItem digitalItem) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         string.Empty, Price, Quantity, taxTable);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -276,12 +355,39 @@ namespace GCheckout.Checkout {
     /// <param name="Quantity">The number of this item that is included in the 
     /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
     /// in the Checkout API request.</param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
       decimal Price, int Quantity) {
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, MerchantItemID, Price,
         Quantity);
-      _Items.Add(retVal);
+      _items.Add(retVal);
+      return retVal;
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="subscription">The subscription item.</param>
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID, int Quantity, Subscription subscription) {
+      ShoppingCartItem retVal
+        = new ShoppingCartItem(Name, Description, MerchantItemID, 0,
+        Quantity);
+      retVal.Subscription = subscription;
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -307,12 +413,13 @@ namespace GCheckout.Checkout {
     /// The &lt;digital-content&gt; tag contains information relating to
     /// digital delivery of an item.
     /// </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID,
       decimal Price, int Quantity, DigitalItem digitalItem) {
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         MerchantItemID, Price, Quantity);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -328,6 +435,37 @@ namespace GCheckout.Checkout {
     /// Checkout API request.</param>
     /// <param name="MerchantItemID">The Merchant Item Id that uniquely
     /// identifies the product in your system.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="digitalItem">
+    /// The &lt;digital-content&gt; tag contains information relating to
+    /// digital delivery of an item.
+    /// </param>
+    /// <param name="subscription">The subscription item</param>
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID, int Quantity, DigitalItem digitalItem,
+      Subscription subscription) {
+      ShoppingCartItem retVal = new ShoppingCartItem(Name, Description,
+        MerchantItemID, 0, Quantity);
+      retVal.DigitalContent = digitalItem;
+      retVal.Subscription = subscription;
+      _items.Add(retVal);
+      return retVal;
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
     /// <param name="Price">The price of the item. This value corresponds to 
     /// the value of the &lt;unit-price&gt; tag in the Checkout API 
     /// request.</param>
@@ -336,13 +474,44 @@ namespace GCheckout.Checkout {
     /// in the Checkout API request.</param>
     /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
     /// To assign to the item </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
-      decimal Price, int Quantity, AlternateTaxTable taxTable) {
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID, decimal Price, int Quantity,
+      AlternateTaxTable taxTable) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, MerchantItemID, Price,
         Quantity, taxTable);
-      _Items.Add(retVal);
+      _items.Add(retVal);
+      return retVal;
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// do not have &lt;merchant-private-item-data&gt; XML blocks associated 
+    /// with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
+    /// To assign to the item </param>
+    /// <param name="subscription">The subscription item</param>
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID, int Quantity, AlternateTaxTable taxTable,
+      Subscription subscription) {
+      _alternateTaxTables.VerifyTaxRule(taxTable);
+      ShoppingCartItem retVal
+        = new ShoppingCartItem(Name, Description, MerchantItemID, 0,
+        Quantity, taxTable);
+      retVal.Subscription = subscription;
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -370,14 +539,14 @@ namespace GCheckout.Checkout {
     /// The &lt;digital-content&gt; tag contains information relating to
     /// digital delivery of an item.
     /// </param>
-    public ShoppingCartItem AddItem(string Name, string Description, string MerchantItemID,
-      decimal Price, int Quantity, AlternateTaxTable taxTable, 
-      DigitalItem digitalItem) {
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID, decimal Price, int Quantity,
+      AlternateTaxTable taxTable, DigitalItem digitalItem) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         MerchantItemID, Price, Quantity, taxTable);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -404,9 +573,36 @@ namespace GCheckout.Checkout {
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
       int Quantity, string MerchantPrivateItemData) {
       ShoppingCartItem retVal
-        =new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        = new ShoppingCartItem(Name, Description, string.Empty, Price,
         Quantity, AlternateTaxTable.Empty, MakeXmlElement(MerchantPrivateItemData));
-      _Items.Add(retVal);
+      _items.Add(retVal);
+      return retVal;
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// have &lt;merchant-private-item-data&gt; XML blocks associated with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="MerchantPrivateItemData">An XML block that should be 
+    /// associated with the item in the Checkout API request. This value 
+    /// corresponds to the value of the value of the 
+    /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
+    /// request.</param>
+    public ShoppingCartItem AddItem(string Name, string Description,
+      int Quantity, string MerchantPrivateItemData, Subscription subscription) {
+      ShoppingCartItem retVal
+        = new ShoppingCartItem(Name, Description, string.Empty, 0,
+        Quantity, AlternateTaxTable.Empty, MakeXmlElement(MerchantPrivateItemData));
+      retVal.Subscription = subscription;
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -433,9 +629,9 @@ namespace GCheckout.Checkout {
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
       int Quantity, XmlNode MerchantPrivateItemDataNodes) {
       ShoppingCartItem retVal
-        = new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        = new ShoppingCartItem(Name, Description, string.Empty, Price,
         Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
-      _Items.Add(retVal);
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -466,11 +662,11 @@ namespace GCheckout.Checkout {
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
       int Quantity, XmlNode MerchantPrivateItemDataNodes, DigitalItem digitalItem) {
 
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
-        string.Empty, Price, Quantity, AlternateTaxTable.Empty, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
+        string.Empty, Price, Quantity, AlternateTaxTable.Empty,
         MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -496,14 +692,14 @@ namespace GCheckout.Checkout {
     /// request.</param>
     /// <param name="taxTable">The <see cref="AlternateTaxTable"/> 
     /// To assign to the item </param>
-    public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, XmlNode MerchantPrivateItemDataNodes, 
+    public ShoppingCartItem AddItem(string Name, string Description,
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes,
       AlternateTaxTable taxTable) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem retVal
-        = new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        = new ShoppingCartItem(Name, Description, string.Empty, Price,
         Quantity, taxTable, MerchantPrivateItemDataNodes);
-      _Items.Add(retVal);
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -533,14 +729,14 @@ namespace GCheckout.Checkout {
     /// The &lt;digital-content&gt; tag contains information relating to
     /// digital delivery of an item.
     /// </param>
-    public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, XmlNode MerchantPrivateItemDataNodes, 
+    public ShoppingCartItem AddItem(string Name, string Description,
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes,
       AlternateTaxTable taxTable, DigitalItem digitalItem) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         string.Empty, Price, Quantity, taxTable, MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -566,13 +762,44 @@ namespace GCheckout.Checkout {
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
-    public ShoppingCartItem AddItem(string Name, string Description, 
+    public ShoppingCartItem AddItem(string Name, string Description,
       string MerchantItemID,
       decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes) {
       ShoppingCartItem retVal
-        = new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
+        = new ShoppingCartItem(Name, Description, MerchantItemID, Price,
         Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
-      _Items.Add(retVal);
+      _items.Add(retVal);
+      return retVal;
+    }
+
+    /// <summary>
+    /// This method adds an item to an order. This method handles items that 
+    /// have &lt;merchant-private-item-data&gt; XML blocks associated with them.
+    /// </summary>
+    /// <param name="Name">The name of the item. This value corresponds to the 
+    /// value of the &lt;item-name&gt; tag in the Checkout API request.</param>
+    /// <param name="Description">The description of the item. This value 
+    /// corresponds to the value of the &lt;item-description&gt; tag in the 
+    /// Checkout API request.</param>
+    /// <param name="MerchantItemID">The Merchant Item Id that uniquely
+    /// identifies the product in your system.</param>
+    /// <param name="Quantity">The number of this item that is included in the 
+    /// order. This value corresponds to the value of the &lt;quantity&gt; tag 
+    /// in the Checkout API request.</param>
+    /// <param name="MerchantPrivateItemDataNodes">An XML node that should be 
+    /// associated with the item in the Checkout API request. This value 
+    /// corresponds to the value of the value of the 
+    /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
+    /// request.</param>
+    /// <param name="subscription">The subscription item.</param>
+    public ShoppingCartItem AddItem(string Name, string Description,
+      string MerchantItemID, int Quantity, XmlNode MerchantPrivateItemDataNodes,
+      Subscription subscription) {
+      ShoppingCartItem retVal
+        = new ShoppingCartItem(Name, Description, MerchantItemID, 0,
+        Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
+      retVal.Subscription = subscription;
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -604,13 +831,13 @@ namespace GCheckout.Checkout {
     /// </param>
     public ShoppingCartItem AddItem(string Name, string Description,
       string MerchantItemID,
-      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes, 
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes,
       DigitalItem digitalItem) {
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         MerchantItemID, Price, Quantity, AlternateTaxTable.Empty,
         MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -640,13 +867,13 @@ namespace GCheckout.Checkout {
     /// To assign to the item </param>
     public ShoppingCartItem AddItem(string Name, string Description,
       string MerchantItemID,
-      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes, 
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes,
       AlternateTaxTable taxTable) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem retVal
-        = new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
+        = new ShoppingCartItem(Name, Description, MerchantItemID, Price,
         Quantity, taxTable, MerchantPrivateItemDataNodes);
-      _Items.Add(retVal);
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -680,13 +907,13 @@ namespace GCheckout.Checkout {
     /// </param>
     public ShoppingCartItem AddItem(string Name, string Description,
       string MerchantItemID,
-      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes, 
+      decimal Price, int Quantity, XmlNode MerchantPrivateItemDataNodes,
       AlternateTaxTable taxTable, DigitalItem digitalItem) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         MerchantItemID, Price, Quantity, taxTable, MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -720,9 +947,9 @@ namespace GCheckout.Checkout {
       params XmlNode[] MerchantPrivateItemDataNodes) {
       _alternateTaxTables.VerifyTaxRule(taxTable);
       ShoppingCartItem retVal
-        = new ShoppingCartItem(Name, Description, MerchantItemID, Price, 
+        = new ShoppingCartItem(Name, Description, MerchantItemID, Price,
         Quantity, taxTable, MerchantPrivateItemDataNodes);
-      _Items.Add(retVal);
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -762,7 +989,7 @@ namespace GCheckout.Checkout {
       ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         MerchantItemID, Price, Quantity, taxTable, MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -791,9 +1018,9 @@ namespace GCheckout.Checkout {
       decimal Price,
       int Quantity, params XmlNode[] MerchantPrivateItemDataNodes) {
       ShoppingCartItem retVal
-        = new ShoppingCartItem(Name, Description, string.Empty, Price, 
+        = new ShoppingCartItem(Name, Description, string.Empty, Price,
         Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
-      _Items.Add(retVal);
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -823,13 +1050,13 @@ namespace GCheckout.Checkout {
     /// digital delivery of an item.
     /// </param>
     public ShoppingCartItem AddItem(string Name, string Description, decimal Price,
-      int Quantity, DigitalItem digitalItem, 
+      int Quantity, DigitalItem digitalItem,
       params XmlNode[] MerchantPrivateItemDataNodes) {
       ShoppingCartItem item = new ShoppingCartItem(Name, Description,
-        string.Empty, Price, Quantity, AlternateTaxTable.Empty, 
+        string.Empty, Price, Quantity, AlternateTaxTable.Empty,
         MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -862,7 +1089,7 @@ namespace GCheckout.Checkout {
       ShoppingCartItem retVal
         = new ShoppingCartItem(Name, Description, MerchantItemID, Price,
         Quantity, AlternateTaxTable.Empty, MerchantPrivateItemDataNodes);
-      _Items.Add(retVal);
+      _items.Add(retVal);
       return retVal;
     }
 
@@ -897,11 +1124,11 @@ namespace GCheckout.Checkout {
       string MerchantItemID,
       decimal Price, int Quantity, DigitalItem digitalItem,
       params XmlNode[] MerchantPrivateItemDataNodes) {
-      ShoppingCartItem item = new ShoppingCartItem(Name, Description, 
+      ShoppingCartItem item = new ShoppingCartItem(Name, Description,
         MerchantItemID, Price, Quantity, AlternateTaxTable.Empty,
-        MerchantPrivateItemDataNodes);      
+        MerchantPrivateItemDataNodes);
       item.DigitalContent = digitalItem;
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -912,7 +1139,7 @@ namespace GCheckout.Checkout {
     public ShoppingCartItem AddItem(ShoppingCartItem item) {
       if (item == null)
         throw new ArgumentNullException("item must not be null");
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -923,7 +1150,7 @@ namespace GCheckout.Checkout {
     public IShoppingCartItem AddItem(IShoppingCartItem item) {
       if (item == null)
         throw new ArgumentNullException("item must not be null");
-      _Items.Add(item);
+      _items.Add(item);
       return item;
     }
 
@@ -1017,7 +1244,7 @@ namespace GCheckout.Checkout {
     public void AddMerchantCalculatedShippingMethod(string Name,
       decimal DefaultCost, ShippingRestrictions Restrictions,
       ShippingRestrictions AddressFilters) {
-      
+
       DefaultCost = Math.Round(DefaultCost, 2); //no fractional cents
 
       AutoGen.MerchantCalculatedShipping Method =
@@ -1030,7 +1257,7 @@ namespace GCheckout.Checkout {
         Method.shippingrestrictions = Restrictions.XmlRestrictions;
       }
       if (AddressFilters != null) {
-        Method.addressfilters = AddressFilters.XmlRestrictions;   
+        Method.addressfilters = AddressFilters.XmlRestrictions;
       }
       AddNewShippingMethod(Method);
     }
@@ -1042,9 +1269,9 @@ namespace GCheckout.Checkout {
     /// displayed on the Google Checkout order review page.</param>
     /// <param name="Cost">The cost associated with the shipping method.</param>
     public void AddPickupShippingMethod(string Name, decimal Cost) {
-      
+
       Cost = Math.Round(Cost, 2); //no fractional cents
-      
+
       AutoGen.Pickup Method = new AutoGen.Pickup();
       Method.name = Name;
       Method.price = new AutoGen.PickupPrice();
@@ -1063,10 +1290,10 @@ namespace GCheckout.Checkout {
     /// The default cost will be assessed if Google's attempt to obtain the 
     /// carrier's shipping rates fails for any reason.</param>
     /// <returns></returns>
-    public CarrierCalculatedShippingOption 
+    public CarrierCalculatedShippingOption
       AddCarrierCalculatedShippingOption(
         ShippingType shippingType, decimal defaultValue) {
-   
+
       return _carrierCalculatedShipping.AddShippingOption(
         shippingType, defaultValue);
     }
@@ -1107,14 +1334,14 @@ namespace GCheckout.Checkout {
     /// the specified percentage.
     /// </param>
     /// <returns></returns>
-    public CarrierCalculatedShippingOption 
+    public CarrierCalculatedShippingOption
       AddCarrierCalculatedShippingOption(
         ShippingType shippingType, decimal defaultValue,
         CarrierPickup carrierPickup, decimal additionalFixedCharge,
       double additionalVariableChargePercent) {
 
-      return _carrierCalculatedShipping.AddShippingOption(shippingType, 
-        defaultValue, carrierPickup, additionalFixedCharge, 
+      return _carrierCalculatedShipping.AddShippingOption(shippingType,
+        defaultValue, carrierPickup, additionalFixedCharge,
         additionalVariableChargePercent);
     }
 
@@ -1134,7 +1361,7 @@ namespace GCheckout.Checkout {
     /// The &lt;postal-code&gt; tag identifies the zip code or postal code.
     /// </param>
     /// <returns></returns>
-    public ShippingPackage AddShippingPackage(string id, string city, 
+    public ShippingPackage AddShippingPackage(string id, string city,
       string region, string postalCode) {
       return _carrierCalculatedShipping.AddShippingPackage(id, city, region,
         postalCode, "US");
@@ -1166,7 +1393,7 @@ namespace GCheckout.Checkout {
     /// <param name="width">The Width of the Package</param>
     /// <returns></returns>
     public ShippingPackage AddShippingPackage(string id, string city,
-      string region, string postalCode, 
+      string region, string postalCode,
       DeliveryAddressCategory addressCategory,
       int height, int length, int width) {
       return _carrierCalculatedShipping.AddShippingPackage(id, city, region,
@@ -1216,7 +1443,7 @@ namespace GCheckout.Checkout {
           string theError = "You may only have one Shipping method." +
             " The cart already contains a {0} Shipping method and you" +
             " attempted to add a {1} Shipping method.";
-          throw new ArgumentException(string.Format(theError, originalType, 
+          throw new ArgumentException(string.Format(theError, originalType,
             newShippingMethod.GetType()));
         }
       }
@@ -1396,7 +1623,7 @@ namespace GCheckout.Checkout {
     /// If this parameter has a value of <b>true</b>, then shipping costs will
     /// be taxed for items that use the associated tax rule.
     /// </param>
-    public void AddPostalAreaTaxRule(string countryCode, 
+    public void AddPostalAreaTaxRule(string countryCode,
       double TaxRate, bool ShippingTaxed) {
       AddPostalAreaTaxRule(countryCode, string.Empty, TaxRate, ShippingTaxed);
     }
@@ -1422,7 +1649,7 @@ namespace GCheckout.Checkout {
     /// If this parameter has a value of <b>true</b>, then shipping costs will
     /// be taxed for items that use the associated tax rule.
     /// </param>
-    public void AddPostalAreaTaxRule(string countryCode, string postalCodePattern, 
+    public void AddPostalAreaTaxRule(string countryCode, string postalCodePattern,
       double TaxRate, bool ShippingTaxed) {
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
       Rule.rate = TaxRate;
@@ -1433,7 +1660,7 @@ namespace GCheckout.Checkout {
       Rule.taxarea.Item = ThisArea;
       ThisArea.countrycode = countryCode;
       if (postalCodePattern != null && postalCodePattern != string.Empty) {
-        ThisArea.postalcodepattern = postalCodePattern;   
+        ThisArea.postalcodepattern = postalCodePattern;
       }
       AddNewTaxRule(Rule);
     }
@@ -1496,83 +1723,22 @@ namespace GCheckout.Checkout {
       }
 
       // Add the items in the shopping cart to the API request.
-      MyCart.shoppingcart.items = new AutoGen.Item[_Items.Count];
-      for (int i = 0; i < _Items.Count; i++) {
+      MyCart.shoppingcart.items = new AutoGen.Item[_items.Count];
+      for (int i = 0; i < _items.Count; i++) {
 
-        IShoppingCartItem MyItem = _Items[i] as IShoppingCartItem;
+        IShoppingCartItem MyItem = _items[i] as IShoppingCartItem;
         //this can't happen at this time but if we expose a way for people to add items
         //this test needs to be peformed.
-//        if (MyItem == null) {
-//          throw new ApplicationException(
-//            "The Shopping Cart Item did not implement IShoppingCartItem." +
-//            " This is caused by someone changing the implementation of" +
-//            " GCheckout.Checkout.ShoppingCartItem.");
-//        }
+        //        if (MyItem == null) {
+        //          throw new ApplicationException(
+        //            "The Shopping Cart Item did not implement IShoppingCartItem." +
+        //            " This is caused by someone changing the implementation of" +
+        //            " GCheckout.Checkout.ShoppingCartItem.");
+        //        }
 
         //set to a local variable of current item to lessen the change of
         //a mistake
-        GCheckout.AutoGen.Item currentItem = new AutoGen.Item();
-        MyCart.shoppingcart.items[i] = currentItem;
-
-        currentItem.itemname = EncodeHelper.EscapeXmlChars(MyItem.Name);
-        currentItem.itemdescription =
-          EncodeHelper.EscapeXmlChars(MyItem.Description);
-        currentItem.quantity = MyItem.Quantity;
-        currentItem.unitprice = new AutoGen.Money();
-        currentItem.unitprice.currency = _Currency;
-        currentItem.unitprice.Value = MyItem.Price;
-
-        //TODO determine if we should try to catch if a UK customer tries to
-        //use this value.
-        if (MyItem.Weight > 0) {           
-          currentItem.itemweight = new AutoGen.ItemWeight();
-          currentItem.itemweight.unit = "LB"; //this is the only option.
-          currentItem.itemweight.value = MyItem.Weight;
-        }
-
-        if (MyItem.MerchantItemID != null 
-          && MyItem.MerchantItemID.Length > 0) {
-          currentItem.merchantitemid = MyItem.MerchantItemID;  
-        }
-
-        if (MyItem.MerchantPrivateItemDataNodes != null
-          && MyItem.MerchantPrivateItemDataNodes.Length > 0) {
-          AutoGen.anyMultiple any = new AutoGen.anyMultiple();
-
-          any.Any = MyItem.MerchantPrivateItemDataNodes;
-          currentItem.merchantprivateitemdata = any;
-        }
-
-        if (MyItem.TaxTable != null && 
-          MyItem.TaxTable != AlternateTaxTable.Empty) {
-          currentItem.taxtableselector = MyItem.TaxTable.Name; 
-        }
-
-        //if we have a digital item then we need to append the information
-        if (MyItem.DigitalContent != null) {
-          currentItem.digitalcontent = new GCheckout.AutoGen.DigitalContent();
-          //we have one of two types, email or key/url
-          if (MyItem.DigitalContent.EmailDelivery) {
-            currentItem.digitalcontent.emaildelivery = true;
-            currentItem.digitalcontent.emaildeliverySpecified = true;
-          }
-          else {
-            if (MyItem.DigitalContent.Description.Length > 0) {
-              currentItem.digitalcontent.description = 
-                MyItem.DigitalContent.Description;
-            }
-            if (MyItem.DigitalContent.Key.Length > 0) {
-              currentItem.digitalcontent.key = 
-                MyItem.DigitalContent.Key;
-            }
-            if (MyItem.DigitalContent.Url.Length > 0) {
-              currentItem.digitalcontent.url = 
-                MyItem.DigitalContent.Url;
-            }
-            currentItem.digitalcontent.displaydisposition
-              = MyItem.DigitalContent.GetSerializedDisposition();
-          }
-        }
+        MyCart.shoppingcart.items[i] = ShoppingCartItem.CreateAutoGenItem(MyItem, _Currency);
       }
 
       //because we are merging the nodes, create a new ArrayList
@@ -1583,7 +1749,7 @@ namespace GCheckout.Checkout {
         copiedMerchantPrivateData.Add(MakeXmlElement(MerchantPrivateData));
       }
 
-      if (_MerchantPrivateDataNodes != null 
+      if (_MerchantPrivateDataNodes != null
         && _MerchantPrivateDataNodes.Count > 0) {
         for (int i = 0; i < _MerchantPrivateDataNodes.Count; i++)
           copiedMerchantPrivateData.Add(_MerchantPrivateDataNodes[i]);
@@ -1603,10 +1769,10 @@ namespace GCheckout.Checkout {
       // Add the &lt;continue-shopping-url&gt; element to the API request.
       MyCart.checkoutflowsupport =
         new AutoGen.CheckoutShoppingCartCheckoutflowsupport();
-      
+
       MyCart.checkoutflowsupport.Item =
         new AutoGen.MerchantCheckoutFlowSupport();
-      
+
       if (ContinueShoppingUrl != null) {
         MyCart.checkoutflowsupport.Item.continueshoppingurl =
           ContinueShoppingUrl;
@@ -1636,14 +1802,13 @@ namespace GCheckout.Checkout {
       // Add the shipping methods to the API request.
       // Fix potential issue.
       if (_ShippingMethods != null && _ShippingMethods.Items != null
-        && _ShippingMethods.Items.Length > 0)
-      {
+        && _ShippingMethods.Items.Length > 0) {
         MyCart.checkoutflowsupport.Item.shippingmethods = _ShippingMethods;
       }
 
       //jf Tax Tables added 3/1/2007
       if (_alternateTaxTables != null) {
-        _alternateTaxTables.AppendToRequest(_TaxTables);   
+        _alternateTaxTables.AppendToRequest(_TaxTables);
       }
 
       // Add the tax tables to the API request.
@@ -1651,14 +1816,13 @@ namespace GCheckout.Checkout {
       //Only if we have a tax table do we want to append it.
       if (_TaxTables != null) {
         if (
-          (_TaxTables.alternatetaxtables != null 
+          (_TaxTables.alternatetaxtables != null
           && _TaxTables.alternatetaxtables.Length > 0)
           ||
           (_TaxTables.defaulttaxtable != null
           && _TaxTables.defaulttaxtable.taxrules != null
           && _TaxTables.defaulttaxtable.taxrules.Length > 0)
-          )
-        {
+          ) {
           MyCart.checkoutflowsupport.Item.taxtables = _TaxTables;
         }
       }
@@ -1688,11 +1852,11 @@ namespace GCheckout.Checkout {
       if (_roundingRuleSet) {
         MyCart.checkoutflowsupport.Item.roundingpolicy =
           new GCheckout.AutoGen.RoundingPolicy();
-        MyCart.checkoutflowsupport.Item.roundingpolicy.mode 
-          = (AutoGen.RoundingMode) Enum.Parse(typeof(AutoGen.RoundingMode), 
+        MyCart.checkoutflowsupport.Item.roundingpolicy.mode
+          = (AutoGen.RoundingMode)Enum.Parse(typeof(AutoGen.RoundingMode),
           _roundingMode.ToString(), true);
-        MyCart.checkoutflowsupport.Item.roundingpolicy.rule 
-          = (AutoGen.RoundingRule) Enum.Parse(typeof(AutoGen.RoundingRule), 
+        MyCart.checkoutflowsupport.Item.roundingpolicy.rule
+          = (AutoGen.RoundingRule)Enum.Parse(typeof(AutoGen.RoundingRule),
           _roundingRule.ToString(), true);
       }
 
@@ -1766,7 +1930,7 @@ namespace GCheckout.Checkout {
       // 4. If the request indicates that the merchant accepts gift 
       // certificates, the request must also specify a 
       // merchant-calculations-url.
-      if (_AcceptMerchantGiftCertificates 
+      if (_AcceptMerchantGiftCertificates
         && _MerchantCalculationsUrl == null) {
         throw new ApplicationException("If you set " +
           "AcceptMerchantGiftCertificates=true, you must set " +
@@ -1775,10 +1939,10 @@ namespace GCheckout.Checkout {
 
       // 5. If a carrier-calculated-shipping item exists.
       //a shipFrom must also exist
-      if (_carrierCalculatedShipping.ShippingOptionsCount > 0 
+      if (_carrierCalculatedShipping.ShippingOptionsCount > 0
         && !_carrierCalculatedShipping.PackagesExist) {
         throw new ApplicationException("If you use Carrier Calculated " +
-          "Shipping, a ShipFrom address must also be set." + 
+          "Shipping, a ShipFrom address must also be set." +
           " Please call the AddShippingPackage method.");
       }
     }
@@ -2070,7 +2234,7 @@ namespace GCheckout.Checkout {
     /// </remarks>
     public AlternateTaxTableCollection AlternateTaxTables {
       get {
-        return _alternateTaxTables; 
+        return _alternateTaxTables;
       }
     }
 
@@ -2092,10 +2256,8 @@ namespace GCheckout.Checkout {
     }
 
     /// <summary></summary>
-    public override string GetPostUrl() 
-    {
-      if (_Environment == EnvironmentType.Sandbox) 
-      {
+    public override string GetPostUrl() {
+      if (_Environment == EnvironmentType.Sandbox) {
         if (_IsDonation) {
           return string.Format(
             "https://sandbox.google.com/checkout/api/checkout/v2/merchantCheckout/Donations/{0}",
@@ -2107,8 +2269,7 @@ namespace GCheckout.Checkout {
             _MerchantID);
         }
       }
-      else
-      {
+      else {
         if (_IsDonation) {
           return string.Format(
             "https://checkout.google.com/api/checkout/v2/merchantCheckout/Donations/{0}",
@@ -2134,6 +2295,6 @@ namespace GCheckout.Checkout {
       _roundingRule = rule;
     }
 
-    
+
   }
 }
