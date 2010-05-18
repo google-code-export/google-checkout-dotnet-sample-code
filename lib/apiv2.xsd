@@ -5,6 +5,88 @@
   Google Confidential
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://checkout.google.com/schema/2" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd" targetNamespace="http://checkout.google.com/schema/2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:complexType name="Subscription">
+    <xs:all>
+      <xs:element name="payments">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="subscription-payment" type="tns:SubscriptionPayment" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="recurrent-item" type="tns:Item" minOccurs="0" />
+    </xs:all>
+    <xs:attribute name="no-charge-after" type="xs:dateTime" use="optional" />
+    <xs:attribute name="period" type="tns:DatePeriod" use="required" />
+    <xs:attribute name="start-date" type="xs:dateTime" use="optional" />
+    <xs:attribute name="type" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="SubscriptionPayment">
+    <xs:all>
+      <xs:element name="maximum-charge" type="tns:Money" />
+    </xs:all>
+    <xs:attribute name="times" type="xs:int" use="optional" />
+  </xs:complexType>
+  <xs:simpleType name="DatePeriod">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="DAILY" />
+      <xs:enumeration value="WEEKLY" />
+      <xs:enumeration value="SEMI_MONTHLY" />
+      <xs:enumeration value="MONTHLY" />
+      <xs:enumeration value="EVERY_TWO_MONTHS" />
+      <xs:enumeration value="QUARTERLY" />
+      <xs:enumeration value="YEARLY" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="CreateOrderRecurrenceRequest">
+    <xs:all>
+      <xs:element name="shopping-cart" type="tns:ShoppingCart" />
+    </xs:all>
+    <xs:attribute name="google-order-number" type="xs:token" use="required" />
+  </xs:complexType>
+  <xs:complexType name="NotificationDataRequest">
+    <xs:all>
+      <xs:element name="continue-token" type="xs:string" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="NotificationDataResponse">
+    <xs:all>
+      <xs:element name="continue-token" type="xs:string" minOccurs="0" />
+      <xs:element name="has-more-notifications" type="xs:boolean" minOccurs="0" />
+      <xs:element name="notifications">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="authorization-amount-notification" type="tns:AuthorizationAmountNotification" />
+              <xs:element name="charge-amount-notification" type="tns:ChargeAmountNotification" />
+              <xs:element name="chargeback-amount-notification" type="tns:ChargebackAmountNotification" />
+              <xs:element name="new-order-notification" type="tns:NewOrderNotification" />
+              <xs:element name="order-state-change-notification" type="tns:OrderStateChangeNotification" />
+              <xs:element name="refund-amount-notification" type="tns:RefundAmountNotification" />
+              <xs:element name="risk-information-notification" type="tns:RiskInformationNotification" />
+            </xs:choice>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+    <xs:attribute name="serial-number" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="NotificationDataTokenRequest">
+    <xs:all>
+      <xs:element name="start-time" type="xs:dateTime" />
+    </xs:all>
+  </xs:complexType>
+  <xs:complexType name="NotificationDataTokenResponse">
+    <xs:all>
+      <xs:element name="continue-token" type="xs:string" />
+    </xs:all>
+    <xs:attribute name="serial-number" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:element name="create-order-recurrence-request" type="tns:CreateOrderRecurrenceRequest" />
+  <xs:element name="notification-data-request" type="tns:NotificationDataRequest" />
+  <xs:element name="notification-data-response" type="tns:NotificationDataResponse" />
+  <xs:element name="notification-data-token-request" type="tns:NotificationDataTokenRequest" />
+  <xs:element name="notification-data-token-response" type="tns:NotificationDataTokenResponse" />
   <xs:complexType name="Hello" />
   
   <xs:complexType name="Bye">
