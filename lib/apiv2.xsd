@@ -5,6 +5,7 @@
   Google Confidential
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://checkout.google.com/schema/2" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema http://www.w3.org/2001/XMLSchema.xsd" targetNamespace="http://checkout.google.com/schema/2" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <!--Subscription is a beta feature that we support-->
   <xs:complexType name="Subscription">
     <xs:all>
       <xs:element name="payments">
@@ -87,6 +88,9 @@
   <xs:element name="notification-data-response" type="tns:NotificationDataResponse" />
   <xs:element name="notification-data-token-request" type="tns:NotificationDataTokenRequest" />
   <xs:element name="notification-data-token-response" type="tns:NotificationDataTokenResponse" />
+
+  <!--End of beta features-->
+
   <xs:complexType name="Hello" />
   
   <xs:complexType name="Bye">
