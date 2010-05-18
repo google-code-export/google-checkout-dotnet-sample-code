@@ -220,6 +220,7 @@
   
   <xs:complexType name="Item">
     <xs:all>
+      <xs:element name="subscription" type="tns:Subscription" minOccurs="0" />
       <xs:element name="item-weight" type="tns:ItemWeight" minOccurs="0" />
       <xs:element name="digital-content" type="tns:DigitalContent" minOccurs="0" />
       <xs:element name="tax-table-selector" minOccurs="0">
