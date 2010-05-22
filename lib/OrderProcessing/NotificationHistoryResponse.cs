@@ -129,15 +129,6 @@ namespace GCheckout.OrderProcessing {
     }
 
     /// <summary>
-    /// Generic Method to allow the return of a specific message type.
-    /// </summary>
-    /// <typeparam name="T">The type of notification to return</typeparam>
-    /// <returns></returns>
-    public List<T> GetNotifications<T>() where T : class {
-      return GetMessagesOfType<T>();
-    }
-
-    /// <summary>
     /// Return the responses of type AuthorizationNotifications
     /// </summary>
     /// <returns></returns>

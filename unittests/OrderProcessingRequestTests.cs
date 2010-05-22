@@ -476,6 +476,28 @@ namespace GCheckout.OrderProcessing.Tests {
 
     }
 
+    [Test]
+    public void TestOrderSummaryRequest() {
+      var shipRequestOriginal = new OrderSummaryRequest("1234567890");
+      var shipRequestNew = EncodeHelper.Deserialize(shipRequestOriginal.GetXml()) as AutoGen.OrderSummaryRequest;
+      Assert.AreEqual(shipRequestOriginal.GoogleOrderNumbers[0], shipRequestNew.ordernumbers[0]);
+
+      //we need to simulate a response.
+      var tempResonse = new AutoGen.OrderSummaryResponse();
+      tempResonse.serialnumber = "1234567890";
+      var tempSummary = new AutoGen.OrderSummary();
+      tempSummary.buyerid = 12;
+      tempSummary.googleordernumber = "1234567890";
+      tempResonse.ordersummaries = new GCheckout.AutoGen.OrderSummary[] { tempSummary };
+      var tempXml = EncodeHelper.Utf8BytesToString(EncodeHelper.Serialize(tempResonse));
+
+      var shipResponse = new OrderSummaryResponse(tempXml);
+
+      Assert.AreEqual(1, shipResponse.OrderSummary.Count);
+      Assert.AreEqual("1234567890", shipResponse.OrderSummary[0].googleordernumber);
+
+    }
+
     private AutoGen.DeliverOrderRequest ParseDeliverOrderRequest(byte[] Xml) {
       object testVal = null;
 

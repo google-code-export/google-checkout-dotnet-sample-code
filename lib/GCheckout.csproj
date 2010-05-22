@@ -264,6 +264,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="OrderProcessing\OrderRecurrenceRequest.cs" />
+    <Compile Include="OrderProcessing\OrderSummaryRequest.cs" />
+    <Compile Include="OrderProcessing\OrderSummaryResponse.cs" />
     <Compile Include="OrderProcessing\ProcessOrderRequest.cs">
       <SubType>Code</SubType>
     </Compile>

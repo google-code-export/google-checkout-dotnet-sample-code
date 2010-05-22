@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
+/*
+ Edit History:
+ *  5-22-2010   Joe Feser joe.feser@joefeser.com
+ *  Initial Release.
+ * 
+*/
 using System;
 using System.Reflection;
 using GCheckout.Util;
