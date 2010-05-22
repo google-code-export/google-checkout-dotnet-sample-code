@@ -63,7 +63,7 @@ namespace GCheckout.OrderProcessing {
     /// Return the List of
     /// <see cref="GCheckout.AutoGen.ItemShippingInformation"/>[]
     /// </summary>
-    private AutoGen.ItemShippingInformation[] ItemShippingInfo {
+    public AutoGen.ItemShippingInformation[] ItemShippingInfo {
       get {
         AutoGen.ItemShippingInformation[] retVal
           = new AutoGen.ItemShippingInformation[_items.Count];
@@ -112,7 +112,7 @@ namespace GCheckout.OrderProcessing {
         throw new ApplicationException(
           "You attempted to add a duplicate tracking number.");
 
-      ShipItemBox retVal = ShipItemBox.CreateBox(carrier, trackingNumber);
+      ShipItemBox retVal = ShipItemBox.CreateBox(carrier, trackingNumber, _items);
       _boxes.Add(trackingNumber, retVal);
 
       return retVal;
@@ -141,11 +141,11 @@ namespace GCheckout.OrderProcessing {
       ShipItemBox box = null;
 
       if (!_boxes.TryGetValue(trackingNumber, out box)) {
-        box = ShipItemBox.CreateBox(carrier, trackingNumber);
+        box = ShipItemBox.CreateBox(carrier, trackingNumber, _items);
         _boxes[trackingNumber] = box;
       }
 
-      box.AddMerchantItemID(merchantItemID, _items);
+      box.AddMerchantItemID(merchantItemID);
     }
 
     /// <summary>Method that is called to produce the Xml message 

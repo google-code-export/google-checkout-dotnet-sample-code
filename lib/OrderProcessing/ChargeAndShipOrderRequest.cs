@@ -88,6 +88,7 @@ namespace GCheckout.OrderProcessing {
       string env, string googleOrderNumber)
       : base(merchantID, merchantKey, env, googleOrderNumber) {
       ItemShippingInformation = new ItemShippingInformation();
+      TrackingDataList = new TrackingDataList();
     }
 
     /// <summary>
@@ -104,6 +105,7 @@ namespace GCheckout.OrderProcessing {
       string env, string googleOrderNumber, string currency, decimal amount)
       : base(merchantID, merchantKey, env, googleOrderNumber) {
       ItemShippingInformation = new ItemShippingInformation();
+      TrackingDataList = new TrackingDataList();
       _currency = currency;
       this.Amount = amount;
     }
@@ -116,6 +118,7 @@ namespace GCheckout.OrderProcessing {
     public ChargeAndShipOrderRequest(string googleOrderNumber)
       : base(googleOrderNumber) {
       ItemShippingInformation = new ItemShippingInformation();
+      TrackingDataList = new TrackingDataList();
     }
 
     /// <summary>
@@ -173,7 +176,7 @@ namespace GCheckout.OrderProcessing {
         throw new ApplicationException(
           "You attempted to add a duplicate tracking number.");
 
-      ShipItemBox retVal = ShipItemBox.CreateBox(carrier, trackingNumber);
+      ShipItemBox retVal = ShipItemBox.CreateBox(carrier, trackingNumber, _items);
       _boxes.Add(trackingNumber, retVal);
 
       return retVal;
@@ -202,11 +205,11 @@ namespace GCheckout.OrderProcessing {
       ShipItemBox box = null;
 
       if (!_boxes.TryGetValue(trackingNumber, out box)) {
-        box = ShipItemBox.CreateBox(carrier, trackingNumber);
+        box = ShipItemBox.CreateBox(carrier, trackingNumber, _items);
         _boxes[trackingNumber] = box;
       }
 
-      box.AddMerchantItemID(merchantItemID, _items);
+      box.AddMerchantItemID(merchantItemID);
     }
 
     /// <summary>

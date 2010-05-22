@@ -435,6 +435,47 @@ namespace GCheckout.OrderProcessing.Tests {
       Assert.AreEqual(MERCHANT_ORDER_NUMBER, D.merchantordernumber);
     }
 
+    [Test]
+    public void TestChargeAndShipOrderRequest() {
+      ChargeAndShipOrderRequest req;
+      AutoGen.ChargeAndShipOrderRequest d;
+
+      // Test the first constructor.
+      req = new ChargeAndShipOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER);
+      d = (AutoGen.ChargeAndShipOrderRequest)EncodeHelper.Deserialize(req.GetXml());
+      Assert.AreEqual(ORDER_NUMBER, d.googleordernumber);
+      Assert.AreEqual(null, d.amount);
+
+      // Test the second constructor.
+      req = new ChargeAndShipOrderRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox", ORDER_NUMBER, "GBP", 10.2m);
+      d = (AutoGen.ChargeAndShipOrderRequest)EncodeHelper.Deserialize(req.GetXml());
+      Assert.AreEqual(ORDER_NUMBER, d.googleordernumber);
+      Assert.AreEqual("GBP", d.amount.currency);
+      Assert.AreEqual(10.2m, d.amount.Value);
+
+      req = new ChargeAndShipOrderRequest(ORDER_NUMBER);
+      d = (AutoGen.ChargeAndShipOrderRequest)EncodeHelper.Deserialize(req.GetXml());
+      Assert.AreEqual(req.GoogleOrderNumber, d.googleordernumber);
+
+      req = new ChargeAndShipOrderRequest(ORDER_NUMBER);
+      req.Amount = 12.98m;
+      d = (AutoGen.ChargeAndShipOrderRequest)EncodeHelper.Deserialize(req.GetXml());
+      Assert.AreEqual(req.GoogleOrderNumber, d.googleordernumber);
+      Assert.AreEqual(req.Amount, 12.98m);
+
+
+      req = new ChargeAndShipOrderRequest(ORDER_NUMBER);
+      req.Amount = 12.98m;
+      req.SendEmail = true;
+      req.ItemShippingInformation.AddMerchantItemId("UPS", "123456", "12");
+      req.TrackingDataList.AddTrackingData("UPS", "987655");
+      d = (AutoGen.ChargeAndShipOrderRequest)EncodeHelper.Deserialize(req.GetXml());
+      Assert.AreEqual(req.GoogleOrderNumber, d.googleordernumber);
+      Assert.AreEqual(req.Amount, 12.98m);
+      Assert.AreEqual(req.SendEmail, d.sendemail);
+
+    }
+
     private AutoGen.DeliverOrderRequest ParseDeliverOrderRequest(byte[] Xml) {
       object testVal = null;
 
