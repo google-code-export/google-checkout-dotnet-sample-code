@@ -70,6 +70,10 @@ namespace GCheckout.Checkout {
 
     }
 
+    /// <summary>
+    /// Create new instance
+    /// </summary>
+    /// <param name="payment">The payment information</param>
     public SubscriptionPayment(AutoGen.SubscriptionPayment payment) {
       if (payment == null)
         throw new ArgumentNullException("payment");

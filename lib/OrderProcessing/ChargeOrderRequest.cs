@@ -29,15 +29,15 @@ namespace GCheckout.OrderProcessing {
   /// requests.
   /// </summary>
   public class ChargeOrderRequest : OrderProcessingBase {
-    private string _Currency = null;
-    private decimal _Amount = -1;
+    private string _currency = null;
+    private decimal _amount = -1;
 
     /// <summary>
     /// Get the amount for the Request
     /// </summary>
     public decimal Amount {
       get {
-        return _Amount;
+        return _amount;
       }
     }
 
@@ -76,8 +76,8 @@ namespace GCheckout.OrderProcessing {
     public ChargeOrderRequest(string MerchantID, string MerchantKey, 
       string Env, string GoogleOrderNumber, string Currency, decimal Amount)
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _Currency = Currency;
-      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
+      _currency = Currency;
+      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>
@@ -89,21 +89,24 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Amount">The Amount to charge</param>
     public ChargeOrderRequest(string GoogleOrderNumber, string Currency, 
       decimal Amount) : base(GoogleOrderNumber) {
-      _Currency = Currency;
-      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
+      _currency = Currency;
+      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>Method that is called to produce the Xml message 
     /// that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
-      AutoGen.ChargeOrderRequest Req = new AutoGen.ChargeOrderRequest();
-      Req.googleordernumber = GoogleOrderNumber;
-      if (_Amount != -1 && _Currency != null) {
-        Req.amount = new AutoGen.Money();
-        Req.amount.currency = _Currency;
-        Req.amount.Value = _Amount;
+      
+      AutoGen.ChargeOrderRequest retVal = new AutoGen.ChargeOrderRequest();
+      retVal.googleordernumber = GoogleOrderNumber;
+
+      if (_amount != -1 && _currency != null) {
+        retVal.amount = new AutoGen.Money();
+        retVal.amount.currency = _currency;
+        retVal.amount.Value = _amount;
       }
-      return EncodeHelper.Serialize(Req);
+      
+      return EncodeHelper.Serialize(retVal);
     }
 
   }

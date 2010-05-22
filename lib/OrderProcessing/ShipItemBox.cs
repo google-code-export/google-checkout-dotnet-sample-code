@@ -15,6 +15,7 @@
 *************************************************/
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace GCheckout.OrderProcessing {
 
@@ -27,8 +28,6 @@ namespace GCheckout.OrderProcessing {
     private ArrayList _items = new ArrayList();
     private AutoGen.TrackingData _tracking;
 
-    internal ShipItemsRequest Request;
-
     /// <summary>
     /// The &lt;carrier&gt; tag contains the name of the company 
     /// responsible for shipping the item. Valid values for this 
@@ -37,7 +36,7 @@ namespace GCheckout.OrderProcessing {
     public string Carrier {
       get {
         return _tracking.carrier;
-       }
+      }
       set {
         _tracking.carrier = value;
       }
@@ -79,12 +78,14 @@ namespace GCheckout.OrderProcessing {
     /// such as a stock keeping unit (SKU), 
     /// that you use to uniquely identify an item.
     /// </summary>
-    /// <param name="itemID"></param>
-    public void AddMerchantItemID(string itemID) {
+    /// <param name="itemID">The item to add to the box</param>
+    /// <param name="lookup">The dictionary lookup</param>
+    public void AddMerchantItemID(string itemID,
+      Dictionary<string, AutoGen.ItemShippingInformation> lookup) {
       if (itemID == null || itemID.Length == 0)
         throw new ArgumentException("itemID must be valid length > 0.");
 
-      AutoGen.ItemShippingInformation[] items 
+      AutoGen.ItemShippingInformation[] items
         = new AutoGen.ItemShippingInformation[_items.Count];
       _items.CopyTo(items, 0);
 
@@ -96,17 +97,19 @@ namespace GCheckout.OrderProcessing {
       }
 
       //The hash starts with G for google items and M for merchant items
-      AutoGen.ItemShippingInformation item 
-        = Request._items["M:" + itemID] as AutoGen.ItemShippingInformation;
+      AutoGen.ItemShippingInformation item = null;
 
-      if (item == null) {
+      string key = "M:" + itemID;
+
+      if (!lookup.TryGetValue(key, out item)) {
+
         item = new AutoGen.ItemShippingInformation();
-        
+
         AutoGen.ItemId lineItem = new GCheckout.AutoGen.ItemId();
         lineItem.merchantitemid = itemID;
         item.itemid = lineItem;
 
-        Request._items["M:" + itemID] = item;
+        lookup[key] = item;
       }
       AppendTracking(item);
       _items.Add(item);
@@ -115,19 +118,33 @@ namespace GCheckout.OrderProcessing {
 
     private void AppendTracking(AutoGen.ItemShippingInformation item) {
       if (item.trackingdatalist == null)
-        item.trackingdatalist = new AutoGen.TrackingData[] {};
+        item.trackingdatalist = new AutoGen.TrackingData[] { };
 
-      AutoGen.TrackingData[] newList 
+      AutoGen.TrackingData[] newList
         = new GCheckout.AutoGen.TrackingData[item.trackingdatalist.Length + 1];
 
       if (item.trackingdatalist.Length > 0) {
-         Array.Copy(item.trackingdatalist, 0, 
-           newList, 0, item.trackingdatalist.Length);
+        Array.Copy(item.trackingdatalist, 0,
+          newList, 0, item.trackingdatalist.Length);
       }
 
       newList[newList.Length - 1] = _tracking;
       item.trackingdatalist = newList;
 
+    }
+
+    /// <summary>
+    /// Create a new box
+    /// </summary>
+    /// <param name="carrier">The carrier</param>
+    /// <param name="trackingNumber">The Tracking number.</param>
+    /// <returns></returns>
+    public static ShipItemBox CreateBox(string carrier, string trackingNumber) {
+      ShipItemBox retVal = new ShipItemBox(carrier, trackingNumber);
+      //retVal.Request = this;
+      retVal.Carrier = carrier;
+      retVal.TrackingNumber = trackingNumber;
+      return retVal;
     }
 
   }
