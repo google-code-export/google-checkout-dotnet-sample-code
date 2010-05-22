@@ -597,6 +597,7 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
     /// corresponds to the value of the value of the 
     /// &lt;merchant-private-item-data&gt; tag in the Checkout API 
     /// request.</param>
+    /// <param name="subscription">The subscription information.</param>
     public ShoppingCartItem AddItem(string Name, string Description,
       int Quantity, string MerchantPrivateItemData, Subscription subscription) {
       ShoppingCartItem retVal

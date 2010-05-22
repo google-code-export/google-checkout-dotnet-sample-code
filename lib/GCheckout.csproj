@@ -243,6 +243,7 @@
     <Compile Include="OrderProcessing\CancelOrderRequest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="OrderProcessing\ChargeAndShipOrderRequest.cs" />
     <Compile Include="OrderProcessing\ChargeOrderRequest.cs">
       <SubType>Code</SubType>
     </Compile>
