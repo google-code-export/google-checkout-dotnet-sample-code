@@ -92,9 +92,16 @@ namespace GCheckout.OrderProcessing {
         //we want to make sure we only show the nextpage token if it really needs 
         //to be requested.
         if (_additionalResponses.Count > 0) {
-          return _additionalResponses[_additionalResponses.Count - 1].nextpagetoken;
+          var item = _additionalResponses[_additionalResponses.Count - 1];
+          if (item != null) {
+            return item.nextpagetoken;
+          }
+          return null;
         }
-        return _response.nextpagetoken;
+        if (_response != null) {
+          return _response.nextpagetoken;
+        }
+        return null;
       }
     }
 
