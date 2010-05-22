@@ -27,7 +27,7 @@ namespace GCheckout.OrderProcessing {
 
     private ArrayList _items = new ArrayList();
     private AutoGen.TrackingData _tracking;
-
+    private Dictionary<string, AutoGen.ItemShippingInformation> _lookup;
     /// <summary>
     /// The &lt;carrier&gt; tag contains the name of the company 
     /// responsible for shipping the item. Valid values for this 
@@ -79,9 +79,7 @@ namespace GCheckout.OrderProcessing {
     /// that you use to uniquely identify an item.
     /// </summary>
     /// <param name="itemID">The item to add to the box</param>
-    /// <param name="lookup">The dictionary lookup</param>
-    public void AddMerchantItemID(string itemID,
-      Dictionary<string, AutoGen.ItemShippingInformation> lookup) {
+    public void AddMerchantItemID(string itemID) {
       if (itemID == null || itemID.Length == 0)
         throw new ArgumentException("itemID must be valid length > 0.");
 
@@ -101,7 +99,7 @@ namespace GCheckout.OrderProcessing {
 
       string key = "M:" + itemID;
 
-      if (!lookup.TryGetValue(key, out item)) {
+      if (!_lookup.TryGetValue(key, out item)) {
 
         item = new AutoGen.ItemShippingInformation();
 
@@ -109,7 +107,7 @@ namespace GCheckout.OrderProcessing {
         lineItem.merchantitemid = itemID;
         item.itemid = lineItem;
 
-        lookup[key] = item;
+        _lookup[key] = item;
       }
       AppendTracking(item);
       _items.Add(item);
@@ -138,10 +136,12 @@ namespace GCheckout.OrderProcessing {
     /// </summary>
     /// <param name="carrier">The carrier</param>
     /// <param name="trackingNumber">The Tracking number.</param>
+    /// <param name="lookup">The lookup value</param>
     /// <returns></returns>
-    public static ShipItemBox CreateBox(string carrier, string trackingNumber) {
+    public static ShipItemBox CreateBox(string carrier, string trackingNumber, 
+      Dictionary<string, AutoGen.ItemShippingInformation> lookup) {
       ShipItemBox retVal = new ShipItemBox(carrier, trackingNumber);
-      //retVal.Request = this;
+      retVal._lookup = lookup;
       retVal.Carrier = carrier;
       retVal.TrackingNumber = trackingNumber;
       return retVal;
