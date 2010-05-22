@@ -63,7 +63,9 @@ namespace GCheckout.OrderProcessing {
       get {
         if (_invalidOrderNumbers == null) {
           _invalidOrderNumbers = new List<string>();
-          _invalidOrderNumbers.AddRange(_response.invalidordernumbers);
+          if (_response.invalidordernumbers != null) {
+            _invalidOrderNumbers.AddRange(_response.invalidordernumbers);
+          }
         }
         return _invalidOrderNumbers;
       }
@@ -108,7 +110,7 @@ namespace GCheckout.OrderProcessing {
           }
         }
         if (_additionalResponses != null) {
-          foreach (AutoGen.NotificationHistoryResponse item 
+          foreach (AutoGen.NotificationHistoryResponse item
             in _additionalResponses) {
             if (item != null && item.notifications != null) {
               _notificationResponses.AddRange(item.notifications.Items);
@@ -154,7 +156,7 @@ namespace GCheckout.OrderProcessing {
       ChargebackAmountNotifications() {
       return GetMessagesOfType<AutoGen.ChargebackAmountNotification>();
     }
-    
+
     /// <summary>
     /// Return the responses of type NewOrderNotification
     /// </summary>
@@ -163,7 +165,7 @@ namespace GCheckout.OrderProcessing {
       NewOrderNotifications() {
       return GetMessagesOfType<AutoGen.NewOrderNotification>();
     }
-    
+
     /// <summary>
     /// Return the responses of type OrderStateChangeNotification
     /// </summary>
@@ -172,7 +174,7 @@ namespace GCheckout.OrderProcessing {
       OrderStateChangeNotifications() {
       return GetMessagesOfType<AutoGen.OrderStateChangeNotification>();
     }
-    
+
     /// <summary>
     /// Return the responses of type RefundAmountNotification
     /// </summary>
@@ -181,7 +183,7 @@ namespace GCheckout.OrderProcessing {
       RefundAmountNotifications() {
       return GetMessagesOfType<AutoGen.RefundAmountNotification>();
     }
-    
+
     /// <summary>
     /// Return the responses of type RiskInformationNotification
     /// </summary>
