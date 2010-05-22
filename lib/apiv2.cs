@@ -627,28 +627,6 @@ namespace GCheckout.AutoGen {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
-    public partial class ItemId {
-        
-        private string merchantitemidField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("merchant-item-id")]
-        public string merchantitemid {
-            get {
-                return this.merchantitemidField;
-            }
-            set {
-                this.merchantitemidField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
     public partial class ItemShippingInformation {
         
         private TrackingData[] trackingdatalistField;
@@ -709,6 +687,28 @@ namespace GCheckout.AutoGen {
             }
             set {
                 this.trackingnumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    public partial class ItemId {
+        
+        private string merchantitemidField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("merchant-item-id")]
+        public string merchantitemid {
+            get {
+                return this.merchantitemidField;
+            }
+            set {
+                this.merchantitemidField = value;
             }
         }
     }
@@ -5900,6 +5900,67 @@ namespace GCheckout.AutoGen {
             }
             set {
                 this.serialnumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "2.0.50727.3038")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://checkout.google.com/schema/2")]
+    [System.Xml.Serialization.XmlRootAttribute("cancelled-subscription-notification", Namespace="http://checkout.google.com/schema/2", IsNullable=false)]
+    public partial class CancelledSubscriptionNotification {
+        
+        private ItemId[] itemidsField;
+        
+        private string googleordernumberField;
+        
+        private string reasonField;
+        
+        private System.DateTime timestampField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute("item-ids")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("item-id", IsNullable=false)]
+        public ItemId[] itemids {
+            get {
+                return this.itemidsField;
+            }
+            set {
+                this.itemidsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("google-order-number", DataType="token")]
+        public string googleordernumber {
+            get {
+                return this.googleordernumberField;
+            }
+            set {
+                this.googleordernumberField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string reason {
+            get {
+                return this.reasonField;
+            }
+            set {
+                this.reasonField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public System.DateTime timestamp {
+            get {
+                return this.timestampField;
+            }
+            set {
+                this.timestampField = value;
             }
         }
     }

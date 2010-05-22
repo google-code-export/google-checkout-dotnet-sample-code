@@ -39,6 +39,22 @@
       <xs:enumeration value="YEARLY" />
     </xs:restriction>
   </xs:simpleType>
+
+  <xs:complexType name="CancelledSubscriptionNotification">
+    <xs:all>
+      <xs:element name="item-ids">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="item-id" type="tns:ItemId" minOccurs="0" maxOccurs="unbounded" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="google-order-number" type="xs:token" />
+      <xs:element name="reason" type="xs:string" />
+      <xs:element name="timestamp" type="xs:dateTime" />
+    </xs:all>
+  </xs:complexType>
+  
   <xs:complexType name="CreateOrderRecurrenceRequest">
     <xs:all>
       <xs:element name="shopping-cart" type="tns:ShoppingCart" />
@@ -1780,6 +1796,8 @@
   <xs:element name="hello" type="tns:Hello" />
   
   <xs:element name="bye" type="tns:Bye" />
+
+  <xs:element name="cancelled-subscription-notification" type="tns:CancelledSubscriptionNotification" />
   
   <xs:element name="demo-failure" type="tns:DemoFailure" />
   
