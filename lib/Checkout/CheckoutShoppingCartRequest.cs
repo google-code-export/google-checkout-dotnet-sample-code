@@ -48,6 +48,7 @@ namespace GCheckout.Checkout {
       "numeric characters, or zero to 4 numeric characters followed by " +
       "a single asterisk as a wildcard character.";
 
+private BuyerMessages _buyerMessages = new BuyerMessages();
     private List<IShoppingCartItem> _items = new List<IShoppingCartItem>();
     private AutoGen.TaxTables _TaxTables;
     private AutoGen.MerchantCheckoutFlowSupportShippingmethods
@@ -1777,6 +1778,11 @@ namespace GCheckout.Checkout {
         MyCart.checkoutflowsupport.Item.continueshoppingurl =
           ContinueShoppingUrl;
       }
+      object[] buyerMessages = BuyerMessages.ConvertMessages();
+      if (buyerMessages != null && buyerMessages.Length > 0) {
+        MyCart.shoppingcart.buyermessages = new GCheckout.AutoGen.ShoppingCartBuyermessages();
+        MyCart.shoppingcart.buyermessages.Items = buyerMessages;
+      }
 
       if (AnalyticsData != null) {
         MyCart.checkoutflowsupport.Item.analyticsdata = AnalyticsData;
@@ -1984,6 +1990,15 @@ namespace GCheckout.Checkout {
     /// </param>
     public void SetExpirationMinutesFromNow(int ExpirationMinutesFromNow) {
       CartExpiration = DateTime.UtcNow.AddMinutes(ExpirationMinutesFromNow);
+    }
+
+    /// <summary>
+    /// Append Buyer Messages to the Shopping Cart.
+    /// </summary>
+    public BuyerMessages BuyerMessages {
+      get {
+        return _buyerMessages;
+      }
     }
 
     /// <summary>
