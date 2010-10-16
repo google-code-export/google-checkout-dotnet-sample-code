@@ -112,14 +112,16 @@ namespace GCheckout.OrderProcessing {
       get {
         if (_notificationResponses == null) {
           _notificationResponses = new List<object>();
-          if (_response != null && _response.notifications != null) {
+          if (_response != null && _response.notifications != null 
+            && _response.notifications.Items != null) {
             _notificationResponses.AddRange(_response.notifications.Items);
           }
         }
         if (_additionalResponses != null) {
           foreach (AutoGen.NotificationHistoryResponse item
             in _additionalResponses) {
-            if (item != null && item.notifications != null) {
+            if (item != null && item.notifications != null
+              && _response.notifications.Items != null) {
               _notificationResponses.AddRange(item.notifications.Items);
             }
           }
