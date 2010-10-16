@@ -53,6 +53,7 @@
       <xs:element name="reason" type="xs:string" />
       <xs:element name="timestamp" type="xs:dateTime" />
     </xs:all>
+    <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
   
   <xs:complexType name="CreateOrderRecurrenceRequest">
