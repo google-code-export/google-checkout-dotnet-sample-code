@@ -17,6 +17,9 @@
  Edit History:
  *  5-22-2010   Joe Feser joe.feser@joefeser.com
  *  Initial Release.
+ *  
+ *  10-16-2010 Joe Feser joe.feser@joefeser.com
+ *  This is a report request. Inherited from an incorrect base class.
  * 
 */
 using System;
@@ -29,7 +32,7 @@ namespace GCheckout.OrderProcessing {
   /// <summary>
   /// OrderSummaryRequest
   /// </summary>
-  public class OrderSummaryRequest : GCheckoutRequest {
+  public class OrderSummaryRequest : ReportRequestBase {
 
     /// <summary>
     /// The Google Order Numbers for the request
@@ -47,20 +50,18 @@ namespace GCheckout.OrderProcessing {
     /// <param name="environment">A String representation of 
     /// <see cref="EnvironmentType"/></param>
     public OrderSummaryRequest(string merchantID,
-      string merchantKey, string environment) {
-      _MerchantID = merchantID;
-      _MerchantKey = merchantKey;
-      _Environment = StringToEnvironment(environment);
+      string merchantKey, string environment) 
+        : base(merchantID, merchantKey, environment) {
       GoogleOrderNumbers = new List<string>();
     }
 
     /// <summary>
     /// Create a new Instance of OrderSummaryRequest
     /// </summary>
-    public OrderSummaryRequest() {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
+    public OrderSummaryRequest()
+        : base(GCheckoutConfigurationHelper.MerchantID.ToString(),
+        GCheckoutConfigurationHelper.MerchantKey, 
+        GCheckoutConfigurationHelper.Environment.ToString()) {
       GoogleOrderNumbers = new List<string>();
     }
 
@@ -73,10 +74,8 @@ namespace GCheckout.OrderProcessing {
     /// <see cref="EnvironmentType"/></param>
     /// <param name="googleOrderNumber">The single order to request</param>
     public OrderSummaryRequest(string merchantID,
-      string merchantKey, string environment, string googleOrderNumber) {
-      _MerchantID = merchantID;
-      _MerchantKey = merchantKey;
-      _Environment = StringToEnvironment(environment);
+      string merchantKey, string environment, string googleOrderNumber)
+      : base(merchantID, merchantKey, environment) {
       GoogleOrderNumbers = new List<string>();
       GoogleOrderNumbers.Add(googleOrderNumber);
     }
@@ -85,10 +84,10 @@ namespace GCheckout.OrderProcessing {
     /// Create a new Instance of OrderSummaryRequest
     /// </summary>
     /// <param name="googleOrderNumber">The single order to request</param>
-    public OrderSummaryRequest(string googleOrderNumber) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
+    public OrderSummaryRequest(string googleOrderNumber)
+      : base(GCheckoutConfigurationHelper.MerchantID.ToString(),
+          GCheckoutConfigurationHelper.MerchantKey,
+          GCheckoutConfigurationHelper.Environment.ToString()) {
       GoogleOrderNumbers = new List<string>();
       GoogleOrderNumbers.Add(googleOrderNumber);
     }
@@ -102,10 +101,9 @@ namespace GCheckout.OrderProcessing {
     /// <see cref="EnvironmentType"/></param>
     /// <param name="googleOrderNumbers">The orders to request</param>
     public OrderSummaryRequest(string merchantID,
-      string merchantKey, string environment, List<string> googleOrderNumbers) {
-      _MerchantID = merchantID;
-      _MerchantKey = merchantKey;
-      _Environment = StringToEnvironment(environment);
+      string merchantKey, string environment, List<string> googleOrderNumbers)
+      : base(merchantID, merchantKey, environment) {
+
       if (googleOrderNumbers == null) {
         throw new ArgumentNullException("googleOrderNumbers");
       }
@@ -116,10 +114,11 @@ namespace GCheckout.OrderProcessing {
     /// Create a new Instance of OrderSummaryRequest
     /// </summary>
     /// <param name="googleOrderNumbers">The orders to request</param>
-    public OrderSummaryRequest(List<string> googleOrderNumbers) {
-      _MerchantID = GCheckoutConfigurationHelper.MerchantID.ToString();
-      _MerchantKey = GCheckoutConfigurationHelper.MerchantKey;
-      _Environment = GCheckoutConfigurationHelper.Environment;
+    public OrderSummaryRequest(List<string> googleOrderNumbers)
+      : base(GCheckoutConfigurationHelper.MerchantID.ToString(),
+        GCheckoutConfigurationHelper.MerchantKey,
+        GCheckoutConfigurationHelper.Environment.ToString()) {
+
       if (googleOrderNumbers == null) {
         throw new ArgumentNullException("googleOrderNumbers");
       }
