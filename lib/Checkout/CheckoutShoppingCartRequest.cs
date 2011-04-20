@@ -1682,6 +1682,11 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
         [_TaxTables.defaulttaxtable.taxrules.Length + 1];
       for (int i = 0; i < NewTable.taxrules.Length - 1; i++) {
         NewTable.taxrules[i] = _TaxTables.defaulttaxtable.taxrules[i];
+        NewTable.taxrules[i].rateSpecified = true;
+        if (_TaxTables.defaulttaxtable.taxrules[i].shippingtaxedSpecified) {
+          NewTable.taxrules[i].shippingtaxed = _TaxTables.defaulttaxtable.taxrules[i].shippingtaxed;
+          NewTable.taxrules[i].shippingtaxedSpecified = true;
+        }
       }
       NewTable.taxrules[NewTable.taxrules.Length - 1] = NewRule;
       _TaxTables.defaulttaxtable = NewTable;

@@ -300,6 +300,25 @@ namespace GCheckout.Checkout.Tests {
 
     }
 
+    [Test()]
+    public void VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+      request.AddPickupShippingMethod("Name", 4.95m);
+      request.AddCountryTaxRule(GCheckout.AutoGen.USAreas.ALL, .05, true);
+      request.AddWorldAreaTaxRule(.02, true);
+      //Tax GB at 5%
+      request.AddPostalAreaTaxRule("GB", .05, true);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      Assert.IsTrue(roundTrip.checkoutflowsupport.Item.taxtables.defaulttaxtable.taxrules[0].rateSpecified);
+      Assert.IsTrue(roundTrip.checkoutflowsupport.Item.taxtables.defaulttaxtable.taxrules[0].shippingtaxed);
+      Assert.IsTrue(roundTrip.checkoutflowsupport.Item.taxtables.defaulttaxtable.taxrules[0].shippingtaxedSpecified);
+    }
+
     /// <exclude/>
     [Test()]
     public void TestAddItem() {
