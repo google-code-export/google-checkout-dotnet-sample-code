@@ -26,6 +26,8 @@ using NUnit.Framework;
 using System.Reflection;
 using System.IO;
 using GCheckout.OrderProcessing;
+using GCheckout.Util;
+using System.Diagnostics;
 //using GCheckout.AutoGen;
 
 namespace GoogleCheckoutUnitTests {
@@ -52,6 +54,18 @@ namespace GoogleCheckoutUnitTests {
           = GCheckout.Util.EncodeHelper.Deserialize(s) 
           as GCheckout.AutoGen.NotificationHistoryResponse;
       }
+    }
+
+    [Test]
+    public void Verify_Serial_Number_Supported() {
+      
+      var sn = "123456";
+      var request = new NotificationHistoryRequest(new NotificationHistorySerialNumber(sn));
+
+      var roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(GCheckout.AutoGen.NotificationHistoryRequest)) as GCheckout.AutoGen.NotificationHistoryRequest;
+
+      Assert.AreEqual(sn, roundTrip.serialnumber);
     }
 
     [Test]
