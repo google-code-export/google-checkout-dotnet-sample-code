@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Google Inc.")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("2006-2010 Google Inc., Apache License, Version 2.0")]
+[assembly: AssemblyCopyright("2006-2011 Google Inc., Apache License, Version 2.0")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 
