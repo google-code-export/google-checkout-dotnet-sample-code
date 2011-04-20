@@ -143,8 +143,15 @@ namespace GCheckout.OrderProcessing {
       retVal.sendemail = SendEmail;
       retVal.sendemailSpecified = true;
 
-      retVal.itemshippinginformationlist = ItemShippingInformation.ToArray();
-      retVal.trackingdatalist = TrackingDataList.ToArray();
+      var shippingInfo = ItemShippingInformation.ToArray();
+      if (shippingInfo != null && shippingInfo.Length > 0) {
+        retVal.itemshippinginformationlist = shippingInfo;
+      }
+
+      var trackingData = TrackingDataList.ToArray();
+      if (trackingData != null && trackingData.Length > 0) {
+        retVal.trackingdatalist = trackingData;
+      }
 
       return EncodeHelper.Serialize(retVal);
     }
