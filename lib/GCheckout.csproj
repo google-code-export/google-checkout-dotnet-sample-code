@@ -247,6 +247,7 @@
     <Compile Include="OrderProcessing\ChargeOrderRequest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="OrderProcessing\NotificationHistorySerialNumber.cs" />
     <Compile Include="OrderProcessing\NotificationTypes.cs" />
     <Compile Include="OrderProcessing\DeliverOrderRequest.cs">
       <SubType>Code</SubType>

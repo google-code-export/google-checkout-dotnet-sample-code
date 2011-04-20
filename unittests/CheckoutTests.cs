@@ -114,8 +114,6 @@ namespace GCheckout.Checkout.Tests {
         index++;
       }
 
-      Debug.WriteLine("");
-
     }
 
     /// <exclude/>

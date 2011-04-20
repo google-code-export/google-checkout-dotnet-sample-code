@@ -17,6 +17,8 @@
  Edit History:
  *  9-7-2008   Joe Feser joe.feser@joefeser.com
  *  Initial Release.
+ *  4-20-2011  Joe Feser joe.feser@joefeser.com
+ *  Fixed issue allowing a serial number to be used.
  * 
 */
 using System;
@@ -43,6 +45,7 @@ namespace GCheckout.OrderProcessing {
     private DateTime _endTime = DateTime.MinValue;
     private List<NotificationTypes> _notificationTypes;
     private List<string> _orderNumbers;
+    private NotificationHistorySerialNumber _serialNumber;
 
     /// <summary>
     /// If set to true, the code will automatically call the Next Page
@@ -84,6 +87,18 @@ namespace GCheckout.OrderProcessing {
       GCheckoutConfigurationHelper.MerchantKey,
       GCheckoutConfigurationHelper.Environment) {
       _nextPageToken = nextPageToken;
+    }
+
+    /// <summary>
+    /// Create a new Instance of NotificationHistoryRequest used to
+    /// obtain more results for a previous request.
+    /// </summary>
+    /// <param name="serialNumber">The message serial number</param>
+    public NotificationHistoryRequest(NotificationHistorySerialNumber serialNumber)
+      : base(GCheckoutConfigurationHelper.MerchantID,
+      GCheckoutConfigurationHelper.MerchantKey,
+      GCheckoutConfigurationHelper.Environment) {
+      _serialNumber = serialNumber;
     }
 
     /// <summary>
@@ -175,6 +190,22 @@ namespace GCheckout.OrderProcessing {
       : base(merchantID, merchantKey, environment) {
       _orderNumbers = orderNumbers;
       VerifyOrderNumbers();
+    }
+
+    /// <summary>
+    /// Create a new Instance of NotificationHistoryRequest
+    /// based on a date range.
+    /// </summary>
+    /// <param name="merchantID">Google Checkout Merchant ID</param>
+    /// <param name="merchantKey">Google Checkout Merchant Key</param>
+    /// <param name="environment">A String representation of 
+    /// <see cref="EnvironmentType"/></param>
+    /// <param name="serialNumber">The serial number to query</param>
+    public NotificationHistoryRequest(string merchantID,
+      string merchantKey, string environment,
+      NotificationHistorySerialNumber serialNumber)
+      : base(merchantID, merchantKey, environment) {
+      _serialNumber = serialNumber;
     }
 
     /// <summary>
@@ -306,6 +337,10 @@ namespace GCheckout.OrderProcessing {
             FieldInfo fi = t.GetField(item.ToString());
             nt.Add(EnumSerilizedNameAttribute.GetValue(fi));
           }
+        }
+        if (_serialNumber != null && 
+          !string.IsNullOrEmpty(_serialNumber.SerialNumber)) {
+          retVal.serialnumber = _serialNumber.SerialNumber;
         }
       }
       return EncodeHelper.Serialize(retVal);
