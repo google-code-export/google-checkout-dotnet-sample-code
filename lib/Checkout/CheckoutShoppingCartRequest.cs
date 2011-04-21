@@ -1,5 +1,5 @@
 /*************************************************
- * Copyright (C) 2006-2009 Google Inc.
+ * Copyright (C) 2006-2011 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,9 @@
  *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
  *  Any method that forwards the request to a new method or creates an object assumes that
  *  the object will perform it's own validation.
+ *  4-21-2011   Joe Feser joe.feser@joefeser.com
+ *  Fixed a bug in Tax tables where the rateSpecified was not being set
+ *  Removed array copy code since we now have ToArray()
 */
 using System;
 using System.Text.RegularExpressions;
@@ -1468,6 +1471,7 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
         throw new ApplicationException(ZIP_CODE_PATTERN_EXCEPTION);
       }
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
+      Rule.rateSpecified = true;
       Rule.rate = TaxRate;
       Rule.shippingtaxedSpecified = true;
       Rule.shippingtaxed = ShippingTaxed;
@@ -1540,6 +1544,7 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
     public void AddStateTaxRule(string StateCode, double TaxRate,
       bool ShippingTaxed) {
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
+      Rule.rateSpecified = true;
       Rule.rate = TaxRate;
       Rule.shippingtaxedSpecified = true;
       Rule.shippingtaxed = ShippingTaxed;
@@ -1576,6 +1581,7 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
     public void AddCountryTaxRule(AutoGen.USAreas Area, double TaxRate,
       bool ShippingTaxed) {
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
+      Rule.rateSpecified = true;
       Rule.rate = TaxRate;
       Rule.shippingtaxedSpecified = true;
       Rule.shippingtaxed = ShippingTaxed;
@@ -1601,6 +1607,7 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
     /// </param>
     public void AddWorldAreaTaxRule(double TaxRate, bool ShippingTaxed) {
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
+      Rule.rateSpecified = true;
       Rule.rate = TaxRate;
       Rule.shippingtaxedSpecified = true;
       Rule.shippingtaxed = ShippingTaxed;
@@ -1654,6 +1661,7 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
     public void AddPostalAreaTaxRule(string countryCode, string postalCodePattern,
       double TaxRate, bool ShippingTaxed) {
       AutoGen.DefaultTaxRule Rule = new AutoGen.DefaultTaxRule();
+      Rule.rateSpecified = true;
       Rule.rate = TaxRate;
       Rule.shippingtaxedSpecified = true;
       Rule.shippingtaxed = ShippingTaxed;
@@ -1676,20 +1684,17 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
     /// <param name="NewRule">This parameter contains an object representing
     /// a default tax rule.</param>
     private void AddNewTaxRule(AutoGen.DefaultTaxRule NewRule) {
-      AutoGen.DefaultTaxTable NewTable = new AutoGen.DefaultTaxTable();
-      NewTable.taxrules =
-        new AutoGen.DefaultTaxRule
-        [_TaxTables.defaulttaxtable.taxrules.Length + 1];
-      for (int i = 0; i < NewTable.taxrules.Length - 1; i++) {
-        NewTable.taxrules[i] = _TaxTables.defaulttaxtable.taxrules[i];
-        NewTable.taxrules[i].rateSpecified = true;
-        if (_TaxTables.defaulttaxtable.taxrules[i].shippingtaxedSpecified) {
-          NewTable.taxrules[i].shippingtaxed = _TaxTables.defaulttaxtable.taxrules[i].shippingtaxed;
-          NewTable.taxrules[i].shippingtaxedSpecified = true;
-        }
+
+      var rules = new List<AutoGen.DefaultTaxRule>();
+
+      if (_TaxTables.defaulttaxtable.taxrules != null 
+        && _TaxTables.defaulttaxtable.taxrules.Length > 0) {
+        rules.AddRange(_TaxTables.defaulttaxtable.taxrules);
       }
-      NewTable.taxrules[NewTable.taxrules.Length - 1] = NewRule;
-      _TaxTables.defaulttaxtable = NewTable;
+
+      rules.Add(NewRule);
+
+      _TaxTables.defaulttaxtable.taxrules = rules.ToArray();
     }
 
     /// <summary>
