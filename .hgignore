@@ -13,3 +13,6 @@ glob:*/obj/*
 glob:*/notification_sender/bin/notification_sender.vshost.*
 glob:*/notification_sender/bin/*
 glob:*/notification_sender/obj/*
+glob:*.user
+glob:*/Processor/bin/*
+glob:*/Processor/obj/*
