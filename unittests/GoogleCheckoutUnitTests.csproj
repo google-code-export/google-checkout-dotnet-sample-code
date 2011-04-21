@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{28A9AC71-61FE-4020-967A-6BAB80DB34A9}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -18,7 +18,7 @@
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <RootNamespace>GoogleCheckoutUnitTests</RootNamespace>
+    <RootNamespace>GCheckout.Checkout.Tests</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>
     </StartupObject>
@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Compile Include="AlternateTaxTableTests.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -105,6 +106,7 @@
     <Compile Include="ConfigSectionTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DefaltTaxTableTests.cs" />
     <Compile Include="EncodeHelperTests.cs">
       <SubType>Code</SubType>
     </Compile>

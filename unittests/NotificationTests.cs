@@ -23,7 +23,7 @@ using GCheckout.AutoGen.Extended;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace GCheckout.Notifications.Tests {
+namespace GCheckout.Checkout.Tests {
 
   /// <summary>
   /// Summary description for NotificationTests.
@@ -37,7 +37,7 @@ namespace GCheckout.Notifications.Tests {
     /// Initialize the Xml Documents
     /// </summary>
     static NotificationTests() {
-      using (Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("GoogleCheckoutUnitTests.Xml.new-order-notification-base.xml")) {
+      using (Stream s = Assembly.GetExecutingAssembly().GetManifestResourceStream("GCheckout.Checkout.Tests.Xml.new-order-notification-base.xml")) {
         extended = GCheckout.Util.EncodeHelper.Deserialize(s) as NewOrderNotification;
       }
     }

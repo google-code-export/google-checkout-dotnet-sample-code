@@ -18,8 +18,9 @@ using System.Text;
 using System.Xml;
 using NUnit.Framework;
 using GCheckout.Util;
+using GCheckout.OrderProcessing;
 
-namespace GCheckout.OrderProcessing.Tests {
+namespace GCheckout.Checkout.Tests {
 
   /// <exclude/>
   [TestFixture]
@@ -29,11 +30,11 @@ namespace GCheckout.OrderProcessing.Tests {
     /// <exclude/>
     [Test]
     public void VerifyResetReturnBackOrderAndCancelItem() {
-      
+
       string xml;
       ResetItemsShippingInformationRequest req1 =
         new ResetItemsShippingInformationRequest(
-        "1234", "5678", EnvironmentType.Sandbox.ToString(), 
+        "1234", "5678", EnvironmentType.Sandbox.ToString(),
         originalOrderID);
       req1.AddMerchantItemId("A1");
       req1.AddMerchantItemId("B1");
@@ -59,7 +60,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       BackorderItemsRequest req2 =
         new BackorderItemsRequest(
-        "1234", "5678", EnvironmentType.Sandbox.ToString(), 
+        "1234", "5678", EnvironmentType.Sandbox.ToString(),
         originalOrderID);
       req2.AddMerchantItemId("A1");
       req2.AddMerchantItemId("B1");
@@ -78,7 +79,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       CancelItemsRequest req3 =
         new CancelItemsRequest(
-        "1234", "5678", EnvironmentType.Sandbox.ToString(), 
+        "1234", "5678", EnvironmentType.Sandbox.ToString(),
         originalOrderID);
       req3.AddMerchantItemId("A1");
       req3.AddMerchantItemId("B1");
@@ -89,7 +90,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       req3 =
         new CancelItemsRequest(
-        "1234", "5678", EnvironmentType.Sandbox.ToString(), 
+        "1234", "5678", EnvironmentType.Sandbox.ToString(),
         originalOrderID, true);
       req3.AddMerchantItemId("A1");
       req3.AddMerchantItemId("B1");
@@ -113,7 +114,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       req3 =
         new CancelItemsRequest(
-        "1234", "5678", EnvironmentType.Sandbox.ToString(), 
+        "1234", "5678", EnvironmentType.Sandbox.ToString(),
         originalOrderID, "Comment", "Reason");
       req3.AddMerchantItemId("A1");
       req3.AddMerchantItemId("B1");
@@ -122,7 +123,7 @@ namespace GCheckout.OrderProcessing.Tests {
 
       ReturnItemsRequest req4 =
         new ReturnItemsRequest(
-        "1234", "5678", EnvironmentType.Sandbox.ToString(), 
+        "1234", "5678", EnvironmentType.Sandbox.ToString(),
         originalOrderID);
       req4.AddMerchantItemId("A1");
       req4.AddMerchantItemId("B1");

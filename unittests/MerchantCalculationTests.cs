@@ -4,7 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using GCheckout.MerchantCalculation;
 
-namespace GoogleCheckoutUnitTests {
+namespace GCheckout.Checkout.Tests {
 
   [TestFixture]
   public class MerchantCalculationTests {
@@ -32,12 +32,12 @@ namespace GoogleCheckoutUnitTests {
       MerchantCodeResult mcr = new MerchantCodeResult();
       mcr.Amount = 12.975m;
       mcr.Message = "Hello";
-      mcr.Type = MerchantCodeType.Coupon;
+      mcr.Type = GCheckout.MerchantCalculation.MerchantCodeType.Coupon;
       mcr.Valid = true;
 
       Assert.AreEqual(12.98, mcr.Amount);
       Assert.AreEqual("Hello", mcr.Message);
-      Assert.AreEqual(MerchantCodeType.Coupon, mcr.Type);
+      Assert.AreEqual(GCheckout.MerchantCalculation.MerchantCodeType.Coupon, mcr.Type);
       Assert.IsTrue(mcr.Valid);
 
     }
