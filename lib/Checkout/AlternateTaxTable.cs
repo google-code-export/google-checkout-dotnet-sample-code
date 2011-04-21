@@ -17,6 +17,9 @@
  Edit History:
  *  3-14-2009   Joe Feser joe.feser@joefeser.com
  *  Verify tax rules and better code coverage.  
+ *  4-21-2011   Joe Feser joe.feser@joefeser.com
+ *  Fixed a bug in Tax tables where the rateSpecified was not being set
+ *  Removed array copy code since we now have ToArray()
  * 
 */
 
@@ -153,6 +156,7 @@ namespace GCheckout.Checkout {
     /// specifies a tax rate of 8.25%.</param>
     public void AddStateTaxRule(string StateCode, double TaxRate) {
       AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
+      rule.rateSpecified = true;
       rule.rate = TaxRate;
       rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
       AutoGen.USStateArea Area = new AutoGen.USStateArea();
@@ -182,6 +186,7 @@ namespace GCheckout.Checkout {
     /// </example>
     public void AddCountryTaxRule(AutoGen.USAreas Area, double TaxRate) {
       AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
+      rule.rateSpecified = true;
       rule.rate = TaxRate;
       rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
       AutoGen.USCountryArea ThisArea = new AutoGen.USCountryArea();
@@ -204,6 +209,7 @@ namespace GCheckout.Checkout {
           );
       }
       AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
+      rule.rateSpecified = true;
       rule.rate = TaxRate;
       rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
       AutoGen.USZipArea Area = new AutoGen.USZipArea();
@@ -229,6 +235,7 @@ namespace GCheckout.Checkout {
       }
 
       AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
+      rule.rateSpecified = true;
       rule.rate = TaxRate;
       rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
       AutoGen.WorldArea ThisArea = new AutoGen.WorldArea();
@@ -292,6 +299,7 @@ namespace GCheckout.Checkout {
       }
 
       AutoGen.AlternateTaxRule rule = new AutoGen.AlternateTaxRule();
+      rule.rateSpecified = true;
       rule.rate = TaxRate;
       rule.taxarea = new AutoGen.AlternateTaxRuleTaxarea();
       AutoGen.PostalArea ThisArea = new AutoGen.PostalArea();
@@ -316,11 +324,9 @@ namespace GCheckout.Checkout {
         retVal.standaloneSpecified = true;
       }
 
-      AutoGen.AlternateTaxRule[] rules
-        = new GCheckout.AutoGen.AlternateTaxRule[_taxRules.Count];
-      _taxRules.CopyTo(rules, 0);
-      retVal.alternatetaxrules = rules;
-
+      if (_taxRules.Count > 0) {
+        retVal.alternatetaxrules = _taxRules.ToArray();
+      }
       return retVal;
     }
   }

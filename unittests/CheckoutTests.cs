@@ -506,6 +506,80 @@ namespace GCheckout.Checkout.Tests {
 
     }
 
+
+    [Test()]
+    public void TestDefaultTaxTable_AddCountryTaxRule_VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+      request.AddCountryTaxRule(USAreas.ALL, .05, true);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.defaulttaxtable.taxrules[0];
+
+      Assert.AreEqual(.05, actualTaxTable.rate);
+      Assert.IsTrue(actualTaxTable.rateSpecified);
+      Assert.IsTrue(actualTaxTable.shippingtaxed);
+      Assert.AreEqual(typeof(USCountryArea), actualTaxTable.taxarea.Item.GetType());
+    }
+
+    [Test()]
+    public void TestDefaultTaxTable_AddPostalAreaTaxRule_VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+      request.AddPostalAreaTaxRule("CA", .05, true);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.defaulttaxtable.taxrules[0];
+
+      Assert.AreEqual(.05, actualTaxTable.rate);
+      Assert.IsTrue(actualTaxTable.rateSpecified);
+      Assert.IsTrue(actualTaxTable.shippingtaxed);
+      Assert.AreEqual(typeof(PostalArea), actualTaxTable.taxarea.Item.GetType());
+    }
+
+    [Test()]
+    public void TestDefaultTaxTable_AddStateTaxRule_VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+      request.AddStateTaxRule("OH", .05, true);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.defaulttaxtable.taxrules[0];
+
+      Assert.AreEqual(.05, actualTaxTable.rate);
+      Assert.IsTrue(actualTaxTable.rateSpecified);
+      Assert.IsTrue(actualTaxTable.shippingtaxed);
+      Assert.AreEqual(typeof(USStateArea), actualTaxTable.taxarea.Item.GetType());
+
+    }
+
+    [Test()]
+    public void TestDefaultTaxTable_AddWorldAreaTaxRule_VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+      request.AddWorldAreaTaxRule(.05, true);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.defaulttaxtable.taxrules[0];
+
+      Assert.AreEqual(.05, actualTaxTable.rate);
+      Assert.IsTrue(actualTaxTable.rateSpecified);
+      Assert.IsTrue(actualTaxTable.shippingtaxed);
+      Assert.AreEqual(typeof(WorldArea), actualTaxTable.taxarea.Item.GetType());
+    }
+
     [Test]
     [ExpectedException(typeof(ArgumentNullException))]
     public void TestAlternateTaxTableNullName() {
@@ -573,6 +647,87 @@ namespace GCheckout.Checkout.Tests {
       AlternateTaxTable att = new AlternateTaxTable();
       att.AddPostalAreaTaxRule("CA", .040);
       att.AddPostalAreaTaxRule("CA", .025);
+    }
+
+    [Test()]
+    public void TestAlternateTaxTable_AddCountryTaxRule_VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+
+      var taxTable = new AlternateTaxTable("ohio");
+      request.AlternateTaxTables.Add(taxTable);
+      taxTable.AddCountryTaxRule(USAreas.ALL, .05);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.alternatetaxtables[0].alternatetaxrules[0];
+
+      Assert.AreEqual(.05, actualTaxTable.rate);
+      Assert.IsTrue(actualTaxTable.rateSpecified);
+      Assert.AreEqual(typeof(USCountryArea), actualTaxTable.taxarea.Item.GetType());
+    }
+
+    [Test()]
+    public void TestAlternateTaxTable_AddPostalAreaTaxRule_VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+
+      var taxTable = new AlternateTaxTable("canada");
+      request.AlternateTaxTables.Add(taxTable);
+      taxTable.AddPostalAreaTaxRule("CA", .05);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.alternatetaxtables[0].alternatetaxrules[0];
+
+      Assert.AreEqual(.05, actualTaxTable.rate);
+      Assert.IsTrue(actualTaxTable.rateSpecified);
+      Assert.AreEqual(typeof(PostalArea), actualTaxTable.taxarea.Item.GetType());
+    }
+
+    [Test()]
+    public void TestAlternateTaxTable_AddStateTaxRule_VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+
+      var taxTable = new AlternateTaxTable("ohio");
+      request.AlternateTaxTables.Add(taxTable);
+      taxTable.AddStateTaxRule("OH", .05);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.alternatetaxtables[0].alternatetaxrules[0];
+
+      Assert.AreEqual(.05, actualTaxTable.rate);
+      Assert.IsTrue(actualTaxTable.rateSpecified);
+      Assert.AreEqual(typeof(USStateArea), actualTaxTable.taxarea.Item.GetType());
+
+    }
+
+    [Test()]
+    public void TestAlternateTaxTable_AddWorldAreaTaxRule_VerifyTaxRateSetsIsSpecified() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+
+      var taxTable = new AlternateTaxTable("canada");
+      request.AlternateTaxTables.Add(taxTable);
+      taxTable.AddWorldAreaTaxRule(.05);
+
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.alternatetaxtables[0].alternatetaxrules[0];
+
+      Assert.AreEqual(.05, actualTaxTable.rate);
+      Assert.IsTrue(actualTaxTable.rateSpecified);
+      Assert.AreEqual(typeof(WorldArea), actualTaxTable.taxarea.Item.GetType());
     }
 
     [Test]
