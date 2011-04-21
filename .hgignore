@@ -8,3 +8,4 @@ glob:*.suo
 glob:*/process_notifications_asynchronously/NotificationQueue/bin/
 glob:*/process_notifications_asynchronously/NotificationQueue/obj/
 glob:*/process_notifications_asynchronously/Processor/obj/*
+glob:*/process_notifications_asynchronously/Processor/bin/NotificationProcessor.vshost.*
