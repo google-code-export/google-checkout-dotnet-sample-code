@@ -1,0 +1,5 @@
+glob:lib/GCheckout.xml
+glob:lib/bin/*
+glob:lib/obj/*
+glob:unittests/bin/*
+glob:unittests/obj/*
