@@ -30,7 +30,7 @@ using GCheckout.Util;
 using System.Diagnostics;
 //using GCheckout.AutoGen;
 
-namespace GoogleCheckoutUnitTests {
+namespace GCheckout.Checkout.Tests {
 
   [TestFixture]
   public class NotificationHistoryTests {
@@ -44,21 +44,21 @@ namespace GoogleCheckoutUnitTests {
     static NotificationHistoryTests() {
       using (Stream s = Assembly.GetExecutingAssembly()
         .GetManifestResourceStream(
-        "GoogleCheckoutUnitTests.Xml.NotificationHistoryResponse1.xml")) {
+        "GCheckout.Checkout.Tests.Xml.NotificationHistoryResponse1.xml")) {
 
         StreamReader sr = new StreamReader(s);
         _response_regular_string = sr.ReadToEnd();
         s.Position = 0;
 
-        _response_regular 
-          = GCheckout.Util.EncodeHelper.Deserialize(s) 
+        _response_regular
+          = GCheckout.Util.EncodeHelper.Deserialize(s)
           as GCheckout.AutoGen.NotificationHistoryResponse;
       }
     }
 
     [Test]
     public void Verify_Serial_Number_Supported() {
-      
+
       var sn = "123456";
       var request = new NotificationHistoryRequest(new NotificationHistorySerialNumber(sn));
 
@@ -71,7 +71,7 @@ namespace GoogleCheckoutUnitTests {
     [Test]
     public void Verify_Regular_Response_Works() {
 
-      NotificationHistoryResponse test 
+      NotificationHistoryResponse test
         = new NotificationHistoryResponse(_response_regular_string);
     }
 

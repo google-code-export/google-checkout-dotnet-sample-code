@@ -18,8 +18,10 @@ using System;
 using NUnit.Framework;
 using GCheckout.Util;
 using GCheckout.Checkout.Tests;
+using GCheckout.OrderProcessing;
 
-namespace GCheckout.OrderProcessing.Tests {
+namespace GCheckout.Checkout.Tests {
+
   /// <exclude/>
   [TestFixture]
   public class OrderProcessingRequestTests {
@@ -377,7 +379,7 @@ namespace GCheckout.OrderProcessing.Tests {
     }
 
     /// <exclude/>
-    [Test()]
+    [Test]
     public void PostUrl() {
       DeliverOrderRequest Req;
       // Sandbox.
@@ -388,7 +390,7 @@ namespace GCheckout.OrderProcessing.Tests {
     }
 
     /// <exclude/>
-    [Test()]
+    [Test]
     public void AddTrackingDataRequestTests() {
       AddTrackingDataRequest req
         = new AddTrackingDataRequest(MERCHANT_ID, MERCHANT_KEY, "Sandbox",
@@ -405,7 +407,7 @@ namespace GCheckout.OrderProcessing.Tests {
     }
 
     /// <exclude/>
-    [Test()]
+    [Test]
     public void ArchiveOrderRequestTests() {
       ArchiveOrderRequest req = new ArchiveOrderRequest(ORDER_NUMBER);
       ArchiveOrderRequest req2
@@ -419,7 +421,7 @@ namespace GCheckout.OrderProcessing.Tests {
     }
 
     /// <exclude/>
-    [Test()]
+    [Test]
     public void TestAddMerchantOrderNumberRequest() {
       AddMerchantOrderNumberRequest req = new AddMerchantOrderNumberRequest(ORDER_NUMBER, MERCHANT_ORDER_NUMBER);
       AutoGen.AddMerchantOrderNumberRequest D

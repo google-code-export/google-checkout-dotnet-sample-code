@@ -22,16 +22,14 @@ using System.Diagnostics;
 using GCheckout.Util;
 
 
-namespace GCheckout.Configuration.Tests
-{
+namespace GCheckout.Checkout.Tests {
 
   /// <exclude/>
-  [TestFixture()]
-	public class ConfigSectionTests
-	{
-		
+  [TestFixture]
+  public class ConfigSectionTests {
+
     /// <exclude/>
-    [Test()]
+    [Test]
     public void TestConfigSections() {
       Debug.Assert(GCheckoutConfigurationHelper.Currency == "GBP", "Currency expected GBP");
       Debug.Assert(GCheckoutConfigurationHelper.Environment == GCheckout.EnvironmentType.Sandbox, "Expected Sandbox");
@@ -43,7 +41,7 @@ namespace GCheckout.Configuration.Tests
 
       if (GCheckoutConfigurationHelper.Environment == GCheckout.EnvironmentType.Sandbox) {
         Debug.Assert(GCheckoutConfigurationHelper.MerchantID == 25235626236, "MerchantID expected 25235626236");
-        Debug.Assert(GCheckoutConfigurationHelper.MerchantKey == "sdgsdgsdg", "MerchantKey expected sdgsdgsdg");        
+        Debug.Assert(GCheckoutConfigurationHelper.MerchantKey == "sdgsdgsdg", "MerchantKey expected sdgsdgsdg");
       }
       else {
         Debug.Assert(GCheckoutConfigurationHelper.MerchantID == 557347325253, "MerchantID expected 557347325253");
@@ -57,8 +55,8 @@ namespace GCheckout.Configuration.Tests
       Debug.Assert(GCheckoutConfigurationHelper.ProxyUserName == "35235", "ProxyUserName expected 35235");
       Debug.Assert(GCheckoutConfigurationHelper.UseProxy == true, "UseProxy expected true");
 
-    
+
     }
 
-	}
+  }
 }

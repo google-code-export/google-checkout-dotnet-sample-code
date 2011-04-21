@@ -18,14 +18,13 @@ using System.Text;
 using System.Xml;
 using NUnit.Framework;
 using GCheckout.Util;
+using GCheckout.OrderProcessing;
 
-namespace GCheckout.OrderProcessing.Tests
-{
+namespace GCheckout.Checkout.Tests {
 
   /// <exclude/>
   [TestFixture]
-  public class ShipItemsRequestTests
-	{
+  public class ShipItemsRequestTests {
     string originalOrderID = "841171949013218";
 
     /// <exclude/>
@@ -41,9 +40,9 @@ namespace GCheckout.OrderProcessing.Tests
       req.SendEmail = true;
       req.AddMerchantItemId("UPS", "55555555", "A1");
       req.AddMerchantItemId("UPS", "77777777", "B2");
-      
+
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
-      
+
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
       VerifyTwoItemsShippingInTwoBoxes(xml, false);
 
@@ -51,9 +50,9 @@ namespace GCheckout.OrderProcessing.Tests
       req.SendEmail = true;
       req.AddMerchantItemId("UPS", "55555555", "A1");
       req.AddMerchantItemId("UPS", "77777777", "B2");
-      
+
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
-      
+
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
       VerifyTwoItemsShippingInTwoBoxes(xml, false);
 
@@ -77,25 +76,28 @@ namespace GCheckout.OrderProcessing.Tests
         box = req.AddBox("UPS", "55555555");
         Assert.Fail("The same box can't be added twice.");
       }
-      catch {}
+      catch {
+      }
 
       //you can't add an empty merchantitemid
       try {
         box.AddMerchantItemID(string.Empty);
         Assert.Fail("you can't add an empty merchantitemid.");
       }
-      catch {}
+      catch {
+      }
 
       //you can't add a duplicate merchantitemid
       try {
         box.AddMerchantItemID("B2");
         Assert.Fail("you can't add a duplicate merchantitemid.");
       }
-      catch {}
+      catch {
+      }
 
 
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
-      
+
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
       VerifyTwoItemsShippingInTwoBoxes(xml, false);
 
@@ -106,9 +108,9 @@ namespace GCheckout.OrderProcessing.Tests
       req.SendEmail = true;
       req.AddMerchantItemId("UPS", "55555555", "123456");
       req.AddMerchantItemId("UPS", "77777777", "7891234");
-      
+
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
-      
+
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
       VerifyTwoItemsShippingInTwoBoxes(xml, true);
 
@@ -125,7 +127,7 @@ namespace GCheckout.OrderProcessing.Tests
       box.AddMerchantItemID("7891234");
 
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
-      
+
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
       VerifyTwoItemsShippingInTwoBoxes(xml, true);
 
@@ -136,7 +138,7 @@ namespace GCheckout.OrderProcessing.Tests
       XmlNode childItem;
       XmlNodeList list;
       StringBuilder sb;
-      
+
       System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
       XmlNamespaceManager ns = new XmlNamespaceManager(doc.NameTable);
       ns.AddNamespace("d", "http://checkout.google.com/schema/2");
@@ -189,7 +191,7 @@ namespace GCheckout.OrderProcessing.Tests
       //now try for the 55555555 tracking number
       sb.Append("[d:tracking-number = '77777777']");
       childItem = item.SelectSingleNode(sb.ToString(), ns);
-      Assert.IsNotNull(childItem);    
+      Assert.IsNotNull(childItem);
     }
 
     /// <exclude/>
@@ -204,7 +206,7 @@ namespace GCheckout.OrderProcessing.Tests
       req.SendEmail = true;
       req.AddMerchantItemId("UPS", "55555555", "A1");
       req.AddMerchantItemId("UPS", "55555555", "B2");
-      
+
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
 
@@ -220,7 +222,7 @@ namespace GCheckout.OrderProcessing.Tests
       box.AddMerchantItemID("B2");
 
       Assert.AreEqual(req.ItemShippingInfo.Length, 2);
-      
+
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
 
     }
@@ -237,7 +239,7 @@ namespace GCheckout.OrderProcessing.Tests
       req.SendEmail = true;
       req.AddMerchantItemId("UPS", "55555555", "A1");
       req.AddMerchantItemId("UPS", "77777777", "A1");
-      
+
       Assert.AreEqual(req.ItemShippingInfo.Length, 1);
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
 
@@ -254,10 +256,10 @@ namespace GCheckout.OrderProcessing.Tests
       box.AddMerchantItemID("A1");
 
       Assert.AreEqual(req.ItemShippingInfo.Length, 1);
-      
+
       xml = Util.EncodeHelper.Utf8BytesToString(req.GetXml());
-      
+
     }
 
-	}
+  }
 }
