@@ -13,3 +13,5 @@ glob:*/notification_sender/bin/notification_sender.vshost.*
 glob:*/notification_sender/obj/*
 glob:*.user
 glob:*/Processor/obj/*
+syntax: glob
+Help/*
