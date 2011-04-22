@@ -51,7 +51,7 @@ namespace GCheckout.Checkout {
       "numeric characters, or zero to 4 numeric characters followed by " +
       "a single asterisk as a wildcard character.";
 
-private BuyerMessages _buyerMessages = new BuyerMessages();
+    private BuyerMessages _buyerMessages = new BuyerMessages();
     private List<IShoppingCartItem> _items = new List<IShoppingCartItem>();
     private AutoGen.TaxTables _TaxTables;
     private AutoGen.MerchantCheckoutFlowSupportShippingmethods
@@ -1687,7 +1687,7 @@ private BuyerMessages _buyerMessages = new BuyerMessages();
 
       var rules = new List<AutoGen.DefaultTaxRule>();
 
-      if (_TaxTables.defaulttaxtable.taxrules != null 
+      if (_TaxTables.defaulttaxtable.taxrules != null
         && _TaxTables.defaulttaxtable.taxrules.Length > 0) {
         rules.AddRange(_TaxTables.defaulttaxtable.taxrules);
       }
