@@ -1,3 +1,16 @@
+Version 2.5.0.5 released (Apr 21, 2011)
+
+New
+
+Support for v2.5 Callback API as described here.
+Added new example "api25notification" showing how to process a v2.5 order notification callback. Please see the Examples or Source downloads on the tab here
+
+Bug Fixes
+
+Issue 52: itemshippinginformationlist and trackingdatalist were being set even if they were not used, causing a failure when posted.
+Issue 48: Added the ability to create a notification-history-request with a serial-number instead of an array or order numbers.
+Issue 55: Fixed bug in default-tax-table and alternate-tax-table where rateSpecified was not being set, causing the rate to not be serialized.
+
 v1.3.2 5/14/08 10:45 PM Eastern Time
 Joe Feser joseph.feser@gmail.com
 
