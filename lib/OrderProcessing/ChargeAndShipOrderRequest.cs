@@ -143,6 +143,8 @@ namespace GCheckout.OrderProcessing {
       retVal.sendemail = SendEmail;
       retVal.sendemailSpecified = true;
 
+      //Both of these items can't be set at the same time. 
+      //TODO do we validate that one of the two items are set?
       var shippingInfo = ItemShippingInformation.ToArray();
       if (shippingInfo != null && shippingInfo.Length > 0) {
         retVal.itemshippinginformationlist = shippingInfo;
