@@ -324,9 +324,9 @@ namespace GCheckout.Checkout {
         retVal.standaloneSpecified = true;
       }
 
-      if (_taxRules.Count > 0) {
-        retVal.alternatetaxrules = _taxRules.ToArray();
-      }
+      //Issue 55, we must always append the node, even if no rules exist.
+      retVal.alternatetaxrules = _taxRules.ToArray();
+
       return retVal;
     }
   }
