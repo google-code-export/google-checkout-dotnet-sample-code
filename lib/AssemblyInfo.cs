@@ -27,7 +27,7 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 
 //We are now going to use the version number of the api so we know what we support
-[assembly: AssemblyVersion("2.5.0.6")]
+[assembly: AssemblyVersion("2.5.0.7")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
