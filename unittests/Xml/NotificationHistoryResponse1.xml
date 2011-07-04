@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <notification-history-response xmlns="http://checkout.google.com/schema/2">
   <notifications>
-    <risk-information-notification xmlns="http://checkout.google.com/schema/2"      serial-number="0b95f758-0332-45d5-aced-5da64c8fc5b9">
+    <risk-information-notification xmlns="http://checkout.google.com/schema/2" serial-number="0b95f758-0332-45d5-aced-5da64c8fc5b9">
       <google-order-number>841171949013218</google-order-number>
       <risk-information>
         <eligible-for-protection>true</eligible-for-protection>
@@ -22,13 +22,13 @@
       </risk-information>
       <timestamp>2007-03-02T10:44:06</timestamp>
     </risk-information-notification>
-    <charge-amount-notification xmlns="http://checkout.google.com/schema/2"      serial-number="95d44287-12b1-4722-bc56-cfaa73f4c0d1">
+    <charge-amount-notification xmlns="http://checkout.google.com/schema/2" serial-number="95d44287-12b1-4722-bc56-cfaa73f4c0d1">
       <google-order-number>841171949013218</google-order-number>
       <latest-charge-amount currency="USD">226.06</latest-charge-amount>
       <total-charge-amount currency="USD">226.06</total-charge-amount>
       <timestamp>2007-03-19T15:12:26.051Z</timestamp>
     </charge-amount-notification>
-    <order-state-change-notification xmlns="http://checkout.google.com/schema/2"      serial-number="c821426e-7caa-4d51-9b2e-48ef7ecd6423">
+    <order-state-change-notification xmlns="http://checkout.google.com/schema/2" serial-number="c821426e-7caa-4d51-9b2e-48ef7ecd6423">
       <google-order-number>841171949013218</google-order-number>
       <new-financial-order-state>CHARGED</new-financial-order-state>
       <new-fulfillment-order-state>NEW</new-fulfillment-order-state>
