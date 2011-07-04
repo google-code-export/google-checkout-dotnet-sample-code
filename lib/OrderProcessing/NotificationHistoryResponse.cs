@@ -63,7 +63,8 @@ namespace GCheckout.OrderProcessing {
       get {
         if (_invalidOrderNumbers == null) {
           _invalidOrderNumbers = new List<string>();
-          if (_response.invalidordernumbers != null) {
+          if (_response != null 
+                        && _response.invalidordernumbers != null) {
             _invalidOrderNumbers.AddRange(_response.invalidordernumbers);
           }
         }
