@@ -1693,7 +1693,7 @@ namespace GCheckout.Checkout {
       }
 
       rules.Add(NewRule);
-
+      //Always create the array, even if it is empty.
       _TaxTables.defaulttaxtable.taxrules = rules.ToArray();
     }
 
