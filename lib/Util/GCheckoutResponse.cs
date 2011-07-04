@@ -187,8 +187,27 @@ namespace GCheckout.Util {
         //_parsed = true;
       }
       else {
+        //What we want to do is determine if there is a type so we
+        //can report it to the user so they can report the error
+        string messageTypeFound = string.Empty;
+        try {
+          var theType = EncodeHelper.Deserialize(responseXml);
+          if (theType != null) {
+            messageTypeFound = theType.GetType().Name;
+          }
+          else {
+            messageTypeFound = "Unknown Message Type";
+          }
+        }
+        catch {
+          //do nothing
+        }
+        
         _ErrorResponse = new GCheckout.AutoGen.ErrorResponse();
-        _ErrorResponse.errormessage = "Couldn't parse ResponseXml";
+        _ErrorResponse.errormessage 
+          = string.Format("Couldn't parse ResponseXml. " 
+          + "Message type found was {0}. Please See ResponseXml",
+          messageTypeFound);
       }
 
     }
