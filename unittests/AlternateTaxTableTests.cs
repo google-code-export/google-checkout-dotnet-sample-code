@@ -4,6 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using GCheckout.AutoGen;
 using GCheckout.Util;
+using System.Diagnostics;
 
 namespace GCheckout.Checkout.Tests {
  
@@ -163,6 +164,25 @@ namespace GCheckout.Checkout.Tests {
       Assert.AreEqual(typeof(WorldArea), actualTaxTable.taxarea.Item.GetType());
     }
 
+    [Test]
+    public void TestAlternateTaxTable_NoRules_VerifyNodeIsCreated() {
+
+      //create a pickup shipping method
+      var request = new CheckoutShoppingCartRequest(MERCHANT_ID, MERCHANT_KEY, EnvironmentType.Sandbox, "GBP", 120);
+
+      var taxTable = new AlternateTaxTable("canada");
+      request.AlternateTaxTables.Add(taxTable);
+      
+      CheckoutShoppingCart roundTrip = EncodeHelper.Deserialize(EncodeHelper.Utf8BytesToString(request.GetXml()),
+        typeof(CheckoutShoppingCart)) as CheckoutShoppingCart;
+
+      //Debug.WriteLine(EncodeHelper.Utf8BytesToString(request.GetXml()));
+
+      var actualTaxTable = roundTrip.checkoutflowsupport.Item.taxtables.alternatetaxtables[0];
+
+      Assert.IsNotNull(actualTaxTable.alternatetaxrules);
+      Assert.IsTrue(actualTaxTable.alternatetaxrules.Length == 0);
+    }
 
     /// <exclude/>
     [Test]
