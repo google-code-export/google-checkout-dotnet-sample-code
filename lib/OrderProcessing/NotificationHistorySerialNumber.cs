@@ -30,6 +30,9 @@ namespace GCheckout.OrderProcessing {
   /// </summary>
   public class NotificationHistorySerialNumber {
 
+    /// <summary>
+    /// The Serial Number of the message.
+    /// </summary>
     public string SerialNumber {
       get;
       set;
