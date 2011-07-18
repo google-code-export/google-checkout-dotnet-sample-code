@@ -88,8 +88,10 @@ namespace GCheckout.MerchantCalculation {
         new AutoGen.Result
         [Callback.calculate.addresses.Length * ShippingMethods.Length];
       int ResultIndex = 0;
-      for (int a = 0; a < Callback.calculate.addresses.Length; a++) {
-        for (int s = 0; s < ShippingMethods.Length; s++) {
+      for (int a = 0; a < Callback.calculate.addresses.Length; a++) 
+      {
+        for (int s = 0; s < ShippingMethods.Length; s++) 
+        {
           AutoGen.Result ThisResult = new AutoGen.Result();
           ThisResult.addressid = Callback.calculate.addresses[a].id;
           AnonymousAddress ThisAddress = 
@@ -142,7 +144,8 @@ namespace GCheckout.MerchantCalculation {
               else {
                 MCR = 
                   _Rules.GetMerchantCodeResult
-                  (ThisOrder, ThisAddress, CurrentMerchantCode);
+                  (ThisOrder, ThisAddress, CurrentMerchantCode, (ThisResult.shippingrate != null ?
+              ThisResult.shippingrate.Value : 0));
                 if (MCR.Type == MerchantCodeType.GiftCertificate) {
                   AutoGen.GiftCertificateResult GCResult = 
                     new AutoGen.GiftCertificateResult();
