@@ -63,6 +63,7 @@ namespace GCheckout.Util {
           _response = (AutoGen.Bye)
             EncodeHelper.Deserialize(ResponseXml,
             typeof(AutoGen.Bye));
+          Log.Xml(_response.serialnumber , ResponseXml);
           return true;
         }
       }

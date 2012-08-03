@@ -59,7 +59,9 @@ namespace GCheckout {
     /// <summary>Send the Message to Google Checkout</summary>
     public virtual GCheckoutResponse Send() {
       CheckSendPreConditions();
-      string responseXml = HttpHelper.SendMessage(GetXml(), GetPostUrl(), MerchantID, MerchantKey);
+      var sendXml = GetXml();
+      Log.Xml("send-" + Guid.NewGuid() + ".xml", EncodeHelper.Utf8BytesToString(sendXml));
+      string responseXml = HttpHelper.SendMessage(sendXml, GetPostUrl(), MerchantID, MerchantKey);
       return ParseResponse(responseXml);
     }
 

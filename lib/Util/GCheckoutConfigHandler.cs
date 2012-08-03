@@ -66,6 +66,7 @@ namespace GCheckout.Util {
       string platformIDTemp = string.Empty;
 
       string logDirectory = string.Empty;
+      string logDirectoryXml = string.Empty;
 
       GCheckoutConfigurationHelper.GetStringValue(
         section, "SandboxMerchantID", ref sandboxMerchantID);
@@ -103,6 +104,10 @@ namespace GCheckout.Util {
 
       GCheckoutConfigurationHelper.GetStringValue(
         section, "LogDirectory", false, ref logDirectory);
+
+      GCheckoutConfigurationHelper.GetStringValue(
+        section, "LogDirectoryXml", false, ref logDirectoryXml);
+
 
       try {
         retVal.ProductionMerchantID = long.Parse(productionMerchantID);
@@ -166,6 +171,7 @@ namespace GCheckout.Util {
       retVal.Environment = environment;
       retVal.Logging = logging;
       retVal.LogDirectory = logDirectory;
+      retVal.LogDirectoryXml = logDirectoryXml;
       retVal.PlatformID = platformID;
       retVal.Currency = currency;
       retVal.UseProxy = useProxy;

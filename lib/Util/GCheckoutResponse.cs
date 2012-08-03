@@ -34,7 +34,7 @@ namespace GCheckout.Util {
 
     private AutoGen.RequestReceivedResponse _GoodResponse;
     private AutoGen.ErrorResponse _ErrorResponse;
-    private string _Xml;
+    private string _responseXml;
     //private bool _parsed = false;
 
     /// <summary>
@@ -127,7 +127,7 @@ namespace GCheckout.Util {
     /// </summary>
     public virtual string ResponseXml {
       get {
-        return _Xml;
+        return _responseXml;
       }
     }
 
@@ -169,18 +169,20 @@ namespace GCheckout.Util {
       //symbols, it is very difficult to determine if the error is real
       //or not if you are breaking on all thrown exceptions.
 
-      _Xml = responseXml;
+      _responseXml = responseXml;
 
       if (ResponseXml.IndexOf("<request-received") > -1) {
         _GoodResponse = (AutoGen.RequestReceivedResponse)
           EncodeHelper.Deserialize(ResponseXml,
           typeof(AutoGen.RequestReceivedResponse));
+        Log.Xml(_GoodResponse.serialnumber, ResponseXml);
         //_parsed = true;
       }
       else if (ResponseXml.IndexOf("<error") > -1) {
         _ErrorResponse = (AutoGen.ErrorResponse)
           EncodeHelper.Deserialize(ResponseXml,
           typeof(AutoGen.ErrorResponse));
+        Log.Xml(_ErrorResponse.serialnumber, ResponseXml);
         //_parsed = true;
       }
       else if (ParseMessage()) {
@@ -191,15 +193,17 @@ namespace GCheckout.Util {
         //can report it to the user so they can report the error
         string messageTypeFound = string.Empty;
         try {
-          var theType = EncodeHelper.Deserialize(responseXml);
+          var theType = EncodeHelper.Deserialize(ResponseXml);
           if (theType != null) {
             messageTypeFound = theType.GetType().Name;
           }
           else {
             messageTypeFound = "Unknown Message Type";
           }
+          Log.Xml(Guid.NewGuid().ToString(), ResponseXml);
         }
         catch (Exception ex) {
+          Log.Xml(Guid.NewGuid().ToString(), ResponseXml);
           Log.Err("GCheckoutResponse else check failed:" + ex.Message);
         }
         

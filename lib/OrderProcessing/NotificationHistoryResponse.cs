@@ -206,34 +206,41 @@ namespace GCheckout.OrderProcessing {
           _response = (AutoGen.NotificationHistoryResponse)
             EncodeHelper.Deserialize(ResponseXml,
             typeof(AutoGen.NotificationHistoryResponse));
+          Log.Xml(_response.serialnumber, ResponseXml);
           return true;
         }
         else {
           Debug.WriteLine("NotificationHistoryResponse was not expected type: notification-history-response");
           /* hack: test against all possible message types and wrap in a response */
           var messageTypes = new List<Type> {
+            typeof(AutoGen.NewOrderNotification),
             typeof(AutoGen.AuthorizationAmountNotification),
             typeof(AutoGen.ChargeAmountNotification),
-            typeof(AutoGen.NewOrderNotification),
             typeof(AutoGen.OrderStateChangeNotification),
             typeof(AutoGen.RiskInformationNotification)
           };
           _response = new AutoGen.NotificationHistoryResponse();
           _response.notifications
               = new GCheckout.AutoGen.NotificationHistoryResponseNotifications();
+          bool found = false;
           foreach (Type t in messageTypes) {
             try {
-              Log.Err("Trying to deserialize message as type:" + t.Name);
+              Log.Debug("Trying to deserialize message as type:" + t.Name);
               object o = EncodeHelper.Deserialize(ResponseXml, t);
               _response.notifications.Items = new object[] { o };
               Debug.WriteLine("Message was type:" + t.Name);
+              found = true;
               break;
             }
-            catch (Exception exDeserialize) {
-              Log.Err("Error trying to deserialize type:" + exDeserialize.Message);
+            catch {
+              //ignore
             }
           }
-          return true;
+          Log.Xml(_response.serialnumber, ResponseXml);
+          if (!found) {
+            Log.Err("Unable to determine message type for NotificationHistoryResponse:" + ResponseXml);
+          }
+          return found;
         }
       }
       catch (Exception ex) {
