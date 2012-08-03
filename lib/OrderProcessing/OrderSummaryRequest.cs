@@ -134,7 +134,8 @@ namespace GCheckout.OrderProcessing {
       try {
         return new OrderSummaryResponse(response);
       }
-      catch (Exception) {
+      catch (Exception ex) {
+        Log.Err("OrderSummaryRequest ParseResponse:" + ex.Message);
         return null;
       }
     }

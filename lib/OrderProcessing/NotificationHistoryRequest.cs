@@ -273,6 +273,7 @@ namespace GCheckout.OrderProcessing {
         if (retVal != null) {
           token = retVal.NextPageToken;
         }
+        Log.Err("NotificationHistoryRequest ParseResponse:" + ex.Message);
         throw new NotificationHistoryException(retVal, token, ex);
       }
 
@@ -303,6 +304,7 @@ namespace GCheckout.OrderProcessing {
           currentResponse = nextResponse;
         }
         catch (Exception ex) {
+          Log.Err("NotificationHistoryRequest ProcessAdditionalTokens:" + ex.Message);
           throw new NotificationHistoryException(response, response.NextPageToken, ex);
         }
       }

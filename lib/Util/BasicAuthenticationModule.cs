@@ -160,7 +160,10 @@ namespace GCheckout.Util {
           string DecodedString = new ASCIIEncoding().GetString(DecodedBytes);
           RetVal = DecodedString.Split(new char[] { ':' });
         }
-        catch {
+        catch (Exception ex) {
+          Log.Err(
+            "BasicAuthenticationModule.GetDecodedAndSplitAuthorizatonHeader:" 
+            + ex.Message);
         }
       }
       return RetVal;

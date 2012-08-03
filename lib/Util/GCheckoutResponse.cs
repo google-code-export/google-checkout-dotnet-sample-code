@@ -199,8 +199,8 @@ namespace GCheckout.Util {
             messageTypeFound = "Unknown Message Type";
           }
         }
-        catch {
-          //do nothing
+        catch (Exception ex) {
+          Log.Err("GCheckoutResponse else check failed:" + ex.Message);
         }
         
         _ErrorResponse = new GCheckout.AutoGen.ErrorResponse();

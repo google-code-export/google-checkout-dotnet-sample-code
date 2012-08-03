@@ -65,7 +65,7 @@ namespace GCheckout.OrderProcessing {
       get {
         if (_invalidOrderNumbers == null) {
           _invalidOrderNumbers = new List<string>();
-          if (_response != null 
+          if (_response != null
                         && _response.invalidordernumbers != null) {
             _invalidOrderNumbers.AddRange(_response.invalidordernumbers);
           }
@@ -115,7 +115,7 @@ namespace GCheckout.OrderProcessing {
       get {
         if (_notificationResponses == null) {
           _notificationResponses = new List<object>();
-          if (_response != null && _response.notifications != null 
+          if (_response != null && _response.notifications != null
             && _response.notifications.Items != null) {
             _notificationResponses.AddRange(_response.notifications.Items);
           }
@@ -219,26 +219,26 @@ namespace GCheckout.OrderProcessing {
             typeof(AutoGen.RiskInformationNotification)
           };
           _response = new AutoGen.NotificationHistoryResponse();
-          _response.notifications 
+          _response.notifications
               = new GCheckout.AutoGen.NotificationHistoryResponseNotifications();
           foreach (Type t in messageTypes) {
             try {
-              Debug.WriteLine("Trying to deserialize message as type:" + t.Name);
+              Log.Err("Trying to deserialize message as type:" + t.Name);
               object o = EncodeHelper.Deserialize(ResponseXml, t);
               _response.notifications.Items = new object[] { o };
               Debug.WriteLine("Message was type:" + t.Name);
               break;
             }
             catch (Exception exDeserialize) {
-              Debug.WriteLine("Error trying to deserialize type:" + exDeserialize.Message);
+              Log.Err("Error trying to deserialize type:" + exDeserialize.Message);
             }
           }
           return true;
         }
       }
       catch (Exception ex) {
+        Log.Err("ParseMessage: Error trying to deserialize:" + ex.Message);
         //let it continue
-        Debug.WriteLine("ParseMessage: Error trying to deserialize:" + ex.Message);
       }
 
       return false;
