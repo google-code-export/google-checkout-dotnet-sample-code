@@ -328,7 +328,7 @@ namespace GCheckout.Checkout.Tests {
         REASON, COMMENT);
       D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
-      Assert.AreEqual(0, D.amount.Value);
+      Assert.AreEqual(null, D.amount);
       Assert.AreEqual(COMMENT, D.comment);
       Assert.AreEqual(REASON, D.reason);
 
@@ -363,7 +363,7 @@ namespace GCheckout.Checkout.Tests {
         REASON, COMMENT);
       D = (AutoGen.RefundOrderRequest)EncodeHelper.Deserialize(Req.GetXml());
       Assert.AreEqual(ORDER_NUMBER, D.googleordernumber);
-      Assert.AreEqual(0, D.amount.Value);
+      Assert.AreEqual(null, D.amount);
       Assert.AreEqual(COMMENT, D.comment);
       Assert.AreEqual(REASON, D.reason);
 
