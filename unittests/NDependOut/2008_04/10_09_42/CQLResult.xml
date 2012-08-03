@@ -1,0 +1,1365 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<CQLResult>
+  <Group Name="Source Code Quality constraints" Status="Warn">
+    <Query Status="Warn" Name="Methods too big (NbLinesOfCode)" NbNodeMatched="10" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;too&amp;nbsp;big&amp;nbsp;(NbLinesOfCode)&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbLinesOfCode&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;30&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbLinesOfCode&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;METHODS&amp;nbsp;WHERE&amp;nbsp;NbLinesOfCode&amp;nbsp;&amp;gt;&amp;nbsp;30&amp;nbsp;are&amp;nbsp;extremely&amp;nbsp;complex&amp;nbsp;and&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;should&amp;nbsp;be&amp;nbsp;split&amp;nbsp;in&amp;nbsp;smaller&amp;nbsp;methods&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;(except&amp;nbsp;if&amp;nbsp;they&amp;nbsp;are&amp;nbsp;automatically&amp;nbsp;generated&amp;nbsp;by&amp;nbsp;a&amp;nbsp;tool).&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;NbLinesOfCode&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#NbLinesOfCode&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="GetXml()" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml()">
+          <Val>115</Val>
+        </Row>
+        <Row Name="TestAddItem()" FullName="GCheckout.Checkout.Tests.CheckoutTests.TestAddItem()">
+          <Val>93</Val>
+        </Row>
+        <Row Name="Process(String)" FullName="GCheckout.MerchantCalculation.CallbackProcessor.Process(String)">
+          <Val>73</Val>
+        </Row>
+        <Row Name="TestAlternateTaxTables()" FullName="GCheckout.Checkout.Tests.CheckoutTests.TestAlternateTaxTables()">
+          <Val>68</Val>
+        </Row>
+        <Row Name="Create(Object,Object,XmlNode)" FullName="GCheckout.Util.GCheckoutConfigHandler.Create(Object,Object,XmlNode)">
+          <Val>68</Val>
+        </Row>
+        <Row Name="VerifyResetReturnBackOrderAndCancelItem()" FullName="GCheckout.OrderProcessing.Tests.ResetReturnBackOrderAndCancelItemTests.VerifyResetReturnBackOrderAndCancelItem()">
+          <Val>64</Val>
+        </Row>
+        <Row Name="TwoItemsShippedInTwoBoxes()" FullName="GCheckout.OrderProcessing.Tests.ShipItemsRequestTests.TwoItemsShippedInTwoBoxes()">
+          <Val>50</Val>
+        </Row>
+        <Row Name="RefundOrderRequest()" FullName="GCheckout.OrderProcessing.Tests.OrderProcessingRequestTests.RefundOrderRequest()">
+          <Val>50</Val>
+        </Row>
+        <Row Name="DeliverOrderRequest()" FullName="GCheckout.OrderProcessing.Tests.OrderProcessingRequestTests.DeliverOrderRequest()">
+          <Val>48</Val>
+        </Row>
+        <Row Name="TestURLParamters()" FullName="GCheckout.Checkout.Tests.CheckoutTests.TestURLParamters()">
+          <Val>39</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>668</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>66.8</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>39</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>115</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>21.794</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>474.96</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Methods too complex (CyclomaticComplexity)" NbNodeMatched="1" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;too&amp;nbsp;complex&amp;nbsp;(CyclomaticComplexity)&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CyclomaticComplexity&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;20&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CyclomaticComplexity&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;METHODS&amp;nbsp;WHERE&amp;nbsp;CyclomaticComplexity&amp;nbsp;&amp;gt;&amp;nbsp;15&amp;nbsp;are&amp;nbsp;hard&amp;nbsp;to&amp;nbsp;understand&amp;nbsp;and&amp;nbsp;maintain.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;METHODS&amp;nbsp;WHERE&amp;nbsp;CyclomaticComplexity&amp;nbsp;&amp;gt;&amp;nbsp;30&amp;nbsp;are&amp;nbsp;extremely&amp;nbsp;complex&amp;nbsp;and&amp;nbsp;should&amp;nbsp;be&amp;nbsp;split&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;in&amp;nbsp;smaller&amp;nbsp;methods&amp;nbsp;(except&amp;nbsp;if&amp;nbsp;they&amp;nbsp;are&amp;nbsp;automatically&amp;nbsp;generated&amp;nbsp;by&amp;nbsp;a&amp;nbsp;tool).&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;CyclomaticComplexity&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#CC&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column>Cyclomatic Complexity (CC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="GetXml()" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml()">
+          <Val>36</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>36</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>36</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>36</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>36</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Methods poorly commented" NbNodeMatched="10" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;poorly&amp;nbsp;commented&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;PercentageComment&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;lt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;20&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbLinesOfCode&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;PercentageComment&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ASC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;METHODS&amp;nbsp;WHERE&amp;nbsp;%Comment&amp;nbsp;&amp;lt;&amp;nbsp;20&amp;nbsp;and&amp;nbsp;that&amp;nbsp;have&amp;nbsp;at&amp;nbsp;least&amp;nbsp;10&amp;nbsp;lines&amp;nbsp;of&amp;nbsp;code&amp;nbsp;should&amp;nbsp;be&amp;nbsp;more&amp;nbsp;commented.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;PercentageComment&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#PercentageComment&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column>Percentage Comment</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name=".ctor(String)" FullName="GCheckout.Util.GCheckoutResponse..ctor(String)">
+          <Val>0</Val>
+          <Val>25</Val>
+        </Row>
+        <Row Name="GetXml()" FullName="GCheckout.OrderProcessing.CancelItemsRequest.GetXml()">
+          <Val>0</Val>
+          <Val>11</Val>
+        </Row>
+        <Row Name="GetMerchantCodeResult(Order,AnonymousAddress,String)" FullName="GCheckout.MerchantCalculation.ExampleRules.GetMerchantCodeResult(Order,AnonymousAddress,String)">
+          <Val>0</Val>
+          <Val>18</Val>
+        </Row>
+        <Row Name="SetImageUrl()" FullName="GCheckout.Checkout.GCheckoutButton.SetImageUrl()">
+          <Val>0</Val>
+          <Val>15</Val>
+        </Row>
+        <Row Name="UrlEncodeUrl(String)" FullName="GCheckout.Util.EncodeHelper.UrlEncodeUrl(String)">
+          <Val>0</Val>
+          <Val>22</Val>
+        </Row>
+        <Row Name="GetElementValue(String,String)" FullName="GCheckout.Util.EncodeHelper.GetElementValue(String,String)">
+          <Val>0</Val>
+          <Val>15</Val>
+        </Row>
+        <Row Name="CartExpiration()" FullName="GCheckout.Checkout.Tests.CheckoutTests.CartExpiration()">
+          <Val>0</Val>
+          <Val>11</Val>
+        </Row>
+        <Row Name="CreateNewOrderNotification()" FullName="GCheckout.Util.Test.EncodeHelperTests.CreateNewOrderNotification()">
+          <Val>0</Val>
+          <Val>22</Val>
+        </Row>
+        <Row Name="SerializeAndDeserialize()" FullName="GCheckout.Util.Test.EncodeHelperTests.SerializeAndDeserialize()">
+          <Val>0</Val>
+          <Val>20</Val>
+        </Row>
+        <Row Name=".ctor(MerchantCalculationCallback)" FullName="GCheckout.MerchantCalculation.Order..ctor(MerchantCalculationCallback)">
+          <Val>0</Val>
+          <Val>13</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>0</Val>
+          <Val>172</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>0</Val>
+          <Val>17.2</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0</Val>
+          <Val>11</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>0</Val>
+          <Val>25</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+          <Val>4.6861</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+          <Val>21.96</Val>
+        </Row>
+      </Rows>
+    </Query>
+  </Group>
+  <Group Name="Code Quality constraints" Status="Warn">
+    <Query Status="Warn" Name="Methods too big (NbILInstructions)" NbNodeMatched="10" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;too&amp;nbsp;big&amp;nbsp;(NbILInstructions)&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbILInstructions&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;200&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbILInstructions&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;METHODS&amp;nbsp;WHERE&amp;nbsp;NbILInstructions&amp;nbsp;&amp;gt;&amp;nbsp;200&amp;nbsp;are&amp;nbsp;extremely&amp;nbsp;complex&amp;nbsp;and&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;should&amp;nbsp;be&amp;nbsp;split&amp;nbsp;in&amp;nbsp;smaller&amp;nbsp;methods&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;(except&amp;nbsp;if&amp;nbsp;they&amp;nbsp;are&amp;nbsp;automatically&amp;nbsp;generated&amp;nbsp;by&amp;nbsp;a&amp;nbsp;tool).&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;NbILInstructions&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#NbILInstructions&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column># IL instructions</Column>
+      </Columns>
+      <Rows>
+        <Row Name="GetXml()" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml()">
+          <Val>544</Val>
+        </Row>
+        <Row Name="TestAddItem()" FullName="GCheckout.Checkout.Tests.CheckoutTests.TestAddItem()">
+          <Val>442</Val>
+        </Row>
+        <Row Name="TestAlternateTaxTables()" FullName="GCheckout.Checkout.Tests.CheckoutTests.TestAlternateTaxTables()">
+          <Val>415</Val>
+        </Row>
+        <Row Name="Process(String)" FullName="GCheckout.MerchantCalculation.CallbackProcessor.Process(String)">
+          <Val>361</Val>
+        </Row>
+        <Row Name="RefundOrderRequest()" FullName="GCheckout.OrderProcessing.Tests.OrderProcessingRequestTests.RefundOrderRequest()">
+          <Val>284</Val>
+        </Row>
+        <Row Name="VerifyResetReturnBackOrderAndCancelItem()" FullName="GCheckout.OrderProcessing.Tests.ResetReturnBackOrderAndCancelItemTests.VerifyResetReturnBackOrderAndCancelItem()">
+          <Val>260</Val>
+        </Row>
+        <Row Name="DeliverOrderRequest()" FullName="GCheckout.OrderProcessing.Tests.OrderProcessingRequestTests.DeliverOrderRequest()">
+          <Val>250</Val>
+        </Row>
+        <Row Name="Create(Object,Object,XmlNode)" FullName="GCheckout.Util.GCheckoutConfigHandler.Create(Object,Object,XmlNode)">
+          <Val>238</Val>
+        </Row>
+        <Row Name="TwoItemsShippedInTwoBoxes()" FullName="GCheckout.OrderProcessing.Tests.ShipItemsRequestTests.TwoItemsShippedInTwoBoxes()">
+          <Val>222</Val>
+        </Row>
+        <Row Name="TestExamples()" FullName="GCheckout.Checkout.Tests.CheckoutTests.TestExamples()">
+          <Val>204</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>3220</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>322</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>204</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>544</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>107.38</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>11530.6</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Methods with too many parameters" NbNodeMatched="10" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;with&amp;nbsp;too&amp;nbsp;many&amp;nbsp;parameters&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbParameters&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;5&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbParameters&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;METHODS&amp;nbsp;WHERE&amp;nbsp;NbParameters&amp;nbsp;&amp;gt;&amp;nbsp;5&amp;nbsp;might&amp;nbsp;be&amp;nbsp;painful&amp;nbsp;to&amp;nbsp;call&amp;nbsp;and&amp;nbsp;might&amp;nbsp;degrade&amp;nbsp;performance.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;You&amp;nbsp;should&amp;nbsp;prefer&amp;nbsp;using&amp;nbsp;additional&amp;nbsp;properties/fields&amp;nbsp;to&amp;nbsp;the&amp;nbsp;declaring&amp;nbsp;type&amp;nbsp;to&amp;nbsp;handle&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;numerous&amp;nbsp;states.&amp;nbsp;Another&amp;nbsp;alternative&amp;nbsp;is&amp;nbsp;to&amp;nbsp;provide&amp;nbsp;a&amp;nbsp;class&amp;nbsp;or&amp;nbsp;structure&amp;nbsp;dedicated&amp;nbsp;to&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;handle&amp;nbsp;arguments&amp;nbsp;passing&amp;nbsp;(for&amp;nbsp;example&amp;nbsp;see&amp;nbsp;the&amp;nbsp;class&amp;nbsp;System.Diagnostics.ProcessStartInfo&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;and&amp;nbsp;the&amp;nbsp;method&amp;nbsp;System.Diagnostics.Process.Start(ProcessStartInfo))&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;NbParameters&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#NbParameters&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column># Parameters</Column>
+      </Columns>
+      <Rows>
+        <Row Name="AddShippingPackage(String,String,String,String,String,DeliveryAddressCategory,Int32,Int32,Int32)" FullName="GCheckout.Checkout.CarrierCalculatedShipping.AddShippingPackage(String,String,String,String,String,DeliveryAddressCategory,Int32,Int32,Int32)">
+          <Val>9</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem,XmlNode[])" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem,XmlNode[])">
+          <Val>8</Val>
+        </Row>
+        <Row Name="AddShippingPackage(String,String,String,String,DeliveryAddressCategory,Int32,Int32,Int32)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddShippingPackage(String,String,String,String,DeliveryAddressCategory,Int32,Int32,Int32)">
+          <Val>8</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)">
+          <Val>8</Val>
+        </Row>
+        <Row Name=".ctor(String,String,String,String,String,String,Decimal,String)" FullName="GCheckout.OrderProcessing.RefundOrderRequest..ctor(String,String,String,String,String,String,Decimal,String)">
+          <Val>8</Val>
+        </Row>
+        <Row Name=".ctor(String,String,String,String,String,String,Decimal)" FullName="GCheckout.OrderProcessing.RefundOrderRequest..ctor(String,String,String,String,String,String,Decimal)">
+          <Val>7</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,XmlNode,AlternateTaxTable)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,XmlNode,AlternateTaxTable)">
+          <Val>7</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,DigitalItem,XmlNode[])" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,DigitalItem,XmlNode[])">
+          <Val>7</Val>
+        </Row>
+        <Row Name=".ctor(String,String,String,String,String,String,Boolean)" FullName="GCheckout.OrderProcessing.DeliverOrderRequest..ctor(String,String,String,String,String,String,Boolean)">
+          <Val>7</Val>
+        </Row>
+        <Row Name=".ctor(String,String,String,Decimal,Int32,AlternateTaxTable,XmlNode[])" FullName="GCheckout.Checkout.ShoppingCartItem..ctor(String,String,String,Decimal,Int32,AlternateTaxTable,XmlNode[])">
+          <Val>7</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>76</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>7.6</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>7</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>9</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0.6633261</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0.4400015</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Methods with too many local variables" NbNodeMatched="4" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;with&amp;nbsp;too&amp;nbsp;many&amp;nbsp;local&amp;nbsp;variables&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbVariables&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;15&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbVariables&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;METHODS&amp;nbsp;WHERE&amp;nbsp;NbVariables&amp;nbsp;&amp;gt;&amp;nbsp;8&amp;nbsp;are&amp;nbsp;hard&amp;nbsp;to&amp;nbsp;understand&amp;nbsp;and&amp;nbsp;maintain.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;METHODS&amp;nbsp;WHERE&amp;nbsp;NbVariables&amp;nbsp;&amp;gt;&amp;nbsp;15&amp;nbsp;are&amp;nbsp;extremely&amp;nbsp;complex&amp;nbsp;and&amp;nbsp;should&amp;nbsp;be&amp;nbsp;split&amp;nbsp;in&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;smaller&amp;nbsp;methods&amp;nbsp;(except&amp;nbsp;if&amp;nbsp;they&amp;nbsp;are&amp;nbsp;automatically&amp;nbsp;generated&amp;nbsp;by&amp;nbsp;a&amp;nbsp;tool).&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;Nbvariables&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#Nbvariables&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column># Variables</Column>
+      </Columns>
+      <Rows>
+        <Row Name="TestAddItem()" FullName="GCheckout.Checkout.Tests.CheckoutTests.TestAddItem()">
+          <Val>34</Val>
+        </Row>
+        <Row Name="Create(Object,Object,XmlNode)" FullName="GCheckout.Util.GCheckoutConfigHandler.Create(Object,Object,XmlNode)">
+          <Val>26</Val>
+        </Row>
+        <Row Name="Process(String)" FullName="GCheckout.MerchantCalculation.CallbackProcessor.Process(String)">
+          <Val>20</Val>
+        </Row>
+        <Row Name="GetXml()" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml()">
+          <Val>18</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>98</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>24.5</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>18</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>34</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>6.2249</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>38.75</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Types with too many methods" NbNodeMatched="5" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Types&amp;nbsp;with&amp;nbsp;too&amp;nbsp;many&amp;nbsp;methods&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbMethods&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;20&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbMethods&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;TYPES&amp;nbsp;WHERE&amp;nbsp;NbMethods&amp;nbsp;&amp;gt;&amp;nbsp;20&amp;nbsp;might&amp;nbsp;be&amp;nbsp;hard&amp;nbsp;to&amp;nbsp;understand&amp;nbsp;and&amp;nbsp;maintain&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;but&amp;nbsp;there&amp;nbsp;might&amp;nbsp;be&amp;nbsp;cases&amp;nbsp;where&amp;nbsp;it&amp;nbsp;is&amp;nbsp;relevant&amp;nbsp;to&amp;nbsp;have&amp;nbsp;a&amp;nbsp;high&amp;nbsp;value&amp;nbsp;for&amp;nbsp;NbMethods.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;For&amp;nbsp;example,&amp;nbsp;the&amp;nbsp;System.Windows.Forms.DataGridView&amp;nbsp;standard&amp;nbsp;class&amp;nbsp;has&amp;nbsp;more&amp;nbsp;than&amp;nbsp;1000&amp;nbsp;methods.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;NbMethods&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#NbMethods&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column># Methods</Column>
+      </Columns>
+      <Rows>
+        <Row Name="CheckoutShoppingCartRequest" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest">
+          <Val>84</Val>
+        </Row>
+        <Row Name="GCheckoutConfigSection" FullName="GCheckout.Util.GCheckoutConfigSection">
+          <Val>31</Val>
+        </Row>
+        <Row Name="ShoppingCartItem" FullName="GCheckout.Checkout.ShoppingCartItem">
+          <Val>26</Val>
+        </Row>
+        <Row Name="EncodeHelper" FullName="GCheckout.Util.EncodeHelper">
+          <Val>21</Val>
+        </Row>
+        <Row Name="GCheckoutConfigurationHelper" FullName="GCheckout.Util.GCheckoutConfigurationHelper">
+          <Val>21</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>183</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>36.6</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>21</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>84</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>23.988</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>575.44</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Types with too many fields" NbNodeMatched="1" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Types&amp;nbsp;with&amp;nbsp;too&amp;nbsp;many&amp;nbsp;fields&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbFields&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;20&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsEnumeration&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbFields&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;TYPES&amp;nbsp;WHERE&amp;nbsp;NbFields&amp;nbsp;&amp;gt;&amp;nbsp;20&amp;nbsp;AND&amp;nbsp;!IsEnumeration&amp;nbsp;might&amp;nbsp;be&amp;nbsp;hard&amp;nbsp;to&amp;nbsp;understand&amp;nbsp;and&amp;nbsp;maintain&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;but&amp;nbsp;there&amp;nbsp;might&amp;nbsp;be&amp;nbsp;cases&amp;nbsp;where&amp;nbsp;it&amp;nbsp;is&amp;nbsp;relevant&amp;nbsp;to&amp;nbsp;have&amp;nbsp;a&amp;nbsp;high&amp;nbsp;value&amp;nbsp;for&amp;nbsp;NbFields.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;For&amp;nbsp;example,&amp;nbsp;the&amp;nbsp;System.Windows.Forms.Control&amp;nbsp;standard&amp;nbsp;class&amp;nbsp;has&amp;nbsp;more&amp;nbsp;than&amp;nbsp;200&amp;nbsp;fields.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;The&amp;nbsp;value&amp;nbsp;of&amp;nbsp;the&amp;nbsp;metric&amp;nbsp;NbFields&amp;nbsp;might&amp;nbsp;be&amp;nbsp;a&amp;nbsp;better&amp;nbsp;indicator&amp;nbsp;of&amp;nbsp;complex&amp;nbsp;type.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;NbFields&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#NbFields&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column># Fields</Column>
+      </Columns>
+      <Rows>
+        <Row Name="CheckoutShoppingCartRequest" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest">
+          <Val>25</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>25</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>25</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>25</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>25</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Quick summary of methods to refactor" NbNodeMatched="10" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Quick&amp;nbsp;summary&amp;nbsp;of&amp;nbsp;methods&amp;nbsp;to&amp;nbsp;refactor&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#000000'&gt;(&lt;/font&gt;&amp;nbsp;&amp;nbsp;&lt;font color='#000064'&gt;NbILInstructions&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;200&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;OR&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#000064'&gt;ILCyclomaticComplexity&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;50&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;OR&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#000064'&gt;NbParameters&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;5&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;OR&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#000064'&gt;NbVariables&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;8&lt;/b&gt;&lt;font color='#000000'&gt;)&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;Here&amp;nbsp;is&amp;nbsp;a&amp;nbsp;way&amp;nbsp;to&amp;nbsp;avoid&amp;nbsp;to&amp;nbsp;take&amp;nbsp;account&amp;nbsp;of&amp;nbsp;generated&amp;nbsp;methods.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;Another&amp;nbsp;way&amp;nbsp;would&amp;nbsp;be&amp;nbsp;to&amp;nbsp;use&amp;nbsp;the&amp;nbsp;SELECT&amp;nbsp;METHODS&amp;nbsp;FROM&amp;nbsp;or&amp;nbsp;SELECT&amp;nbsp;METHODS&amp;nbsp;OUT&amp;nbsp;OF&amp;nbsp;facilities.&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000000'&gt;(&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NameLike&lt;/font&gt;&amp;nbsp;&lt;font color='#A31515'&gt;"InitializeComponent"&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;OR&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NameLike&lt;/font&gt;&amp;nbsp;&lt;font color='#A31515'&gt;"Generated"&lt;/font&gt;&lt;font color='#000000'&gt;)&lt;/font&gt;&amp;nbsp;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column># IL instructions</Column>
+        <Column>IL Cyclomatic Complexity (ILCC)</Column>
+        <Column># Parameters</Column>
+        <Column># Variables</Column>
+      </Columns>
+      <Rows>
+        <Row Name="GetXml()" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.GetXml()">
+          <Val>544</Val>
+          <Val>35</Val>
+          <Val>0</Val>
+          <Val>18</Val>
+        </Row>
+        <Row Name=".ctor(String,String,EnvironmentType,String,Int32,Boolean)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest..ctor(String,String,EnvironmentType,String,Int32,Boolean)">
+          <Val>113</Val>
+          <Val>1</Val>
+          <Val>6</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="AddItem(String,String,Decimal,Int32,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,Decimal,Int32,AlternateTaxTable,DigitalItem)">
+          <Val>27</Val>
+          <Val>0</Val>
+          <Val>6</Val>
+          <Val>2</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem)">
+          <Val>27</Val>
+          <Val>0</Val>
+          <Val>7</Val>
+          <Val>2</Val>
+        </Row>
+        <Row Name="AddItem(String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)">
+          <Val>33</Val>
+          <Val>0</Val>
+          <Val>7</Val>
+          <Val>3</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem,XmlNode[])" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem,XmlNode[])">
+          <Val>26</Val>
+          <Val>0</Val>
+          <Val>8</Val>
+          <Val>2</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)">
+          <Val>33</Val>
+          <Val>0</Val>
+          <Val>8</Val>
+          <Val>3</Val>
+        </Row>
+        <Row Name="AddItem(String,String,Decimal,Int32,XmlNode,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,Decimal,Int32,XmlNode,DigitalItem)">
+          <Val>29</Val>
+          <Val>0</Val>
+          <Val>6</Val>
+          <Val>3</Val>
+        </Row>
+        <Row Name="AddItem(String,String,Decimal,Int32,XmlNode,AlternateTaxTable)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,Decimal,Int32,XmlNode,AlternateTaxTable)">
+          <Val>30</Val>
+          <Val>0</Val>
+          <Val>6</Val>
+          <Val>3</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,XmlNode,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,XmlNode,DigitalItem)">
+          <Val>29</Val>
+          <Val>0</Val>
+          <Val>7</Val>
+          <Val>3</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>891</Val>
+          <Val>36</Val>
+          <Val>61</Val>
+          <Val>39</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>89.1</Val>
+          <Val>3.6</Val>
+          <Val>6.1</Val>
+          <Val>3.9</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>26</Val>
+          <Val>0</Val>
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>544</Val>
+          <Val>35</Val>
+          <Val>8</Val>
+          <Val>18</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>153.69</Val>
+          <Val>10.471</Val>
+          <Val>2.1656</Val>
+          <Val>4.7843</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>23621.1</Val>
+          <Val>109.64</Val>
+          <Val>4.69</Val>
+          <Val>22.89</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Types with poor cohesion (LCOM)" NbNodeMatched="2" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Types&amp;nbsp;with&amp;nbsp;poor&amp;nbsp;cohesion&amp;nbsp;(LCOM)&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;LCOM&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0.8&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbFields&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbMethods&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;LCOM&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;TYPES&amp;nbsp;WHERE&amp;nbsp;LCOM&amp;nbsp;&amp;gt;&amp;nbsp;0.8&amp;nbsp;AND&amp;nbsp;NbFields&amp;nbsp;&amp;gt;&amp;nbsp;10&amp;nbsp;AND&amp;nbsp;NbMethods&amp;nbsp;&amp;gt;10&amp;nbsp;might&amp;nbsp;be&amp;nbsp;problematic.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;However,&amp;nbsp;it&amp;nbsp;is&amp;nbsp;very&amp;nbsp;hard&amp;nbsp;to&amp;nbsp;avoid&amp;nbsp;such&amp;nbsp;non-cohesive&amp;nbsp;types.&amp;nbsp;The&amp;nbsp;LCOMHS&amp;nbsp;metric&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;is&amp;nbsp;often&amp;nbsp;considered&amp;nbsp;as&amp;nbsp;more&amp;nbsp;efficient&amp;nbsp;to&amp;nbsp;detect&amp;nbsp;non-cohesive&amp;nbsp;types.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;LCOM&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#LCOM&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column>Lack of Cohesion Of Methods (LCOM)</Column>
+        <Column># Fields</Column>
+        <Column># Methods</Column>
+      </Columns>
+      <Rows>
+        <Row Name="CheckoutShoppingCartRequest" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest">
+          <Val>0.9399586</Val>
+          <Val>25</Val>
+          <Val>84</Val>
+        </Row>
+        <Row Name="GCheckoutConfigSection" FullName="GCheckout.Util.GCheckoutConfigSection">
+          <Val>0.9078341</Val>
+          <Val>14</Val>
+          <Val>31</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>1.8478</Val>
+          <Val>39</Val>
+          <Val>115</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>0.9238963</Val>
+          <Val>19.5</Val>
+          <Val>57.5</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0.9078341</Val>
+          <Val>14</Val>
+          <Val>31</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>0.9399586</Val>
+          <Val>25</Val>
+          <Val>84</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0.01606364</Val>
+          <Val>5.5</Val>
+          <Val>26.5</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0.0002580406</Val>
+          <Val>30.25</Val>
+          <Val>702.25</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Types with poor cohesion (LCOMHS)" NbNodeMatched="1" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Types&amp;nbsp;with&amp;nbsp;poor&amp;nbsp;cohesion&amp;nbsp;(LCOMHS)&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;LCOMHS&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0.95&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbFields&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbMethods&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;LCOMHS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;TYPES&amp;nbsp;WHERE&amp;nbsp;LCOMHS&amp;nbsp;&amp;gt;&amp;nbsp;1.0&amp;nbsp;AND&amp;nbsp;NbFields&amp;nbsp;&amp;gt;&amp;nbsp;10&amp;nbsp;AND&amp;nbsp;NbMethods&amp;nbsp;&amp;gt;10&amp;nbsp;should&amp;nbsp;be&amp;nbsp;avoided.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;Note&amp;nbsp;that&amp;nbsp;this&amp;nbsp;constraint&amp;nbsp;is&amp;nbsp;stronger&amp;nbsp;than&amp;nbsp;the&amp;nbsp;constraint&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;TYPES&amp;nbsp;WHERE&amp;nbsp;LCOM&amp;nbsp;&amp;gt;&amp;nbsp;0.8&amp;nbsp;AND&amp;nbsp;NbFields&amp;nbsp;&amp;gt;&amp;nbsp;10&amp;nbsp;AND&amp;nbsp;NbMethods&amp;nbsp;&amp;gt;10.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;LCOMHS&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#LCOMHS&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column>LCOM Henderson-Sellers (LCOMHS)</Column>
+        <Column># Fields</Column>
+        <Column># Methods</Column>
+      </Columns>
+      <Rows>
+        <Row Name="CheckoutShoppingCartRequest" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest">
+          <Val>0.9512834</Val>
+          <Val>25</Val>
+          <Val>84</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>0.9512834</Val>
+          <Val>25</Val>
+          <Val>84</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>0.9512834</Val>
+          <Val>25</Val>
+          <Val>84</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0.9512834</Val>
+          <Val>25</Val>
+          <Val>84</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>0.9512834</Val>
+          <Val>25</Val>
+          <Val>84</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>NaN</Val>
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>-2.943341E-08</Val>
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+  </Group>
+  <Group Name="Performance constraints" Status="Warn">
+    <Query Status="Warn" Name="Types which instances are too big (SizeOfInst)" NbNodeMatched="4" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Types&amp;nbsp;which&amp;nbsp;instances&amp;nbsp;are&amp;nbsp;too&amp;nbsp;big&amp;nbsp;(SizeOfInst)&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;SizeOfInst&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;64&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;SizeOfInst&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;TYPES&amp;nbsp;WHERE&amp;nbsp;SizeOfInst&amp;nbsp;&amp;gt;&amp;nbsp;64&amp;nbsp;might&amp;nbsp;degrade&amp;nbsp;performance&amp;nbsp;(depending&amp;nbsp;on&amp;nbsp;the&amp;nbsp;number&amp;nbsp;of&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;instances&amp;nbsp;created&amp;nbsp;at&amp;nbsp;runtime)&amp;nbsp;and&amp;nbsp;might&amp;nbsp;be&amp;nbsp;hard&amp;nbsp;to&amp;nbsp;maintain.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;However&amp;nbsp;it&amp;nbsp;is&amp;nbsp;not&amp;nbsp;a&amp;nbsp;rule&amp;nbsp;since&amp;nbsp;sometime&amp;nbsp;there&amp;nbsp;is&amp;nbsp;no&amp;nbsp;alternative&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;(the&amp;nbsp;size&amp;nbsp;of&amp;nbsp;instances&amp;nbsp;of&amp;nbsp;the&amp;nbsp;System.Net.NetworkInformation.SystemIcmpV6Statistics&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;standard&amp;nbsp;class&amp;nbsp;is&amp;nbsp;2064&amp;nbsp;bytes).&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;SizeOfInst&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#SizeOfInst&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column>Size of instance</Column>
+      </Columns>
+      <Rows>
+        <Row Name="GCheckoutButton" FullName="GCheckout.Checkout.GCheckoutButton">
+          <Val>98</Val>
+        </Row>
+        <Row Name="GCheckoutDonateButton" FullName="GCheckout.Checkout.GCheckoutDonateButton">
+          <Val>94</Val>
+        </Row>
+        <Row Name="CheckoutShoppingCartRequest" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest">
+          <Val>94</Val>
+        </Row>
+        <Row Name="GCheckoutButtonBase" FullName="GCheckout.Checkout.GCheckoutButtonBase">
+          <Val>94</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>380</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>95</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>94</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>98</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>1.7321</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>3</Val>
+        </Row>
+      </Rows>
+    </Query>
+  </Group>
+  <Group Name="Design constraints" Status="Warn">
+    <Query Status="Warn" Name="Assemblies that contain namespaces dependency cycles" NbNodeMatched="1" NbNodeTested="7" KindOfNode=" assemblies">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Assemblies&amp;nbsp;that&amp;nbsp;contain&amp;nbsp;namespaces&amp;nbsp;dependency&amp;nbsp;cycles&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ASSEMBLIES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;ContainsNamespaceDependencyCycle&lt;/font&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;Dependency&amp;nbsp;cycles&amp;nbsp;between&amp;nbsp;namespaces&amp;nbsp;must&amp;nbsp;be&amp;nbsp;avoided&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;in&amp;nbsp;order&amp;nbsp;to&amp;nbsp;have&amp;nbsp;a&amp;nbsp;levelized&amp;nbsp;and&amp;nbsp;comprehensive&amp;nbsp;design.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;More&amp;nbsp;info&amp;nbsp;available&amp;nbsp;on&amp;nbsp;the&amp;nbsp;screencast&amp;nbsp;'Reduce&amp;nbsp;the&amp;nbsp;complexity'&amp;nbsp;http://s3.amazonaws.com/NDependOnlineDemos/NDependReducingComplexity_viewlet_swf.html&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;You&amp;nbsp;can&amp;nbsp;also&amp;nbsp;read&amp;nbsp;this&amp;nbsp;article&amp;nbsp;http://www.theserverside.net/tt/articles/showarticle.tss?id=ControllingDependencies&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>assemblies</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="GCheckout" FullName="GCheckout">
+          <Val>2235</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>2235</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>2235</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>2235</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>2235</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Stateless types that might be static" NbNodeMatched="10" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Stateless&amp;nbsp;types&amp;nbsp;that&amp;nbsp;might&amp;nbsp;be&amp;nbsp;static&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;SizeOfInst&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;==&lt;/font&gt;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsStatic&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsGeneric&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsInterface&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;It&amp;nbsp;indicates&amp;nbsp;stateless&amp;nbsp;types&amp;nbsp;that&amp;nbsp;might&amp;nbsp;eventually&amp;nbsp;be&amp;nbsp;turned&amp;nbsp;into&amp;nbsp;static&amp;nbsp;classes.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;SizeOfInst&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#SizeOfInst&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column>Size of instance</Column>
+      </Columns>
+      <Rows>
+        <Row Name="ShippingTypeHelper" FullName="GCheckout.Checkout.ShippingTypeHelper">
+          <Val>0</Val>
+        </Row>
+        <Row Name="EncodeHelper" FullName="GCheckout.Util.EncodeHelper">
+          <Val>0</Val>
+        </Row>
+        <Row Name="GCheckoutConfigurationHelper" FullName="GCheckout.Util.GCheckoutConfigurationHelper">
+          <Val>0</Val>
+        </Row>
+        <Row Name="GCheckoutConfigHandler" FullName="GCheckout.Util.GCheckoutConfigHandler">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Log" FullName="GCheckout.Util.Log">
+          <Val>0</Val>
+        </Row>
+        <Row Name="ExampleRules" FullName="GCheckout.MerchantCalculation.ExampleRules">
+          <Val>0</Val>
+        </Row>
+        <Row Name="CallbackRules" FullName="GCheckout.MerchantCalculation.CallbackRules">
+          <Val>0</Val>
+        </Row>
+        <Row Name="WorldArea" FullName="GCheckout.AutoGen.WorldArea">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Hello" FullName="GCheckout.AutoGen.Hello">
+          <Val>0</Val>
+        </Row>
+        <Row Name="OrderProcessingRequestTests" FullName="GCheckout.OrderProcessing.Tests.OrderProcessingRequestTests">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Inheritance tree too deep" NbNodeMatched="2" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Inheritance&amp;nbsp;tree&amp;nbsp;too&amp;nbsp;deep&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;DepthOfInheritance&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;=&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;6&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;DepthOfInheritance&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;DESC&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;Branches&amp;nbsp;too&amp;nbsp;long&amp;nbsp;in&amp;nbsp;the&amp;nbsp;derivation&amp;nbsp;should&amp;nbsp;be&amp;nbsp;avoided.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;DepthOfInheritance&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#DIT&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column>Depth of inheritance</Column>
+      </Columns>
+      <Rows>
+        <Row Name="GCheckoutDonateButton" FullName="GCheckout.Checkout.GCheckoutDonateButton">
+          <Val>6</Val>
+        </Row>
+        <Row Name="GCheckoutButton" FullName="GCheckout.Checkout.GCheckoutButton">
+          <Val>6</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>12</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>6</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>6</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>6</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Classes that should be sealed" NbNodeMatched="10" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Classes&amp;nbsp;that&amp;nbsp;should&amp;nbsp;be&amp;nbsp;sealed&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;IsClass&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbChildren&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;==&lt;/font&gt;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsSealed&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsStatic&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ORDER&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;BY&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;NbLinesOfCode&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;Classes&amp;nbsp;with&amp;nbsp;no&amp;nbsp;descendant&amp;nbsp;should&amp;nbsp;be&amp;nbsp;sealed.&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column># Children</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="ResetItemsShippingInformationRequest" FullName="GCheckout.AutoGen.ResetItemsShippingInformationRequest">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="BackorderItemsRequest" FullName="GCheckout.AutoGen.BackorderItemsRequest">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="ItemShippingInformation" FullName="GCheckout.AutoGen.ItemShippingInformation">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="ShipItemsRequest" FullName="GCheckout.AutoGen.ShipItemsRequest">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="DiagnoseResponse" FullName="GCheckout.AutoGen.DiagnoseResponse">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="DigitalContent" FullName="GCheckout.AutoGen.DigitalContent">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="ReturnItemsRequest" FullName="GCheckout.AutoGen.ReturnItemsRequest">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="CancelItemsRequest" FullName="GCheckout.AutoGen.CancelItemsRequest">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="OrderStateChangeNotification" FullName="GCheckout.AutoGen.OrderStateChangeNotification">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="RefundAmountNotification" FullName="GCheckout.AutoGen.RefundAmountNotification">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Assemblies with poor cohesion (RelationalCohesion)" NbNodeMatched="1" NbNodeTested="7" KindOfNode=" assemblies">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Assemblies&amp;nbsp;with&amp;nbsp;poor&amp;nbsp;cohesion&amp;nbsp;(RelationalCohesion)&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;ASSEMBLIES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;RelationalCohesion&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;lt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;1.5&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;OR&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;RelationalCohesion&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;4.0&lt;/b&gt;&lt;br/&gt;&lt;font color='#008000'&gt;//&amp;nbsp;As&amp;nbsp;classes&amp;nbsp;inside&amp;nbsp;an&amp;nbsp;assembly&amp;nbsp;should&amp;nbsp;be&amp;nbsp;strongly&amp;nbsp;related,&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;the&amp;nbsp;cohesion&amp;nbsp;should&amp;nbsp;be&amp;nbsp;high.&amp;nbsp;On&amp;nbsp;the&amp;nbsp;other&amp;nbsp;hand,&amp;nbsp;a&amp;nbsp;value&amp;nbsp;which&amp;nbsp;is&amp;nbsp;too&amp;nbsp;high&amp;nbsp;may&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;indicate&amp;nbsp;over-coupling.&amp;nbsp;A&amp;nbsp;good&amp;nbsp;range&amp;nbsp;for&amp;nbsp;RelationalCohesion&amp;nbsp;is&amp;nbsp;1.5&amp;nbsp;to&amp;nbsp;4.0.&lt;br/&gt;&lt;/font&gt;&lt;font color='#008000'&gt;//&amp;nbsp;See&amp;nbsp;the&amp;nbsp;definition&amp;nbsp;of&amp;nbsp;the&amp;nbsp;RelationalCohesion&amp;nbsp;metric&amp;nbsp;here&amp;nbsp;http://www.ndepend.com/Metrics.aspx#RelationalCohesion&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>assemblies</Column>
+        <Column>Relational cohesion</Column>
+      </Columns>
+      <Rows>
+        <Row Name="GoogleCheckoutUnitTests" FullName="GoogleCheckoutUnitTests">
+          <Val>0.1666667</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>0.1666667</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>0.1666667</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0.1666667</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>0.1666667</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>NaN</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>-2.069618E-10</Val>
+        </Row>
+      </Rows>
+    </Query>
+  </Group>
+  <Group Name="Potentially unused code (dead code)" Status="Warn">
+    <Query Status="Warn" Name="Potentially unused methods" NbNodeMatched="7" NbNodeTested="729" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Potentially&amp;nbsp;unused&amp;nbsp;methods&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#000064'&gt;MethodCa&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;==&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;Ca=0&amp;nbsp;-&amp;gt;&amp;nbsp;No&amp;nbsp;Afferent&amp;nbsp;Coupling&amp;nbsp;-&amp;gt;&amp;nbsp;The&amp;nbsp;method&amp;nbsp;is&amp;nbsp;not&amp;nbsp;used&amp;nbsp;in&amp;nbsp;the&amp;nbsp;context&amp;nbsp;of&amp;nbsp;this&amp;nbsp;application.&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsPublic&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;Public&amp;nbsp;methods&amp;nbsp;might&amp;nbsp;be&amp;nbsp;used&amp;nbsp;by&amp;nbsp;client&amp;nbsp;applications&amp;nbsp;of&amp;nbsp;your&amp;nbsp;assemblies.&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsEntryPoint&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;Main()&amp;nbsp;method&amp;nbsp;is&amp;nbsp;not&amp;nbsp;used&amp;nbsp;by-design.&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsExplicitInterfaceImpl&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;The&amp;nbsp;IL&amp;nbsp;code&amp;nbsp;never&amp;nbsp;explicitely&amp;nbsp;calls&amp;nbsp;explicit&amp;nbsp;interface&amp;nbsp;methods&amp;nbsp;implementation.&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsClassConstructor&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;The&amp;nbsp;IL&amp;nbsp;code&amp;nbsp;never&amp;nbsp;explicitely&amp;nbsp;calls&amp;nbsp;class&amp;nbsp;constructors.&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsFinalizer&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;The&amp;nbsp;IL&amp;nbsp;code&amp;nbsp;never&amp;nbsp;explicitely&amp;nbsp;calls&amp;nbsp;finalizers.&lt;br/&gt;&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column>Afferent coupling at method level (MethodCa)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="OnInit(EventArgs)" FullName="GCheckout.Checkout.GCheckoutButtonBase.OnInit(EventArgs)">
+          <Val>0</Val>
+        </Row>
+        <Row Name="SetImageUrl()" FullName="GCheckout.Checkout.GCheckoutButton.SetImageUrl()">
+          <Val>0</Val>
+        </Row>
+        <Row Name="get_GifFileName()" FullName="GCheckout.Checkout.GCheckoutButton.get_GifFileName()">
+          <Val>0</Val>
+        </Row>
+        <Row Name="SetImageUrl()" FullName="GCheckout.Checkout.GCheckoutDonateButton.SetImageUrl()">
+          <Val>0</Val>
+        </Row>
+        <Row Name="get_IsDonation()" FullName="GCheckout.Checkout.GCheckoutDonateButton.get_IsDonation()">
+          <Val>0</Val>
+        </Row>
+        <Row Name="get_GifFileName()" FullName="GCheckout.Checkout.GCheckoutDonateButton.get_GifFileName()">
+          <Val>0</Val>
+        </Row>
+        <Row Name=".ctor()" FullName="GCheckout.Checkout.ShippingTypeHelper..ctor()">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+  </Group>
+  <Group Name="Optimal Encapsulation" Status="Warn">
+    <Query Status="Warn" Name="Fields should be declared as private" NbNodeMatched="10" NbNodeTested="605" KindOfNode=" fields">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Fields&amp;nbsp;should&amp;nbsp;be&amp;nbsp;declared&amp;nbsp;as&amp;nbsp;private&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;FIELDS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsPrivate&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;These&amp;nbsp;conditions&amp;nbsp;filter&amp;nbsp;cases&amp;nbsp;where&amp;nbsp;fields&amp;nbsp;doesn't&amp;nbsp;represent&amp;nbsp;state&amp;nbsp;that&amp;nbsp;should&amp;nbsp;be&amp;nbsp;encapsulated.&amp;nbsp;&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsInFrameworkAssembly&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsGeneratedByCompiler&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsSpecialName&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsInitOnly&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsLiteral&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsEnumValue&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>fields</Column>
+        <Column>Size of instance</Column>
+      </Columns>
+      <Rows>
+        <Row Name="_Currency" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest._Currency">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Empty" FullName="GCheckout.Checkout.AlternateTaxTable.Empty">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Request" FullName="GCheckout.OrderProcessing.ShipItemBox.Request">
+          <Val>4</Val>
+        </Row>
+        <Row Name="_items" FullName="GCheckout.OrderProcessing.ShipItemsRequest._items">
+          <Val>4</Val>
+        </Row>
+        <Row Name="_items" FullName="GCheckout.OrderProcessing.BackOrderCancelReturnAndResetItemBase._items">
+          <Val>4</Val>
+        </Row>
+        <Row Name="_sendEmail" FullName="GCheckout.OrderProcessing.BackOrderCancelReturnAndResetItemBase._sendEmail">
+          <Val>1</Val>
+        </Row>
+        <Row Name="_sendEmailSpecified" FullName="GCheckout.OrderProcessing.BackOrderCancelReturnAndResetItemBase._sendEmailSpecified">
+          <Val>1</Val>
+        </Row>
+        <Row Name="Amount" FullName="GCheckout.MerchantCalculation.MerchantCodeResult.Amount">
+          <Val>16</Val>
+        </Row>
+        <Row Name="Message" FullName="GCheckout.MerchantCalculation.MerchantCodeResult.Message">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Type" FullName="GCheckout.MerchantCalculation.MerchantCodeResult.Type">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>42</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>4.2</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>16</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>4.2143</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>17.76</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Methods that could be declared as 'internal' in C#,  'Friend' in VB.NET" NbNodeMatched="10" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;that&amp;nbsp;could&amp;nbsp;be&amp;nbsp;declared&amp;nbsp;as&amp;nbsp;'internal'&amp;nbsp;in&amp;nbsp;C#,&amp;nbsp;&amp;nbsp;'Friend'&amp;nbsp;in&amp;nbsp;VB.NET&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CouldBeInternal&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="IsValidZipPattern(String)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.IsValidZipPattern(String)">
+          <Val>3</Val>
+        </Row>
+        <Row Name=".ctor(String,String,String,Decimal,Int32,AlternateTaxTable,XmlNode[])" FullName="GCheckout.Checkout.ShoppingCartItem..ctor(String,String,String,Decimal,Int32,AlternateTaxTable,XmlNode[])">
+          <Val>12</Val>
+        </Row>
+        <Row Name=".ctor(String,String,String,Decimal,Int32)" FullName="GCheckout.Checkout.ShoppingCartItem..ctor(String,String,String,Decimal,Int32)">
+          <Val>1</Val>
+        </Row>
+        <Row Name="GetSerializedDisposition()" FullName="GCheckout.Checkout.DigitalItem.GetSerializedDisposition()">
+          <Val>3</Val>
+        </Row>
+        <Row Name="get_Url()" FullName="GCheckout.Checkout.DigitalItem.get_Url()">
+          <Val>1</Val>
+        </Row>
+        <Row Name="get_Key()" FullName="GCheckout.Checkout.DigitalItem.get_Key()">
+          <Val>1</Val>
+        </Row>
+        <Row Name="get_Description()" FullName="GCheckout.Checkout.DigitalItem.get_Description()">
+          <Val>1</Val>
+        </Row>
+        <Row Name="get_EmailDelivery()" FullName="GCheckout.Checkout.DigitalItem.get_EmailDelivery()">
+          <Val>1</Val>
+        </Row>
+        <Row Name="AddShippingOption(ShippingType,Decimal)" FullName="GCheckout.Checkout.CarrierCalculatedShipping.AddShippingOption(ShippingType,Decimal)">
+          <Val>16</Val>
+        </Row>
+        <Row Name="AddShippingPackage(String,String,String,String,String)" FullName="GCheckout.Checkout.CarrierCalculatedShipping.AddShippingPackage(String,String,String,String,String)">
+          <Val>14</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>53</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>5.3</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>1</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>16</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>5.8146</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>33.81</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Methods that could be declared as 'protected' in C#,  'Protected' in VB.NET" NbNodeMatched="5" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;that&amp;nbsp;could&amp;nbsp;be&amp;nbsp;declared&amp;nbsp;as&amp;nbsp;'protected'&amp;nbsp;in&amp;nbsp;C#,&amp;nbsp;&amp;nbsp;'Protected'&amp;nbsp;in&amp;nbsp;VB.NET&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CouldBeProtected&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name=".ctor(String,String,String,String)" FullName="GCheckout.OrderProcessing.BackOrderCancelReturnAndResetItemBase..ctor(String,String,String,String)">
+          <Val>4</Val>
+        </Row>
+        <Row Name=".ctor(String)" FullName="GCheckout.OrderProcessing.BackOrderCancelReturnAndResetItemBase..ctor(String)">
+          <Val>4</Val>
+        </Row>
+        <Row Name="get_SendEmail()" FullName="GCheckout.OrderProcessing.BackOrderCancelReturnAndResetItemBase.get_SendEmail()">
+          <Val>1</Val>
+        </Row>
+        <Row Name=".ctor(String,String,String,String)" FullName="GCheckout.OrderProcessing.OrderProcessingBase..ctor(String,String,String,String)">
+          <Val>6</Val>
+        </Row>
+        <Row Name=".ctor(String)" FullName="GCheckout.OrderProcessing.OrderProcessingBase..ctor(String)">
+          <Val>6</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>21</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>4.2</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>1</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>6</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>1.833</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>3.36</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Methods that could be declared as 'private' in C#,  'Private' in VB.NET" NbNodeMatched="10" NbNodeTested="998" KindOfNode=" methods">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Methods&amp;nbsp;that&amp;nbsp;could&amp;nbsp;be&amp;nbsp;declared&amp;nbsp;as&amp;nbsp;'private'&amp;nbsp;in&amp;nbsp;C#,&amp;nbsp;&amp;nbsp;'Private'&amp;nbsp;in&amp;nbsp;VB.NET&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;METHODS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CouldBePrivate&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>methods</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="AddItem(String,String,Decimal,Int32,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,Decimal,Int32,AlternateTaxTable,DigitalItem)">
+          <Val>5</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem)">
+          <Val>5</Val>
+        </Row>
+        <Row Name="AddItem(String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)">
+          <Val>5</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem,XmlNode[])" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,DigitalItem,XmlNode[])">
+          <Val>5</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,XmlNode,AlternateTaxTable,DigitalItem)">
+          <Val>5</Val>
+        </Row>
+        <Row Name="AddItem(String,String,Decimal,Int32,XmlNode,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,Decimal,Int32,XmlNode,DigitalItem)">
+          <Val>4</Val>
+        </Row>
+        <Row Name="AddItem(String,String,Decimal,Int32,XmlNode,AlternateTaxTable)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,Decimal,Int32,XmlNode,AlternateTaxTable)">
+          <Val>4</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,XmlNode,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,XmlNode,DigitalItem)">
+          <Val>4</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,DigitalItem)" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,DigitalItem)">
+          <Val>4</Val>
+        </Row>
+        <Row Name="AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,XmlNode[])" FullName="GCheckout.Checkout.CheckoutShoppingCartRequest.AddItem(String,String,String,Decimal,Int32,AlternateTaxTable,XmlNode[])">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>45</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>4.5</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>5</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0.5</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0.25</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Types that could be declared as internal" NbNodeMatched="10" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Types&amp;nbsp;that&amp;nbsp;could&amp;nbsp;be&amp;nbsp;declared&amp;nbsp;as&amp;nbsp;internal&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CouldBeInternal&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="CarrierCalculatedShipping" FullName="GCheckout.Checkout.CarrierCalculatedShipping">
+          <Val>76</Val>
+        </Row>
+        <Row Name="GCheckoutButtonBase" FullName="GCheckout.Checkout.GCheckoutButtonBase">
+          <Val>58</Val>
+        </Row>
+        <Row Name="GCheckoutButton" FullName="GCheckout.Checkout.GCheckoutButton">
+          <Val>20</Val>
+        </Row>
+        <Row Name="ShipFrom" FullName="GCheckout.Checkout.ShipFrom">
+          <Val>17</Val>
+        </Row>
+        <Row Name="UrlParamter" FullName="GCheckout.Checkout.UrlParamter">
+          <Val>13</Val>
+        </Row>
+        <Row Name="GCheckoutDonateButton" FullName="GCheckout.Checkout.GCheckoutDonateButton">
+          <Val>7</Val>
+        </Row>
+        <Row Name="GCheckoutConfigHandler" FullName="GCheckout.Util.GCheckoutConfigHandler">
+          <Val>69</Val>
+        </Row>
+        <Row Name="GCheckoutConfigSection" FullName="GCheckout.Util.GCheckoutConfigSection">
+          <Val>58</Val>
+        </Row>
+        <Row Name="GCheckoutResponse" FullName="GCheckout.Util.GCheckoutResponse">
+          <Val>41</Val>
+        </Row>
+        <Row Name="BasicAuthenticationModule" FullName="GCheckout.Util.BasicAuthenticationModule">
+          <Val>41</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>400</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>40</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>7</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>76</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>23.524</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>553.4</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Fields that could be declared as internal" NbNodeMatched="10" NbNodeTested="605" KindOfNode=" fields">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Fields&amp;nbsp;that&amp;nbsp;could&amp;nbsp;be&amp;nbsp;declared&amp;nbsp;as&amp;nbsp;internal&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;FIELDS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CouldBeInternal&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>fields</Column>
+        <Column>Size of instance</Column>
+      </Columns>
+      <Rows>
+        <Row Name="Amount" FullName="GCheckout.MerchantCalculation.MerchantCodeResult.Amount">
+          <Val>16</Val>
+        </Row>
+        <Row Name="Message" FullName="GCheckout.MerchantCalculation.MerchantCodeResult.Message">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Type" FullName="GCheckout.MerchantCalculation.MerchantCodeResult.Type">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Valid" FullName="GCheckout.MerchantCalculation.MerchantCodeResult.Valid">
+          <Val>1</Val>
+        </Row>
+        <Row Name="Shippable" FullName="GCheckout.MerchantCalculation.ShippingResult.Shippable">
+          <Val>1</Val>
+        </Row>
+        <Row Name="ShippingRate" FullName="GCheckout.MerchantCalculation.ShippingResult.ShippingRate">
+          <Val>16</Val>
+        </Row>
+        <Row Name="Item" FullName="GCheckout.AutoGen.OrderAdjustmentShipping.Item">
+          <Val>4</Val>
+        </Row>
+        <Row Name="serialnumber" FullName="GCheckout.AutoGen.RequestReceivedResponse.serialnumber">
+          <Val>4</Val>
+        </Row>
+        <Row Name="shipping" FullName="GCheckout.AutoGen.OrderAdjustment.shipping">
+          <Val>4</Val>
+        </Row>
+        <Row Name="googleordernumber" FullName="GCheckout.AutoGen.AddTrackingDataRequest.googleordernumber">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>58</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>5.8</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>1</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>16</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>5.2307</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>27.36</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Fields that could be declared as 'protected' in C#,  'Protected' in VB.NET" NbNodeMatched="1" NbNodeTested="605" KindOfNode=" fields">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Fields&amp;nbsp;that&amp;nbsp;could&amp;nbsp;be&amp;nbsp;declared&amp;nbsp;as&amp;nbsp;'protected'&amp;nbsp;in&amp;nbsp;C#,&amp;nbsp;&amp;nbsp;'Protected'&amp;nbsp;in&amp;nbsp;VB.NET&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;FIELDS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CouldBeProtected&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>fields</Column>
+        <Column>Size of instance</Column>
+      </Columns>
+      <Rows>
+        <Row Name="orderadjustment" FullName="GCheckout.AutoGen.NewOrderNotification.orderadjustment">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+    <Query Status="Warn" Name="Fields that could be declared as 'private' in C#,  'Private' in VB.NET" NbNodeMatched="10" NbNodeTested="605" KindOfNode=" fields">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Fields&amp;nbsp;that&amp;nbsp;could&amp;nbsp;be&amp;nbsp;declared&amp;nbsp;as&amp;nbsp;'private'&amp;nbsp;in&amp;nbsp;C#,&amp;nbsp;&amp;nbsp;'Private'&amp;nbsp;in&amp;nbsp;VB.NET&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;FIELDS&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;CouldBePrivate&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>fields</Column>
+        <Column>Size of instance</Column>
+      </Columns>
+      <Rows>
+        <Row Name="lockObject" FullName="GCheckout.Util.Log.lockObject">
+          <Val>0</Val>
+        </Row>
+        <Row Name="_items" FullName="GCheckout.OrderProcessing.BackOrderCancelReturnAndResetItemBase._items">
+          <Val>4</Val>
+        </Row>
+        <Row Name="_sendEmail" FullName="GCheckout.OrderProcessing.BackOrderCancelReturnAndResetItemBase._sendEmail">
+          <Val>1</Val>
+        </Row>
+        <Row Name="shippingcost" FullName="GCheckout.AutoGen.FlatRateShippingAdjustment.shippingcost">
+          <Val>4</Val>
+        </Row>
+        <Row Name="shippingname" FullName="GCheckout.AutoGen.FlatRateShippingAdjustment.shippingname">
+          <Val>4</Val>
+        </Row>
+        <Row Name="shippingcost" FullName="GCheckout.AutoGen.CarrierCalculatedShippingAdjustment.shippingcost">
+          <Val>4</Val>
+        </Row>
+        <Row Name="shippingname" FullName="GCheckout.AutoGen.CarrierCalculatedShippingAdjustment.shippingname">
+          <Val>4</Val>
+        </Row>
+        <Row Name="shippingcost" FullName="GCheckout.AutoGen.MerchantCalculatedShippingAdjustment.shippingcost">
+          <Val>4</Val>
+        </Row>
+        <Row Name="shippingname" FullName="GCheckout.AutoGen.MerchantCalculatedShippingAdjustment.shippingname">
+          <Val>4</Val>
+        </Row>
+        <Row Name="shippingcost" FullName="GCheckout.AutoGen.PickupShippingAdjustment.shippingcost">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>33</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>3.3</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>4</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>1.4177</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>2.01</Val>
+        </Row>
+      </Rows>
+    </Query>
+  </Group>
+  <Group Name="Naming constraints" Status="Warn">
+    <Query Status="Warn" Name="Misnamed types" NbNodeMatched="1" NbNodeTested="368" KindOfNode=" types">
+      <QueryHtml>&lt;font color='#008000'&gt;//&amp;nbsp;&amp;lt;Name&amp;gt;Misnamed&amp;nbsp;types&amp;lt;/Name&amp;gt;&lt;br/&gt;&lt;/font&gt;&lt;font color='#0000FF'&gt;WARN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IF&lt;/font&gt;&amp;nbsp;&lt;font color='#000064'&gt;Count&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;&amp;gt;&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;0&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;IN&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;SELECT&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TOP&lt;/font&gt;&amp;nbsp;&lt;b style="color:#000000;background-color:#FFFF99"&gt;10&lt;/b&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;TYPES&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;WHERE&lt;/font&gt;&amp;nbsp;&lt;br/&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;NameLike&lt;/font&gt;&amp;nbsp;&lt;font color='#A31515'&gt;"^[A-Z]"&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;The&amp;nbsp;name&amp;nbsp;of&amp;nbsp;a&amp;nbsp;type&amp;nbsp;should&amp;nbsp;begin&amp;nbsp;with&amp;nbsp;an&amp;nbsp;Upper&amp;nbsp;letter.&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsGeneratedByCompiler&lt;/font&gt;&amp;nbsp;&lt;font color='#0000FF'&gt;AND&lt;/font&gt;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;Except&amp;nbsp;if&amp;nbsp;it&amp;nbsp;is&amp;nbsp;generated&amp;nbsp;by&amp;nbsp;compiler&amp;nbsp;or&amp;nbsp;...&lt;br/&gt;&lt;/font&gt;&amp;nbsp;&lt;font color='#000000'&gt;!&lt;/font&gt;&lt;font color='#000064'&gt;IsInFrameworkAssembly&lt;/font&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;font color='#008000'&gt;//&amp;nbsp;...&amp;nbsp;if&amp;nbsp;it&amp;nbsp;is&amp;nbsp;declared&amp;nbsp;in&amp;nbsp;a&amp;nbsp;framework&amp;nbsp;assembly.&lt;/font&gt;</QueryHtml>
+      <Columns>
+        <Column>types</Column>
+        <Column># lines of code (LOC)</Column>
+      </Columns>
+      <Rows>
+        <Row Name="anyMultiple" FullName="GCheckout.AutoGen.anyMultiple">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Sum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Average:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Minimum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Maximum:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Standard deviation:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+        <Row Name="Variance:" FullName="Stat">
+          <Val>0</Val>
+        </Row>
+      </Rows>
+    </Query>
+  </Group>
+  <Group Name="Queries to understand code" Status="Ok" />
+  <Group Name="Constraints extracted from code" Status="Ok" />
+</CQLResult>
