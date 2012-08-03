@@ -28,6 +28,37 @@ namespace GCheckout.Util {
 
     internal static readonly object lockObject = new object();
 
+    static Log() {
+      try {
+        if (LoggingOn()) {
+          lock (lockObject) {
+            if (!string.IsNullOrEmpty(GetLogPath())) {
+              if (!Directory.Exists(GetLogPath())) {
+                Directory.CreateDirectory(GetLogPath());
+              }
+            }
+          }
+        }
+      }
+      catch (Exception ex) {
+        Err("Error Attempting to create LogPath directory:" + ex.Message);
+      }
+      try {
+        if (LoggingOn()) {
+          lock (lockObject) {
+            if (!string.IsNullOrEmpty(GetLogPathXml())) {
+              if (!Directory.Exists(GetLogPathXml())) {
+                Directory.CreateDirectory(GetLogPathXml());
+              }
+            }
+          }
+        }
+      }
+      catch (Exception ex) {
+        Err("Error Attempting to create LogPathXml directory:" + ex.Message);
+      }
+    }
+
     /// <summary>
     /// Writes a string to a file.
     /// </summary>
@@ -79,18 +110,33 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
+    /// Writes an error message to the file X\error.txt where X is read from
+    /// the config file key "LogDirectory".
+    /// </summary>
+    /// <param name="name">The name of the file to write.</param>
+    /// <param name="xml">The message to write.</param>
+    public static void Xml(string name, string xml) {
+      if (LoggingOn()) {
+        WriteToFile(GetLogPathXml() + name, xml);
+      }
+      else {
+        System.Diagnostics.Debug.WriteLine(name + " - " + xml);
+      }
+    }
+
+    /// <summary>
     /// Returns true if logging is on, that is if the config file contains
     /// values for a key for "LogDirectory" and if the value for the key
     /// "Logging" is "true".
     /// </summary>
     /// <returns>True if the config keys are correct.</returns>
     public static bool LoggingOn() {
-      bool RetVal = true;
+      bool retVal = true;
       if ((GetLogPath() == null || GetLogPath() == string.Empty)
         || !GCheckoutConfigurationHelper.Logging) {
-        RetVal = false;
+        retVal = false;
       }
-      return RetVal;
+      return retVal;
     }
 
     /// <summary>
@@ -100,6 +146,15 @@ namespace GCheckout.Util {
     /// <returns>Log path.</returns>
     private static string GetLogPath() {
       return GCheckoutConfigurationHelper.LogDirectory;
+    }
+
+    /// <summary>
+    /// Gets the log path, that is the value of the "LogDirectoryXml" key in the
+    /// config file.
+    /// </summary>
+    /// <returns>Log path.</returns>
+    private static string GetLogPathXml() {
+      return GCheckoutConfigurationHelper.LogDirectoryXml;
     }
   }
 }

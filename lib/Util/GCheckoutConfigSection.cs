@@ -177,6 +177,21 @@ namespace GCheckout.Util {
       }
     }
 
+    private string _logDirectoryXml;
+
+    /// <summary>
+    /// The Log Directory For Xml Files
+    /// </summary>
+    public virtual string LogDirectoryXml {
+      get {
+        return _logDirectoryXml;
+      }
+      set {
+        if (value != null && value.Length > 0)
+          _logDirectoryXml = value.Trim();
+      }
+    }
+
     private string _currency = string.Empty;
 
     /// <summary>
