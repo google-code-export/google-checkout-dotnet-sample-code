@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using GCheckout.Util;
+using System.Diagnostics;
 
 namespace GCheckout.OrderProcessing {
 
@@ -207,9 +208,37 @@ namespace GCheckout.OrderProcessing {
             typeof(AutoGen.NotificationHistoryResponse));
           return true;
         }
+        else {
+          Debug.WriteLine("NotificationHistoryResponse was not expected type: notification-history-response");
+          /* hack: test against all possible message types and wrap in a response */
+          var messageTypes = new List<Type> {
+            typeof(AutoGen.AuthorizationAmountNotification),
+            typeof(AutoGen.ChargeAmountNotification),
+            typeof(AutoGen.NewOrderNotification),
+            typeof(AutoGen.OrderStateChangeNotification),
+            typeof(AutoGen.RiskInformationNotification)
+          };
+          _response = new AutoGen.NotificationHistoryResponse();
+          _response.notifications 
+              = new GCheckout.AutoGen.NotificationHistoryResponseNotifications();
+          foreach (Type t in messageTypes) {
+            try {
+              Debug.WriteLine("Trying to deserialize message as type:" + t.Name);
+              object o = EncodeHelper.Deserialize(ResponseXml, t);
+              _response.notifications.Items = new object[] { o };
+              Debug.WriteLine("Message was type:" + t.Name);
+              break;
+            }
+            catch (Exception exDeserialize) {
+              Debug.WriteLine("Error trying to deserialize type:" + exDeserialize.Message);
+            }
+          }
+          return true;
+        }
       }
-      catch {
+      catch (Exception ex) {
         //let it continue
+        Debug.WriteLine("ParseMessage: Error trying to deserialize:" + ex.Message);
       }
 
       return false;

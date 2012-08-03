@@ -58,20 +58,43 @@ namespace GCheckout.Checkout.Tests {
     }
 
     [Test]
-    public void Verify_Correct_Message_Returned_When_Incorrect_Message_Format() {
-      var xml = @"<?xml version=""1.0"" encoding=""UTF-8""?>
-                  <charge-amount-notification xmlns=""http://checkout.google.com/schema/2"" serial-number=""95d44287-12b1-4722-bc56-cfaa73f4c0d1"">
-                    <google-order-number>841171949013218</google-order-number>
-                    <latest-charge-amount currency=""USD"">226.06</latest-charge-amount>
-                    <total-charge-amount currency=""USD"">226.06</total-charge-amount>
-                    <timestamp>2007-03-19T15:12:26.051Z</timestamp>
-                  </charge-amount-notification>";
+    public void Verify_Multiple_Messages_Can_Be_Handled() {
 
-      var test
-        = new NotificationHistoryResponse(xml);
+        string xml = null;
 
-      Assert.AreEqual(false, test.IsGood);
-      Assert.AreEqual("Couldn't parse ResponseXml. Message type found was ChargeAmountNotification. Please See ResponseXml", test.ErrorMessage);
+        using (Stream s = Assembly.GetExecutingAssembly()
+          .GetManifestResourceStream(
+          "GCheckout.Checkout.Tests.Xml.notification-history-response.xml")) {
+
+          using (StreamReader sr = new StreamReader(s)) {
+            xml = sr.ReadToEnd();
+          }
+        }
+
+      var test = new NotificationHistoryResponse(xml);
+
+      Assert.IsTrue(test.IsGood);
+      Assert.AreEqual(3, test.NotificationResponses.Count);
+    }
+
+    [Test]
+    public void Verify_new_order_notification_Messages_Can_Be_Handled() {
+
+      string xml = null;
+
+      using (Stream s = Assembly.GetExecutingAssembly()
+        .GetManifestResourceStream(
+        "GCheckout.Checkout.Tests.Xml.new-order-notification-base.xml")) {
+
+        using (StreamReader sr = new StreamReader(s)) {
+          xml = sr.ReadToEnd();
+        }
+      }
+
+      var test = new NotificationHistoryResponse(xml);
+
+      Assert.IsTrue(test.IsGood);
+      Assert.AreEqual(1, test.NotificationResponses.Count);
     }
 
     [Test]
