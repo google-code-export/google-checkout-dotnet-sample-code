@@ -47,7 +47,6 @@ namespace GCheckout.OrderProcessing {
       string Env, string GoogleOrderNumber, string Reason)
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
       _reason = Reason;
-      _amount = -1;
     }
 
     /// <summary>
@@ -59,7 +58,6 @@ namespace GCheckout.OrderProcessing {
     public RefundOrderRequest(string GoogleOrderNumber, string Reason)
       : base(GoogleOrderNumber) {
       _reason = Reason;
-      _amount = -1;
     }
 
     /// <summary>
