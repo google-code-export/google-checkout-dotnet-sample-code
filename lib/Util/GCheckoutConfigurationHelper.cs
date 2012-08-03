@@ -193,6 +193,28 @@ namespace GCheckout.Util {
     }
 
     /// <summary>
+    /// The Log Directory
+    /// </summary>
+    public static string LogDirectoryXml {
+      get {
+        if (Logging) {
+          if (ConfigSection != null) {
+            return ConfigSection.LogDirectoryXml;
+          }
+          else if (GetConfigValue("LogDirectoryXml").Length > 0)
+            return GetConfigValue("LogDirectoryXml");
+          else {
+            Log.Debug("Set the 'LogDirectoryXml' key in the config file.");
+          }
+          return string.Empty;
+        }
+        else {
+          return string.Empty;
+        }
+      }
+    }
+
+    /// <summary>
     /// Attempt to call the Currency method, but if a key is not found
     /// do not throw an exception, just return the default currency (USD)
     /// </summary>
