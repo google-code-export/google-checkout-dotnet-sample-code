@@ -29,8 +29,8 @@ namespace GCheckout.OrderProcessing {
   /// requests.
   /// </summary>
   public class ChargeOrderRequest : OrderProcessingBase {
-    private string _currency = null;
-    private decimal _amount = -1;
+    private string _currency = GCheckoutConfigurationHelper.Currency;
+    private decimal _amount = decimal.MinValue;
 
     /// <summary>
     /// Get the amount for the Request
@@ -100,7 +100,7 @@ namespace GCheckout.OrderProcessing {
       AutoGen.ChargeOrderRequest retVal = new AutoGen.ChargeOrderRequest();
       retVal.googleordernumber = GoogleOrderNumber;
 
-      if (_amount != -1 && _currency != null) {
+      if (_amount > decimal.MinValue && _currency != null) {
         retVal.amount = new AutoGen.Money();
         retVal.amount.currency = _currency;
         retVal.amount.Value = _amount;

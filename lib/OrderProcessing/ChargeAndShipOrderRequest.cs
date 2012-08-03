@@ -37,8 +37,8 @@ namespace GCheckout.OrderProcessing {
   /// </summary>
   public class ChargeAndShipOrderRequest : OrderProcessingBase {
 
-    private decimal _amount;
-    private string _currency = null;
+    private decimal _amount = decimal.MinValue;
+    private string _currency = GCheckoutConfigurationHelper.Currency;
 
     /// <summary>
     /// Get the amount for the Request
@@ -135,7 +135,7 @@ namespace GCheckout.OrderProcessing {
       AutoGen.ChargeAndShipOrderRequest retVal = new AutoGen.ChargeAndShipOrderRequest();
       retVal.googleordernumber = GoogleOrderNumber;
 
-      if (Amount != -1 && _currency != null) {
+      if (Amount > decimal.MinValue && _currency != null) {
         retVal.amount = new AutoGen.Money();
         retVal.amount.currency = _currency;
         retVal.amount.Value = Amount;
@@ -267,12 +267,11 @@ namespace GCheckout.OrderProcessing {
       if (string.IsNullOrEmpty(trackingNumber)) {
         throw new ArgumentNullException("trackingNumber");
       }
-      
+
       _tracking.Add(new AutoGen.TrackingData() {
         carrier = carrier,
         trackingnumber = trackingNumber
       });
-
     }
   }
 

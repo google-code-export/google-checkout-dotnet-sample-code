@@ -29,10 +29,10 @@ namespace GCheckout.OrderProcessing {
   /// requests.
   /// </summary>
   public class RefundOrderRequest : OrderProcessingBase {
-    private string _Reason;
-    private string _Currency;
-    private decimal _Amount;
-    private string _Comment;
+    private string _reason;
+    private string _currency = GCheckoutConfigurationHelper.Currency;
+    private decimal _amount = decimal.MinValue;
+    private string _comment;
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
@@ -46,9 +46,8 @@ namespace GCheckout.OrderProcessing {
     public RefundOrderRequest(string MerchantID, string MerchantKey,
       string Env, string GoogleOrderNumber, string Reason)
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _Currency = GCheckoutConfigurationHelper.Currency;
-      _Reason = Reason;
-      _Amount = -1;
+      _reason = Reason;
+      _amount = -1;
     }
 
     /// <summary>
@@ -59,9 +58,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Reason">The Reason for the refund</param>
     public RefundOrderRequest(string GoogleOrderNumber, string Reason)
       : base(GoogleOrderNumber) {
-      _Currency = GCheckoutConfigurationHelper.Currency;
-      _Reason = Reason;
-      _Amount = -1;
+      _reason = Reason;
+      _amount = -1;
     }
 
     /// <summary>
@@ -79,9 +77,9 @@ namespace GCheckout.OrderProcessing {
       string Env, string GoogleOrderNumber, string Reason, string Currency,
       decimal Amount)
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _Reason = Reason;
-      _Currency = Currency;
-      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
+      _reason = Reason;
+      _currency = Currency;
+      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>
@@ -94,9 +92,9 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Amount">The Amount to charge</param>
     public RefundOrderRequest(string GoogleOrderNumber, string Reason,
       string Currency, decimal Amount) : base(GoogleOrderNumber) {
-      _Reason = Reason;
-      _Currency = Currency;
-      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
+      _reason = Reason;
+      _currency = Currency;
+      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>
@@ -112,9 +110,8 @@ namespace GCheckout.OrderProcessing {
     public RefundOrderRequest(string MerchantID, string MerchantKey,
       string Env, string GoogleOrderNumber, string Reason, string Comment)
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _Currency = GCheckoutConfigurationHelper.Currency;
-      _Reason = Reason;
-      _Comment = Comment;
+      _reason = Reason;
+      _comment = Comment;
     }
 
     /// <summary>
@@ -126,9 +123,8 @@ namespace GCheckout.OrderProcessing {
     /// <param name="Comment">A comment to append to the order</param>
     public RefundOrderRequest(string GoogleOrderNumber, 
       string Reason, string Comment) : base(GoogleOrderNumber) {
-      _Currency = GCheckoutConfigurationHelper.Currency;
-      _Reason = Reason;
-      _Comment = Comment;
+      _reason = Reason;
+      _comment = Comment;
     }
 
     /// <summary>
@@ -147,10 +143,10 @@ namespace GCheckout.OrderProcessing {
       string Env, string GoogleOrderNumber, string Reason, string Currency,
       decimal Amount, string Comment)
       : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _Reason = Reason;
-      _Currency = Currency;
-      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
-      _Comment = Comment;
+      _reason = Reason;
+      _currency = Currency;
+      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
+      _comment = Comment;
     }
 
     /// <summary>
@@ -165,10 +161,10 @@ namespace GCheckout.OrderProcessing {
     public RefundOrderRequest(string GoogleOrderNumber, string Reason, 
       string Currency, decimal Amount, string Comment)
       : base(GoogleOrderNumber) {
-      _Reason = Reason;
-      _Currency = Currency;
-      _Amount = Math.Round(Amount, 2); //fix for sending in fractional cents
-      _Comment = Comment;
+      _reason = Reason;
+      _currency = Currency;
+      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
+      _comment = Comment;
     }
 
     /// <summary>Method that is called to produce the Xml message
@@ -176,17 +172,16 @@ namespace GCheckout.OrderProcessing {
     public override byte[] GetXml() {
       AutoGen.RefundOrderRequest Req = new AutoGen.RefundOrderRequest();
       Req.googleordernumber = GoogleOrderNumber;
-      Req.reason = EncodeHelper.EscapeXmlChars(_Reason);
-      if (_Amount != -1 && _Currency != null) {
+      Req.reason = EncodeHelper.EscapeXmlChars(_reason);
+      if (_amount > decimal.MinValue && _currency != null) {
         Req.amount = new AutoGen.Money();
-        Req.amount.currency = _Currency;
-        Req.amount.Value = _Amount; //already checked.
+        Req.amount.currency = _currency;
+        Req.amount.Value = _amount; //already checked.
       }
-      if (_Comment != null) {
-        Req.comment = _Comment;
+      if (_comment != null) {
+        Req.comment = _comment;
       }
       return EncodeHelper.Serialize(Req);
     }
-
   }
 }
