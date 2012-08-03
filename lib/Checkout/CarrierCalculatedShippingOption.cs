@@ -33,7 +33,7 @@ namespace GCheckout.Checkout {
   /// </summary>
   public class CarrierCalculatedShippingOption {
     
-    private string _currency = null;
+    private string _currency = null; //do not set to default
     private ShippingType _statedShippingType;
     private CarrierPickup _carrierPickup = CarrierPickup.DROP_OFF;
     private AutoGen.CarrierCalculatedShippingOption _autoGenClass;
