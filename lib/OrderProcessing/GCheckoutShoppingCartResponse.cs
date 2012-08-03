@@ -65,8 +65,8 @@ namespace GCheckout.Util {
           return true;
         }
       }
-      catch {
-        //let it continue
+      catch (Exception ex) {
+        Log.Err("GCheckoutShoppingCartResponse ParseResponse:" + ex.Message);
       }
 
       return false;

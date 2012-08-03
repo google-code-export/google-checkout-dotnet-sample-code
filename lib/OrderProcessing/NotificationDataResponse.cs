@@ -27,7 +27,7 @@ using GCheckout.Util;
 namespace GCheckout.OrderProcessing {
   
   /// <summary>
-  /// TODO
+  /// NotificationDataResponse
   /// </summary>
   public class NotificationDataResponse : GCheckoutResponse {
     private AutoGen.NotificationDataResponse _response;
@@ -67,8 +67,8 @@ namespace GCheckout.OrderProcessing {
           return true;
         }
       }
-      catch {
-        //let it continue
+      catch (Exception ex) {
+        Log.Err("NotificationDataResponse ParseResponse:" + ex.Message);
       }
 
       return false;

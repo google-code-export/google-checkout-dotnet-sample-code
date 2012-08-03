@@ -68,8 +68,8 @@ namespace GCheckout.OrderProcessing {
           return true;
         }
       }
-      catch {
-        //let it continue
+      catch (Exception ex) {
+        Log.Err("NotificationDataTokenResponse ParseResponse:" + ex.Message);
       }
 
       return false;

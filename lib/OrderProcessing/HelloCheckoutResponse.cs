@@ -66,8 +66,8 @@ namespace GCheckout.Util {
           return true;
         }
       }
-      catch {
-        //let it continue
+      catch (Exception ex) {
+        Log.Err("HelloCheckoutResponse ParseResponse:" + ex.Message);
       }
 
       return false;

@@ -96,8 +96,8 @@ namespace GCheckout.OrderProcessing {
           return true;
         }
       }
-      catch {
-        //let it continue
+      catch (Exception ex) {
+        Log.Err("OrderSummaryResponse ParseResponse:" + ex.Message);
       }
 
       return false;

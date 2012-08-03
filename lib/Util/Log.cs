@@ -36,11 +36,14 @@ namespace GCheckout.Util {
     public static void WriteToFile(string strFileName, string strLine) {
       if (LoggingOn()) {
         lock (lockObject) {
-          using(StreamWriter objStreamWriter = new StreamWriter(strFileName, true)) {
+          using (StreamWriter objStreamWriter = new StreamWriter(strFileName, true)) {
             // Write a line of text.
             objStreamWriter.WriteLine(strLine);
-          }   
+          }
         }
+      }
+      else {
+        System.Diagnostics.Debug.WriteLine(DateTime.Now + " - " + strLine);
       }
     }
 
@@ -51,8 +54,11 @@ namespace GCheckout.Util {
     /// <param name="strLine">The debug message to write.</param>
     public static void Debug(string strLine) {
       if (LoggingOn()) {
-        WriteToFile(GetLogPath() + "debug.txt", DateTime.Now + " - " + 
+        WriteToFile(GetLogPath() + "debug.txt", DateTime.Now + " - " +
           strLine);
+      }
+      else {
+        System.Diagnostics.Debug.WriteLine(DateTime.Now + " - " + strLine);
       }
     }
 
@@ -63,7 +69,11 @@ namespace GCheckout.Util {
     /// <param name="strLine">The error message to write.</param>
     public static void Err(string strLine) {
       if (LoggingOn()) {
-        WriteToFile(GetLogPath() + "error.txt", DateTime.Now + " - " + 
+        WriteToFile(GetLogPath() + "error.txt", DateTime.Now + " - " +
+          strLine + (new StackTrace()).ToString());
+      }
+      else {
+        System.Diagnostics.Debug.WriteLine(DateTime.Now + " - " +
           strLine + (new StackTrace()).ToString());
       }
     }
@@ -76,7 +86,7 @@ namespace GCheckout.Util {
     /// <returns>True if the config keys are correct.</returns>
     public static bool LoggingOn() {
       bool RetVal = true;
-      if ((GetLogPath() == null || GetLogPath() == string.Empty) 
+      if ((GetLogPath() == null || GetLogPath() == string.Empty)
         || !GCheckoutConfigurationHelper.Logging) {
         RetVal = false;
       }
