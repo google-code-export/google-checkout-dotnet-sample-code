@@ -65,6 +65,7 @@ namespace GCheckout.OrderProcessing {
           _response = (AutoGen.NotificationDataTokenResponse)
             EncodeHelper.Deserialize(ResponseXml,
             typeof(AutoGen.NotificationDataTokenResponse));
+          Log.Xml(_response.serialnumber , ResponseXml);
           return true;
         }
       }

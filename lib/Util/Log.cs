@@ -116,11 +116,23 @@ namespace GCheckout.Util {
     /// <param name="name">The name of the file to write.</param>
     /// <param name="xml">The message to write.</param>
     public static void Xml(string name, string xml) {
-      if (LoggingOn()) {
-        WriteToFile(GetLogPathXml() + name, xml);
+      try {
+        if (string.IsNullOrEmpty(name)) {
+          name = "NoSerial" + Guid.NewGuid().ToString();
+        }
+
+        //just in case the same serial number comes in more than once.
+        name = name + DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH'-'mm'-'s") + ".xml";
+
+        if (LoggingOn()) {
+          WriteToFile(GetLogPathXml() + name, xml);
+        }
+        else {
+          System.Diagnostics.Debug.WriteLine(name + " - " + xml);
+        }
       }
-      else {
-        System.Diagnostics.Debug.WriteLine(name + " - " + xml);
+      catch (Exception ex) {
+        Err("Xml error:" + ex.Message + " | " + name + " | " + xml);
       }
     }
 
@@ -154,7 +166,11 @@ namespace GCheckout.Util {
     /// </summary>
     /// <returns>Log path.</returns>
     private static string GetLogPathXml() {
-      return GCheckoutConfigurationHelper.LogDirectoryXml;
+      var retVal = GCheckoutConfigurationHelper.LogDirectoryXml;
+      if (!string.IsNullOrEmpty(retVal) && !retVal.EndsWith("/")) {
+        return retVal + "/";
+      }
+      return retVal;
     }
   }
 }

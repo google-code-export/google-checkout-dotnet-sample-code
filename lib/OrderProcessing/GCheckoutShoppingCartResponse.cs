@@ -62,6 +62,7 @@ namespace GCheckout.Util {
           _CheckoutRedirectResponse = (AutoGen.CheckoutRedirect)
             EncodeHelper.Deserialize(ResponseXml,
             typeof(AutoGen.CheckoutRedirect));
+          Log.Xml(_CheckoutRedirectResponse.serialnumber , ResponseXml);
           return true;
         }
       }

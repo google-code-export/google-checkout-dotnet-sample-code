@@ -93,6 +93,7 @@ namespace GCheckout.OrderProcessing {
           _response = (AutoGen.OrderSummaryResponse)
             EncodeHelper.Deserialize(ResponseXml,
             typeof(AutoGen.OrderSummaryResponse));
+          Log.Xml(_response.serialnumber, ResponseXml);
           return true;
         }
       }
