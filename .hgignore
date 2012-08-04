@@ -16,3 +16,5 @@ glob:*/Processor/obj/*
 syntax: glob
 Help/*
 BuildOutput/*
+packages/*
+*/bin/*

@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<AssemblySortForCompilOrObfusk>
-  <Assembly Assembly="GCheckout">1</Assembly>
-  <Assembly Assembly="GoogleCheckoutUnitTests">2</Assembly>
-</AssemblySortForCompilOrObfusk>

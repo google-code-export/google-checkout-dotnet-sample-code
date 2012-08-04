@@ -18,7 +18,7 @@
 
   <!-- NUnit Tests -->
   <ItemGroup>
-    <!--<NUnitTestItem Include="ProjectExtensions.Azure.ServiceBus.Tests.Unit"/>-->
+    <NUnitTestItem Include="GoogleCheckoutUnitTests"/>
   </ItemGroup>
 
   <!-- Binary files to publish -->
