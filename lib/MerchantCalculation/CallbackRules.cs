@@ -37,8 +37,7 @@ namespace GCheckout.MerchantCalculation {
     /// <param name="ShippingRate">The cost of shipping the order.</param>
     /// <returns></returns>
     public virtual MerchantCodeResult GetMerchantCodeResult(Order ThisOrder,
-      AnonymousAddress Address, string MerchantCode, decimal ShippingRate)
-      {
+      AnonymousAddress Address, string MerchantCode, decimal ShippingRate) {
       return new MerchantCodeResult();
     }
 
@@ -51,7 +50,7 @@ namespace GCheckout.MerchantCalculation {
     /// for the order.</param>
     /// <param name="ShippingRate">The cost of shipping the order.</param>
     /// <returns></returns>
-    public virtual decimal GetTaxResult(Order ThisOrder, 
+    public virtual decimal GetTaxResult(Order ThisOrder,
       AnonymousAddress Address, decimal ShippingRate) {
       return 0;
     }
@@ -67,7 +66,7 @@ namespace GCheckout.MerchantCalculation {
     /// This address should be used to calculate taxes and shipping costs 
     /// for the order.</param>
     /// <returns></returns>
-    public virtual ShippingResult GetShippingResult(string ShipMethodName, 
+    public virtual ShippingResult GetShippingResult(string ShipMethodName,
       Order ThisOrder, AnonymousAddress Address) {
       return new ShippingResult();
     }
