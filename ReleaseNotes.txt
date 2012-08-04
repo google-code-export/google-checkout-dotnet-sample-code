@@ -8,7 +8,7 @@ New
 
 Assembly is now signed
 Complete Logging of Xml and Errors
-A new attribute was added to the config to handle this. LogDirectoryXml?. If this is set and logging is set to true, all of the xml will be saved to that folder. We try to determine the serial number and if we do, we save the file with that name.
+A new attribute was added to the config to handle this. LogDirectoryXml. If this is set and logging is set to true, all of the xml will be saved to that folder. We try to determine the serial number and if we do, we save the file with that name.
 
 Bug Fixes
 
