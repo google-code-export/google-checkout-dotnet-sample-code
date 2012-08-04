@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleCheckoutUnitTests", "src\tests\GoogleCheckoutUnitTests\GoogleCheckoutUnitTests.csproj", "{28A9AC71-61FE-4020-967A-6BAB80DB34A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCheckout", "lib\GCheckout.csproj", "{006653E6-EEF6-4D43-8F26-D6445CDF817B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCheckout", "src\Google.Checkout\GCheckout.csproj", "{006653E6-EEF6-4D43-8F26-D6445CDF817B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{26D598AF-CE7D-462E-98F8-2E86144D841C}"
 	ProjectSection(SolutionItems) = preProject
