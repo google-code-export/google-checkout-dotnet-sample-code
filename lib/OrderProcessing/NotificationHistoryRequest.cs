@@ -19,6 +19,8 @@
  *  Initial Release.
  *  4-20-2011  Joe Feser joe.feser@joefeser.com
  *  Fixed issue allowing a serial number to be used.
+ *  08-03-2012    Joe Feser joe.feser@joefeser.com
+ *  Added logging
  * 
 */
 using System;

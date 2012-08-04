@@ -19,6 +19,12 @@
  *  Initial Release.
  *  7-4-2011   Joe Feser joe.feser@joefeser.com
  *  Additional tests to verify incorrect response.
+ *  08-02-2012 Joe Feser joe.feser@joefeser.com
+ *  Added fix for Notification history response that is a message other than notification-history-response.
+ *  08-03-2012    Joe Feser joe.feser@joefeser.com
+ *  Added logging
+ *  08-03-2012    Joe Feser joe.feser@joefeser.com
+ *  Added Xml logging
 */
 using System;
 using System.Collections.Generic;

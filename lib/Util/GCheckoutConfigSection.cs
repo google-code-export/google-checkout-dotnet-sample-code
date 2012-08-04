@@ -16,7 +16,7 @@
 /*
  Edit History:
  *  8-2-2012   Joe Feser joe.feser@joefeser.com
- *  Added Log Directory Xml Support
+ *  Added LogDirectoryXml Support
  * 
 */
 using System.Configuration;

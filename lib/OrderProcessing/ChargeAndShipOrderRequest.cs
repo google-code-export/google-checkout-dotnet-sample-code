@@ -17,6 +17,8 @@
  Edit History:
  *  5-22-2010   Joe Feser joe.feser@joefeser.com
  *  Initial Release.
+ *  08-03-2012    Joe Feser joe.feser@joefeser.com
+ *  Fix issue 67 and cleaned up the default currency and amount defaults
  * 
 */
 using System;

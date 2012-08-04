@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 *************************************************/
+/*
+ Edit History:
+ *  08-03-2012    Joe Feser joe.feser@joefeser.com
+ *  Added logging
+ * 
+*/
 
 using System;
 using System.Configuration;
