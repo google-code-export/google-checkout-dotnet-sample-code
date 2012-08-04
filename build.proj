@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets ="Dist" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildProjectDirectory)\Tools\MSBuild\BuildSupport\Common.Targets.properties"/>
+
+  <!-- Version Information -->
+  <PropertyGroup>
+    <AppVersion>2.5.0</AppVersion>
+    <SchemaVersion>0</SchemaVersion>
+    <CompanyName>Google</CompanyName>
+	<build_number>11</build_number>
+  </PropertyGroup>
+
+  <!-- Project name and description -->
+  <PropertyGroup>
+    <ProductName>Google.Checkout</ProductName>
+    <ProductDescription>Google Checkout .NET Client Wrapper</ProductDescription>
+  </PropertyGroup>
+
+  <!-- NUnit Tests -->
+  <ItemGroup>
+    <!--<NUnitTestItem Include="ProjectExtensions.Azure.ServiceBus.Tests.Unit"/>-->
+  </ItemGroup>
+
+  <!-- Binary files to publish -->
+  <PropertyGroup>
+    <BinInclude>
+	  lib\bin\$(Configuration)\*.*;
+    </BinInclude>
+  </PropertyGroup>
+
+  <!-- Source files to publish -->
+  <PropertyGroup>
+    <SrcInclude>
+      lib\**\*.cs;
+    </SrcInclude>
+  </PropertyGroup>
+
+  <!-- Source files to ignore -->
+  <PropertyGroup>
+    <SrcExclude>
+      unittests\**\*.cs;
+    </SrcExclude>
+  </PropertyGroup>
+
+  <!-- Nuget v2 -->
+  <ItemGroup>
+	<NugetItem Include="Google.Checkout">
+        <NugetPackageSummary>Google Checkout .NET Client Wrapper</NugetPackageSummary>
+        <NugetPackageId>Google.Checkout</NugetPackageId>
+        <NugetPushUrl>http://go.microsoft.com/fwlink/?LinkID=207106</NugetPushUrl>
+        <NugetPublishSymbols>true</NugetPublishSymbols>
+    </NugetItem>
+  </ItemGroup>
+
+  <Import Project="$(MSBuildProjectDirectory)\Tools\MSBuild\BuildSupport\Common.Targets"/>
+</Project>

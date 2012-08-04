@@ -113,6 +113,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\src\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="apiv2.cs">
       <SubType>Code</SubType>
     </Compile>
