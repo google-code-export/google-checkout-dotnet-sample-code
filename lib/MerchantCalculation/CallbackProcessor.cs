@@ -65,18 +65,18 @@ namespace GCheckout.MerchantCalculation {
     /// that is returned to Google Checkout</returns>
     public byte[] Process(string CallbackXML) {
       // Deserialize the callback request.
-      AutoGen.MerchantCalculationCallback Callback = 
-        (AutoGen.MerchantCalculationCallback) 
+      AutoGen.MerchantCalculationCallback Callback =
+        (AutoGen.MerchantCalculationCallback)
         EncodeHelper.Deserialize
         (CallbackXML, typeof(AutoGen.MerchantCalculationCallback));
       // Create the callback response.
-      AutoGen.MerchantCalculationResults RetVal = 
+      AutoGen.MerchantCalculationResults RetVal =
         new AutoGen.MerchantCalculationResults();
       // Create the order.
       Order ThisOrder = new Order(Callback);
       // Are there shipping methods?
-      string[] ShippingMethods = new string[1] {""};
-      if (Callback.calculate.shipping != null && 
+      string[] ShippingMethods = new string[1] { "" };
+      if (Callback.calculate.shipping != null &&
         Callback.calculate.shipping.Length > 0) {
         ShippingMethods = new string[Callback.calculate.shipping.Length];
         for (int s = 0; s < ShippingMethods.Length; s++) {
@@ -84,22 +84,20 @@ namespace GCheckout.MerchantCalculation {
         }
       }
 
-      RetVal.results = 
+      RetVal.results =
         new AutoGen.Result
         [Callback.calculate.addresses.Length * ShippingMethods.Length];
       int ResultIndex = 0;
-      for (int a = 0; a < Callback.calculate.addresses.Length; a++) 
-      {
-        for (int s = 0; s < ShippingMethods.Length; s++) 
-        {
+      for (int a = 0; a < Callback.calculate.addresses.Length; a++) {
+        for (int s = 0; s < ShippingMethods.Length; s++) {
           AutoGen.Result ThisResult = new AutoGen.Result();
           ThisResult.addressid = Callback.calculate.addresses[a].id;
-          AnonymousAddress ThisAddress = 
+          AnonymousAddress ThisAddress =
             new AnonymousAddress(Callback.calculate.addresses[a]);
           // Check shipping, if requested.
           if (ShippingMethods[s] != string.Empty) {
             ThisResult.shippingname = ShippingMethods[s];
-            ShippingResult SResult = 
+            ShippingResult SResult =
               _Rules.GetShippingResult
               (ShippingMethods[s], ThisOrder, ThisAddress);
             ThisResult.shippableSpecified = true;
@@ -112,27 +110,27 @@ namespace GCheckout.MerchantCalculation {
           if (Callback.calculate.tax) {
             ThisResult.totaltax = new AutoGen.ResultTotaltax();
             ThisResult.totaltax.currency = _currency;
-            ThisResult.totaltax.Value = 
+            ThisResult.totaltax.Value =
               _Rules.GetTaxResult
-              (ThisOrder, ThisAddress, 
-              (ThisResult.shippingrate != null? 
-              ThisResult.shippingrate.Value: 0));
+              (ThisOrder, ThisAddress,
+              (ThisResult.shippingrate != null ?
+              ThisResult.shippingrate.Value : 0));
           }
           // Check merchant codes.
           if (Callback.calculate.merchantcodestrings != null) {
-            ThisResult.merchantcoderesults = 
+            ThisResult.merchantcoderesults =
               new AutoGen.ResultMerchantcoderesults();
-            ThisResult.merchantcoderesults.Items = 
+            ThisResult.merchantcoderesults.Items =
               new object[Callback.calculate.merchantcodestrings.Length];
             ArrayList UsedMerchantCodes = new ArrayList();
-            for (int c = 0; c < Callback.calculate.merchantcodestrings.Length; 
+            for (int c = 0; c < Callback.calculate.merchantcodestrings.Length;
               c++) {
               MerchantCodeResult MCR;
-              string CurrentMerchantCode = 
+              string CurrentMerchantCode =
                 Callback.calculate.merchantcodestrings[c].code;
               if (UsedMerchantCodes.Contains(CurrentMerchantCode.ToUpper())) {
                 AutoGen.CouponResult CouponResult = new AutoGen.CouponResult();
-                CouponResult.calculatedamount 
+                CouponResult.calculatedamount
                   = new AutoGen.CouponResultCalculatedamount();
                 CouponResult.calculatedamount.currency = _currency;
                 CouponResult.calculatedamount.Value = 0;
@@ -142,14 +140,14 @@ namespace GCheckout.MerchantCalculation {
                 ThisResult.merchantcoderesults.Items[c] = CouponResult;
               }
               else {
-                MCR = 
+                MCR =
                   _Rules.GetMerchantCodeResult
                   (ThisOrder, ThisAddress, CurrentMerchantCode, (ThisResult.shippingrate != null ?
               ThisResult.shippingrate.Value : 0));
                 if (MCR.Type == MerchantCodeType.GiftCertificate) {
-                  AutoGen.GiftCertificateResult GCResult = 
+                  AutoGen.GiftCertificateResult GCResult =
                     new AutoGen.GiftCertificateResult();
-                  GCResult.calculatedamount 
+                  GCResult.calculatedamount
                     = new AutoGen.GiftCertificateResultCalculatedamount();
                   GCResult.calculatedamount.currency = _currency;
                   GCResult.calculatedamount.Value = MCR.Amount;
@@ -160,9 +158,9 @@ namespace GCheckout.MerchantCalculation {
                   UsedMerchantCodes.Add(CurrentMerchantCode.ToUpper());
                 }
                 else {
-                  AutoGen.CouponResult CouponResult = 
+                  AutoGen.CouponResult CouponResult =
                     new AutoGen.CouponResult();
-                  CouponResult.calculatedamount 
+                  CouponResult.calculatedamount
                     = new AutoGen.CouponResultCalculatedamount();
                   CouponResult.calculatedamount.currency = _currency;
                   CouponResult.calculatedamount.Value = MCR.Amount;
