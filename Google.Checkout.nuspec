@@ -6,7 +6,7 @@
     <version>2.5.0.11</version>
     <authors>Google Inc, Joe Feser</authors>
     <owners>Google Inc, Joe Feser</owners>
-    <copyright>Copyright (C) Google, Inc. and Joe Feser 2011</copyright>
+    <copyright>Copyright (C) Google, Inc. and Joe Feser 2006-2012</copyright>
     <projectUrl>http://code.google.com/p/google-checkout-dotnet-sample-code/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <releaseNotes>Assembly is now signed
