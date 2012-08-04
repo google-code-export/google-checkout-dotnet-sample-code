@@ -106,7 +106,7 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\..\..\lib\GCheckout.csproj">
+    <ProjectReference Include="..\..\Google.Checkout\GCheckout.csproj">
       <Name>GCheckout</Name>
       <Project>{006653E6-EEF6-4D43-8F26-D6445CDF817B}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>

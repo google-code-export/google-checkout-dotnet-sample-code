@@ -24,14 +24,14 @@
   <!-- Binary files to publish -->
   <PropertyGroup>
     <BinInclude>
-	  lib\bin\$(Configuration)\*.*;
+	  src\Google.Checkout\bin\$(Configuration)\*.*;
     </BinInclude>
   </PropertyGroup>
 
   <!-- Source files to publish -->
   <PropertyGroup>
     <SrcInclude>
-      lib\**\*.cs;
+      src\Google.Checkout\**\*.cs;
     </SrcInclude>
   </PropertyGroup>
 
