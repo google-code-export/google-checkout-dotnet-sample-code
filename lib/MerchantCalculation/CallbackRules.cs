@@ -23,6 +23,24 @@ namespace GCheckout.MerchantCalculation {
   /// &lt;merchant-calculation-results&gt; XML response.
   /// </summary>
   public abstract class CallbackRules {
+
+    /// <summary>
+    /// Return a The &lt;merchant-code-results%gt; tag contains information 
+    /// about coupons and gift certificates that were calculated into an 
+    /// order total
+    /// </summary>
+    /// <param name="ThisOrder">The Order to perform the calculation</param>
+    /// <param name="Address">contains a possible shipping address for an order.
+    /// This address should be used to calculate taxes and shipping costs 
+    /// for the order.</param>
+    /// <param name="MerchantCode">Contains a coupon or gift certificate code
+    /// that the customer entered for an order.</param>
+    /// <returns></returns>
+    public virtual MerchantCodeResult GetMerchantCodeResult(Order ThisOrder,
+      AnonymousAddress Address, string MerchantCode) {
+      return new MerchantCodeResult();
+    }
+    
     /// <summary>
     /// Return a The &lt;merchant-code-results%gt; tag contains information 
     /// about coupons and gift certificates that were calculated into an 
