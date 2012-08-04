@@ -17,7 +17,8 @@
  Edit History:
  *  3-14-2009   Joe Feser joe.feser@joefeser.com
  *  We no longer allow people to pass in fractional amounts. All numbers are trimmed to $x.xx
- * 
+ *  08-03-2012    Joe Feser joe.feser@joefeser.com
+ *  Fix issue 67 and cleaned up the default currency and amount defaults
 */
 using System;
 using GCheckout.Util;

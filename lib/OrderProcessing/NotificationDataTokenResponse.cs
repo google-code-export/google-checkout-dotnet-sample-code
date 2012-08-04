@@ -17,7 +17,10 @@
  Edit History:
  *  August 2008   Joe Feser joe.feser@joefeser.com
  *  Initial Release.
- * 
+ *  08-03-2012    Joe Feser joe.feser@joefeser.com
+ *  Added logging
+ *  08-03-2012    Joe Feser joe.feser@joefeser.com
+ *  Added Xml logging
 */
 using System;
 using System.Collections.Generic;
