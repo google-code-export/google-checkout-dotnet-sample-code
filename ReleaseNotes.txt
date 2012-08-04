@@ -1,3 +1,21 @@
+Version 2.5.0.9 released (Aug 3, 2012)
+
+Bug Fixes
+See Issue 67
+
+Version 2.5.0.9 released (Aug 3, 2012)
+New
+
+Assembly is now signed
+Complete Logging of Xml and Errors
+A new attribute was added to the config to handle this. LogDirectoryXml?. If this is set and logging is set to true, all of the xml will be saved to that folder. We try to determine the serial number and if we do, we save the file with that name.
+
+Bug Fixes
+
+Handle incorrect xml sent by the api for the Notification History Response.
+See Issue 59
+See Issue 60
+
 Version 2.5.0.5 released (Apr 21, 2011)
 
 New
