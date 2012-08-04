@@ -117,6 +117,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <Compile Include="..\src\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="AlternateTaxTableTests.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>

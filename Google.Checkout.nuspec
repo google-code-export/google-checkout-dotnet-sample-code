@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Google.Checkout</id>
+    <title>Google Checkout .NET Client Wrapper</title>
+    <version>2.5.0.11</version>
+    <authors>Google Inc, Joe Feser</authors>
+    <owners>Google Inc, Joe Feser</owners>
+    <copyright>Copyright (C) Google, Inc. and Joe Feser 2011</copyright>
+    <projectUrl>http://code.google.com/p/google-checkout-dotnet-sample-code/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Assembly is now signed
+Complete Logging of Xml and Errors
+A new attribute was added to the config to handle this. LogDirectoryXml. If this is set and logging is set to true, all of the xml will be saved to that folder. We try to determine the serial number and if we do, we save the file with that name.
+</releaseNotes>
+    <description>Google Checkout .NET Client Wrapper</description>
+    <summary>Google Checkout .NET Client Wrapper (Debug)</summary>
+    <dependencies>
+    </dependencies>
+    <tags>Google, Google Checkout, Google Wallet</tags>
+  </metadata>
+  <files>
+    <file src="BuildOutput\bin\GCheckout.dll" target="lib" />
+    <file src="BuildOutput\bin\GCheckout.pdb" target="lib" />
+    <file src="BuildOutput\bin\GCheckout.xml" target="lib" />
+  </files>
+</package>
