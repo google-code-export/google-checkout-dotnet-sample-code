@@ -34,9 +34,11 @@ namespace GCheckout.MerchantCalculation {
     /// for the order.</param>
     /// <param name="MerchantCode">Contains a coupon or gift certificate code
     /// that the customer entered for an order.</param>
+    /// <param name="ShippingRate">The cost of shipping the order.</param>
     /// <returns></returns>
-    public virtual MerchantCodeResult GetMerchantCodeResult(Order ThisOrder, 
-      AnonymousAddress Address, string MerchantCode) {
+    public virtual MerchantCodeResult GetMerchantCodeResult(Order ThisOrder,
+      AnonymousAddress Address, string MerchantCode, decimal ShippingRate)
+      {
       return new MerchantCodeResult();
     }
 
