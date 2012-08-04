@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<ApplicationMetrics NAsm="2" NbLinesOfCode="3082" NbLinesOfComment="4806" PercentageComment="60%" NType="194" NClass="177" NAbstractClass="6" NInterface="1" NValueType="16" NExceptionType="0" NAttributeType="2" NDelegateType="0" NEnumType="16" NGenericMethodsDefinition="0" NGenericTypesDefinition="0" NILInstruction="14690" PercentPublicType="99.48" PercentPublicMethod="90.4" PercentClassWithAtLeastOnePublicField="55.37">
+  <PropertyOnInterface Occ="1" Avg="10" StdDev="0" MaxVal="10" MaxName="Asm:GCheckout  Interface:GCheckout.Checkout.IShoppingCartItem" />
+  <MethodOnInterface Occ="1" Avg="20" StdDev="0" MaxVal="20" MaxName="Asm:GCheckout  Interface:GCheckout.Checkout.IShoppingCartItem" />
+  <ArgOnMethodOnInterface Occ="20" Avg="0.5" StdDev="0.5" MaxVal="1" MaxName="Asm:GCheckout  Interface:GCheckout.Checkout.IShoppingCartItem  Method:set_Name(String)" />
+  <PublicPropertyOnClass Occ="177" Avg="0.77" StdDev="2.31" MaxVal="16" MaxName="Asm:NDepend.CodeStructureContainer.NAssembly  Class:GCheckout.Util.GCheckoutConfigSection" />
+  <PublicMethodOnClass Occ="177" Avg="3.61" StdDev="7.24" MaxVal="79" MaxName="Asm:GCheckout  Class:GCheckout.Checkout.CheckoutShoppingCartRequest" />
+  <ArgOnPublicMethodOnClass Occ="639" Avg="1.08" StdDev="1.79" MaxVal="9" MaxName="Asm:GCheckout  Class:GCheckout.Checkout.CarrierCalculatedShipping  Method:AddShippingPackage(String,String,String,String,String,DeliveryAddressCategory,Int32,Int32,Int32)" />
+  <ILInstructionInNonAbstractMethods Occ="729" Avg="20.15" StdDev="43.79" MaxVal="544" MaxName="Asm:GCheckout  Class:GCheckout.Checkout.CheckoutShoppingCartRequest Method:GetXml()" />
+  <TypeWithTheMostILInstruction Occ="177" Avg="82.99" StdDev="231.23" MaxVal="2039" MaxName="Asm:GCheckout  Type:GCheckout.Checkout.CheckoutShoppingCartRequest" />
+  <MethodCC Occ="729" Avg="0.7" StdDev="2.13" MaxVal="35" MaxName="Asm:GCheckout  Type:GCheckout.Checkout.CheckoutShoppingCartRequest  Method:GetXml()" />
+  <ResponseForType Occ="194" Avg="0" StdDev="0" MaxVal="0" MaxName="Asm:GCheckout  Type:GCheckout.Checkout.AlternateTaxTable" />
+</ApplicationMetrics>
