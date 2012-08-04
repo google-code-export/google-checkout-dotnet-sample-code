@@ -353,7 +353,7 @@ namespace GCheckout.Checkout.Tests {
       attc.Add(new AlternateTaxTable("test"));
       Assert.IsTrue(attc.Exists("test"));
     }
-
+#pragma warning disable 0618
     [Test]
     public void TestAlternateTaxTableCollectionTestFactories() {
       AlternateTaxTableCollection attc = new AlternateTaxTableCollection();
@@ -390,6 +390,6 @@ namespace GCheckout.Checkout.Tests {
       Assert.IsFalse(attc.Exists("name"));
       Assert.IsTrue(attc.Exists("name2"));
     }
-
+#pragma warning restore 0618
   }
 }
