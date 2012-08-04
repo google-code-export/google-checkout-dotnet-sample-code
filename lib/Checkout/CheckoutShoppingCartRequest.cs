@@ -1725,17 +1725,17 @@ namespace GCheckout.Checkout {
       //
       CheckPreConditions();
 
-      AutoGen.CheckoutShoppingCart MyCart = new AutoGen.CheckoutShoppingCart();
-      MyCart.shoppingcart = new AutoGen.ShoppingCart();
+      AutoGen.CheckoutShoppingCart retVal = new AutoGen.CheckoutShoppingCart();
+      retVal.shoppingcart = new AutoGen.ShoppingCart();
 
       // Add the Shopping cart expiration element.
       if (CartExpiration != DateTime.MinValue) {
-        MyCart.shoppingcart.cartexpiration = new AutoGen.CartExpiration();
-        MyCart.shoppingcart.cartexpiration.gooduntildate = CartExpiration;
+        retVal.shoppingcart.cartexpiration = new AutoGen.CartExpiration();
+        retVal.shoppingcart.cartexpiration.gooduntildate = CartExpiration;
       }
 
       // Add the items in the shopping cart to the API request.
-      MyCart.shoppingcart.items = new AutoGen.Item[_items.Count];
+      retVal.shoppingcart.items = new AutoGen.Item[_items.Count];
       for (int i = 0; i < _items.Count; i++) {
 
         IShoppingCartItem MyItem = _items[i] as IShoppingCartItem;
@@ -1750,7 +1750,7 @@ namespace GCheckout.Checkout {
 
         //set to a local variable of current item to lessen the change of
         //a mistake
-        MyCart.shoppingcart.items[i] = ShoppingCartItem.CreateAutoGenItem(MyItem, _Currency);
+        retVal.shoppingcart.items[i] = ShoppingCartItem.CreateAutoGenItem(MyItem, _Currency);
       }
 
       //because we are merging the nodes, create a new ArrayList
@@ -1775,44 +1775,44 @@ namespace GCheckout.Checkout {
         copiedMerchantPrivateData.CopyTo(nodes);
         any.Any = nodes;
 
-        MyCart.shoppingcart.merchantprivatedata = any;
+        retVal.shoppingcart.merchantprivatedata = any;
       }
 
       // Add the &lt;continue-shopping-url&gt; element to the API request.
-      MyCart.checkoutflowsupport =
+      retVal.checkoutflowsupport =
         new AutoGen.CheckoutShoppingCartCheckoutflowsupport();
 
-      MyCart.checkoutflowsupport.Item =
+      retVal.checkoutflowsupport.Item =
         new AutoGen.MerchantCheckoutFlowSupport();
 
       if (ContinueShoppingUrl != null) {
-        MyCart.checkoutflowsupport.Item.continueshoppingurl =
+        retVal.checkoutflowsupport.Item.continueshoppingurl =
           ContinueShoppingUrl;
       }
       object[] buyerMessages = BuyerMessages.ConvertMessages();
       if (buyerMessages != null && buyerMessages.Length > 0) {
-        MyCart.shoppingcart.buyermessages = new GCheckout.AutoGen.ShoppingCartBuyermessages();
-        MyCart.shoppingcart.buyermessages.Items = buyerMessages;
+        retVal.shoppingcart.buyermessages = new GCheckout.AutoGen.ShoppingCartBuyermessages();
+        retVal.shoppingcart.buyermessages.Items = buyerMessages;
       }
 
       if (AnalyticsData != null) {
-        MyCart.checkoutflowsupport.Item.analyticsdata = AnalyticsData;
+        retVal.checkoutflowsupport.Item.analyticsdata = AnalyticsData;
       }
 
       if (PlatformID != 0) {
-        MyCart.checkoutflowsupport.Item.platformid = PlatformID;
-        MyCart.checkoutflowsupport.Item.platformidSpecified = true;
+        retVal.checkoutflowsupport.Item.platformid = PlatformID;
+        retVal.checkoutflowsupport.Item.platformidSpecified = true;
       }
 
       // Add the &lt;edit-cart-url&gt; element to the API request.
       if (EditCartUrl != null) {
-        MyCart.checkoutflowsupport.Item.editcarturl = EditCartUrl;
+        retVal.checkoutflowsupport.Item.editcarturl = EditCartUrl;
       }
 
       // Add the &lt;request-buyer-phone-number&gt; element to the API request.
       if (RequestBuyerPhoneNumber) {
-        MyCart.checkoutflowsupport.Item.requestbuyerphonenumber = true;
-        MyCart.checkoutflowsupport.Item.requestbuyerphonenumberSpecified =
+        retVal.checkoutflowsupport.Item.requestbuyerphonenumber = true;
+        retVal.checkoutflowsupport.Item.requestbuyerphonenumberSpecified =
           true;
       }
 
@@ -1820,7 +1820,7 @@ namespace GCheckout.Checkout {
       // Fix potential issue.
       if (_ShippingMethods != null && _ShippingMethods.Items != null
         && _ShippingMethods.Items.Length > 0) {
-        MyCart.checkoutflowsupport.Item.shippingmethods = _ShippingMethods;
+        retVal.checkoutflowsupport.Item.shippingmethods = _ShippingMethods;
       }
 
       //jf Tax Tables added 3/1/2007
@@ -1840,47 +1840,47 @@ namespace GCheckout.Checkout {
           && _TaxTables.defaulttaxtable.taxrules != null
           && _TaxTables.defaulttaxtable.taxrules.Length > 0)
           ) {
-          MyCart.checkoutflowsupport.Item.taxtables = _TaxTables;
+          retVal.checkoutflowsupport.Item.taxtables = _TaxTables;
         }
       }
 
       // Add the merchant calculations URL to the API request.
       if (MerchantCalculationsUrl != null) {
-        MyCart.checkoutflowsupport.Item.merchantcalculations =
+        retVal.checkoutflowsupport.Item.merchantcalculations =
           new AutoGen.MerchantCalculations();
-        MyCart.checkoutflowsupport.Item.merchantcalculations.
+        retVal.checkoutflowsupport.Item.merchantcalculations.
           merchantcalculationsurl = MerchantCalculationsUrl;
       }
 
       // Indicate whether the merchant accepts coupons and gift certificates.
       if (AcceptMerchantCoupons) {
-        MyCart.checkoutflowsupport.Item.merchantcalculations.
+        retVal.checkoutflowsupport.Item.merchantcalculations.
           acceptmerchantcoupons = true;
-        MyCart.checkoutflowsupport.Item.merchantcalculations.
+        retVal.checkoutflowsupport.Item.merchantcalculations.
           acceptmerchantcouponsSpecified = true;
       }
       if (AcceptMerchantGiftCertificates) {
-        MyCart.checkoutflowsupport.Item.merchantcalculations.
+        retVal.checkoutflowsupport.Item.merchantcalculations.
           acceptgiftcertificates = true;
-        MyCart.checkoutflowsupport.Item.merchantcalculations.
+        retVal.checkoutflowsupport.Item.merchantcalculations.
           acceptgiftcertificatesSpecified = true;
       }
 
       if (_roundingRuleSet) {
-        MyCart.checkoutflowsupport.Item.roundingpolicy =
+        retVal.checkoutflowsupport.Item.roundingpolicy =
           new GCheckout.AutoGen.RoundingPolicy();
-        MyCart.checkoutflowsupport.Item.roundingpolicy.mode
+        retVal.checkoutflowsupport.Item.roundingpolicy.mode
           = (AutoGen.RoundingMode)Enum.Parse(typeof(AutoGen.RoundingMode),
           _roundingMode.ToString(), true);
-        MyCart.checkoutflowsupport.Item.roundingpolicy.rule
+        retVal.checkoutflowsupport.Item.roundingpolicy.rule
           = (AutoGen.RoundingRule)Enum.Parse(typeof(AutoGen.RoundingRule),
           _roundingRule.ToString(), true);
       }
 
       if (RequestInitialAuthDetails) {
-        MyCart.orderprocessingsupport = new AutoGen.OrderProcessingSupport();
-        MyCart.orderprocessingsupport.requestinitialauthdetailsSpecified = true;
-        MyCart.orderprocessingsupport.requestinitialauthdetails = true;
+        retVal.orderprocessingsupport = new AutoGen.OrderProcessingSupport();
+        retVal.orderprocessingsupport.requestinitialauthdetailsSpecified = true;
+        retVal.orderprocessingsupport.requestinitialauthdetails = true;
       }
 
       //See if we have any ParameterizedUrl that need to be added to the message.
@@ -1910,13 +1910,13 @@ namespace GCheckout.Checkout {
             toUrl.parameters = destparams;
           }
           destUrls[i] = toUrl; //add the url to the array.
-          MyCart.checkoutflowsupport.Item.parameterizedurls = destUrls;
+          retVal.checkoutflowsupport.Item.parameterizedurls = destUrls;
         }
       }
 
       // Call the EncodeHelper.Serialize method to generate the XML for
       // the Checkout API request.
-      return EncodeHelper.Serialize(MyCart);
+      return EncodeHelper.Serialize(retVal);
     }
 
     /// <summary>
