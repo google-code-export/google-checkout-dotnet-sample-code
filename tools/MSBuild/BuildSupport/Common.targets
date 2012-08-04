@@ -176,9 +176,9 @@
       <TestDir>$(TestProjectDir)\bin\$(Configuration)</TestDir>
     </PropertyGroup>
     
-    <Message Importance="high" Text="Testing in NUnit: $(TestDir)\%(NUnitTestItem.Identity)"/>
+    <Message Importance="high" Text="Testing in NUnit: $(TestDir)\%(NUnitTestItem.Identity).dll"/>
     
-    <XmlRead XPath="//package[@id='NUnit']/@version"
+    <XmlRead XPath="//package[@id='NUnit.Runners']/@version"
              XmlFileName="$(TestProjectDir)\packages.config">
       <Output TaskParameter="Value" PropertyName="NUnitVersion"/>
     </XmlRead>
@@ -186,7 +186,7 @@
     <Message Importance="high" Text="NUnit: $(PackageDir)\Nunit.$(NUnitVersion)\tools\nunit-console.exe"/>
 
     <Exec WorkingDirectory="$(TestDir)"
-          Command='"$(PackageDir)\NUnit.$(NUnitVersion)\tools\nunit-console.exe" %(NUnitTestItem.Identity).dll /xml=$(TestOutputDir)\%(NUnitTestItem.Identity).results.nunit.xml"'/>
+          Command='"$(PackageDir)\NUnit.Runners.$(NUnitVersion)\tools\nunit-console.exe" $(TestDir)\%(NUnitTestItem.Identity).dll /xml=$(TestOutputDir)\%(NUnitTestItem.Identity).results.nunit.xml"'/>
   </Target>
 
   <Target Name="Document" Condition="$(GenerateDocs)">
