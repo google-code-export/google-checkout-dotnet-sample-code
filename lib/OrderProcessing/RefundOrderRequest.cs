@@ -38,46 +38,46 @@ namespace GCheckout.OrderProcessing {
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
     /// </summary>
-    /// <param name="MerchantID">Google Checkout Merchant ID</param>
-    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
-    /// <param name="Env">A String representation of 
+    /// <param name="merchantID">Google Checkout Merchant ID</param>
+    /// <param name="merchantKey">Google Checkout Merchant Key</param>
+    /// <param name="env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    /// <param name="Reason">The Reason for the refund</param>
-    public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string Reason)
-      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _reason = Reason;
+    /// <param name="googleOrderNumber">The Google Order Number</param>
+    /// <param name="reason">The Reason for the refund</param>
+    public RefundOrderRequest(string merchantID, string merchantKey,
+      string env, string googleOrderNumber, string reason)
+      : base(merchantID, merchantKey, env, googleOrderNumber) {
+      _reason = reason;
     }
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
     /// using the configuration settings
     /// </summary>
-    /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    /// <param name="Reason">The Reason for the refund</param>
-    public RefundOrderRequest(string GoogleOrderNumber, string Reason)
-      : base(GoogleOrderNumber) {
-      _reason = Reason;
+    /// <param name="googleOrderNumber">The Google Order Number</param>
+    /// <param name="reason">The Reason for the refund</param>
+    public RefundOrderRequest(string googleOrderNumber, string reason)
+      : base(googleOrderNumber) {
+      _reason = reason;
     }
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
     /// </summary>
-    /// <param name="MerchantID">Google Checkout Merchant ID</param>
-    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
-    /// <param name="Env">A String representation of 
+    /// <param name="merchantID">Google Checkout Merchant ID</param>
+    /// <param name="merchantKey">Google Checkout Merchant Key</param>
+    /// <param name="env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    /// <param name="Reason">The Reason for the refund</param>
-    /// <param name="Currency">The Currency used to charge the order</param>
+    /// <param name="googleOrderNumber">The Google Order Number</param>
+    /// <param name="reason">The Reason for the refund</param>
+    /// <param name="currency">The Currency used to charge the order</param>
     /// <param name="Amount">The Amount to charge</param>
-    public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string Reason, string Currency,
+    public RefundOrderRequest(string merchantID, string merchantKey,
+      string env, string googleOrderNumber, string reason, string currency,
       decimal Amount)
-      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _reason = Reason;
-      _currency = Currency;
+      : base(merchantID, merchantKey, env, googleOrderNumber) {
+      _reason = reason;
+      _currency = currency;
       _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
     }
 
@@ -85,102 +85,102 @@ namespace GCheckout.OrderProcessing {
     /// Create a new &lt;refund-order&gt; API request message
     /// using the configuration settings
     /// </summary>
-    /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    /// <param name="Reason">The Reason for the refund</param>
-    /// <param name="Currency">The Currency used to charge the order</param>
-    /// <param name="Amount">The Amount to charge</param>
-    public RefundOrderRequest(string GoogleOrderNumber, string Reason,
-      string Currency, decimal Amount) : base(GoogleOrderNumber) {
-      _reason = Reason;
-      _currency = Currency;
-      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
+    /// <param name="googleOrderNumber">The Google Order Number</param>
+    /// <param name="reason">The Reason for the refund</param>
+    /// <param name="currency">The Currency used to charge the order</param>
+    /// <param name="amount">The Amount to charge</param>
+    public RefundOrderRequest(string googleOrderNumber, string reason,
+      string currency, decimal amount) : base(googleOrderNumber) {
+      _reason = reason;
+      _currency = currency;
+      _amount = Math.Round(amount, 2); //fix for sending in fractional cents
     }
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
     /// </summary>
-    /// <param name="MerchantID">Google Checkout Merchant ID</param>
-    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
-    /// <param name="Env">A String representation of 
+    /// <param name="merchantID">Google Checkout Merchant ID</param>
+    /// <param name="merchantKey">Google Checkout Merchant Key</param>
+    /// <param name="env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    /// <param name="Reason">The Reason for the refund</param>
-    /// <param name="Comment">A comment to append to the order</param>
-    public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string Reason, string Comment)
-      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _reason = Reason;
-      _comment = Comment;
+    /// <param name="googleOrderNumber">The Google Order Number</param>
+    /// <param name="reason">The Reason for the refund</param>
+    /// <param name="comment">A comment to append to the order</param>
+    public RefundOrderRequest(string merchantID, string merchantKey,
+      string env, string googleOrderNumber, string reason, string comment)
+      : base(merchantID, merchantKey, env, googleOrderNumber) {
+      _reason = reason;
+      _comment = comment;
     }
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
     /// using the configuration settings
     /// </summary>
-    /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    /// <param name="Reason">The Reason for the refund</param>
-    /// <param name="Comment">A comment to append to the order</param>
-    public RefundOrderRequest(string GoogleOrderNumber, 
-      string Reason, string Comment) : base(GoogleOrderNumber) {
-      _reason = Reason;
-      _comment = Comment;
+    /// <param name="googleOrderNumber">The Google Order Number</param>
+    /// <param name="reason">The Reason for the refund</param>
+    /// <param name="comment">A comment to append to the order</param>
+    public RefundOrderRequest(string googleOrderNumber, 
+      string reason, string comment) : base(googleOrderNumber) {
+      _reason = reason;
+      _comment = comment;
     }
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
     /// </summary>
-    /// <param name="MerchantID">Google Checkout Merchant ID</param>
-    /// <param name="MerchantKey">Google Checkout Merchant Key</param>
-    /// <param name="Env">A String representation of 
+    /// <param name="merchantID">Google Checkout Merchant ID</param>
+    /// <param name="merchantKey">Google Checkout Merchant Key</param>
+    /// <param name="env">A String representation of 
     /// <see cref="EnvironmentType"/></param>
-    /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    /// <param name="Reason">The Reason for the refund</param>
-    /// <param name="Currency">The Currency used to charge the order</param>
-    /// <param name="Amount">The Amount to charge</param>
-    /// <param name="Comment">A comment to append to the order</param>
-    public RefundOrderRequest(string MerchantID, string MerchantKey,
-      string Env, string GoogleOrderNumber, string Reason, string Currency,
-      decimal Amount, string Comment)
-      : base(MerchantID, MerchantKey, Env, GoogleOrderNumber) {
-      _reason = Reason;
-      _currency = Currency;
-      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
-      _comment = Comment;
+    /// <param name="googleOrderNumber">The Google Order Number</param>
+    /// <param name="reason">The Reason for the refund</param>
+    /// <param name="currency">The Currency used to charge the order</param>
+    /// <param name="amount">The Amount to charge</param>
+    /// <param name="comment">A comment to append to the order</param>
+    public RefundOrderRequest(string merchantID, string merchantKey,
+      string env, string googleOrderNumber, string reason, string currency,
+      decimal amount, string comment)
+      : base(merchantID, merchantKey, env, googleOrderNumber) {
+      _reason = reason;
+      _currency = currency;
+      _amount = Math.Round(amount, 2); //fix for sending in fractional cents
+      _comment = comment;
     }
 
     /// <summary>
     /// Create a new &lt;refund-order&gt; API request message
     /// using the configuration settings
     /// </summary>
-    /// <param name="GoogleOrderNumber">The Google Order Number</param>
-    /// <param name="Reason">The Reason for the refund</param>
-    /// <param name="Currency">The Currency used to charge the order</param>
-    /// <param name="Amount">The Amount to charge</param>
-    /// <param name="Comment">A comment to append to the order</param>
-    public RefundOrderRequest(string GoogleOrderNumber, string Reason, 
-      string Currency, decimal Amount, string Comment)
-      : base(GoogleOrderNumber) {
-      _reason = Reason;
-      _currency = Currency;
-      _amount = Math.Round(Amount, 2); //fix for sending in fractional cents
-      _comment = Comment;
+    /// <param name="googleOrderNumber">The Google Order Number</param>
+    /// <param name="reason">The Reason for the refund</param>
+    /// <param name="currency">The Currency used to charge the order</param>
+    /// <param name="amount">The Amount to charge</param>
+    /// <param name="comment">A comment to append to the order</param>
+    public RefundOrderRequest(string googleOrderNumber, string reason, 
+      string currency, decimal amount, string comment)
+      : base(googleOrderNumber) {
+      _reason = reason;
+      _currency = currency;
+      _amount = Math.Round(amount, 2); //fix for sending in fractional cents
+      _comment = comment;
     }
 
     /// <summary>Method that is called to produce the Xml message
     ///  that can be posted to Google Checkout.</summary>
     public override byte[] GetXml() {
-      AutoGen.RefundOrderRequest Req = new AutoGen.RefundOrderRequest();
-      Req.googleordernumber = GoogleOrderNumber;
-      Req.reason = EncodeHelper.EscapeXmlChars(_reason);
+      AutoGen.RefundOrderRequest retVal = new AutoGen.RefundOrderRequest();
+      retVal.googleordernumber = GoogleOrderNumber;
+      retVal.reason = EncodeHelper.EscapeXmlChars(_reason);
       if (_amount > decimal.MinValue && _currency != null) {
-        Req.amount = new AutoGen.Money();
-        Req.amount.currency = _currency;
-        Req.amount.Value = _amount; //already checked.
+        retVal.amount = new AutoGen.Money();
+        retVal.amount.currency = _currency;
+        retVal.amount.Value = _amount; //already checked.
       }
       if (_comment != null) {
-        Req.comment = _comment;
+        retVal.comment = _comment;
       }
-      return EncodeHelper.Serialize(Req);
+      return EncodeHelper.Serialize(retVal);
     }
   }
 }
