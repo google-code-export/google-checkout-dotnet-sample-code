@@ -7,7 +7,7 @@
     <AppVersion>2.5.0</AppVersion>
     <SchemaVersion>0</SchemaVersion>
     <CompanyName>Google</CompanyName>
-	<build_number>11</build_number>
+	<build_number>12</build_number>
   </PropertyGroup>
 
   <!-- Project name and description -->
