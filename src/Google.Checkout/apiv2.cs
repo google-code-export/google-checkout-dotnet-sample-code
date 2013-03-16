@@ -5921,6 +5921,8 @@ namespace GCheckout.AutoGen {
         
         private System.DateTime timestampField;
         
+        private OrderSummary ordersummaryField;
+        
         private string serialnumberField;
         
         /// <remarks/>
@@ -5963,6 +5965,17 @@ namespace GCheckout.AutoGen {
             }
             set {
                 this.timestampField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("order-summary")]
+        public OrderSummary ordersummary {
+            get {
+                return this.ordersummaryField;
+            }
+            set {
+                this.ordersummaryField = value;
             }
         }
         
