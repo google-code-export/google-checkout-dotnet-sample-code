@@ -52,6 +52,7 @@
       <xs:element name="google-order-number" type="xs:token" />
       <xs:element name="reason" type="xs:string" />
       <xs:element name="timestamp" type="xs:dateTime" />
+      <xs:element name="order-summary" type="tns:OrderSummary" minOccurs="0" />
     </xs:all>
     <xs:attribute name="serial-number" type="xs:string" use="required" />
   </xs:complexType>
